@@ -280,10 +280,18 @@ On the text-only rows in English, Catalan and Spanish (2,277 rows), the measured
 
 The two parser fixes need no new model. PP-OCRv5 also reads the option values better (see the check between languages and the manual review). None of these steps is measured yet on rows with a figure, or in `data/train.jsonl` and `data/val.jsonl`.
 
+A later experiment ran both engines on all 21,181 text-only rows, in 108 languages. It scored the options against the same problem in the other languages and against 100 rows read from the image (see the [experiment report](experiments/2026-11-option-extraction-consensus.md)):
+
+- the combination above reads five options in 98.9% of the rows in a Latin script;
+- all five options are right in 81 of the 100 rows read from the image;
+- most remaining errors are stacked fractions and exponents, and they are the same in every language, so the check between languages misses them;
+- a format fusion (the v4 option where the v5 option fails a format check) gains 1 of the 100 rows and is adopted.
+
+Taking only boxes on the label's line, or on the line below it, was also measured there: it changes no row.
+
 The other improvements are not measured yet:
 
-- **Take only boxes on the label's line**, or on the line just below it. This can fix some of the 58 numeric options of different length.
-- **Read stacked fractions.** Both engines read a fraction as two numbers, and PP-OCRv5 sometimes swaps them.
+- **Read stacked fractions and exponents from the box positions.** Both engines read a fraction as two numbers, and PP-OCRv5 sometimes swaps them. An exponent becomes a normal digit.
 - **Crop the image before OCR**, as the guide suggests. This removes figure text that can be added to an option.
 
 A LaTeX OCR, PP-FormulaNet, was tested on options with words, units and simple formulas, not on fractions, and was not adopted: see the [experiment report](experiments/2026-11-ppformulanet.md).
