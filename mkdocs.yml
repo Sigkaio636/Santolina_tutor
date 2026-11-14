@@ -11,6 +11,7 @@ nav:
   - How-to guides:
       - Deploy the copilot on the board: how-to/deploy-copilot-on-board.md
       - Use the copilot on the board: how-to/use-copilot-on-board.md
+      - Try the prior solver on the board: how-to/try-prior-solver.md
       - Extract papers to Markdown with MinerU: how-to/mineru-ocr-papers.md
   - Reference:
       - UNO Q board reference: UNO_Q_BOARD_REFERENCE.md

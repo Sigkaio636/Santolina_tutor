@@ -9,10 +9,14 @@ import urllib.error
 
 from .config import CONFIG
 from .llm import URL, answer_letter
+from .prior import best
 
 TIME_LIMIT = float(CONFIG["TIME_LIMIT_SECONDS"])
 FALLBACK = CONFIG["FALLBACK_ANSWER"]
 MARGIN = 3.0  # seconds kept free for Python and for writing the answer
+# "prior": answer from where the right option tends to sit, no model call (copilot/prior.py).
+# "letter": the baseline, one forced letter from the model, with the prior as its fallback.
+SOLVER = CONFIG.get("SOLVER", "prior")
 
 
 def solve(problem, index=None, k=0, exclude_id=None, image_b64=None, llm_url=URL,
@@ -25,6 +29,14 @@ def solve(problem, index=None, k=0, exclude_id=None, image_b64=None, llm_url=URL
     """
     start = time.perf_counter()
     result = {"answer": FALLBACK, "status": "ok", "prompt_tokens": 0, "retrieved": "", "examples": []}
+    try:
+        result["answer"] = best(problem)
+    except (ArithmeticError, AttributeError, KeyError, TypeError, ValueError) as error:
+        # a malformed problem must still get a letter
+        result["status"] = f"prior error: {error}"
+    if SOLVER == "prior" and image_b64 is None:
+        result["seconds"] = round(time.perf_counter() - start, 2)
+        return result
     try:
         examples = []
         if index is not None and k > 0:
