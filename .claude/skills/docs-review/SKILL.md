@@ -26,6 +26,19 @@ Findings follow `.claude/skills/doc-authoring/references/findings-schema.md`
 and `drift-taxonomy.md`. Pass findings from stage to stage in the arguments.
 A called skill does not audit or ask again.
 
+**The findings file.** `findings <path>` gives the document's findings file
+(for example `docs/review/findings/docs__BOARD_SETUP_md.md`). It keeps the
+findings between sessions:
+
+- After S1, S2 and S6, write every finding into it as one findings-schema
+  table, with its status.
+- S3 updates the status of each finding that the user settles. S4 marks each
+  fixed finding `fixed`.
+- When a run continues a review, read this file. Do not run a validated stage
+  again to get its findings back.
+- The file goes to Git. A finding about M3Kang problem text cites the line
+  (`path:line`) only, never the text.
+
 ## The ledger script
 
 Run from the repo root:
@@ -35,27 +48,46 @@ S=".claude/skills/docs-review/scripts/docs_status.py"
 uv run --group docs python $S check          # ledger vs docs in scope, stale sign-offs
 uv run --group docs python $S table          # status table
 uv run --group docs python $S set <path> <stage> <status> --note "<one line>"
+uv run --group docs python $S reopen <path> <stage>   # this stage and later ones to pending
+uv run --group docs python $S findings <path>         # path of the findings file
+uv run --group docs python $S text <path>             # visible text of an HTML page
 uv run --group docs python $S sync --yes     # add new docs as pending, drop deleted ones
 ```
 
 Statuses: `pending`, `done` (the agent finished the stage), `validated` (the
 user approved it), `n/a` (the stage does not apply; the note says why).
-`set` regenerates the site page. A document whose file changes after
-`signoff: validated` is **stale** and fails `check`.
+`set` and `reopen` regenerate the site page.
+
+What the script enforces:
+
+- **Scope.** Only documents committed to Git are in scope. Commit a new
+  document before you review it.
+- **Order.** `set` refuses `done` or `validated` while an earlier stage is
+  `pending`. `signoff validated` needs every earlier stage `validated` or `n/a`.
+- **Stale.** A document whose file changes after `signoff: validated` is
+  stale and fails `check`.
+- **Changed outside the review.** Each `set` and `reopen` stores the file's
+  hash. If the file changes later while a review is open, `check` fails. The
+  change came from someone else, not from S4.
 
 ## Arguments
 
 - `[path]`: the document to review. No path: run `sync` (dry run first), then
   take the first document in the ledger that is not fully validated. The
   ledger is in priority order.
-- `--stage <name>`: redo one stage of the document. Later stages that were
-  `validated` go back to `pending`, because their input changed.
+- `--stage <name>`: redo one stage of the document. Run
+  `reopen <path> <name>`: that stage and every later stage go back to
+  `pending` (`n/a` stays), because their input changed.
 - `--status`: run `check` and `table`, show the result, stop.
 
 ## Flow (one document per run)
 
 0. **Start.** Run `check`. State the document, its current stage statuses and
-   which stages will run. Skip a stage that is already `validated`.
+   which stages will run. Skip a stage that is already `validated`. Read the
+   findings file if it exists. If `check` says the document **changed outside
+   the review**, show `git diff` / `git log` for it and ask the user: reopen
+   from `audit` (`reopen <path> audit`), or accept the change (`set` the
+   current stage again with the same status).
 1. **S1 audit.** Invoke `docsauditor` with the document as scope. For
    `mkdocs.yml`: check `exclude_docs`, theme and extensions against `docs/`
    and the docs build (`mkdocs build` into a scratch dir).
@@ -69,9 +101,17 @@ user approved it), `n/a` (the stage does not apply; the note says why).
 4. **S4 repair.** Invoke `docsjanitor` with the verified findings, including
    the ones the user settled. Fix only this document (and a link target only
    when the finding names it).
-5. **S5 language.** Invoke `asd-ste100` on the text changed in S4 and on any
-   paragraph S2 flagged for sentences or jargon. Keep the document's language.
-   `mkdocs.yml`: `n/a`.
+5. **S5 language.** Scope: the text changed in S4 and any paragraph S2
+   flagged for sentences or jargon. Keep the document's language. Never
+   translate.
+   - English: invoke `asd-ste100`, then run
+     `.claude/skills/asd-ste100/scripts/ste-lint.py` on the document. For an
+     HTML page, lint the output of `text <path>`.
+   - Any other language (Spanish, Catalan): `asd-ste100` and its linter are
+     English only. Apply its structural rules by hand: at most 25 words per
+     sentence, one idea per sentence, active voice, a list for 3 or more steps,
+     one term per concept. The note says `manual (<language>)`.
+   - `mkdocs.yml`: `n/a`.
 6. **S6 adversarial.** Invoke `devils-advocate:adversarial-review`, Mode 2,
    scoped to this one document. Lenses, at most three:
    - guides with steps (`BOARD_SETUP.md`, `vault/guides/`): `analyst`,

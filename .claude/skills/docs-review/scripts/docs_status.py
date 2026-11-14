@@ -10,17 +10,22 @@ Run from the repo root, with the `docs` uv group (PyYAML and pathspec):
     uv run --group docs python .claude/skills/docs-review/scripts/docs_status.py check
     ... table
     ... set README.md audit done --note "12 findings, 3 decisions"
+    ... reopen README.md critique     # this stage and the later ones back to pending
+    ... findings README.md            # path of the document's findings file
+    ... text docs/GUIDE.html          # visible text, for ste-lint.py
     ... sync [--yes]
 
-Only the user validates. The skill writes `validated` only after the user
-says so in the same turn.
+Scope: documents committed to Git. Only the user validates. The skill writes
+`validated` only after the user says so in the same turn.
 """
 
 from __future__ import annotations
 
 import argparse
 import hashlib
+from html.parser import HTMLParser
 from pathlib import Path
+import subprocess
 import sys
 
 import pathspec
@@ -29,6 +34,7 @@ import yaml
 ROOT = Path(__file__).resolve().parents[4]
 LEDGER = ROOT / "docs" / "review" / "status.yml"
 PAGE = ROOT / "docs" / "review" / "index.md"
+FINDINGS = ROOT / "docs" / "review" / "findings"
 MKDOCS = ROOT / "mkdocs.yml"
 
 STAGES = ["audit", "critique", "decisions", "repair", "language", "adversarial", "signoff"]
@@ -54,18 +60,27 @@ _Loader.add_multi_constructor("tag:yaml.org,2002:python/", lambda *_: None)
 
 
 def in_scope() -> list[str]:
-    """Every document the review covers, as repo-relative paths."""
+    """Every committed document the review covers, as repo-relative paths.
+
+    Git, not the disk: an untracked file of another session must not enter the
+    committed ledger, or a fresh clone fails `check`.
+    """
     config = yaml.load(MKDOCS.read_text(), Loader=_Loader) or {}
     excluded = pathspec.PathSpec.from_lines(
         "gitwildmatch", (config.get("exclude_docs") or "").splitlines() + ["review/"]
     )
-    docs = ROOT / "docs"
+    tracked = subprocess.run(
+        ["git", "ls-files", "-z", "--", "docs", *ROOT_DOCS],
+        cwd=ROOT, capture_output=True, text=True, check=True,
+    ).stdout.split("\0")
     found = []
-    for path in docs.rglob("*"):
-        rel = path.relative_to(docs).as_posix()
-        if path.is_file() and path.suffix in {".md", ".html"} and not excluded.match_file(rel):
-            found.append(f"docs/{rel}")
-    found += [p for p in ROOT_DOCS if (ROOT / p).exists()]
+    for path in filter(None, tracked):
+        if not (ROOT / path).is_file():
+            continue  # deleted in the working tree, not yet committed
+        if path in ROOT_DOCS:
+            found.append(path)
+        elif Path(path).suffix in {".md", ".html"} and not excluded.match_file(path[5:]):
+            found.append(path)
     return sorted(set(found), key=priority)
 
 
@@ -103,6 +118,78 @@ def is_stale(path: str, entry: dict) -> bool:
         and (ROOT / path).exists()
         and entry.get("validated_sha") != sha(path)
     )
+
+
+def changed_outside(path: str, entry: dict) -> bool:
+    """The file changed after the last `set`/`reopen`, while a review is open.
+
+    Entries written before `last_sha` existed have none and never trigger.
+    """
+    started = any(s != "pending" for s in entry["stages"].values())
+    return (
+        started
+        and entry.get("last_sha") is not None
+        and (ROOT / path).exists()
+        and entry["last_sha"] != sha(path)
+        and not is_stale(path, entry)
+    )
+
+
+def order_error(entry: dict, stage: str, status: str) -> str | None:
+    """Why `stage -> status` breaks the stage order, or None."""
+    if status not in ("done", "validated"):
+        return None
+    earlier = STAGES[: STAGES.index(stage)]
+    open_ = [s for s in earlier if entry["stages"].get(s, "pending") == "pending"]
+    if open_:
+        return f"earlier stage {open_[0]} is pending"
+    if stage == "signoff" and status == "validated":
+        unsigned = [s for s in earlier if entry["stages"].get(s) not in ("validated", "n/a")]
+        if unsigned:
+            return f"stage {unsigned[0]} is not validated"
+    return None
+
+
+def findings_path(path: str) -> Path:
+    # docs/BOARD_SETUP.md -> docs__BOARD_SETUP_md.md (unique, one flat folder)
+    return FINDINGS / (path.replace("/", "__").replace(".", "_") + ".md")
+
+
+class _Text(HTMLParser):
+    """Visible text of an HTML page: one block per line, <code> as `code`."""
+
+    BLOCK = {"nav", "a", "p", "li", "td", "th", "h1", "h2", "h3", "h4", "summary", "tr",
+             "div", "section", "header", "footer", "ol", "ul", "table", "details", "pre"}
+
+    def __init__(self):
+        super().__init__()
+        self.lines, self.buf, self.skip = [], [], 0
+
+    def flush(self):
+        text = " ".join("".join(self.buf).split())
+        if text:
+            self.lines.append(text)
+        self.buf = []
+
+    def handle_starttag(self, tag, attrs):
+        if tag in ("style", "script"):
+            self.skip += 1
+        elif tag == "code":
+            self.buf.append("`")
+        elif tag in self.BLOCK:
+            self.flush()
+
+    def handle_endtag(self, tag):
+        if tag in ("style", "script"):
+            self.skip -= 1
+        elif tag == "code":
+            self.buf.append("`")
+        elif tag in self.BLOCK:
+            self.flush()
+
+    def handle_data(self, data):
+        if not self.skip:
+            self.buf.append(data)
 
 
 def render(data: dict) -> str:
@@ -149,6 +236,11 @@ def problems(data: dict) -> list[str]:
             errors.append(f"{path}: unknown stage {stage!r}")
         if path in scope and is_stale(path, entry):
             errors.append(f"stale: {path} changed after sign-off")
+        if path in scope and changed_outside(path, entry):
+            errors.append(
+                f"changed outside the review: {path} (reopen it, or set its stage again"
+                " to accept the change)"
+            )
     if not PAGE.exists() or PAGE.read_text() != render(data):
         errors.append("docs/review/index.md is out of date (run `set` or `sync`)")
     return errors
@@ -174,13 +266,54 @@ def cmd_set(args) -> int:
     if entry is None:
         print(f"not in ledger: {args.path}", file=sys.stderr)
         return 1
+    error = order_error(entry, args.stage, args.status)
+    if error:
+        print(f"refused: {args.path} {args.stage} -> {args.status}: {error}", file=sys.stderr)
+        return 1
     entry["stages"][args.stage] = args.status
     if args.note:
         entry.setdefault("notes", {})[args.stage] = args.note
     if args.stage == "signoff":
         entry["validated_sha"] = sha(args.path) if args.status == "validated" else None
+    entry["last_sha"] = sha(args.path)
     save(data)
     print(f"{args.path}: {args.stage} -> {args.status}")
+    return 0
+
+
+def cmd_reopen(args) -> int:
+    data = load()
+    entry = data["documents"].get(args.path)
+    if entry is None:
+        print(f"not in ledger: {args.path}", file=sys.stderr)
+        return 1
+    reopened = []
+    for stage in STAGES[STAGES.index(args.stage):]:
+        if entry["stages"].get(stage) != "n/a":
+            entry["stages"][stage] = "pending"
+            reopened.append(stage)
+    entry["validated_sha"] = None
+    entry["last_sha"] = sha(args.path)
+    save(data)
+    print(f"{args.path}: back to pending: {', '.join(reopened)}")
+    return 0
+
+
+def cmd_findings(args) -> int:
+    FINDINGS.mkdir(parents=True, exist_ok=True)
+    print(findings_path(args.path).relative_to(ROOT).as_posix())
+    return 0
+
+
+def cmd_text(args) -> int:
+    path = ROOT / args.path
+    if path.suffix != ".html":
+        print(path.read_text(), end="")
+        return 0
+    parser = _Text()
+    parser.feed(path.read_text())
+    parser.flush()
+    print("\n".join(parser.lines))
     return 0
 
 
@@ -218,6 +351,14 @@ def main() -> int:
     p_set.add_argument("status", choices=STATUSES)
     p_set.add_argument("--note")
     p_set.set_defaults(func=cmd_set)
+    p_reopen = sub.add_parser("reopen")
+    p_reopen.add_argument("path")
+    p_reopen.add_argument("stage", choices=STAGES)
+    p_reopen.set_defaults(func=cmd_reopen)
+    for name, func in (("findings", cmd_findings), ("text", cmd_text)):
+        p = sub.add_parser(name)
+        p.add_argument("path")
+        p.set_defaults(func=func)
     p_sync = sub.add_parser("sync")
     p_sync.add_argument("--yes", action="store_true")
     p_sync.set_defaults(func=cmd_sync)

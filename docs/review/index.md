@@ -15,17 +15,13 @@ Each document goes through the `/docs-review` stages. ✅ validated by the user,
 | [docs/CHALLENGE_CONTEXT.md](../CHALLENGE_CONTEXT.md) | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ |
 | [docs/GUIA_RESTRICCIONES_UNOQ.html](../GUIA_RESTRICCIONES_UNOQ.html) | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ |
 | [docs/RESUMEN_QUALCOMM_UNO_Q.md](../RESUMEN_QUALCOMM_UNO_Q.md) | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ |
-| [docs/SKILLS_GUIDE.html](../SKILLS_GUIDE.html) | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ |
 | [docs/UNO_Q_BOARD_REFERENCE.md](../UNO_Q_BOARD_REFERENCE.md) | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ |
 | [docs/index.md](../index.md) | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ |
 | [docs/vault/guides/mineru-ocr-papers.md](../vault/guides/mineru-ocr-papers.md) | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ |
 | [docs/vault/papers/README.md](../vault/papers/README.md) | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ |
 | [docs/vault/papers/benchmarks/_synthesis.md](../vault/papers/benchmarks/_synthesis.md) | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ |
 | [docs/vault/papers/finetuning_distillation/_synthesis.md](../vault/papers/finetuning_distillation/_synthesis.md) | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ |
-| [docs/vault/papers/inference/_synthesis.md](../vault/papers/inference/_synthesis.md) | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ |
-| [docs/vault/papers/pruning/_synthesis.md](../vault/papers/pruning/_synthesis.md) | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ |
-| [docs/vault/papers/surveys/_synthesis.md](../vault/papers/surveys/_synthesis.md) | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ |
 | [docs/vault/papers/tutoring_pedagogy/_synthesis.md](../vault/papers/tutoring_pedagogy/_synthesis.md) | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ |
 | mkdocs.yml | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ |
 
-Signed off: 0 of 19 documents.
+Signed off: 0 of 15 documents.
