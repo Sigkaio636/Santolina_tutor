@@ -47,3 +47,47 @@ _Avoid_: test set (the hidden test set belongs to the organizers)
 **Experiment**:
 One run of `eval.py`. It adds one line to `results/ablations.csv`, with the Git commit.
 _Avoid_: trial, run (alone)
+
+**Teacher app**:
+The local web app on the teacher's laptop (`teacher_app/`). It sets up boards, loads exercise packs, unloads student data and shows statistics. It talks to boards over USB with adb.
+_Avoid_: dashboard (that is one page of it), admin panel
+
+**Teacher store**:
+The teacher app's SQLite file, `~/.local/share/santolina-teacher/teacher.sqlite3` by default. It is centred on students and never goes into Git.
+_Avoid_: index (that is the retrieval file on the board), database (alone)
+
+**Board data contract**:
+The files a board keeps under `~/santolina/` (identity, mode, roster, exercise packs, outbox, archive) and their JSON formats, implemented by the `classroom/` package. See `docs/reference/board-data-contract.md`.
+_Avoid_: contract (alone: that is the `predict.py` rules)
+
+**Student**:
+A person in the teacher store, with a display name and a group. The board never sees the name, only the student code.
+_Avoid_: user, pupil
+
+**Group**:
+A class of students, such as "3r ESO B". A board belongs to one group and receives that group's student codes.
+_Avoid_: class (clashes with Python), course
+
+**Student code**:
+A short pseudonymous code such as `K7M2`. The student types it on the board, and every event carries it.
+_Avoid_: ID, PIN, password
+
+**Mode**:
+`student` (locked) or `professor` (unlocked), stored in `~/santolina/mode.json`. Only the teacher app changes it.
+_Avoid_: state, lock
+
+**Exercise pack**:
+A versioned folder of exercises (`manifest.json`, `exercises.json`, optional `media/`) that the teacher loads on boards.
+_Avoid_: problem set, dataset
+
+**Session**:
+One student's sitting on a board, from `session_start` to `session_end`, stored as one file in `~/santolina/outbox/`.
+_Avoid_: visit, log
+
+**Event**:
+One line in a session file: what happened, when, and with which student code.
+_Avoid_: log entry, record
+
+**Unload**:
+Copying finished sessions from a board into the teacher store. The board keeps a copy in `archive/` until the teacher deletes it.
+_Avoid_: sync (alone), download
