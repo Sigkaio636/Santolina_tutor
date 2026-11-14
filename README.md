@@ -49,3 +49,26 @@ Repo amd la solució del Qualcomm repte
 
 --------
 
+## Pull requests
+
+When Claude Code opens a pull request in this repo, a hook in
+`.claude/hooks/pr-gate.sh` (wired in `.claude/settings.json`) checks two
+rules before `gh pr create`, `gh pr new` or `gh pr ready` runs:
+
+1. **Draft.** `gh pr create` carries `--draft`, unless `--web` hands the PR
+   to the browser.
+2. **Documentation red flag.** If the change touches code but no `*.md`,
+   `docs/`, README or CHANGELOG file, the PR waits for documentation.
+   Tests, lockfiles and `.github/` do not count as code. When no document
+   is affected, end the command with the shell comment
+   `# pr-gate: no-docs <reason>` and give the reason in the PR body.
+
+The `pre-pr` skill in `.claude/skills/pre-pr/` prepares the PR: a
+`/simplify` pass you review, the affected documentation, and a draft PR
+with What and Why.
+
+The hook only checks commands the agent runs. A PR opened from the GitHub
+website, from an app button or by hand is not checked. When the hook
+cannot decide (no `origin` default branch, unreadable input, `--repo`
+aimed at another repo) it lets the command through.
+
