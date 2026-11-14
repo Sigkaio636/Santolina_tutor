@@ -1,0 +1,521 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Restricciones del reto UNO Q</title>
+<style>
+:root{
+  --bg:#f7f7f5; --surface:#ffffff; --surface-2:#f0f0ec; --text:#1d1d1b; --muted:#5f5f5a; --border:#deded8;
+  --accent:#0b6e6e; --accent-soft:#e1f1f0;
+  --ok:#2f7d32; --ok-soft:#e5f3e5; --warn:#a15c00; --warn-soft:#fbf0dd; --bad:#b3261e; --bad-soft:#fbe6e4;
+  --info:#3b5bab; --info-soft:#e7ecf8;
+  --bar:#0b6e6e; --bar-2:#8fb8b6; --bar-us:#b3261e;
+  --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#151615; --surface:#1e201f; --surface-2:#262827; --text:#ececea; --muted:#a3a39e; --border:#353735;
+    --accent:#5cc2bd; --accent-soft:#1d3433;
+    --ok:#7cc47f; --ok-soft:#1f3320; --warn:#e3a54a; --warn-soft:#3a2d17; --bad:#f08a80; --bad-soft:#3b1f1c;
+    --info:#93aef0; --info-soft:#1f2740;
+    --bar:#5cc2bd; --bar-2:#3c6e6b; --bar-us:#f08a80;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#151615; --surface:#1e201f; --surface-2:#262827; --text:#ececea; --muted:#a3a39e; --border:#353735;
+  --accent:#5cc2bd; --accent-soft:#1d3433;
+  --ok:#7cc47f; --ok-soft:#1f3320; --warn:#e3a54a; --warn-soft:#3a2d17; --bad:#f08a80; --bad-soft:#3b1f1c;
+  --info:#93aef0; --info-soft:#1f2740;
+  --bar:#5cc2bd; --bar-2:#3c6e6b; --bar-us:#f08a80;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--text);font:16px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+.wrap{max-width:1000px;margin:0 auto;padding:24px 16px 64px}
+header.top{padding:8px 0 16px;border-bottom:1px solid var(--border);margin-bottom:24px}
+h1{font-size:1.75rem;line-height:1.2;margin:0 0 6px}
+h2{font-size:1.3rem;margin:40px 0 12px;padding-top:8px}
+h3{font-size:1.05rem;margin:22px 0 8px}
+p{margin:8px 0}
+.lead{color:var(--muted);margin:0}
+a{color:var(--accent)}
+code{font-family:var(--mono);font-size:.88em;background:var(--surface-2);padding:1px 5px;border-radius:4px}
+nav.toc{display:flex;flex-wrap:wrap;gap:6px;margin:14px 0 0}
+nav.toc a{font-size:.85rem;text-decoration:none;border:1px solid var(--border);background:var(--surface);padding:4px 10px;border-radius:999px;color:var(--text)}
+nav.toc a:hover{border-color:var(--accent)}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px 18px;margin:12px 0}
+.check{border-left:4px solid var(--accent)}
+.check ol{margin:6px 0 0;padding-left:1.3em}
+.check li{margin:4px 0}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:12px 0}
+.kpi{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:12px 14px}
+.kpi .v{font-size:1.5rem;font-weight:650;line-height:1.1;font-variant-numeric:tabular-nums}
+.kpi .l{font-size:.82rem;color:var(--muted);margin-top:4px}
+.tbl{width:100%;overflow-x:auto;margin:10px 0}
+table{border-collapse:collapse;width:100%;font-size:.92rem;background:var(--surface);border:1px solid var(--border);border-radius:8px}
+th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--border);vertical-align:top}
+th{background:var(--surface-2);font-weight:600;font-size:.85rem}
+tr:last-child td{border-bottom:0}
+td.n{font-variant-numeric:tabular-nums;white-space:nowrap}
+.src{font-size:.78rem;color:var(--muted);white-space:nowrap}
+.tag{display:inline-block;font-size:.72rem;font-weight:600;padding:1px 7px;border-radius:999px;white-space:nowrap;vertical-align:1px}
+.t-of{background:var(--ok-soft);color:var(--ok)}
+.t-me{background:var(--info-soft);color:var(--info)}
+.t-in{background:var(--surface-2);color:var(--muted)}
+.t-ve{background:var(--warn-soft);color:var(--warn)}
+.t-pa{background:var(--accent-soft);color:var(--accent)}
+.note{font-size:.9rem;padding:10px 14px;border-radius:8px;margin:10px 0}
+.note.warn{background:var(--warn-soft);border-left:3px solid var(--warn)}
+.note.info{background:var(--info-soft);border-left:3px solid var(--info)}
+.note.bad{background:var(--bad-soft);border-left:3px solid var(--bad)}
+.formula{font-family:var(--mono);font-size:1.05rem;background:var(--surface-2);padding:10px 14px;border-radius:8px;overflow-x:auto}
+/* barras horizontales */
+.hbars{margin:10px 0}
+.hrow{display:grid;grid-template-columns:150px 1fr 54px;gap:8px;align-items:center;margin:5px 0;font-size:.88rem}
+.htrack{position:relative;height:18px;background:var(--surface-2);border-radius:4px}
+.hfill{position:absolute;left:0;top:0;bottom:0;background:var(--bar);border-radius:4px}
+.hfill.us{background:var(--bar-us)}
+.hfill.small{background:var(--bar-2)}
+.vline{position:absolute;top:-4px;bottom:-4px;width:0;border-left:2px dashed var(--muted)}
+.vline.limit{border-left:2px solid var(--bad)}
+.hval{text-align:right;font-variant-numeric:tabular-nums}
+.legend{display:flex;flex-wrap:wrap;gap:14px;font-size:.8rem;color:var(--muted);margin-top:6px}
+.legend span::before{content:"";display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:5px;vertical-align:-1px;background:var(--c)}
+/* barras apiladas de tiempo */
+.stack{display:flex;height:18px;border-radius:4px;overflow:hidden;background:var(--surface-2)}
+.stack > div{height:100%}
+.seg-pre{background:var(--bar)}
+.seg-dec{background:var(--warn)}
+.seg-oth{background:var(--info)}
+/* calculadora */
+.calc{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;margin-top:8px}
+.calc label{display:block;font-size:.82rem;color:var(--muted);margin-bottom:4px}
+.calc input{width:100%;padding:7px 9px;font:inherit;background:var(--bg);color:var(--text);border:1px solid var(--border);border-radius:6px}
+.res{margin-top:14px}
+.res .big{font-size:1.6rem;font-weight:650;font-variant-numeric:tabular-nums}
+.pill{display:inline-block;padding:2px 10px;border-radius:999px;font-weight:600;font-size:.85rem;margin-left:8px}
+.pill.ok{background:var(--ok-soft);color:var(--ok)}
+.pill.warn{background:var(--warn-soft);color:var(--warn)}
+.pill.bad{background:var(--bad-soft);color:var(--bad)}
+.gauge{position:relative;margin-top:10px}
+.gauge .stack{height:22px}
+.gauge .vline{top:-3px;bottom:-3px}
+.small{font-size:.85rem;color:var(--muted)}
+ul.tight{margin:6px 0;padding-left:1.2em} ul.tight li{margin:3px 0}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+footer{margin-top:48px;font-size:.82rem;color:var(--muted);border-top:1px solid var(--border);padding-top:14px}
+.themebtn{float:right;font:inherit;font-size:.8rem;background:var(--surface);color:var(--text);border:1px solid var(--border);border-radius:6px;padding:4px 10px;cursor:pointer}
+@media (max-width:640px){
+  h1{font-size:1.4rem}
+  .two{grid-template-columns:1fr}
+  .hrow{grid-template-columns:96px 1fr 44px;font-size:.8rem}
+  th,td{padding:6px 7px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="top">
+  <button class="themebtn" id="themebtn" type="button" aria-label="Cambiar tema">Tema</button>
+  <h1>Restricciones del reto: Math copilot en la Arduino UNO Q</h1>
+  <p class="lead">Todas las cifras de especificación que hay hoy en el repo, en un solo sitio: reglas, hardware, mínimos a batir, tiempos por fase de inferencia y estado del arte. Datathon FME 2026, reto Qualcomm. Compilado el 2026-11-14.</p>
+  <p class="small" style="margin-top:8px">
+    Etiquetas: <span class="tag t-of">Oficial</span> regla o valor del repo de organizadores (<code>BOARD_SETUP.md</code>, <code>config.env</code>) ·
+    <span class="tag t-me">Medido</span> medido en placa (organizadores o equipo) ·
+    <span class="tag t-pa">Paper</span> publicación ·
+    <span class="tag t-in">Inferido</span> cálculo o interpretación nuestra ·
+    <span class="tag t-ve">⚠️ Verificar</span> sin confirmar.
+    Si dos fuentes chocan, manda <code>BOARD_SETUP.md</code> (ver <a href="#conflictos">conflictos</a>).
+  </p>
+  <nav class="toc">
+    <a href="#checklist">Checklist</a><a href="#reglas">Reglas</a><a href="#hardware">Hardware</a>
+    <a href="#minimos">Mínimos</a><a href="#tiempos">Tiempos</a><a href="#calc">Calculadora</a>
+    <a href="#sota">Estado del arte</a><a href="#conflictos">Conflictos</a><a href="#abiertas">Abiertas</a><a href="#fuentes">Fuentes</a>
+  </nav>
+</header>
+
+<!-- ============ 0. CHECKLIST ============ -->
+<section id="checklist">
+  <div class="card check">
+    <strong>Las restricciones que tenemos que cumplir</strong>
+    <ol>
+      <li><strong>≤ 60 s por problema</strong> (<code>TIME_LIMIT_SECONDS=60</code>). Si se pasa, <code>predict.py</code> responde <code>D</code> con estado <code>timeout</code>. <span class="tag t-of">Oficial</span></li>
+      <li><strong>Una letra A–E</strong> por problema, forzada con gramática <code>root ::= [A-E]</code>. <span class="tag t-of">Oficial</span></li>
+      <li><strong>Offline</strong>: todo corre en la placa, sin red (internet solo en los pasos 2–4 del setup). <span class="tag t-of">Oficial</span></li>
+      <li><strong>Determinista</strong>: <code>temperature 0</code> y <code>SEED=42</code>. Mismas respuestas siempre. <span class="tag t-of">Oficial</span></li>
+      <li><strong>4 GB de RAM</strong> (3.6 GiB visibles) compartidos por Debian, App Lab, los servidores de modelos y nuestro código. <span class="tag t-of">Oficial</span></li>
+      <li><strong>CPU-only</strong>: llama.cpp fijado en el commit <code>2cbe0ec</code>, 4 hilos, sin GPU ni NPU. <span class="tag t-of">Oficial</span></li>
+      <li><strong>Batir el 22.5 %</strong> del baseline, y sobre todo el <strong>25 %</strong> de responder siempre <code>D</code>. <span class="tag t-me">Medido</span></li>
+      <li><strong>Sin módulos externos</strong>: la matriz LED 8×13 es el único hardware de salida. <span class="tag t-of">Oficial</span></li>
+      <li><strong>Los datos de M3Kang no se publican</strong> (licencia solo investigación). Ni en el repo ni en el historial de Git. <span class="tag t-of">Oficial</span></li>
+      <li><strong>Demo en vivo + pitch de 3 min</strong>, con Wi-Fi apagado y servicios arrancados al boot. <span class="tag t-of">Oficial</span></li>
+    </ol>
+  </div>
+</section>
+
+<!-- ============ 1. REGLAS ============ -->
+<section id="reglas">
+<h2>1. Reglas oficiales del reto</h2>
+<p>El enunciado: <em>diseñar y construir un Math copilot que corra entero en la Arduino UNO Q y use M3Kang de forma innovadora para ayudar a los estudiantes a razonar matemáticamente.</em> El copilot debe cumplir uno de estos dos objetivos:</p>
+<div class="two">
+  <div class="card"><strong>Teach</strong><p class="small">Guiar al estudiante sin darle la respuesta: pistas, práctica adaptativa, análisis de errores, interacción física, colaboración. Se valora por originalidad y medición.</p></div>
+  <div class="card"><strong>Reason</strong><p class="small">Elegir la respuesta correcta de un problema tipo Cangur. Se mide objetivamente sobre un <strong>test oculto</strong>. El <code>predict.py</code> de todos los equipos se puntúa ahí, construyan lo que construyan.</p></div>
+</div>
+
+<div class="tbl"><table>
+<thead><tr><th>Regla</th><th>Valor</th><th>Fuente</th></tr></thead>
+<tbody>
+<tr><td>Tiempo máximo por problema</td><td class="n"><strong>60 s</strong></td><td class="src"><span class="tag t-of">Oficial</span> config.env, BOARD_SETUP §11.1</td></tr>
+<tr><td>Formato de respuesta</td><td>Una letra A–E (CSV: <code>id, language, answer, seconds, status</code>)</td><td class="src"><span class="tag t-of">Oficial</span> predict.py</td></tr>
+<tr><td>Respuesta de reserva</td><td><code>D</code> (la más frecuente en M3Kang high_quality: 24.6 %)</td><td class="src"><span class="tag t-of">Oficial</span> config.env</td></tr>
+<tr><td>Determinismo</td><td><code>temperature 0</code>, <code>SEED=42</code></td><td class="src"><span class="tag t-of">Oficial</span> config.env, BOARD_SETUP §5</td></tr>
+<tr><td>Red</td><td>Ninguna en ejecución</td><td class="src"><span class="tag t-of">Oficial</span> BOARD_SETUP §11.1</td></tr>
+<tr><td>Motor</td><td>llama.cpp <code>2cbe0ec</code>, <code>-DGGML_NATIVE=ON</code>, Release, CPU-only</td><td class="src"><span class="tag t-of">Oficial</span> config.env, BOARD_SETUP §3</td></tr>
+<tr><td>Cambiar de modelo</td><td>Permitido: cualquier GGUF que quepa en RAM, responda a tiempo y tenga licencia usable (actualizar repo, revisión, fichero y SHA256 en <code>config.env</code>)</td><td class="src"><span class="tag t-of">Oficial</span> BOARD_SETUP §13.3</td></tr>
+<tr><td>Hardware adicional</td><td>Ninguno. Matriz LED 8×13 (104 píxeles) como única salida</td><td class="src"><span class="tag t-of">Oficial</span> BOARD_SETUP §14.4</td></tr>
+<tr><td>Entregables</td><td>Repo GitHub público + Arduino Project Hub (arquitectura, replicación, análisis de errores por tema, idioma y dificultad) + demo en vivo</td><td class="src"><span class="tag t-of">Oficial</span> BOARD_SETUP intro, §15</td></tr>
+<tr><td>Pitch</td><td class="n">3 min: problema 20 s · demo 90 s · números 40 s · aprendizajes 30 s</td><td class="src"><span class="tag t-of">Oficial</span> BOARD_SETUP §14.5</td></tr>
+<tr><td>Datos M3Kang</td><td>Licencia solo investigación: nada de <code>train/val.jsonl</code>, imágenes ni <code>index.db</code> en el repo</td><td class="src"><span class="tag t-of">Oficial</span> BOARD_SETUP §15.1, CLAUDE.md</td></tr>
+</tbody></table></div>
+<div class="note warn"><strong>⚠️ No hay rúbrica publicada</strong> con pesos ni jurado. Las señales del vídeo: idea propia, documentación replicable, innovación sobre el baseline y que funcione en la placa. "Los usos más originales de M3Kang puntuarán más" (BOARD_SETUP).</div>
+</section>
+
+<!-- ============ 2. HARDWARE ============ -->
+<section id="hardware">
+<h2>2. Restricciones de hardware</h2>
+<div class="kpis">
+  <div class="kpi"><div class="v">4× A53</div><div class="l">Cortex-A53 @ 2.0 GHz, ARMv8.0-A</div></div>
+  <div class="kpi"><div class="v">~2.5 GB</div><div class="l">RAM libre con los 2 servidores arrancados</div></div>
+  <div class="kpi"><div class="v">≥ 2 GB</div><div class="l">disco libre necesario (eMMC 32 GB)</div></div>
+  <div class="kpi"><div class="v">0</div><div class="l">NPU. GPU no usada por el build oficial</div></div>
+</div>
+
+<h3>Cómputo</h3>
+<div class="tbl"><table>
+<thead><tr><th>Componente</th><th>Especificación</th><th>Implicación</th><th>Fuente</th></tr></thead>
+<tbody>
+<tr><td>SoC</td><td>Qualcomm Dragonwing QRB2210</td><td>—</td><td class="src"><span class="tag t-of">Oficial</span> datasheet</td></tr>
+<tr><td>CPU</td><td class="n">4× Cortex-A53 @ 2.0 GHz, 64 bit, NEON</td><td>Decode limitado por ancho de banda de memoria: menos bytes por peso ⇒ más tok/s</td><td class="src"><span class="tag t-of">Oficial</span> datasheet</td></tr>
+<tr><td>Instrucciones int8</td><td>Sin SDOT/UDOT ni I8MM (ARMv8.0)</td><td>Los kernels cuantizados rápidos de llama.cpp para Arm moderno no aplican</td><td class="src"><span class="tag t-ve">⚠️ Verificar</span> <code>grep Features /proc/cpuinfo</code></td></tr>
+<tr><td>GPU</td><td class="n">Adreno 702 @ 845 MHz. OpenCL 2.0 (Mesa), Vulkan 1.0.318 (turnip)</td><td>Memoria unificada: descargar capas no añade RAM. El backend OpenCL de llama.cpp apunta a Adreno 7xx/8xx con driver propietario</td><td class="src"><span class="tag t-ve">⚠️ Verificar</span> UNO_Q_BOARD_REFERENCE §6</td></tr>
+<tr><td>NPU / DSP</td><td>Ninguna NPU publicada, sin cifra de TOPS</td><td>Plan para CPU</td><td class="src"><span class="tag t-of">Oficial</span> datasheet</td></tr>
+<tr><td>MCU</td><td class="n">STM32U585, Cortex-M33 @ 160 MHz, 2 MB flash, 786 kB SRAM</td><td>Solo matriz LED, botones y Bridge. Irrelevante para el LLM</td><td class="src"><span class="tag t-of">Oficial</span> datasheet</td></tr>
+</tbody></table></div>
+
+<h3>Memoria y disco</h3>
+<div class="tbl"><table>
+<thead><tr><th>Recurso</th><th>Valor</th><th>Fuente</th></tr></thead>
+<tbody>
+<tr><td>RAM física</td><td class="n">4 GB LPDDR4X, 32 bit, un rango</td><td class="src"><span class="tag t-of">Oficial</span> datasheet</td></tr>
+<tr><td>RAM visible (<code>free -h</code>)</td><td class="n">3.6 GiB total · ~3.1 GiB disponible · 1.8 GiB swap</td><td class="src"><span class="tag t-me">Medido</span> BOARD_SETUP §1</td></tr>
+<tr><td>RAM de los dos servidores (LLM + embeddings)</td><td class="n">~1.1 GB → quedan ~2.5 GB</td><td class="src"><span class="tag t-me">Medido</span> BOARD_SETUP §7</td></tr>
+<tr><td>Caché de prompt por defecto de llama.cpp</td><td class="n">hasta 8 GB → OOM. Por eso <code>--cache-ram 0 --parallel 1 --ctx-checkpoints 2</code></td><td class="src"><span class="tag t-of">Oficial</span> BOARD_SETUP §5.1</td></tr>
+<tr><td>Disco libre necesario</td><td class="n">≥ 2 GB (build ~350 MB, modelos ~870 MB, paquetes unos cientos de MB)</td><td class="src"><span class="tag t-of">Oficial</span> BOARD_SETUP §1</td></tr>
+<tr><td>Almacenamiento</td><td class="n">32 GB eMMC</td><td class="src"><span class="tag t-of">Oficial</span> datasheet</td></tr>
+</tbody></table></div>
+
+<h3>Modelos y servidores fijados</h3>
+<div class="tbl"><table>
+<thead><tr><th>Servicio</th><th>Modelo</th><th>Tamaño</th><th>Parámetros</th><th>Puerto</th></tr></thead>
+<tbody>
+<tr><td><code>math-llm</code></td><td>Qwen3.5 0.8B Q8_0</td><td class="n">835 MB</td><td class="n">ctx 4096, 4 hilos, <code>--reasoning off --reasoning-budget 0</code></td><td class="n">8081</td></tr>
+<tr><td><code>math-embed</code></td><td>bge-small-en-v1.5 Q8_0</td><td class="n">37 MB</td><td class="n">384 dimensiones, ctx 512, 4 hilos</td><td class="n">8082</td></tr>
+<tr><td>visión (opcional)</td><td>Qwen3.5 0.8B + mmproj f16</td><td class="n">+205 MB</td><td class="n"><code>--image-max-tokens 128</code></td><td class="n">8083</td></tr>
+</tbody></table></div>
+<p class="small">Todos en <code>127.0.0.1</code>. Fuente: <span class="tag t-of">Oficial</span> config.env, BOARD_SETUP §4, §7 y Explorer.</p>
+
+<h3>Alimentación y entorno</h3>
+<ul class="tight">
+  <li>USB-C PD <strong>5 V / 3 A (15 W)</strong>. Una fuente sin PD no arranca. <span class="tag t-of">Oficial</span></li>
+  <li>Temperatura de trabajo −10 °C a +60 °C. Throttling bajo carga sostenida no documentado. <span class="tag t-ve">⚠️ Verificar</span></li>
+  <li>Consumo en inferencia: sin cifra oficial. <span class="tag t-ve">⚠️ Verificar</span> con medidor USB.</li>
+  <li>Debian 13 (gcc 14.2, cmake 3.31, Python 3.13.5). Arranque de Linux 20–30 s. <span class="tag t-in">Inferido</span></li>
+</ul>
+</section>
+
+<!-- ============ 3. MINIMOS ============ -->
+<section id="minimos">
+<h2>3. Mínimos esperados: lo que hay que batir</h2>
+<div class="kpis">
+  <div class="kpi"><div class="v">20 %</div><div class="l">Azar (5 opciones)</div></div>
+  <div class="kpi"><div class="v">22.5 %</div><div class="l">Baseline oficial (9/40)</div></div>
+  <div class="kpi"><div class="v">25 %</div><div class="l">Responder siempre D (train)</div></div>
+  <div class="kpi"><div class="v">8.7 s</div><div class="l">Latencia media del baseline</div></div>
+</div>
+<div class="tbl"><table>
+<thead><tr><th>Enfoque (40 problemas en inglés, solo texto, opciones leídas por OCR)</th><th>Accuracy</th><th>Media</th><th>Peor</th></tr></thead>
+<tbody>
+<tr><td>Siempre <code>D</code></td><td class="n">25 % (train)</td><td class="n">0 s</td><td class="n">0 s</td></tr>
+<tr><td><strong>Baseline: una letra, gramática A–E</strong></td><td class="n"><strong>22.5 %</strong> (9/40)</td><td class="n">8.7 s</td><td class="n">12.7 s</td></tr>
+<tr><td>Valor de la opción en vez de la letra</td><td class="n">17.5 % (7/40)</td><td class="n">9.3 s</td><td class="n">13.5 s</td></tr>
+<tr><td>Una línea de razonamiento y luego la letra</td><td class="n">17.5 % (7/40)</td><td class="n">26.3 s</td><td class="n">35.0 s</td></tr>
+</tbody></table></div>
+<p class="small"><span class="tag t-me">Medido</span> BOARD_SETUP §11.3, skill <code>m3kang-copilot</code>.</p>
+
+<ul class="tight">
+  <li><strong>Sesgo de letra:</strong> el baseline respondió <code>D</code> 21 veces y <code>A</code> 14 veces de 40. Las respuestas reales están repartidas. <span class="tag t-me">Medido</span></li>
+  <li><strong>OCR:</strong> lee las 5 opciones en ~62 % de los problemas. En el resto el modelo solo ve el enunciado. <span class="tag t-me">Medido</span></li>
+  <li><strong>Validación completa:</strong> 281 problemas, ~45 min con <code>eval.py --limit 0</code>. <span class="tag t-of">Oficial</span></li>
+  <li><strong>Datos preparados:</strong> el primer fichero <code>high_quality</code> (393 MB), inglés y catalán, ~15 min de OCR por idioma. 1,747 imágenes (71 MB) en inglés. <span class="tag t-of">Oficial</span></li>
+</ul>
+<div class="note info"><strong>Cuidado con n = 40.</strong> Con p = 0.225 el error estándar es √(0.225·0.775/40) ≈ <strong>±6.6 pp</strong> (IC 95 % ≈ ±13 pp). 22.5 %, 25 % y 17.5 % no se distinguen estadísticamente. Para afirmar una mejora, usar los 281 de validación (error estándar ≈ ±2.5 pp). <span class="tag t-in">Inferido</span></div>
+</section>
+
+<!-- ============ 4. TIEMPOS ============ -->
+<section id="tiempos">
+<h2>4. Tiempos esperados por fase de inferencia</h2>
+<p>Regla práctica de los organizadores: embeddings, búsqueda, Python y hardware son casi gratis. El modelo de lenguaje es lo caro, y dentro de él <strong>leer el prompt (prefill) domina</strong> cuando la respuesta es una letra.</p>
+
+<h3>Por fase</h3>
+<div class="tbl"><table>
+<thead><tr><th>Fase</th><th>Velocidad / coste</th><th>Ejemplo</th><th>Fuente</th></tr></thead>
+<tbody>
+<tr><td>Carga del servidor LLM</td><td class="n">~5 s (a mano) · ~10 s ambos servicios</td><td>Una vez por arranque. No cuenta por problema si el servicio está vivo</td><td class="src"><span class="tag t-me">Medido</span> BOARD_SETUP §5, §7</td></tr>
+<tr><td>Embedding de una consulta (bge-small)</td><td class="n">&lt; 1 s</td><td class="n">911 problemas en ~4 min (~0.26 s cada uno)</td><td class="src"><span class="tag t-me">Medido</span> BOARD_SETUP §13.1</td></tr>
+<tr><td>Búsqueda en el índice</td><td class="n">milisegundos</td><td>Bucle sobre vectores en memoria (SQLite)</td><td class="src"><span class="tag t-me">Medido</span> BOARD_SETUP §13.1</td></tr>
+<tr><td><strong>Prefill (leer)</strong></td><td class="n"><strong>~11–12 tok/s</strong></td><td class="n">Problema con opciones: 80–300 tokens → 7–25 s. 85 tokens → ~7 s</td><td class="src"><span class="tag t-me">Medido</span> BOARD_SETUP §5.5, §11.3</td></tr>
+<tr><td><strong>Decode (escribir)</strong></td><td class="n"><strong>~5–6 tok/s</strong></td><td class="n">1 letra ≈ 0.2 s · 40 tokens ≈ 7 s · 200 tokens ≈ 35–40 s</td><td class="src"><span class="tag t-me">Medido</span> BOARD_SETUP §5.5</td></tr>
+<tr><td>Imagen (mmproj)</td><td class="n">300–650 tokens por defecto · 140–235 con límite 128</td><td>Codificar la imagen añade tiempo por encima del prefill</td><td class="src"><span class="tag t-me">Medido</span> BOARD_SETUP Explorer</td></tr>
+<tr><td>Timeout</td><td class="n">60 s → respuesta <code>D</code></td><td><code>status = timeout</code></td><td class="src"><span class="tag t-of">Oficial</span></td></tr>
+</tbody></table></div>
+
+<h3>Por configuración (tiempo total por problema)</h3>
+<div class="card">
+  <div class="hbars" id="cfgbars"></div>
+  <div class="legend">
+    <span style="--c:var(--bar)">tiempo medido (media o rango)</span>
+    <span style="--c:var(--bad)">límite de 60 s</span>
+  </div>
+  <p class="small">Fuentes: <span class="tag t-me">Medido</span> BOARD_SETUP §11.3, §13.1, Explorer y la idea de dislexia (reescritura de 50–100 tokens).</p>
+</div>
+
+<h3>Fórmula de presupuesto</h3>
+<div class="formula">T ≈ T<sub>emb</sub> + P / 11 + N / 6 &nbsp;≤ 60 s</div>
+<p class="small">P = tokens de entrada (instrucción + problema + opciones + ejemplos RAG), N = tokens generados. Con N = 1 caben ~600 tokens de prompt. Con 2 ejemplos RAG el prompt sube ~240 tokens (de ~9 s a ~30 s, unos 120 tokens por ejemplo). <span class="tag t-in">Inferido</span> de las medidas.</p>
+<div class="note info"><strong>Truco oficial para interacción:</strong> <code>cache_prompt</code> reutiliza el prefijo ya leído. Si mandas el problema al modelo en cuanto aparece en pantalla, cuando el alumno pide ayuda el modelo solo lee los tokens nuevos. Comprobar con <code>prompt_n</code> en <code>timings</code>. Reescrituras de 50–100 tokens (10–20 s): hacerlas <strong>offline</strong>, por adelantado, y guardarlas en SQLite.</div>
+</section>
+
+<!-- ============ CALCULADORA ============ -->
+<section id="calc">
+<h2>Calculadora de presupuesto de tiempo</h2>
+<div class="card">
+  <div class="calc">
+    <div><label for="c-p">Tokens del problema + instrucción</label><input id="c-p" type="number" min="0" value="100"></div>
+    <div><label for="c-rag">Ejemplos RAG (≈120 tokens cada uno)</label><input id="c-rag" type="number" min="0" value="0"></div>
+    <div><label for="c-n">Tokens generados</label><input id="c-n" type="number" min="0" value="1"></div>
+    <div><label for="c-pre">Prefill (tok/s)</label><input id="c-pre" type="number" min="1" step="0.5" value="11"></div>
+    <div><label for="c-dec">Decode (tok/s)</label><input id="c-dec" type="number" min="1" step="0.5" value="6"></div>
+  </div>
+  <div class="res" aria-live="polite">
+    <span class="big" id="c-out">–</span><span class="pill" id="c-pill">–</span>
+    <div class="small" id="c-detail"></div>
+    <div class="gauge">
+      <div class="stack" id="c-stack"><div class="seg-oth"></div><div class="seg-pre"></div><div class="seg-dec"></div></div>
+      <div class="vline limit" id="c-limit"></div>
+    </div>
+    <div class="legend">
+      <span style="--c:var(--info)">embedding + búsqueda</span>
+      <span style="--c:var(--bar)">prefill</span>
+      <span style="--c:var(--warn)">decode</span>
+      <span style="--c:var(--bad)">60 s</span>
+    </div>
+  </div>
+  <p class="small">Estimación lineal a partir de las medidas. No incluye imágenes ni la sobrecarga HTTP. Verde ≤ 40 s, ámbar 40–60 s (sin margen para el peor caso), rojo &gt; 60 s.</p>
+</div>
+</section>
+
+<!-- ============ 5. ESTADO DEL ARTE ============ -->
+<section id="sota">
+<h2>5. Estado del arte</h2>
+<h3>M3Kang (Torres-Camps et al., Qualcomm, 2026): accuracy en inglés</h3>
+<p class="small">1,747 problemas únicos del Cangur, 108 idiomas, 111,198 problemas tras filtrar. Media de 3 ejecuciones, VLMs con la imagen. Tabla 2 del paper, arXiv 2601.16218. <span class="tag t-pa">Paper</span></p>
+<div class="card">
+  <div class="hbars" id="sotabars"></div>
+  <div class="legend">
+    <span style="--c:var(--bar)">modelos grandes / cerrados</span>
+    <span style="--c:var(--bar-2)">modelos abiertos ≤ 14B</span>
+    <span style="--c:var(--bar-us)">nuestro baseline en placa</span>
+    <span style="--c:var(--muted)">azar 20 %</span>
+  </div>
+</div>
+<div class="tbl"><table>
+<thead><tr><th>Modelo</th><th>Inglés</th><th>Media idiomas</th><th>Alto recurso</th><th>Medio</th><th>Bajo</th></tr></thead>
+<tbody id="sotatable"></tbody>
+</table></div>
+
+<div class="note warn"><strong>No es comparable 1:1.</strong> El paper evalúa VLMs que ven la imagen, con prompts libres. Nosotros usamos texto OCR (opciones en ~62 % de los casos), gramática de una letra y un modelo de 0.8B en CPU con 60 s. Sirve como techo de referencia, no como objetivo.</div>
+
+<h3>Hallazgos del paper útiles para nosotros</h3>
+<ul class="tight">
+  <li><strong>Gemma 1B/4B/12B salen por debajo del azar</strong> porque no respetan el formato de salida. Nuestra gramática <code>[A-E]</code> elimina ese fallo. <span class="tag t-pa">Paper</span></li>
+  <li><strong>Los modelos pequeños de 3–7B están cerca del azar</strong> fuera del inglés (Qwen-2.5-3B: 30.3 % en inglés, 19.4 % en idiomas de bajo recurso). <span class="tag t-pa">Paper</span></li>
+  <li><strong>MTR (traducir al inglés y dar ambas versiones)</strong> reduce la brecha entre idiomas de alto y bajo recurso de 7.1 a 2.5 pp (Qwen-2.5-3B) y de 12.3 a 3.1 pp (7B), y se acerca al nivel en inglés. Encaja con usar el <code>id</code> compartido de M3Kang para buscar en inglés. <span class="tag t-pa">Paper</span></li>
+  <li><strong>Texto mejor que figura</strong> en todos los modelos y todos los niveles. A los humanos les pasa al revés. <span class="tag t-pa">Paper</span></li>
+  <li><strong>La dificultad humana no predice la de los modelos:</strong> Kimi-Thinking supera el percentil 94 en los niveles 3–6 pero se queda en el 47–74 en los niveles 0–2 (inglés). <span class="tag t-pa">Paper</span></li>
+  <li><strong>Baseline humano:</strong> más de 68,000 alumnos de 10–18 años del Cangur 2024 en Cataluña, 114 problemas. <span class="tag t-pa">Paper</span></li>
+</ul>
+
+<h3>Otro benchmark del Cangur</h3>
+<p>Igualde-Sáez et al. 2025 (arXiv 2506.07418): Cangur 2014–2024 en inglés, francés, español y catalán. Gemini 2.0 Flash es el mejor en problemas con imagen, seguido de Qwen-VL 2.5 72B y GPT-4o. <strong>Ningún modelo se acerca al nivel humano</strong>, y el resultado catalán frente al español depende de la familia del modelo. <span class="tag t-pa">Paper</span></p>
+
+<h3>Lecciones de compresión, fine-tuning y tutoría</h3>
+<div class="tbl"><table>
+<thead><tr><th>Tema</th><th>Cifra o hallazgo</th><th>Qué implica aquí</th></tr></thead>
+<tbody>
+<tr><td>Rendimiento en placa de modelos ~1B</td><td class="n">Qwen 3.5 0.8B ≈ 4.4–4.5 tok/s, Gemma 3 1B ≈ 5.0 tok/s (Q4_0). TTFT 0.85–2.2 s en caliente, 9 s en frío. ~1 GB de RAM</td><td>Un modelo de ~1B cabe. El salto a 3B+ no cabe en 60 s con prompts largos <span class="tag t-in">Inferido</span></td></tr>
+<tr><td>Tamaños de modelo</td><td class="n">Gemma 3 1B Q4_K_M ≈ 815 MB · Gemma 3 270M Q4_0 ≈ 250–300 MB (≈170M de los 270M son embeddings)</td><td>Más pequeño ⇒ más tok/s, pero menos razonamiento</td></tr>
+<tr><td>Formatos GGUF</td><td class="n">Q4_0 ≈ 4.5 bits/peso (bloques de 32 con escala FP16). Q8_0 = 8 bits</td><td>Pasar de Q8_0 a Q4_0 casi duplica la velocidad de decode (limitada por memoria) <span class="tag t-in">Inferido</span></td></tr>
+<tr><td>Poda (LLM-KICK, 2023)</td><td>Rompe tareas de conocimiento con un 25–30 % de sparsity aunque la perplejidad parezca bien</td><td>Cuantizar antes de podar. Poda solo estructurada y con recuperación LoRA</td></tr>
+<tr><td>Cuantización multilingüe (Marchisio, 2024)</td><td>El razonamiento matemático es lo primero que se degrada</td><td>Medir accuracy tras cada cuantización. Calibrar <code>imatrix</code> con texto en catalán/español (Chimoto 2026)</td></tr>
+<tr><td>Datos sintéticos (TinyGSM, 2023)</td><td class="n">&gt; 80 % en GSM8K con modelos de 1.3B</td><td>La calidad del SFT sintético pesa más que el tamaño</td></tr>
+<tr><td>Small models &amp; strong reasoners (Li, 2025)</td><td>Los modelos ≤ 3B aprenden mejor de cadenas de razonamiento cortas</td><td>Encaja con el presupuesto de decode (~6 tok/s)</td></tr>
+<tr><td>Evaluación pedagógica</td><td>MathTutorBench (modelo de recompensa) · MRBench: 192 conversaciones, 1,596 respuestas, 8 dimensiones</td><td>Para la vía "Teach". No son métrica oficial del reto</td></tr>
+</tbody></table></div>
+<p class="small">Fuentes: <code>docs/CHALLENGE_CONTEXT.md</code> §2–§7, <code>docs/vault/papers/README.md</code>.</p>
+</section>
+
+<!-- ============ 6. CONFLICTOS ============ -->
+<section id="conflictos">
+<h2>6. Conflictos entre fuentes</h2>
+<div class="tbl"><table>
+<thead><tr><th>Dato</th><th>Versiones</th><th>Qué usar</th></tr></thead>
+<tbody>
+<tr><td>Nº de problemas</td><td>~1,000 (CHALLENGE_CONTEXT) · "casi 2,000" (vídeo) · 1,747 únicos, 111,198 con traducciones (paper)</td><td><strong>1,747 únicos</strong> (paper). La validación local son 281</td></tr>
+<tr><td>Nº de idiomas</td><td>108 (paper, vídeo) · 106 (vídeo, una vez)</td><td><strong>108</strong></td></tr>
+<tr><td>Velocidad</td><td>11 / 5–6 tok/s (BOARD_SETUP, Q8_0, build propio) · 8.4 / 3.6 tok/s (guía Arduino, Q4_K_M, binario precompilado) · 4.4–5.0 tok/s de decode (mischianti, App Lab)</td><td><strong>11 lectura / 5–6 escritura</strong>. Medir el nuestro con <code>llama-bench</code></td></tr>
+<tr><td>Acierto del modelo base</td><td>"Falla ~80 %" (vídeo) · 22.5 % medido (BOARD_SETUP)</td><td><strong>22.5 %</strong> (coherente: falla ~77 %)</td></tr>
+<tr><td>Servidor del modelo</td><td>LLM Brick de App Lab en el puerto 9999 (fuentes de terceros, fila desfasada de RESUMEN §6) · <code>llama-server</code> propio</td><td><strong><code>llama-server</code> propio en 8081/8082</strong> como servicios systemd</td></tr>
+<tr><td>Cuantización del LLM</td><td>Q4_K_M ~500 MB (guía Arduino) · Q8_0 835 MB (BOARD_SETUP)</td><td><strong>Q8_0</strong> es el baseline. Q4 es una mejora a medir</td></tr>
+<tr><td>Puerto llama-server</td><td>8080 (guía Arduino) · 8081 (BOARD_SETUP)</td><td><strong>8081</strong></td></tr>
+<tr><td>Disco libre</td><td>~1 GB (guía Arduino) · ≥ 2 GB (BOARD_SETUP)</td><td><strong>≥ 2 GB</strong></td></tr>
+</tbody></table></div>
+</section>
+
+<!-- ============ 7. ABIERTAS ============ -->
+<section id="abiertas">
+<h2>7. Preguntas abiertas</h2>
+<ul class="tight">
+  <li><span class="tag t-ve">⚠️</span> ¿Hay rúbrica oficial? ¿Qué peso tiene la demo frente al repo y al test oculto?</li>
+  <li><span class="tag t-ve">⚠️</span> ¿Límites de tamaño de modelo, de datos externos o de datos sintéticos?</li>
+  <li><span class="tag t-ve">⚠️</span> ¿En qué idioma(s) debe responder el tutor? ¿Qué idiomas tiene el test oculto?</li>
+  <li><span class="tag t-ve">⚠️</span> Flags de la CPU (<code>asimddp</code>, <code>i8mm</code>) en <code>/proc/cpuinfo</code>.</li>
+  <li><span class="tag t-ve">⚠️</span> ¿OpenCL o Vulkan de llama.cpp funcionan en la Adreno 702, y son más rápidos que la CPU? Experimento opcional: no cambiar el build del concurso.</li>
+  <li><span class="tag t-ve">⚠️</span> Consumo en vatios y throttling térmico en una evaluación larga (<code>/sys/class/thermal/*/temp</code>).</li>
+  <li><span class="tag t-ve">⚠️</span> Speedup real de Q4_0 / Q4_K_M frente a Q8_0 en esta placa, y su coste en accuracy.</li>
+</ul>
+</section>
+
+<!-- ============ 8. FUENTES ============ -->
+<section id="fuentes">
+<h2>8. Fuentes</h2>
+<ul class="tight">
+  <li><a href="BOARD_SETUP.md">docs/BOARD_SETUP.md</a>: guía de los organizadores (manda en caso de conflicto)</li>
+  <li><a href="../config.env">config.env</a> y <a href="../predict.py">predict.py</a>: valores y contrato oficiales</li>
+  <li><a href="UNO_Q_BOARD_REFERENCE.md">docs/UNO_Q_BOARD_REFERENCE.md</a>: datasheet y guías de Arduino</li>
+  <li><a href="CHALLENGE_CONTEXT.md">docs/CHALLENGE_CONTEXT.md</a>: estrategia del equipo y medidas de terceros</li>
+  <li><a href="RESUMEN_QUALCOMM_UNO_Q.md">docs/RESUMEN_QUALCOMM_UNO_Q.md</a>: resumen del vídeo de Qualcomm</li>
+  <li><a href="vault/papers/README.md">docs/vault/papers/README.md</a>: índice de papers</li>
+  <li>M3Kang: <a href="https://arxiv.org/abs/2601.16218">arXiv 2601.16218</a> · <a href="https://huggingface.co/datasets/qualcomm/M3Kang">dataset card</a> (los datos no se redistribuyen)</li>
+  <li>Kangaroo multilingüe: <a href="https://arxiv.org/abs/2506.07418">arXiv 2506.07418</a></li>
+</ul>
+</section>
+
+<footer>Guía generada a partir del contenido del repo el 2026-11-14. No contiene texto de problemas de M3Kang, solo cifras agregadas.</footer>
+</div>
+
+<script>
+(function(){
+  // ---- tema ----
+  var root=document.documentElement, btn=document.getElementById('themebtn');
+  try{var saved=localStorage.getItem('guia-theme'); if(saved) root.setAttribute('data-theme',saved);}catch(e){}
+  btn.addEventListener('click',function(){
+    var cur=root.getAttribute('data-theme');
+    if(!cur){cur=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}
+    var next=cur==='dark'?'light':'dark';
+    root.setAttribute('data-theme',next);
+    try{localStorage.setItem('guia-theme',next);}catch(e){}
+  });
+
+  function el(tag,cls,txt){var e=document.createElement(tag); if(cls) e.className=cls; if(txt!=null) e.textContent=txt; return e;}
+
+  // ---- tiempos por configuración (escala 0-70 s) ----
+  var cfg=[
+    {l:'Siempre D',lo:0,hi:0},
+    {l:'1 letra (baseline)',lo:8.7,hi:8.7,txt:'8.7 s'},
+    {l:'1 letra, peor caso',lo:12.7,hi:12.7,txt:'12.7 s'},
+    {l:'Reescritura 50–100 tok',lo:10,hi:20,txt:'10–20'},
+    {l:'1 línea razonamiento',lo:26.3,hi:26.3,txt:'26 s'},
+    {l:'RAG × 2',lo:30,hi:30,txt:'~30 s'},
+    {l:'Imagen, 128 tokens',lo:28,hi:38,txt:'28–38'},
+    {l:'Imagen, por defecto',lo:68,hi:185,txt:'68–185'}
+  ];
+  var MAX=70, box=document.getElementById('cfgbars');
+  cfg.forEach(function(c){
+    var row=el('div','hrow'); row.appendChild(el('div',null,c.l));
+    var tr=el('div','htrack'); var f=el('div','hfill');
+    var lo=Math.min(c.lo,MAX), hi=Math.min(c.hi,MAX);
+    if(c.hi>c.lo){ f.style.left=(lo/MAX*100)+'%'; f.style.width=Math.max((hi-lo)/MAX*100,1)+'%'; }
+    else { f.style.width=(hi/MAX*100)+'%'; }
+    if(c.hi>60) f.classList.add('us');
+    tr.appendChild(f);
+    var lim=el('div','vline limit'); lim.style.left=(60/MAX*100)+'%'; tr.appendChild(lim);
+    row.appendChild(tr);
+    row.appendChild(el('div','hval',c.txt||'0 s'));
+    box.appendChild(row);
+  });
+
+  // ---- estado del arte ----
+  var sota=[
+    ['Gemini-2.5-Pro',76.4,'75.6','76.2','73.5','75.4','big'],
+    ['Claude-4-Sonnet',67.1,'62.3','63.3','63.7','59.2','big'],
+    ['Kimi-Thinking-2506',50.5,'40.7','45.8','46.7','24.8','big'],
+    ['GPT-4o',43.7,'40.7','41.5','43.7','36.7','big'],
+    ['Qwen-2.5-7B',40.0,'29.3','32.1','30.1','22.0','small'],
+    ['Qwen-2.5-3B',30.3,'24.1','25.7','25.6','19.4','small'],
+    ['Phi-4',28.8,'23.0','23.7','22.9','21.3','small'],
+    ['Nuestro baseline (0.8B)',22.5,'—','—','—','—','us'],
+    ['Gemma-4B',18.8,'—','—','—','—','small'],
+    ['Gemma-12B',18.8,'—','—','—','—','small'],
+    ['Gemma-1B',15.3,'—','—','—','—','small'],
+    ['MoonDream',8.9,'12.1','11.9','12.1','12.7','small']
+  ];
+  var sb=document.getElementById('sotabars'), tb=document.getElementById('sotatable');
+  sota.forEach(function(s){
+    var row=el('div','hrow'); row.appendChild(el('div',null,s[0]));
+    var tr=el('div','htrack'); var f=el('div','hfill'+(s[6]==='us'?' us':s[6]==='small'?' small':''));
+    f.style.width=s[1]+'%'; tr.appendChild(f);
+    var r=el('div','vline'); r.style.left='20%'; r.title='azar 20 %'; tr.appendChild(r);
+    row.appendChild(tr); row.appendChild(el('div','hval',s[1].toFixed(1)+' %'));
+    sb.appendChild(row);
+    if(s[6]!=='us'){
+      var t=el('tr'); t.appendChild(el('td',null,s[0]));
+      t.appendChild(el('td','n',s[1].toFixed(1)));
+      for(var i=2;i<6;i++) t.appendChild(el('td','n',s[i]));
+      tb.appendChild(t);
+    }
+  });
+
+  // ---- calculadora ----
+  var ids=['c-p','c-rag','c-n','c-pre','c-dec'], inp={};
+  ids.forEach(function(id){inp[id]=document.getElementById(id); inp[id].addEventListener('input',calc);});
+  function num(id,d){var v=parseFloat(inp[id].value); return isFinite(v)&&v>=0?v:d;}
+  function calc(){
+    var P=num('c-p',0), K=num('c-rag',0), N=num('c-n',0), pre=Math.max(num('c-pre',11),0.1), dec=Math.max(num('c-dec',6),0.1);
+    var prompt=P+K*120, tEmb=K>0?0.3:0, tPre=prompt/pre, tDec=N/dec, T=tEmb+tPre+tDec;
+    document.getElementById('c-out').textContent=T.toFixed(1)+' s';
+    var pill=document.getElementById('c-pill');
+    pill.className='pill '+(T<=40?'ok':T<=60?'warn':'bad');
+    pill.textContent=T<=40?'cabe con margen':T<=60?'justo: sin margen':'timeout → D';
+    document.getElementById('c-detail').textContent=
+      'Prompt '+Math.round(prompt)+' tokens → prefill '+tPre.toFixed(1)+' s · decode '+tDec.toFixed(1)+' s'+(K>0?' · embedding+búsqueda ~'+tEmb.toFixed(1)+' s':'');
+    var scale=Math.max(T,70), segs=document.getElementById('c-stack').children;
+    segs[0].style.width=(tEmb/scale*100)+'%'; segs[1].style.width=(tPre/scale*100)+'%'; segs[2].style.width=(tDec/scale*100)+'%';
+    document.getElementById('c-limit').style.left=(60/scale*100)+'%';
+  }
+  calc();
+})();
+</script>
+</body>
+</html>
