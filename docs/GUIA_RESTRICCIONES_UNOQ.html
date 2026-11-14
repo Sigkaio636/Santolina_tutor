@@ -121,6 +121,7 @@ footer{margin-top:48px;font-size:.82rem;color:var(--muted);border-top:1px solid 
 
 <header class="top">
   <button class="themebtn" id="themebtn" type="button" aria-label="Toggle theme">Theme</button>
+  <nav class="toc" aria-label="Back to the docs" style="margin:0 0 12px"><a href="./">← Santolina tutor docs</a></nav>
   <h1>Challenge limits: a math copilot on the Arduino UNO Q</h1>
   <p class="lead">A reference and explanation page for our team. It lists every limit that the challenge sets on the copilot, with its source. It covers the rules, the hardware, the scores to beat, the time per inference phase and the state of the art. Datathon FME 2026, Qualcomm challenge. Compiled on 2026-11-14.</p>
   <div class="small" style="margin-top:8px">
@@ -266,10 +267,10 @@ footer{margin-top:48px;font-size:.82rem;color:var(--muted);border-top:1px solid 
 <ul class="tight">
   <li><strong>Letter bias:</strong> the baseline answered <code>D</code> 21 times and <code>A</code> 14 times out of 40. The true answers are spread over all five letters. <span class="tag t-me">Measured</span> (organizers', BOARD_SETUP §11.3)</li>
   <li><strong>OCR:</strong> it reads all 5 options in about 62 % of the problems. In the rest, the language model sees only the question. <span class="tag t-me">Measured</span> (organizers', <a href="BOARD_SETUP/#93-what-the-ocr-gets-wrong">BOARD_SETUP §9.3</a>)</li>
-  <li><strong>Full validation set:</strong> 281 problems, about 45 min with <code>python3 eval.py --limit 0</code>. <span class="tag t-of">Official</span> (<a href="BOARD_SETUP/#112-run-the-evaluation">BOARD_SETUP §11.2</a>)</li>
-  <li><strong>Prepared data:</strong> the first file of the <code>high_quality</code> split (393 MB), English and Catalan. 1,747 images (71 MB) in English. <span class="tag t-of">Official</span> (BOARD_SETUP §9.2) The organizers quote about 15 min of OCR per language. On our laptop, English plus Catalan took about 70 min. <span class="tag t-me">Measured</span> by us (board reference §14.6)</li>
+  <li><strong>English validation set:</strong> 281 problems, about 45 min with <code>python3 eval.py --limit 0 --languages eng</code>. <span class="tag t-of">Official</span> (<a href="BOARD_SETUP/#112-run-the-evaluation">BOARD_SETUP §11.2</a>)</li>
+  <li><strong>Prepared data:</strong> the first file of the <code>high_quality</code> split (393 MB), English and Catalan. 1,747 images (71 MB) in English. <span class="tag t-of">Official</span> (BOARD_SETUP §9.2) The organizers quote about 15 min of OCR per language. On our laptop, English plus Catalan took about 70 min. <span class="tag t-me">Measured</span> by us (board reference §15)</li>
 </ul>
-<div class="note info"><strong>Careful with n = 40.</strong> With p = 0.225, the standard error is √(0.225·0.775/40) ≈ <strong>±6.6 pp</strong> (percentage points). The 95 % confidence interval is about ±13 pp. So 22.5 %, 25 % and 17.5 % are not statistically different. To claim an improvement, use the 281 problems of the validation set (standard error about ±2.5 pp). <span class="tag t-ca">Calculated</span></div>
+<div class="note info"><strong>Careful with n = 40.</strong> With p = 0.225, the standard error is √(0.225·0.775/40) ≈ <strong>±6.6 pp</strong> (percentage points). The 95 % confidence interval is about ±13 pp. So 22.5 %, 25 % and 17.5 % are not statistically different. To claim an improvement, use the 281 problems of one language in the validation set (<code>--limit 0 --languages eng</code>) (standard error about ±2.5 pp). <span class="tag t-ca">Calculated</span></div>
 </section>
 
 <!-- ============ 4. TIMES ============ -->
@@ -353,7 +354,6 @@ footer{margin-top:48px;font-size:.82rem;color:var(--muted);border-top:1px solid 
   <div class="legend">
     <span style="--c:var(--bar)">large / closed models</span>
     <span style="--c:var(--bar-2)">open models ≤ 14B</span>
-    <span style="--c:var(--bar-us)">our baseline on the board</span>
     <span style="--c:var(--muted)">random guess 20 %</span>
   </div>
 </div>
@@ -399,13 +399,13 @@ footer{margin-top:48px;font-size:.82rem;color:var(--muted);border-top:1px solid 
 <div class="tbl"><table>
 <thead><tr><th>Item</th><th>Versions</th><th>What to use</th></tr></thead>
 <tbody>
-<tr><td>Number of problems</td><td>~1,000 (CHALLENGE_CONTEXT) · "almost 2,000" (the video, see the <a href="RESUMEN_QUALCOMM_UNO_Q/">video summary</a>) · 1,747 unique, 111,198 with translations (paper)</td><td><strong>1,747 unique</strong> (paper). The local validation set has 281</td></tr>
+<tr><td>Number of problems</td><td>"almost 2,000" (the video, see the <a href="RESUMEN_QUALCOMM_UNO_Q/">video summary</a>) · 1,747 unique, 111,198 with translations (paper)</td><td><strong>1,747 unique</strong> (paper). The local validation set has 281 English and 281 Catalan problems</td></tr>
 <tr><td>Number of languages</td><td>108 (paper, video) · 106 (video, once)</td><td><strong>108</strong></td></tr>
-<tr><td>Speed</td><td>10.1 / 4.8 tok/s (ours, Q8_0, board reference §14.3) · 11 / 5–6 tok/s (organizers', BOARD_SETUP, Q8_0, own build) · 8.4 / 3.6 tok/s (<a href="UNO_Q_BOARD_REFERENCE/">Arduino guide</a>, board reference §9, Q4_K_M, prebuilt binary) · 4.4–5.0 tok/s decode (<a href="https://mischianti.org/?p=36049">mischianti</a>, App Lab)</td><td><strong>10.1 reading / 4.8 writing</strong> (ours). For a cleaner number, see <a href="#try">What to try</a></td></tr>
+<tr><td>Speed</td><td>10.1 / 4.8 tok/s (ours, Q8_0, board reference §14.3) · 11 / 5–6 tok/s (organizers', BOARD_SETUP, Q8_0, own build) · 8.4 / 3.6 tok/s (<a href="UNO_Q_BOARD_REFERENCE/">Arduino guide</a>, board reference §9, Q4_K_M, prebuilt binary) · 4.4–5.0 tok/s decode (<a href="https://mischianti.org/?p=36049">mischianti</a>, App Lab)</td><td><strong>10.1 reading / 4.8 writing</strong> (ours). The open speed questions are in the <a href="UNO_Q_BOARD_REFERENCE/#open-questions">board reference</a></td></tr>
 <tr><td>RAM available</td><td>about 2.9 GiB idle, about 2.7 GiB with both model services, which use about 920 MiB (ours, board reference §14.1, §14.4) · about 3.1 GiB idle, about 2.5 GB left, services about 1.1 GB (organizers', BOARD_SETUP §1, §7)</td><td><strong>Ours</strong></td></tr>
-<tr><td>OCR time (BOARD_SETUP step 9)</td><td>about 15 min per language (organizers', BOARD_SETUP §9.2) · about 70 min for English plus Catalan (ours, on the laptop, board reference §14.6)</td><td><strong>Ours</strong></td></tr>
+<tr><td>OCR time (BOARD_SETUP step 9)</td><td>about 15 min per language (organizers', BOARD_SETUP §9.2) · about 70 min for English plus Catalan (ours, on the laptop, board reference §15)</td><td><strong>Ours</strong></td></tr>
 <tr><td>Base model accuracy</td><td>"Fails about 80 %" (video) · 22.5 % measured (BOARD_SETUP)</td><td><strong>22.5 %</strong> (consistent: it fails about 77 %)</td></tr>
-<tr><td>Language model server</td><td>App Lab's LLM Brick on port 9999 (third-party sources, an outdated row of <a href="RESUMEN_QUALCOMM_UNO_Q/">the video summary</a> §6) · our own <code>llama-server</code></td><td><strong>Our own <code>llama-server</code> on 8081/8082</strong> as systemd services</td></tr>
+<tr><td>Language model server</td><td>App Lab's LLM Brick on port 9999 (third-party sources) · our own <code>llama-server</code></td><td><strong>Our own <code>llama-server</code> on 8081/8082</strong> as systemd services</td></tr>
 <tr><td>Language model quantization</td><td>Q4_K_M about 500 MB (Arduino guide) · Q8_0 835 MB (BOARD_SETUP)</td><td><strong>Q8_0</strong> is the baseline. Q4 is an improvement to measure</td></tr>
 <tr><td>llama-server port</td><td>8080 (Arduino guide) · 8081 (BOARD_SETUP)</td><td><strong>8081</strong></td></tr>
 <tr><td>Free disk</td><td>about 1 GB (Arduino guide) · ≥ 2 GB (BOARD_SETUP)</td><td><strong>≥ 2 GB</strong></td></tr>
@@ -417,7 +417,7 @@ footer{margin-top:48px;font-size:.82rem;color:var(--muted);border-top:1px solid 
 <h2>8. Open questions</h2>
 <ul class="tight">
   <li><span class="tag t-ve">⚠️</span> Is there an official rubric? How much does the demo weigh against the repo and the hidden test?</li>
-  <li><span class="tag t-ve">⚠️</span> Are there limits on model size, external data or synthetic data?</li>
+  <li><span class="tag t-ve">⚠️</span> Are there limits on external data or synthetic data?</li>
   <li><span class="tag t-ve">⚠️</span> In which language(s) must the copilot answer? Which languages are in the hidden test?</li>
   <li><span class="tag t-ve">⚠️</span> Do llama.cpp's OpenCL or Vulkan backends work on the Adreno 702, and are they faster than the CPU? Optional experiment: do not change the contest build.</li>
   <li><span class="tag t-ve">⚠️</span> Power in watts, and thermal throttling during a long evaluation (<code>/sys/class/thermal/*/temp</code>).</li>
@@ -433,8 +433,7 @@ footer{margin-top:48px;font-size:.82rem;color:var(--muted);border-top:1px solid 
 <ul class="tight">
   <li><strong>Interaction with <code>cache_prompt</code></strong>, a server option that keeps the prompt it already read (the organizers' tip, <a href="BOARD_SETUP/#the-classroom-debate-box">BOARD_SETUP §13.2</a>). Send the problem to the language model as soon as it is on screen. When the student asks for help, the model reads only the new tokens. Read <code>prompt_n</code> in the server's <code>timings</code>: it is the number of tokens that the model really read.</li>
   <li><strong>Rewrites of 50–100 tokens</strong> take 10–20 s. Make them ahead of time, not while the student waits, and store them in SQLite (<a href="BOARD_SETUP/#problems-for-students-with-dyslexia-or-dyscalculia">BOARD_SETUP §13.2</a>).</li>
-  <li><strong>Measure our speed with <code>llama-bench</code></strong>. BOARD_SETUP step 3 builds only <code>llama-server</code> and <code>llama-cli</code>, so build <code>llama-bench</code> first.</li>
-  <li><strong>Claim an improvement on the full validation set</strong>: <code>python3 eval.py --limit 0</code> (about 45 min for 281 problems).</li>
+  <li><strong>Claim an improvement on the English validation set</strong>: <code>python3 eval.py --limit 0 --languages eng</code> (about 45 min for 281 problems).</li>
 </ul>
 </section>
 
@@ -511,7 +510,6 @@ footer{margin-top:48px;font-size:.82rem;color:var(--muted);border-top:1px solid 
     ['Qwen-2.5-7B',40.0,'29.3','32.1','30.1','22.0','small'],
     ['Qwen-2.5-3B',30.3,'24.1','25.7','25.6','19.4','small'],
     ['Phi-4',28.8,'23.0','23.7','22.9','21.3','small'],
-    ['Our baseline (0.8B)',22.5,'—','—','—','—','us'],
     ['Gemma-4B',18.8,'—','—','—','—','small'],
     ['Gemma-12B',18.8,'—','—','—','—','small'],
     ['Gemma-1B',15.3,'—','—','—','—','small'],

@@ -11,8 +11,9 @@ wants to run the copilot on a board. Read the pages under "Start here" in order.
 
 ## Start here
 
-1. [Board setup](BOARD_SETUP.md), steps 0 to 8: the organizers' guide to prepare
-   the board. It also defines the `predict.py` contract.
+1. [Board setup](BOARD_SETUP.md), steps 0 to 8 on the board, then step 9 on
+   your laptop: the organizers' guide to prepare the board and the M3Kang
+   files. It also defines the `predict.py` contract.
 2. [How to deploy the copilot on the UNO Q](how-to/deploy-copilot-on-board.md):
    put the code and data on the board and check it.
 3. [How to use the copilot on the UNO Q](how-to/use-copilot-on-board.md):

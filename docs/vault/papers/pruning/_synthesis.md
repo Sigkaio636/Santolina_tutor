@@ -422,7 +422,7 @@ KL divergence on logits alone works best when depth is not cut much (best practi
 - **Illustration (our arithmetic, not from a paper).** Suppose we kept a third of the 256k vocabulary. The embedding table would then shrink from ≈170M to ≈57M. The model would shrink from ≈270M to ≈157M parameters.
 - **RAM is not the reason.** The 270M at Q4_0 is already ~0.25–0.3 GB ([CHALLENGE_CONTEXT §2](../../../CHALLENGE_CONTEXT.md#2-target-hardware-arduino-uno-q)).
 - **Speed is a hypothesis to test.** Gemma 3 ties the embedding and the output head ([CHALLENGE_CONTEXT §5](../../../CHALLENGE_CONTEXT.md#5-pruning-marti-careful-only-if-you-have-no-other-option)). Our reasoning: the output head multiplies the hidden state by the whole vocabulary matrix for every generated token. So a smaller vocabulary could make decoding faster if decode is memory-bound. That is not measured on our board (see [Open questions](#open-questions)).
-    - Sheared LLaMA's statement that embedding size does not affect speed comes from 7B models on GPU, where the blocks dominate. Measure it with `llama-bench` on the board before claiming it.
+    - Sheared LLaMA's statement that embedding size does not affect speed comes from 7B models on GPU, where the blocks dominate. Measure it on the board before claiming it.
 - **Trim after fine-tuning and after any distillation.** Ushio finds post-FT trimming more stable. Logit distillation from Gemma 3 4B/12B needs the teacher and student to share one vocabulary ([fine-tuning synthesis J1](../finetuning_distillation/_synthesis.md#j1-distillation-objective-soft-targets-text-or-reverse-kl)). Trimming last keeps both options open.
 - **For Gemma 3 1B the embedding share is smaller.** Compute it from `config.json` before deciding.
 

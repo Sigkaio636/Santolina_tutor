@@ -196,11 +196,11 @@ checks that file.
 
 **Prepare a board and run the copilot.**
 
-1. Follow steps 0 to 8 of [`docs/BOARD_SETUP.md`](docs/BOARD_SETUP.md). The
-   board then runs the two model services.
+1. Follow steps 0 to 8 of [`docs/BOARD_SETUP.md`](docs/BOARD_SETUP.md) on the
+   board, then step 9 on your laptop. The board then runs the two model
+   services, and your laptop has `data/train.jsonl` and `data/val.jsonl`.
 2. Follow [How to deploy the copilot on the UNO Q](docs/how-to/deploy-copilot-on-board.md).
-   It clones this repository on the board as `~/Santolina_tutor`. At the end,
-   the smoke test passes.
+   At the end, the smoke test passes.
 3. Follow [How to use the copilot on the UNO Q](docs/how-to/use-copilot-on-board.md)
    to answer problems and measure the results.
 

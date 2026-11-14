@@ -9,7 +9,7 @@ documents:
       decisions: validated
       repair: validated
       language: validated
-      adversarial: pending
+      adversarial: validated
       signoff: pending
     validated_sha: null
     notes:
@@ -21,7 +21,9 @@ documents:
       repair: 'docsjanitor: all verified findings fixed; predict.py rule canonical in CLAUDE.md (user)'
       language: asd-ste100 (flavored), ste-lint 7 -> 0; remaining hits are quotes, locked headings or
         linter false positives
-    last_sha: 9c0e4c4fff2f2b703e2f1a3f61296c9f076c3aa91468d760d9e19376eaed499b
+      adversarial: 2 rounds, 9 lenses by hand (adversarial-reviewer, no plugin toolchain) + adjudicator;
+        round 2 verdict SHIP, its 8 in-scope minors fixed
+    last_sha: adef0544f22db19279ef70491f553e22f175306096cfc15562bed3055c44a6f6
   docs/BOARD_SETUP.md:
     stages:
       audit: validated
@@ -29,7 +31,7 @@ documents:
       decisions: validated
       repair: n/a
       language: n/a
-      adversarial: pending
+      adversarial: n/a
       signoff: pending
     validated_sha: null
     notes:
@@ -40,6 +42,7 @@ documents:
         S4'
       repair: verbatim copy of the organizers' README (S3 Q1); 45 findings wontfix
       language: verbatim copy of the organizers' README (S3 Q1)
+      adversarial: verbatim copy of the organizers' README (S3 Q1)
     last_sha: c19e8ba53247732f7634562ce092f35531d1944b5bc4496adbff8dfadddc87fe
   CLAUDE.md:
     stages:
@@ -48,7 +51,7 @@ documents:
       decisions: validated
       repair: validated
       language: validated
-      adversarial: pending
+      adversarial: validated
       signoff: pending
     validated_sha: null
     notes:
@@ -58,7 +61,9 @@ documents:
       repair: 'docsjanitor: all verified findings fixed; canonical copy of the predict.py rule (user)'
       language: asd-ste100 (strict), ste-lint 8 -> 0; remaining hits are quotes, locked headings or linter
         false positives
-    last_sha: 04104ffbac9c28f0e8def16fee2f3e1af946583dfd8035e86e492b691930d293
+      adversarial: 2 rounds, 9 lenses by hand (adversarial-reviewer, no plugin toolchain) + adjudicator;
+        round 2 verdict SHIP, its 8 in-scope minors fixed
+    last_sha: 4f97035942157f289397c92940ee7b29ba5d810a1d911f489174b22ab5052d10
   data/README.md:
     stages:
       audit: validated
@@ -66,7 +71,7 @@ documents:
       decisions: validated
       repair: validated
       language: validated
-      adversarial: pending
+      adversarial: validated
       signoff: pending
     validated_sha: null
     notes:
@@ -76,6 +81,8 @@ documents:
       repair: 'docsjanitor: all verified findings fixed or settled; 0 open'
       language: asd-ste100 (flavored), ste-lint 6 -> 0; remaining hits are quotes, locked headings or
         linter false positives
+      adversarial: 2 rounds, 9 lenses by hand (adversarial-reviewer, no plugin toolchain) + adjudicator;
+        round 2 verdict SHIP, its 8 in-scope minors fixed
     last_sha: fd095e3c354abb7674216e9e1010474c5c5c797fd9d9057928a55461021a7949
   docs/CHALLENGE_CONTEXT.md:
     stages:
@@ -84,7 +91,7 @@ documents:
       decisions: validated
       repair: validated
       language: validated
-      adversarial: pending
+      adversarial: validated
       signoff: pending
     validated_sha: null
     notes:
@@ -94,7 +101,9 @@ documents:
       repair: 'docsjanitor: all verified findings fixed or settled; 0 open'
       language: asd-ste100 (flavored), ste-lint 18 -> 1; remaining hits are quotes, locked headings or
         linter false positives
-    last_sha: 3959346696c1e80b5f5b1181b74b1c263bfa13b3a7aa0f148bc306cb6e62dd09
+      adversarial: 2 rounds, 9 lenses by hand (adversarial-reviewer, no plugin toolchain) + adjudicator;
+        round 2 verdict SHIP, its 8 in-scope minors fixed
+    last_sha: f244b2ec31a4091113f931047d073a66733809d030cf35fb0c3eb3303fe1f228
   docs/GOAL_MUSTS.md:
     stages:
       audit: validated
@@ -102,7 +111,7 @@ documents:
       decisions: validated
       repair: validated
       language: validated
-      adversarial: pending
+      adversarial: validated
       signoff: pending
     validated_sha: null
     notes:
@@ -112,7 +121,9 @@ documents:
       repair: 'docsjanitor: all verified findings fixed or settled; 0 open'
       language: asd-ste100 (flavored), ste-lint 28 -> 2; remaining hits are quotes, locked headings or
         linter false positives
-    last_sha: 9ba4442caeb7a966b1bb00c26065c284c5495bda8c6f5db7b47f4141a7df12c9
+      adversarial: 2 rounds, 9 lenses by hand (adversarial-reviewer, no plugin toolchain) + adjudicator;
+        round 2 verdict SHIP, its 8 in-scope minors fixed
+    last_sha: a3103acf02a8bbd89cd4722c6f22ad36fa5e18376f7faf628b67f837754945b4
   docs/GUIA_RESTRICCIONES_UNOQ.html:
     stages:
       audit: validated
@@ -120,7 +131,7 @@ documents:
       decisions: validated
       repair: validated
       language: validated
-      adversarial: pending
+      adversarial: validated
       signoff: pending
     validated_sha: null
     notes:
@@ -131,7 +142,9 @@ documents:
       repair: 'docsjanitor: all verified findings fixed or settled; 0 open'
       language: asd-ste100 (flavored), ste-lint 13 -> 2; remaining hits are quotes, locked headings or
         linter false positives
-    last_sha: 88e99ccf4d652e5df108ae1f59766a5e33cbbf7f925ff467725ee9dc95680974
+      adversarial: 2 rounds, 9 lenses by hand (adversarial-reviewer, no plugin toolchain) + adjudicator;
+        round 2 verdict SHIP, its 8 in-scope minors fixed
+    last_sha: 7a851535fd73c80647e7383eefed7b45b6fea6be256c74d8eb48cf7d26421022
   docs/RESUMEN_QUALCOMM_UNO_Q.md:
     stages:
       audit: validated
@@ -139,7 +152,7 @@ documents:
       decisions: validated
       repair: validated
       language: validated
-      adversarial: pending
+      adversarial: validated
       signoff: pending
     validated_sha: null
     notes:
@@ -149,7 +162,9 @@ documents:
       repair: 'docsjanitor: all verified findings fixed or settled; 0 open'
       language: asd-ste100 (flavored), ste-lint 39 -> 4; remaining hits are quotes, locked headings or
         linter false positives
-    last_sha: 873ee31b9618efde48b518540832820641d68af12da61e9742095c8a6eda49f9
+      adversarial: 2 rounds, 9 lenses by hand (adversarial-reviewer, no plugin toolchain) + adjudicator;
+        round 2 verdict SHIP, its 8 in-scope minors fixed
+    last_sha: f242283338d086d817cb3784433be6d9dfa93e81038c227cec17cf7d30db4130
   docs/SKILLS_GUIDE.html:
     stages:
       audit: validated
@@ -157,7 +172,7 @@ documents:
       decisions: validated
       repair: validated
       language: validated
-      adversarial: pending
+      adversarial: validated
       signoff: pending
     validated_sha: null
     notes:
@@ -167,7 +182,9 @@ documents:
       repair: 'docsjanitor: all verified findings fixed or settled; 0 open'
       language: asd-ste100 (flavored), ste-lint 6 -> 2; remaining hits are quotes, locked headings or
         linter false positives
-    last_sha: cfaabc793cdfdd9f55fb256e23c7592b67b372beabb58a3174d5a38edb7e477f
+      adversarial: 2 rounds, 9 lenses by hand (adversarial-reviewer, no plugin toolchain) + adjudicator;
+        round 2 verdict SHIP, its 8 in-scope minors fixed
+    last_sha: b3bb28ba2b349eb0e0e992a655e5bf57efb239f032c14e9937662a0c0d6b8307
   docs/UNO_Q_BOARD_REFERENCE.md:
     stages:
       audit: validated
@@ -175,7 +192,7 @@ documents:
       decisions: validated
       repair: validated
       language: validated
-      adversarial: pending
+      adversarial: validated
       signoff: pending
     validated_sha: null
     notes:
@@ -185,7 +202,9 @@ documents:
       repair: 'docsjanitor: all verified findings fixed or settled; 0 open'
       language: asd-ste100 (flavored), ste-lint 23 -> 5; remaining hits are quotes, locked headings or
         linter false positives
-    last_sha: c9b748bef9b52da0c6886908ec0a54162edb42b28880abf0af79a4a80827186c
+      adversarial: 2 rounds, 9 lenses by hand (adversarial-reviewer, no plugin toolchain) + adjudicator;
+        round 2 verdict SHIP, its 8 in-scope minors fixed
+    last_sha: 8c33ec0a05dc770239ecb6b56ad2263edf8a08da5d260b6e16a9c79417f6a1fb
   docs/how-to/deploy-copilot-on-board.md:
     stages:
       audit: validated
@@ -193,7 +212,7 @@ documents:
       decisions: validated
       repair: validated
       language: validated
-      adversarial: pending
+      adversarial: validated
       signoff: pending
     validated_sha: null
     notes:
@@ -203,7 +222,9 @@ documents:
       repair: 'docsjanitor: all verified findings fixed or settled; 0 open'
       language: asd-ste100 (strict), ste-lint 2 -> 0; remaining hits are quotes, locked headings or linter
         false positives
-    last_sha: 2c4d4cea53cffc8e868a24b0a21bea99ed77f9d951548cc5b51d7980f852c100
+      adversarial: 2 rounds, 9 lenses by hand (adversarial-reviewer, no plugin toolchain) + adjudicator;
+        round 2 verdict SHIP, its 8 in-scope minors fixed
+    last_sha: ffc3b053382cbb555a4b912683bd2a975c801379c86c31287becfde816d598a2
   docs/how-to/use-copilot-on-board.md:
     stages:
       audit: validated
@@ -211,7 +232,7 @@ documents:
       decisions: validated
       repair: validated
       language: validated
-      adversarial: pending
+      adversarial: validated
       signoff: pending
     validated_sha: null
     notes:
@@ -222,7 +243,9 @@ documents:
       repair: 'docsjanitor: all verified findings fixed or settled; 0 open'
       language: asd-ste100 (strict), ste-lint 2 -> 0; remaining hits are quotes, locked headings or linter
         false positives
-    last_sha: d4924b086270d19aed5c056540fdb0e02f97aa86653e9ea10222a0dd91ebabb5
+      adversarial: 2 rounds, 9 lenses by hand (adversarial-reviewer, no plugin toolchain) + adjudicator;
+        round 2 verdict SHIP, its 8 in-scope minors fixed
+    last_sha: 082c0edebdd9e5eccc2c7da4989aeec9ce2d600f6a0afb799f1c80c84bd545ab
   docs/index.md:
     stages:
       audit: validated
@@ -230,7 +253,7 @@ documents:
       decisions: validated
       repair: validated
       language: validated
-      adversarial: pending
+      adversarial: validated
       signoff: pending
     validated_sha: null
     notes:
@@ -240,7 +263,9 @@ documents:
       repair: 'docsjanitor: all verified findings fixed or settled; 0 open'
       language: asd-ste100 (flavored), ste-lint 0 -> 0; remaining hits are quotes, locked headings or
         linter false positives
-    last_sha: c15c2cf7fe493278b2a68ffa6f743d15b536395911c542875514394b41988797
+      adversarial: 2 rounds, 9 lenses by hand (adversarial-reviewer, no plugin toolchain) + adjudicator;
+        round 2 verdict SHIP, its 8 in-scope minors fixed
+    last_sha: 5fd67377e921ccd36015945b74b953c2ffec207b7f6a506bf2720b3caa77e921
   docs/how-to/mineru-ocr-papers.md:
     stages:
       audit: validated
@@ -248,7 +273,7 @@ documents:
       decisions: validated
       repair: validated
       language: validated
-      adversarial: pending
+      adversarial: validated
       signoff: pending
     validated_sha: null
     notes:
@@ -258,6 +283,8 @@ documents:
       repair: 'docsjanitor: all verified findings fixed or settled; 0 open'
       language: asd-ste100 (strict), ste-lint 6 -> 0; remaining hits are quotes, locked headings or linter
         false positives
+      adversarial: 2 rounds, 9 lenses by hand (adversarial-reviewer, no plugin toolchain) + adjudicator;
+        round 2 verdict SHIP, its 8 in-scope minors fixed
     last_sha: afecc3fa3edaae865cff2750c9fe7b547985dcf716721d7b91f7e10752ba17f0
   docs/vault/papers/README.md:
     stages:
@@ -266,7 +293,7 @@ documents:
       decisions: validated
       repair: validated
       language: validated
-      adversarial: pending
+      adversarial: validated
       signoff: pending
     validated_sha: null
     notes:
@@ -276,7 +303,9 @@ documents:
       repair: 'docsjanitor: all verified findings fixed or settled; 0 open'
       language: asd-ste100 (flavored), ste-lint 29 -> 0; remaining hits are quotes, locked headings or
         linter false positives
-    last_sha: 3485a602b4101c7e17170eb28883db92495a269e5cda3cdc71fead6316391bbc
+      adversarial: 2 rounds, 9 lenses by hand (adversarial-reviewer, no plugin toolchain) + adjudicator;
+        round 2 verdict SHIP, its 8 in-scope minors fixed
+    last_sha: 7995d84ff7ff92799d24b7e158114bc4a71a67cb1ac02f8ab1230c1ab3fc2725
   docs/vault/papers/_junctions.md:
     stages:
       audit: validated
@@ -284,7 +313,7 @@ documents:
       decisions: validated
       repair: validated
       language: validated
-      adversarial: pending
+      adversarial: validated
       signoff: pending
     validated_sha: null
     notes:
@@ -294,7 +323,9 @@ documents:
       repair: 'docsjanitor: all verified findings fixed or settled; 0 open'
       language: asd-ste100 (flavored), ste-lint 44 -> 0; remaining hits are quotes, locked headings or
         linter false positives
-    last_sha: db49a919a5d4cea5569f3fb9b84c2eef6a4c1d0f2b2488c3909895166b978db0
+      adversarial: 2 rounds, 9 lenses by hand (adversarial-reviewer, no plugin toolchain) + adjudicator;
+        round 2 verdict SHIP, its 8 in-scope minors fixed
+    last_sha: b4edb6beb0550655482a8153540616f0716dd504c665466e3690d9d2ba9659bf
   docs/vault/papers/benchmarks/_synthesis.md:
     stages:
       audit: validated
@@ -302,7 +333,7 @@ documents:
       decisions: validated
       repair: validated
       language: validated
-      adversarial: pending
+      adversarial: validated
       signoff: pending
     validated_sha: null
     notes:
@@ -312,7 +343,9 @@ documents:
       repair: 'docsjanitor: all verified findings fixed or settled; 0 open'
       language: asd-ste100 (flavored), ste-lint 38 -> 3; remaining hits are quotes, locked headings or
         linter false positives
-    last_sha: c0687ade24af266a5d03d70db0e9e38dc779e3eef524bc966e57d33131867aee
+      adversarial: 2 rounds, 9 lenses by hand (adversarial-reviewer, no plugin toolchain) + adjudicator;
+        round 2 verdict SHIP, its 8 in-scope minors fixed
+    last_sha: 05982a5545e2ba5b7f70033bb23e5abc4b4afff7796a3d071336c216b9a80474
   docs/vault/papers/finetuning_distillation/_synthesis.md:
     stages:
       audit: validated
@@ -320,7 +353,7 @@ documents:
       decisions: validated
       repair: validated
       language: validated
-      adversarial: pending
+      adversarial: validated
       signoff: pending
     validated_sha: null
     notes:
@@ -330,6 +363,8 @@ documents:
       repair: 'docsjanitor: all verified findings fixed or settled; 0 open'
       language: asd-ste100 (flavored), ste-lint 50 -> 2; remaining hits are quotes, locked headings or
         linter false positives
+      adversarial: 2 rounds, 9 lenses by hand (adversarial-reviewer, no plugin toolchain) + adjudicator;
+        round 2 verdict SHIP, its 8 in-scope minors fixed
     last_sha: 5198cf3d4c88962a234acfcb22f56df2f11f718f30c0596a9ae5fa38b7d47f72
   docs/vault/papers/inference/_synthesis.md:
     stages:
@@ -338,7 +373,7 @@ documents:
       decisions: validated
       repair: validated
       language: validated
-      adversarial: pending
+      adversarial: validated
       signoff: pending
     validated_sha: null
     notes:
@@ -348,6 +383,8 @@ documents:
       repair: 'docsjanitor: all verified findings fixed or settled; 0 open'
       language: asd-ste100 (flavored), ste-lint 69 -> 12; remaining hits are quotes, locked headings or
         linter false positives
+      adversarial: 2 rounds, 9 lenses by hand (adversarial-reviewer, no plugin toolchain) + adjudicator;
+        round 2 verdict SHIP, its 8 in-scope minors fixed
     last_sha: b47e1becf533ea4aad91999aea074a1f6e9c4ebf05681674619d22ff394ec5f3
   docs/vault/papers/jev/_synthesis.md:
     stages:
@@ -356,7 +393,7 @@ documents:
       decisions: validated
       repair: validated
       language: validated
-      adversarial: pending
+      adversarial: validated
       signoff: pending
     validated_sha: null
     notes:
@@ -366,7 +403,9 @@ documents:
       repair: 'docsjanitor: all verified findings fixed or settled; 0 open'
       language: asd-ste100 (flavored), ste-lint 83 -> 16; remaining hits are quotes, locked headings or
         linter false positives
-    last_sha: 15669451f713213ed2f800c4fb1536ce3d3a7d7d288e286b3335929a0df978e0
+      adversarial: 2 rounds, 9 lenses by hand (adversarial-reviewer, no plugin toolchain) + adjudicator;
+        round 2 verdict SHIP, its 8 in-scope minors fixed
+    last_sha: fcab53adab637c72841834198f6b464608651b1d77034acee4a4f043756e98c7
   docs/vault/papers/pruning/_synthesis.md:
     stages:
       audit: validated
@@ -374,7 +413,7 @@ documents:
       decisions: validated
       repair: validated
       language: validated
-      adversarial: pending
+      adversarial: validated
       signoff: pending
     validated_sha: null
     notes:
@@ -384,7 +423,9 @@ documents:
       repair: 'docsjanitor: all verified findings fixed or settled; 0 open'
       language: asd-ste100 (flavored), ste-lint 71 -> 6; remaining hits are quotes, locked headings or
         linter false positives
-    last_sha: 44213cc65e1624fcba821842b3dc48a1f88b8a221b73fe0e9f46e760fad30be3
+      adversarial: 2 rounds, 9 lenses by hand (adversarial-reviewer, no plugin toolchain) + adjudicator;
+        round 2 verdict SHIP, its 8 in-scope minors fixed
+    last_sha: a6f692da8cca09ba5695c5a54508feee175d19414d7c5c9acc49118624d88445
   docs/vault/papers/quantization/_synthesis.md:
     stages:
       audit: validated
@@ -392,7 +433,7 @@ documents:
       decisions: validated
       repair: validated
       language: validated
-      adversarial: pending
+      adversarial: validated
       signoff: pending
     validated_sha: null
     notes:
@@ -402,7 +443,9 @@ documents:
       repair: 'docsjanitor: all verified findings fixed or settled; 0 open'
       language: asd-ste100 (flavored), ste-lint 89 -> 23; remaining hits are quotes, locked headings or
         linter false positives
-    last_sha: 95037d55828ed3aea6648a4d968ae0a7f31449351f7f85f8e12026c6efea6f28
+      adversarial: 2 rounds, 9 lenses by hand (adversarial-reviewer, no plugin toolchain) + adjudicator;
+        round 2 verdict SHIP, its 8 in-scope minors fixed
+    last_sha: d069cd88f9dd3dd243493e4d2275607fa61e6e64e81508f995b9e9574d14027a
   docs/vault/papers/surveys/_synthesis.md:
     stages:
       audit: validated
@@ -410,7 +453,7 @@ documents:
       decisions: validated
       repair: validated
       language: validated
-      adversarial: pending
+      adversarial: validated
       signoff: pending
     validated_sha: null
     notes:
@@ -420,7 +463,9 @@ documents:
       repair: 'docsjanitor: all verified findings fixed or settled; 0 open'
       language: asd-ste100 (flavored), ste-lint 53 -> 5; remaining hits are quotes, locked headings or
         linter false positives
-    last_sha: 02b5f1f07eec6bb96bbb2f7a410b81e85488736fdb876e0648cffd3bb218c5b6
+      adversarial: 2 rounds, 9 lenses by hand (adversarial-reviewer, no plugin toolchain) + adjudicator;
+        round 2 verdict SHIP, its 8 in-scope minors fixed
+    last_sha: 8eddf1f347f30294ce05264ae2ef6aa9ddbe7a5d285d08ae10dd0d89a57d178b
   docs/vault/papers/tutoring_pedagogy/_synthesis.md:
     stages:
       audit: validated
@@ -428,7 +473,7 @@ documents:
       decisions: validated
       repair: validated
       language: validated
-      adversarial: pending
+      adversarial: validated
       signoff: pending
     validated_sha: null
     notes:
@@ -438,6 +483,8 @@ documents:
       repair: 'docsjanitor: all verified findings fixed or settled; 0 open'
       language: asd-ste100 (flavored), ste-lint 46 -> 1; remaining hits are quotes, locked headings or
         linter false positives
+      adversarial: 2 rounds, 9 lenses by hand (adversarial-reviewer, no plugin toolchain) + adjudicator;
+        round 2 verdict SHIP, its 8 in-scope minors fixed
     last_sha: cfb07799e8013b095d87f100eb8d9dc10cbe5ba01402eb43e133486a8f447188
   mkdocs.yml:
     stages:
@@ -446,7 +493,7 @@ documents:
       decisions: validated
       repair: validated
       language: n/a
-      adversarial: pending
+      adversarial: validated
       signoff: pending
     validated_sha: null
     notes:
@@ -456,4 +503,6 @@ documents:
         S4'
       repair: 'docsjanitor: all verified findings fixed or settled; 0 open'
       language: configuration file
+      adversarial: 2 rounds, 9 lenses by hand (adversarial-reviewer, no plugin toolchain) + adjudicator;
+        round 2 verdict SHIP, its 8 in-scope minors fixed
     last_sha: 3f7728095199bda04d26d84744c68d9ce723d22460351c81c30c8cd6e5a788da

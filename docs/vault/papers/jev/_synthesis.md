@@ -110,7 +110,7 @@ Reading notes: we converted the PDFs to Markdown with [MinerU](../../../how-to/m
 - The budget is tight. The limit is 60 s per problem, after which `predict.py` answers D with status `timeout` ([config.env](https://github.com/Sigkaio636/Santolina_tutor/blob/main/config.env) `TIME_LIMIT_SECONDS=60`).
     - Prefill: we measured 10.1 tok/s on our board ([UNO_Q_BOARD_REFERENCE §14.3](../../../UNO_Q_BOARD_REFERENCE.md#143-speed)). An 80–300-token problem ([BOARD_SETUP §5.5](../../../BOARD_SETUP.md#55-how-fast-is-it)) costs about 8–30 s.
     - Decode: we measured 4.8 tok/s, so 200 tokens cost about 42 s. The organizers quote about 11 and 6 tok/s.
-    - That leaves room for roughly 150–250 reasoning tokens (our arithmetic): more on a short problem, fewer on a long one. The papers use 2,000+ tokens.
+    - That leaves room for roughly 150–250 reasoning tokens (our arithmetic): more on a short problem, fewer on a long one. This assumes the letter call reuses the problem and the reasoning already in the cache (see [Open questions](#open-questions)). Without reuse, the letter call reads both again: about 140 tokens on an 80-token problem, and almost none on a 300-token one. The papers use 2,000+ tokens.
 - The measurement to run is in [What to try](#what-to-try).
 
 **Open questions.**

@@ -37,6 +37,9 @@ and tell the user.
    - Don't write problem text into committed files either (notebooks with
      outputs, reports, docs, results CSVs). Link to the
      [dataset card](https://huggingface.co/datasets/qualcomm/M3Kang) instead.
+     The user approved two committed examples: the organizers' example
+     record in `docs/BOARD_SETUP.md` and the example in `data/README.md`.
+     Do not edit or remove them.
    - Before you change the rule set in `m3kang-guard.py` to allow more paths,
      get the user's explicit approval in chat.
 

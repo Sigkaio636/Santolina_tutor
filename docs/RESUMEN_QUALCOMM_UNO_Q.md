@@ -70,7 +70,7 @@ BOARD_SETUP has the exact commands. The table describes the action, and quotes e
 
 - When you finish, run **`sudo poweroff`** ([BOARD_SETUP 0.5](BOARD_SETUP.md#05-turning-the-board-off)).
   Otherwise `llama-server` can stay stuck when you start the board again. The speaker says "in a zombie state".
-  Then find it with `pgrep -a llama-server`. Stop it with `pkill llama-server` ([BOARD_SETUP, Troubleshooting](BOARD_SETUP.md#troubleshooting)).
+  Then find it with `pgrep -a llama-server`. The video says to stop it with `pkill llama-server`. The repo has `kill <PID>` for that one server only, because `pkill` also stops both model services ([deploy guide, If something fails](how-to/deploy-copilot-on-board.md#if-something-fails)).
 - Watch the available **memory**.
 - Keeping **two terminals** open (server and tests) helps.
 
@@ -132,21 +132,13 @@ References named in the video:
 ## 5. Interpretive reading
 
 1. **The bottleneck is speed, not only accuracy.** About 5 tok/s means 20–40 s per answer. Anything that avoids or shortens generation gains a lot.
-2. **Retrieval (RAG) is the path Qualcomm demonstrates, and the cheapest lever.** With only 13 problems in the index, a similar question got its answer in under 1 s. With the full dataset, the gain should grow *(inferred)*.
+2. **Retrieval (RAG) is the path Qualcomm demonstrates.** With only 13 problems in the index, a similar question got its answer in under 1 s. The organizers measured the cost: 2 RAG examples take about 30 s, against about 9 s without. The video used `--rag 1` on 13 problems ([BOARD_SETUP 13.1](BOARD_SETUP.md#131-start-from-what-the-board-can-do)).
 3. **The difference is in the idea and the experience, not in a bigger model.** The board can't run more. The value is in how people use the copilot (classroom debate, accessibility, diagnosing errors).
 4. **The speaker values documentation almost as much as the result.** Repository, Project Hub and presentation appear as deliverables. He stresses that anyone should be able to replicate the project.
 5. **Divergence from the team's plan.** [CHALLENGE_CONTEXT.md](CHALLENGE_CONTEXT.md) starts from fine-tuning, pruning and quantizing a Gemma model.
    The video demonstrates another path: Qwen3.5 0.8B with embeddings and retrieval, without retraining.
    They don't exclude each other, but the team should **decide on purpose**.
    The deployed language model is Qwen3.5 0.8B Q8_0 (`config.env`). The fine-tune base is not chosen yet. Gemma 3 is one candidate under study.
-
-   | Point | Video | `CHALLENGE_CONTEXT.md` |
-   |---|---|---|
-   | Number of problems | almost 2,000 (M3Kang, 108 languages) | ~1,000 |
-   | Approach | Retrieval and embeddings on Qwen3.5 0.8B | Fine-tuning, pruning and quantization of Gemma |
-   | Server | `llama-server` on 8081 / 8082 / 8083 | the same: its own `llama-server` services on 8081 / 8082 / 8083, not the App Lab LLM Brick |
-
-   On the number of problems, the repo has 1,747 ([BOARD_SETUP step 9](BOARD_SETUP.md#step-9-prepare-m3kang-on-your-laptop)).
 
 ---
 
@@ -169,7 +161,7 @@ Settled by the repository:
 
 ## 7. What to try
 
-Prepare the board with [BOARD_SETUP](BOARD_SETUP.md#the-steps-at-a-glance) steps 0 to 12, including the baseline (step 11) and retrieval (step 12).
+Prepare the board with [BOARD_SETUP](BOARD_SETUP.md#the-steps-at-a-glance) steps 0 to 8, then step 9 on your laptop. Then follow the [deploy guide](how-to/deploy-copilot-on-board.md) and the [use guide](how-to/use-copilot-on-board.md). For our copilot they replace steps 10 to 12.
 Then choose an idea ([Step 13](BOARD_SETUP.md#step-13-brainstorm-your-idea)). Document it while you build.
 The deliverables checklist is [GOAL_MUSTS.md](GOAL_MUSTS.md).
 

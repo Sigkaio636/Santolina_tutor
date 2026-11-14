@@ -161,7 +161,6 @@ No technical paper and no weights from TypeSafe are public.
 The hosted model runs only in the cloud.
 
 These are third-party papers that evaluate Jev, use it, or build open Jev-style models.
-What they suggest for our copilot is under [What to try](#what-to-try).
 
 | Year | Paper | arXiv | PDF | Why it matters here |
 |---|---|---|---|---|
@@ -188,10 +187,3 @@ What they suggest for our copilot is under [What to try](#what-to-try).
 
 - Optimal Brain Damage (LeCun et al., 1989) and Optimal Brain Surgeon (Hassibi & Stork, 1993): the origin of second-order pruning. Published at NeurIPS (NIPS). They have no arXiv version.
 - llama.cpp / GGUF quantization types: Q4_0 (blocks of 32 weights with one scale) and K-quants (mixed-precision blocks). The llama.cpp repository documents them, not a paper.
-
-## What to try
-
-- Add a short reasoning pass before "Answer:", within the 60 s limit per problem.
-  Our copilot now asks for one letter A–E in one pass, under a grammar that allows only those letters.
-  The Jev papers find this one-pass letter scoring weak on calculation-heavy items.
-  See [Jev J2](jev/_synthesis.md#j2-calculation-heavy-items-and-the-value-of-reasoning).

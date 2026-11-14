@@ -114,7 +114,7 @@ This changes how the other folders'
 speed claims apply:
 
 - Fewer bits may not mean faster. [Inference J1](inference/_synthesis.md#j1-where-the-time-goes-prefill-vs-decode) found a hint that Q8_0 decoded faster than Q4_K_M
-  on the board, and [quantization J3](quantization/_synthesis.md#j3-do-small-models-quantize-worse) links to it. **Measure first** with `llama-bench`.
+  on the board, and [quantization J3](quantization/_synthesis.md#j3-do-small-models-quantize-worse) links to it. **Measure first** with the server's `timings` (`prompt_per_second`, `predicted_per_second`), as in [inference Open questions](inference/_synthesis.md#open-questions).
 - Vocabulary trimming ([pruning J6](pruning/_synthesis.md#j6-vocabulary-trimming-for-gemma-3s-256k-vocabulary)) mostly speeds up decode, through the tied output layer.
   A tied output layer shares its weights with the embedding table.
   This is our deduction from [inference J6](inference/_synthesis.md#j6-architecture-and-enginemodel-co-design-for-small-devices), not a paper's result.
@@ -136,7 +136,7 @@ speed claims apply:
 - [Tutoring J3](tutoring_pedagogy/_synthesis.md#j3-grounding-what-the-tutor-sees): tutors do better with the reference solution, and the copilot has none. This
   points to "solve first, then tutor", which costs more tokens.
 - [Inference J3](inference/_synthesis.md#j3-speculative-decoding-on-a-cpu): speculative decoding could stretch the budget for hints only.
-  It could do so only if a `llama-bench` test shows that checking a batch of draft tokens in one pass is cheap on the A53.
+  It could do so only under one condition. A test on the board must show that one pass over a batch of draft tokens is cheap on the A53.
 
 - [Jev J1–J3](jev/_synthesis.md#j1-letter-logit-scoring-vs-generating-the-answer): reading the scores (logits) of the letters A–E after one prefill removes the format failure.
   It needs no decode for the scored answer. But calculation-heavy items need a reasoning pass first.
@@ -220,7 +220,7 @@ before you spend time on these.
 Each note lists its own open checks. These are the ones that settle a junction in another
 folder too:
 
-- `llama-bench` prefill (pp) and decode (tg) speed on the pinned build: Q8_0 vs Q4_0 vs Q4_K_M, and 270M vs 1B
+- Prefill and decode speed on the pinned build, read from the server's `timings`: Q8_0 vs Q4_0 vs Q4_K_M, and 270M vs 1B
   (X2, X3, [inference J1](inference/_synthesis.md#j1-where-the-time-goes-prefill-vs-decode), [J6](inference/_synthesis.md#j6-architecture-and-enginemodel-co-design-for-small-devices), [quantization J3](quantization/_synthesis.md#j3-do-small-models-quantize-worse)).
 - Whether a 5-token batch costs about one decode step (X4, [inference J3](inference/_synthesis.md#j3-speculative-decoding-on-a-cpu)).
 - Whether Gemma 3 270M and 1B share a tokenizer, as speculative decoding and logit

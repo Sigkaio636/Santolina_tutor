@@ -146,7 +146,7 @@ The script checks both model services, makes one embedding, and answers the five
   OK    the minimum pipeline works. Next: prepare M3Kang on your laptop (docs/BOARD_SETUP.md, step 9)
 ```
 
-Your times can differ by a second or two. `predict.py` prints each problem as `[n/5] <id> -> <letter> in <seconds> s (<status>)`. The same values are in `results/smoke.csv`:
+Ignore the `Next:` hint in the last line: you did step 9 before this guide. Your times can differ by a second or two. `predict.py` prints each problem as `[n/5] <id> -> <letter> in <seconds> s (<status>)`. The same values are in `results/smoke.csv`:
 
 ```bash
 cat results/smoke.csv
@@ -168,7 +168,7 @@ On the board, from `~/Santolina_tutor`:
 git pull
 ```
 
-If the board has no internet, copy a fresh clone again, as in step 3.
+If the board has no internet, delete the old copy on your laptop with `rm -rf ~/board-copy/Santolina_tutor`. Then copy a fresh clone again, as in step 3.
 
 [`config.env`](https://github.com/Sigkaio636/Santolina_tutor/blob/main/config.env) holds the settings that the Python code and the scripts in `board/` read. It pins the llama.cpp commit and each model: repository, revision, file, and SHA256 checksum. The checksum proves that the file is complete and has the right content. It also holds the ports and the time limit per problem (60 seconds).
 

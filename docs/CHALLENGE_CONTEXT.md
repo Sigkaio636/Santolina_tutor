@@ -23,7 +23,7 @@
 
 | Item | Detail |
 |---|---|
-| Goal | Fine-tune a small language model into a **math copilot**: a teacher's assistant at home ("having a teacher at home") |
+| Goal | Build a **math copilot**: a teacher's assistant at home ("having a teacher at home") |
 | Target hardware | **Arduino UNO Q** (Qualcomm Dragonwing QRB2210 Linux SoC + STM32 MCU). See §2 |
 | RAM | ✅ **Resolved: 4 GB variant (ABX00173)**: 3.6 GiB total, about 2.9 GiB available when idle, plus 1.8 GiB swap. See [UNO_Q_BOARD_REFERENCE.md](UNO_Q_BOARD_REFERENCE.md) |
 | Training data provided | **M3Kang**: 1,747 Kangaroo math contest problems, translated into 108 languages ([dataset card](https://huggingface.co/datasets/qualcomm/M3Kang), [BOARD_SETUP.md step 9](BOARD_SETUP.md#step-9-prepare-m3kang-on-your-laptop)) |
@@ -61,7 +61,7 @@ base is not chosen yet. Gemma 3 is one candidate under study.
 - **MCU:** STM32U585, the "classic Arduino" side. Irrelevant for the language model itself
 - **OS:** Debian Linux. Dev tool: **Arduino App Lab**
 - **Power:** USB-C **PD supply required**, 5 V / 3 A
-- Audio in/out on a header (a voice copilot is possible later)
+- Audio in/out on a header, see the [pinout PDF](https://docs.arduino.cc/resources/pinouts/ABX00162-full-pinout.pdf) (a voice copilot is possible later)
 
 ### What already runs on it
 - App Lab ships an **LLM "Brick"** (`arduino:llm`) that talks to a llama.cpp server on the board
@@ -121,7 +121,7 @@ base is not chosen yet. Gemma 3 is one candidate under study.
 ## 4. Quantization (Martí: "do this first")
 
 ### How quantization works
-- Convert weights from **FP16/BF16 → INT8 or INT4**. FP16→INT8 roughly **halves memory** ("almost" half, because scales must also be stored). Integer ops are much faster than floating point on small hardware.
+- Convert weights from **FP16/BF16 → INT8 or INT4**. FP16→INT8 roughly **halves memory** ("almost" half, because scales must also be stored).
 - **Problem:** weights don't all share the same scale. **Solution:** store **scale factors per row/column** (per output channel) of each matrix, and apply the scale **only at the end of each dot product**: `y_i = s_i * Σ_j (q_ij * x_j)`. Martí didn't remember if it's per row or per column. Answer: **per output channel** (one scale per row of W when y = Wx). Modern formats go finer, with **one scale per block of weights** (group-wise).
 - Martí said "quantization alone can already give reasonably good performance".
 
@@ -153,7 +153,7 @@ The experiments to run are in [What to try](#what-to-try).
 ## 5. Pruning (Martí: "careful — only if you have no other option")
 
 ### Martí's warnings (important)
-- Many pruning methods **keep good metrics on multiple-choice (A/B/C/D) benchmarks** but **break generation**. His pruned Llama **switched to German and started hallucinating** when asked to summarize. Our task is open-ended explanation, so **evaluate pruned models on generation, not MCQ (multiple-choice question) accuracy.**
+- Many pruning methods **keep good metrics on multiple-choice (A/B/C/D) benchmarks** but **break generation**. His pruned Llama **switched to German and started hallucinating** when asked to summarize. Our task is open-ended explanation, so **evaluate pruned models on generation too, not only on MCQ (multiple-choice question) accuracy, which the hidden test scores.**
 - **Unstructured pruning (zeroing individual weights) doesn't help on this hardware** (CPU/GPU use dense vector instructions). You'd need compressed storage like **CSR (Compressed Sparse Row)**, decompressed at runtime, which only saves memory and costs speed.
 - ⇒ Use **structured pruning**: remove **entire rows/columns** of attention/MLP matrices, i.e. remove **MLP intermediate neurons (FFN channels)** and/or **attention heads**. The result is just a smaller dense model, so llama.cpp runs it natively.
 - He suggested trying **2:4 semi-structured sparsity** if the GPU supports it (each block of 4 consecutive weights has 2 zeros, so 50% sparsity). Downsides: **50% is aggressive** and implementation is harder. **Research verdict: there is no evidence of 2:4 support on Adreno 702 or in llama.cpp. Deprioritize.**
@@ -276,7 +276,7 @@ Note: the team's original order was prune → fine-tune. Fine-tuning first (step
 - [ ] Does llama.cpp's OpenCL backend work on Adreno 702? Is it faster than CPU? Compare speeds with the `timings` field of the server's answer (`prompt_per_second`, `predicted_per_second`) or with `llama-cli`'s timing output. The board build has no `llama-bench`.
 - [ ] Does memory bandwidth limit decode, so that fewer bytes per weight give more tokens per second? This document assumed it in §2. It is not measured on our board.
 - [x] CPU feature flags on QRB2210 (`/proc/cpuinfo`): confirmed, no `asimddp`/`i8mm`
-- [x] Custom GGUF: we run our own `llama-server` as a systemd service ([BOARD_SETUP.md](BOARD_SETUP.md) step 7). To swap the model, change `LLM_REPO`, `LLM_REVISION`, `LLM_FILE` and `LLM_SHA256` in `config.env` (see [Settings in config.env](BOARD_SETUP.md#settings-in-configenv)). Then change the service file from step 7. Run `sudo systemctl daemon-reload`. Then run `sudo systemctl restart math-llm math-embed`.
+- [x] Custom GGUF: we run our own `llama-server` as a systemd service ([BOARD_SETUP.md](BOARD_SETUP.md) step 7). To swap the model, follow [Update the board later](how-to/deploy-copilot-on-board.md#update-the-board-later).
 - [ ] Does LLM-Pruner support Gemma 3 (§5)? Does `convert_hf_to_gguf.py` accept non-uniform pruned Gemma 3 configs?
 - [ ] MathDial and other public tutoring dialogue data: licenses and languages (§6)?
 - [x] Challenge rules on model size and allowed base models? BOARD_SETUP.md 13.3 accepts any GGUF model that fits in RAM, answers in time, and has a license you can use.
@@ -299,8 +299,8 @@ LoRA, QLoRA, Taylor importance) are in the project
 2. For each one, measure the tutoring benchmark score, tok/s and RAM on the board.
 3. For letter accuracy on the validation set, run `python3 eval.py --name <name>` on the board. Each
    run is one experiment, and it adds one line to `results/ablations.csv`.
-4. Pick the smallest quantization whose tutoring quality is acceptable. The team has not set the
-   threshold yet.
+4. Pick the smallest quantization whose letter accuracy and tutoring quality are acceptable. The team has not set the
+   two thresholds yet.
 
 **Build an evaluation harness (§7).**
 

@@ -1,7 +1,7 @@
 # Arduino UNO Q 4 GB (ABX00173): board reference
 
 > **What this is:** a reference for team members. Use it when you need a fact about the UNO Q: a
-> spec, a pin, a port, a limit or a measured speed. To prepare the board step by step, follow
+> spec, a port, a limit or a measured speed. For pins, use the pinout PDF in §5. To prepare the board step by step, follow
 > [BOARD_SETUP.md](BOARD_SETUP.md). To deploy our copilot, follow
 > [Deploy the copilot on the board](how-to/deploy-copilot-on-board.md).
 >
@@ -29,10 +29,6 @@
 |---|---|---|
 | Product | Arduino® UNO™ Q **4 GB** ("Dual-Brain SBC for AI & IoT") | store |
 | SKU | **ABX00173** (the 2 GB / 16 GB variant is ABX00162) | store, datasheet |
-| Price | €82.90 incl. VAT | store |
-| Weight | 0.048 kg | store |
-| Barcode / TARIC (EU customs tariff code) | 7630049205727 / 8742900 | store |
-| Manufacturer | Arduino S.r.l., Via Andrea Appiani 25, 20900 Monza, Italy | datasheet |
 | Linux device-tree id | `arduino,imola` (`cat /sys/firmware/devicetree/base/compatible`) | llama.cpp guide |
 | Intended use | Development and prototyping. Security is the builder's responsibility | datasheet |
 
@@ -111,8 +107,6 @@ The UNO Q has two processors, joined by an RPC layer called **Bridge**. The **MP
 | Bluetooth | 5.1 (Classic and BLE) |
 | Link to MPU | SDIO for Wi-Fi data, UART for Bluetooth control |
 | Antenna | One shared on-board PCB antenna |
-| Max transmit power (EIRP: effective isotropic radiated power) | BT Classic 15 dBm, BLE 9.5 dBm. Wi-Fi 2.4 GHz 19.59 dBm EIRP, Wi-Fi 5 GHz 17.64 dBm EIRP (13.95 dBm in the upper 5725–5875 MHz band) |
-| Radio notes | 5.15–5.35 GHz is indoor-only. Keep 20 cm between the radiator and a person |
 
 ### 3.5 USB-C port (the only built-in port)
 
@@ -174,31 +168,6 @@ The UNO Q has two processors, joined by an RPC layer called **Bridge**. The **MP
     2. Short GND (JCTL pin 1 or 7) to VOL_DOWN (JCTL pin 3).
     3. Connect the power supply again.
 
-### 4.2 Rails
-
-| Rail | Voltage | Source |
-|---|---|---|
-| `5V_SYS` | 5.0 V | Diode-OR of USB-C VBUS and the VIN buck |
-| `PWR_3P8V` | 3.8 V | Buck from `5V_SYS`. Reserved for future use |
-| `PWR_3P3V` | 3.3 V (3.1–3.5 V) | Buck from `PWR_3P8V`. Feeds the MCU, Wi-Fi 3.3 V, headers |
-| `VREG_L15A_1P8V` | 1.8 V | Low-dropout regulator (LDO) in the PM4125 power-management IC (PMIC). Feeds SoC I/O, ANX7625, level shifters |
-| `VBAT` | 3.8 V | Reserved for system use |
-| `VCOIN` | n/a | Powers only the PMIC real-time clock |
-
-### 4.3 Limits and tolerances
-
-| Parameter | Value |
-|---|---|
-| Processor I/O (JMEDIA, JMISC, JCTL) | 1.8 V nominal, **2.1 V absolute max**. Never drive with 3.3 V |
-| Maker I/O (JDIGITAL, JANALOG) | 3.3 V nominal, 3.6 V absolute max |
-| ADC inputs (A0–A5) | 0 to VREF+ (about 3.3 V), **not 5 V tolerant**. Max VDD + 0.3 V |
-| D3 (PB0) | 3.6 V tolerant only, **not 5 V tolerant in any mode** |
-| Most other digital pins | 5 V tolerant as inputs, outputs drive 3.3 V |
-| Per-pin current | Follow the STM32U585 limits. Store FAQ: about 20 mA typical, use a driver for loads |
-| Header power | Shared with on-board loads. The official docs give no fixed current budget |
-
-Schottky diode-OR drop (forward voltage): 0.35 V at 1.0 A, 0.37 V at 1.5 A, 0.39 V at 2.0 A.
-
 **Power consumption:** the official docs give **no idle or load wattage** for the UNO Q.
 See [Open questions](#open-questions).
 
@@ -206,119 +175,12 @@ See [Open questions](#open-questions).
 
 ## 5. Connectors and pinout
 
-The UNO Q has eight headers. The 3.3 V ones follow the UNO layout. Full pin tables are in the
-datasheet. See also the
+Pin tables for every header are in the
 [full pinout PDF](https://docs.arduino.cc/resources/pinouts/ABX00162-full-pinout.pdf).
+The PDF also defines the header names that this page uses (JMEDIA, JANALOG, JMISC, JSPI, JCTL).
 
-| Header | Pins | Voltage | Purpose |
-|---|---|---|---|
-| **JDIGITAL** (A2) | 18 | 3.3 V | D0–D13, D20, D21, AREF, GND. UART, SPI, I²C, PWM, CAN |
-| **JANALOG** (A3) | 14 | 3.3 V | A0–A5 (ADC, DAC, I²C3), IOREF, RESET, BOOT, 3V3, 5V, VIN, GND |
-| **JSPI** (A5) | 6 | 3.3 V | MISO, SCK, MOSI, MCU reset, 5V_SYS, GND |
-| **Qwiic** (A4) | 4 | 3.3 V | I²C (SDA = PD13, SCL = PD12). Plug-in for Modulino nodes |
-| **JMEDIA** (B2) | 60 | 1.8 V | MIPI DSI (4 lanes), MIPI CSI0 and CSI1 (4 lanes each), camera I²C and clocks, 3V3 out, VIN in |
-| **JMISC** (B1) | 60 | mixed | MCU PSSI, SDMMC1, TRACE, I²C4, OPAMP1. Audio (mic, headphone, line out, earpiece). MPU GPIO at 1.8 V. Power rails |
-| **JCTL** (A1) | 10 | 1.8 V | Debug UART console (SE4), USB boot, PMIC reset, VBUS disable, volume buttons |
-| **USB-C** | 1 | — | See §3.5 |
-
-### 5.1 JDIGITAL (UNO digital header)
-
-| Pin | Name | MCU pin | Functions |
-|---|---|---|---|
-| 1 | D0 | PB7 | USART1_RX |
-| 2 | D1 | PB6 | USART1_TX |
-| 3 | D2 | PB3 | TIM2_CH2 |
-| 4 | ~D3 | PB0 | PWM (TIM3_CH3), OPAMP2 out. Not 5 V tolerant |
-| 5 | D4 | PA12 | FDCAN1_TX |
-| 6 | ~D5 | PA11 | PWM, FDCAN1_RX |
-| 7 | ~D6 | PB1 | PWM |
-| 8 | D7 | PB2 | TIM8_CH4N |
-| 9 | D8 | PB4 | TIM3_CH1 |
-| 10 | ~D9 | PB8 | PWM |
-| 11 | ~D10 | PB9 | PWM, SPI2_SS |
-| 12 | ~D11 | PB15 | PWM, SPI2_MOSI |
-| 13 | D12 | PB14 | SPI2_MISO |
-| 14 | D13 | PB13 | SPI2_SCK |
-| 15 | GND | — | Ground |
-| 16 | AREF | — | Analog reference (not a GPIO) |
-| 17 | D20 | PB11 | I2C2_SDA |
-| 18 | D21 | PB10 | I2C2_SCL |
-
-### 5.2 JANALOG (UNO analog and power header)
-
-| Pin | Name | Net / MCU pin | Notes |
-|---|---|---|---|
-| 1 | BOOT | MCU_BOOT0 | Boot strap |
-| 2 | IOREF | PWR_3P3V | Output only, do not back-feed |
-| 3 | RESET | MCU_NRST | MCU reset |
-| 4 | +3V3 | PWR_3P3V | 3.3 V out |
-| 5 | +5V | 5V_SYS | Power in or out |
-| 6, 7 | GND | — | Ground |
-| 8 | VIN | DC_IN | 7–24 V in, power only |
-| 9 | A0 / D14 | PA4 | ADC, DAC0. Not 5 V tolerant |
-| 10 | A1 / D15 | PA5 | ADC, DAC1. Not 5 V tolerant |
-| 11 | A2 / D16 | PA6 | ADC, OPAMP2 in+ |
-| 12 | A3 / D17 | PA7 | ADC, OPAMP2 in− |
-| 13 | A4 / D18 | PC1 | ADC, I2C3_SDA. Pull-ups to 3.3 V only |
-| 14 | A5 / D19 | PC0 | ADC, I2C3_SCL. Pull-ups to 3.3 V only |
-
-### 5.3 Smaller headers
-
-**Qwiic**
-
-| Pin | Name |
-|---|---|
-| 1 | GND |
-| 2 | +3V3 |
-| 3 | SDA (PD13) |
-| 4 | SCL (PD12) |
-
-**JSPI** (chip select comes from a GPIO)
-
-| Pin | Name |
-|---|---|
-| 1 | MISO (PC2) |
-| 2 | +5V |
-| 3 | SCK (PD1) |
-| 4 | MOSI (PC3) |
-| 5 | RESET |
-| 6 | GND |
-
-**JCTL** (1.8 V)
-
-| Pin | Name |
-|---|---|
-| 1 | GND |
-| 2 | USB_BOOT |
-| 3 | VOL_DOWN (GPIO_36) |
-| 4 | SE4 TX (console) |
-| 5 | VOL_UP (GPIO_96) |
-| 6 | SE4 RX (console) |
-| 7 | GND |
-| 8 | PMIC_RESET |
-| 9 | +1V8 out |
-| 10 | VBUS_DISABLE |
-
-### 5.4 JMISC and JMEDIA (60 pins each)
-
-Read the datasheet for the full tables. Key facts:
-
-- **JMISC** pins 1–25 are 3.3 V MCU signals (PSSI D0–D7 parallel camera bus, SDMMC1, TRACE, I²C4,
-  MCO, CRS_SYNC, OPAMP1). The datasheet interleaves the next pins:
-
-    - Analog audio (mic 2 in+/in−/bias, headphone L/R/REF, line out P/M, earpiece, headset
-      detect): pins 28–34, 36, 38, 40 and 42.
-    - **1.8 V** MPU GPIO: pins 37, 39, 41, 43 and 45–52.
-    - GND: pins 26, 27, 35 and 44.
-    - Pins 53–60 carry 3V3, 5V_SYS, 1V8, VCOIN and VBAT.
-
-- **JMEDIA** pins 3–18 carry the DSI lanes, pins 21–48 and 52–54 carry the CSI0 and CSI1 lanes.
-  Camera control I²C (CCI, GPIO_22/23/29/30) and camera master clocks (GPIO_20/21) are 1.8 V.
-  Pins 57–60 are VIN and 3V3.
-- SoC GPIO on JMISC is interface-dedicated, not general maker GPIO. MIPI lanes are D-PHY pairs.
-  Do not add pull-ups to them. Do not reuse the I²C, CCI or MI2S0 lines as plain GPIO.
-- **Debug console:** the JCTL UART (SE4) is the Linux serial console, **1.8 V**, 115200 baud.
-  It shows boot and U-Boot logs before SSH or adb exist. Use a 1.8 V USB-to-TTL adapter.
+**Debug console:** the JCTL UART (SE4) is the Linux serial console, **1.8 V**, 115200 baud.
+It shows boot and U-Boot logs before SSH or adb exist. Use a 1.8 V USB-to-TTL adapter.
 
 ---
 
@@ -338,13 +200,7 @@ Read the datasheet for the full tables. Key facts:
 
 ### 6.2 Hardware video codecs (V4L2, `/dev/video0` and `/dev/video1`)
 
-| Codec | Encode | Decode | GStreamer element |
-|---|---|---|---|
-| H.264 | Yes | Yes | `v4l2h264enc` / `v4l2h264dec` |
-| H.265 | Yes | Yes | `v4l2h265enc` / `v4l2h265dec` |
-| VP9 | No | Yes | `v4l2vp9dec` |
-
-Up to 1920×1080. Not relevant to a text copilot, but useful for a camera demo.
+The board encodes and decodes video in hardware. A text copilot does not use it.
 
 ### 6.3 What this means for the language model (our project)
 
@@ -458,17 +314,6 @@ Earlier third-party measurements are in [CHALLENGE_CONTEXT.md](CHALLENGE_CONTEXT
 
 ## 11. Security notes (from Arduino's hardening guide)
 
-Topics covered:
-
-- password and access control
-- login auditing
-- OS updates
-- physical access (debug UART, USB boot)
-- network exposure (firewall, services bound to localhost)
-- TLS for web services (mkcert)
-- data protection
-- log forwarding and monitoring
-
 For the datathon, the useful rules are:
 
 - keep the model services on `127.0.0.1`
@@ -479,9 +324,7 @@ For the datathon, the useful rules are:
 
 ## 12. Certifications
 
-CE (RED 2014/53/EU), UKCA, FCC (Class B, Part 15), ISED (RSS-247), MIC, KC, SRRC (ABX00162 CMIIT ID
-26J996Q0A162, ABX00173 CMIIT ID 26J996Q0A173), WPC, Anatel, ICASA, IMDA, NCC, OFCA, RCM. Declarations
-of conformity: <https://docs.arduino.cc/certifications/>. Radio equipment must stay 20 cm from the body.
+The declarations of conformity are at <https://docs.arduino.cc/certifications/>.
 
 ---
 

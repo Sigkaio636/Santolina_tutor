@@ -50,7 +50,7 @@ Source of the order: [publish-project, The GitHub repository](https://github.com
 
 - [ ] **What it does**, in two or three sentences, with a photo or a short video of it working on the board. (publish-project and BOARD_SETUP 15.1)
 - [ ] **Architecture**: what runs on Linux, what runs on the microcontroller, and how the Bridge connects them. Also which model servers it uses, and how it uses M3Kang. The [Bridge](UNO_Q_BOARD_REFERENCE.md#10-bridge-rpc-mcu-linux) is the link between the Linux side and the microcontroller. (publish-project and BOARD_SETUP 15.1)
-- [ ] **How to replicate it**, step by step, with the commands and what you should see. Start from a board prepared with [steps 0 to 12 of BOARD_SETUP](BOARD_SETUP.md#the-steps-at-a-glance). (publish-project and BOARD_SETUP 15.1)
+- [ ] **How to replicate it**, step by step, with the commands and what you should see. Start from a board prepared with [steps 0 to 8 of BOARD_SETUP](BOARD_SETUP.md#the-steps-at-a-glance), step 9 on the laptop, and the [deploy guide](how-to/deploy-copilot-on-board.md). (publish-project and BOARD_SETUP 15.1)
 - [ ] **Results**: a table from `results/ablations.csv`, each experiment against the baseline, with accuracy, mean and worst latency, and the number of problems. (publish-project)
 - [ ] **Error analysis** by **topic**, **language** and **difficulty (level)**, with the number of problems next to each accuracy. Explain a few wrong answers too. (publish-project and [BOARD_SETUP, Deliverables](BOARD_SETUP.md#deliverables))
 - [ ] **What didn't work**, and what we would try next. (publish-project and BOARD_SETUP 15.1)
@@ -96,7 +96,7 @@ Suggested demo preparation:
 ### 1.6 Checks before sharing
 
 - [ ] Every number in the README comes from an experiment recorded in `ablations.csv`, on stated problems. If they are 50 or fewer, say so. ([publish-project, The GitHub repository](https://github.com/Sigkaio636/Santolina_tutor/blob/main/.claude/skills/publish-project/SKILL.md#the-github-repository))
-- [ ] Baseline reference: **22.5% on 40 English problems whose options OCR read**. OCR (optical character recognition) reads the A to E options from the problem image. (publish-project and [BOARD_SETUP 14.5](BOARD_SETUP.md#145-prepare-the-demo-and-the-pitch))
+- [ ] Baseline reference: **22.5% on 40 English text-only problems whose options OCR read**. OCR (optical character recognition) reads the A to E options from the problem image. For each experiment, compare with a baseline run of `eval.py` on the same problems (same `--input`, `--languages`, `--limit`). (publish-project and [BOARD_SETUP 14.5](BOARD_SETUP.md#145-prepare-the-demo-and-the-pitch))
 - [ ] Clone the repository into a new folder. Follow the README. Fix every step that fails. (publish-project and [BOARD_SETUP 15.1](BOARD_SETUP.md#151-a-public-github-repository))
 - [ ] Every link works. (publish-project)
 - [ ] **Both links go to the organizers**: the repository and the Project Hub write-up. ([BOARD_SETUP, Step 15](BOARD_SETUP.md#step-15-publish-your-project))

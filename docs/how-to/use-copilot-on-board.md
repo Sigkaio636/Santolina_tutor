@@ -30,7 +30,7 @@ This section replaces [step 11.1](../BOARD_SETUP.md#111-how-the-baseline-works) 
 python3 predict.py --input data/val.jsonl --output results/predictions.csv
 ```
 
-This command answers every problem in `data/val.jsonl`. The organizers measured about 45 minutes for 281 problems ([step 11.2](../BOARD_SETUP.md#112-run-the-evaluation)). For a quick try, use `--input data/sample_problems.jsonl`.
+This command answers every problem in `data/val.jsonl`. For a quick try, use `--input data/sample_problems.jsonl`.
 
 While it runs, you should see one line per problem, in the form `[n/total] <id> -> <letter> in <seconds> s (<status>)`.
 
@@ -44,7 +44,7 @@ The output is a CSV file with one row per problem:
 | `seconds` | The time the problem took |
 | `status` | `ok`, `timeout`, or `error: <reason>` |
 
-If the language model is too slow, or fails, the answer is `D` and the `status` tells you why.
+If the request times out, or a model service is down or returns an error, the answer is `D`, and the `status` tells you why.
 
 **The [contract](https://github.com/Sigkaio636/Santolina_tutor/blob/main/GLOSSARY.md).** Keep these rules in every change you make:
 
