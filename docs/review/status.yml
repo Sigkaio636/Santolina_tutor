@@ -115,6 +115,28 @@ documents:
       signoff: pending
     validated_sha: null
     notes: {}
+  docs/experiments/2026-11-decider-0.8b.md:
+    stages:
+      audit: validated
+      critique: validated
+      decisions: validated
+      repair: validated
+      language: validated
+      adversarial: validated
+      signoff: validated
+    validated_sha: 35b1a72925afb7e71accd623acb833ef65df846de757b46eb5e94e1c3d33a26a
+    notes:
+      audit: 'docsauditor: 4 findings (3 verified after resolving 2 suspected, 1 decision)'
+      critique: 'diataxis explanation/heavy; docs-critic: 32 findings F5-F36 (0 breaks, 11 misleading,
+        21 cosmetic; 8 decisions)'
+      decisions: 'grilling: 9 decisions settled (F4,F6,F11,F23,F28,F29,F32,F34,F36b); no GLOSSARY.md,
+        so no term entries'
+      repair: 'docsjanitor: 36/36 fixed; F29 via new laptop/compare_runs.py; mkdocs --strict ok, links
+        200, 0 val overlap'
+      language: 'asd-ste100 STE-flavored: 4 fixes (2 semicolons, 2 passives); ste-lint 0 violations'
+      adversarial: '2 rounds, 3 lenses hand-spawned (toolkit gate FATAL: PEP 668); r1 30 findings -> adjudicator
+        3 changes; r2 2 SHIP + 1 MAJOR wording, fixed after round; 7 deferred'
+    last_sha: 35b1a72925afb7e71accd623acb833ef65df846de757b46eb5e94e1c3d33a26a
   docs/index.md:
     stages:
       audit: pending

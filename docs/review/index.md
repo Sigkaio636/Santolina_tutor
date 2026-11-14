@@ -18,6 +18,7 @@ Each document goes through the `/docs-review` stages. ✅ validated by the user,
 | [docs/RESUMEN_QUALCOMM_UNO_Q.md](../RESUMEN_QUALCOMM_UNO_Q.md) | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ |
 | [docs/SKILLS_GUIDE.html](../SKILLS_GUIDE.html) | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ |
 | [docs/UNO_Q_BOARD_REFERENCE.md](../UNO_Q_BOARD_REFERENCE.md) | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ |
+| [docs/experiments/2026-11-decider-0.8b.md](../experiments/2026-11-decider-0.8b.md) | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | [docs/index.md](../index.md) | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ |
 | [docs/vault/guides/mineru-ocr-papers.md](../vault/guides/mineru-ocr-papers.md) | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ |
 | [docs/vault/papers/README.md](../vault/papers/README.md) | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ |
@@ -32,4 +33,4 @@ Each document goes through the `/docs-review` stages. ✅ validated by the user,
 | [docs/vault/papers/tutoring_pedagogy/_synthesis.md](../vault/papers/tutoring_pedagogy/_synthesis.md) | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ |
 | mkdocs.yml | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ |
 
-Signed off: 0 of 23 documents.
+Signed off: 1 of 24 documents.
