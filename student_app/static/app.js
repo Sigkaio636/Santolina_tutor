@@ -1,5 +1,8 @@
 // Santolina student page. Plain JavaScript, no libraries: the board has no internet.
-// The visit token lives only in memory, so every new page load asks for the code again.
+// The visit lives in sessionStorage: it survives a reload of the same tab (some phone browsers
+// reload by themselves, e.g. after the camera), and ends when the tab closes, so every new
+// visit asks for the code again. Screens change without touching the URL: on some phone
+// browsers, changing the address (even after #) reloads the page.
 "use strict";
 
 const app = document.getElementById("app");
@@ -9,6 +12,7 @@ let token = null;
 let lang = "cat";
 let teacher = false;
 let myCode = "";
+let currentExercise = null;  // the exercise screen's exercise
 
 // ---------------------------------------------------------------- helpers
 function h(tag, attrs, ...children) {
@@ -62,7 +66,26 @@ async function loadStrings(l) {
   S = await api("strings?lang=" + l);
   document.documentElement.lang = { cat: "ca", eng: "en", esp: "es" }[l] || "ca";
 }
-function go(hash) { if (location.hash === hash) route(); else location.hash = hash; }
+// ---------------------------------------------------------------- visit kept across reloads
+const store = {
+  get(k) { try { return JSON.parse(sessionStorage.getItem("santolina." + k)); } catch (e) { return null; } },
+  set(k, v) { try { sessionStorage.setItem("santolina." + k, JSON.stringify(v)); } catch (e) { /* private mode */ } },
+  clear() { try { sessionStorage.clear(); } catch (e) { /* private mode */ } },
+};
+function saveVisit() { store.set("visit", { token, teacher, myCode, lang, view: currentView, currentExercise }); }
+let currentView = "home";
+function go(view) {
+  currentView = view;
+  saveVisit();
+  try { history.pushState({ view }, ""); } catch (e) { /* some webviews refuse: Back just won't work */ }
+  route();
+}
+window.addEventListener("popstate", (e) => {
+  if (!token) return;
+  currentView = (e.state && e.state.view) || "home";
+  saveVisit();
+  route();
+});
 function topbar(backTo) {
   return h("div", { class: "topbar" },
     backTo ? h("button", { class: "link", onclick: () => go(backTo) }, "← " + t("back"))
@@ -86,8 +109,8 @@ function langButtons(onchange) {
     } }, name)));
 }
 function showLogin(message) {
-  history.replaceState(null, "", location.pathname);
   document.body.className = "login";
+  store.clear();
   const input = h("input", { class: "code-input", maxlength: "12", autocomplete: "off",
     autocapitalize: "characters", spellcheck: "false", inputmode: "text", placeholder: t("code_placeholder") });
   const err = h("p", { class: "error" }, message || "");
@@ -100,7 +123,7 @@ function showLogin(message) {
       const data = await r.json();
       if (!r.ok) { err.textContent = t("bad_code"); input.select(); return; }
       token = data.token; teacher = data.teacher; myCode = data.code || "";
-      go("#home");
+      go("home");
     } catch (e) { err.textContent = t("error"); }
   };
   input.addEventListener("keydown", (e) => { if (e.key === "Enter") start(false); });
@@ -144,9 +167,9 @@ async function showHome() {
     d.exercises === 0 ? h("p", { class: "muted" }, t("no_exercises")) : null,
     h("div", { class: "tiles" },
       d.continue ? tile("▶", t("continue"), d.continue.title, () => openExercise(d.continue.key, d.continue.mode, d.continue.assignment_id), null, "continue") : null,
-      tile("📚", t("homework"), hw, () => go("#homework"), d.homework_pending || null),
-      tile("🧩", t("practice"), t("practice_sub"), () => go("#practice")),
-      tile("💬", t("free"), t("free_sub"), () => go("#free"))),
+      tile("📚", t("homework"), hw, () => go("homework"), d.homework_pending || null),
+      tile("🧩", t("practice"), t("practice_sub"), () => go("practice")),
+      tile("💬", t("free"), t("free_sub"), () => go("free"))),
   );
 }
 
@@ -160,7 +183,7 @@ function exerciseRow(x, onclick) {
 async function showHomework() {
   event("view_opened", { view: "homework" });
   const list = await api("homework");
-  render(topbar("#home"), h("h1", {}, t("homework")),
+  render(topbar("home"), h("h1", {}, t("homework")),
     list.length ? null : h("p", { class: "muted" }, t("homework_none")),
     list.map((a) => h("div", { class: "card" },
       h("h2", {}, a.title),
@@ -171,7 +194,7 @@ async function showHomework() {
 async function showPractice() {
   event("view_opened", { view: "practice" });
   const topics = await api("practice");
-  render(topbar("#home"), h("h1", {}, t("practice")),
+  render(topbar("home"), h("h1", {}, t("practice")),
     topics.length ? null : h("p", { class: "muted" }, t("no_exercises")),
     topics.map((g, i) => h("details", { class: "topic", open: topics.length === 1 || i === 0 },
       h("summary", {}, h("span", {}, g.topic), h("span", { class: "muted" }, `${g.done}/${g.exercises.length}`)),
@@ -325,13 +348,12 @@ function shrink(blob, max = 1280) {
 }
 
 // ---------------------------------------------------------------- exercise screen
-let currentExercise = null;
 function openExercise(key, mode, assignmentId, reason) {
-  currentExercise = { key, mode, assignmentId, reason };
-  go("#exercise");
+  currentExercise = { key, mode, assignmentId, reason };  // saved by go()
+  go("exercise");
 }
 async function showExercise() {
-  if (!currentExercise) return go("#home");
+  if (!currentExercise) return go("home");
   const { key, mode, assignmentId, reason } = currentExercise;
   event("view_opened", { view: "exercise" });
   const q = new URLSearchParams({ key, mode });
@@ -342,7 +364,7 @@ async function showExercise() {
   const thread = makeThread(chat);
   thread.onSuggest = (k) => openExercise(k, mode, null, "suggested");
   render(
-    topbar(mode === "homework" ? "#homework" : "#practice"),
+    topbar(mode === "homework" ? "homework" : "practice"),
     teacher ? h("div", { class: "banner" }, t("teacher_banner")) : null,
     exerciseCard(ex, { thread }),
     chat,
@@ -366,7 +388,7 @@ async function showFree() {
   }
   thread.onSuggest = (k) => show(api("exercise?" + new URLSearchParams({ key: k, mode: "free", path_reason: "suggested" })));
   render(
-    topbar("#home"),
+    topbar("home"),
     teacher ? h("div", { class: "banner" }, t("teacher_banner")) : null,
     h("h1", {}, t("free")),
     h("div", { class: "msg bot" }, h("span", { class: "who" }, t("copilot")), t("free_intro")),
@@ -379,7 +401,7 @@ async function showFree() {
 // ---------------------------------------------------------------- routing
 async function route() {
   if (!token) return showLogin();
-  const view = location.hash.slice(1) || "home";
+  const view = currentView || "home";
   document.body.className = view;
   try {
     if (view === "homework") await showHomework();
@@ -390,11 +412,18 @@ async function route() {
     window.scrollTo(0, 0);
   } catch (e) { showError(e); }
 }
-window.addEventListener("hashchange", route);
 document.addEventListener("visibilitychange", () => event(document.hidden ? "page_hidden" : "page_visible"));
 
 (async function start() {
   try { info = await api("info"); } catch (e) { info = {}; }
-  await loadStrings("cat");  // Catalan by default; the student can switch on the login screen
+  const visit = store.get("visit");
+  await loadStrings((visit && visit.lang) || "cat");  // Catalan by default
+  if (visit && visit.token) {  // the same tab reloaded: carry on where the student was
+    ({ token, teacher, myCode } = visit);
+    currentView = visit.view || "home";
+    currentExercise = visit.currentExercise || null;
+    try { history.replaceState({ view: currentView }, ""); } catch (e) { /* ignore */ }
+    return route();
+  }
   showLogin();
 })();
