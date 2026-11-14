@@ -3,7 +3,8 @@
 // smooth whatever Linux is doing. Nothing flashes more than 3 times a second.
 //   0 off        the board's Wi-Fi is off: the matrix stays dark
 //   1 waiting    the Wi-Fi is on, waiting for a phone: the Wi-Fi symbol's arcs grow from the dot
-//   2 connected  a phone joined: a check mark draws itself, then bounces gently
+//   2 connected  a phone joined: a check mark draws itself and bounces for a few seconds,
+//                then a happy face stays, blinking now and then
 
 #include <Arduino_RouterBridge.h>
 #include <Arduino_LED_Matrix.h>
@@ -30,6 +31,14 @@ const Pixel WIFI_ARC3[] = {{0, 3}, {0, 4}, {0, 5}, {0, 6}, {0, 7}, {0, 8}, {0, 9
 const Pixel CHECK[] = {{4, 1}, {5, 2}, {6, 3}, {7, 4}, {6, 5}, {5, 6}, {4, 7}, {3, 8}, {2, 9},
                        {1, 10}};
 
+// The happy face: eyes, and a smile.
+const Pixel EYES_OPEN[] = {{1, 3}, {1, 4}, {2, 3}, {2, 4}, {1, 8}, {1, 9}, {2, 8}, {2, 9}};
+const Pixel EYES_SHUT[] = {{2, 3}, {2, 4}, {2, 8}, {2, 9}};
+const Pixel SMILE[] = {{4, 1}, {4, 11}, {5, 2}, {5, 10}, {6, 3}, {6, 4}, {6, 5}, {6, 6},
+                       {6, 7}, {6, 8}, {6, 9}};
+
+const unsigned long CHECK_MS = 4000;  // how long the check mark shows before the face
+
 #define LEN(a) (sizeof(a) / sizeof(a[0]))
 
 void clearFrame() { memset(frame, 0, sizeof(frame)); }
@@ -51,16 +60,24 @@ void drawWaiting(unsigned long t) {
   if (step >= 3) put(WIFI_ARC3, LEN(WIFI_ARC3), step == 3 ? 7 : 2);
 }
 
-// Connected: the check mark draws itself pixel by pixel, then bounces one row every 600 ms.
+// Connected: the check mark draws itself pixel by pixel and bounces one row every 600 ms,
+// for CHECK_MS. Then the happy face, blinking for 150 ms every 4 s.
 void drawConnected(unsigned long t) {
   clearFrame();
-  size_t drawn = t / 70;
-  if (drawn < LEN(CHECK)) {
-    put(CHECK, drawn + 1, 7);
+  if (t < CHECK_MS) {
+    size_t drawn = t / 70;
+    if (drawn < LEN(CHECK)) {
+      put(CHECK, drawn + 1, 7);
+      return;
+    }
+    int dy = ((t - LEN(CHECK) * 70) / 600) % 2 ? -1 : 0;
+    put(CHECK, LEN(CHECK), 7, dy);
     return;
   }
-  int dy = ((t - LEN(CHECK) * 70) / 600) % 2 ? -1 : 0;
-  put(CHECK, LEN(CHECK), 7, dy);
+  bool blink = (t - CHECK_MS) % 4000 >= 3850;
+  if (blink) put(EYES_SHUT, LEN(EYES_SHUT), 7);
+  else put(EYES_OPEN, LEN(EYES_OPEN), 7);
+  put(SMILE, LEN(SMILE), 7);
 }
 
 void set_mode(int newMode) { mode = newMode; }

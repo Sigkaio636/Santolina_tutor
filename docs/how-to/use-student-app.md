@@ -19,7 +19,7 @@ Each student gets a board. The board makes its own Wi-Fi, and the student uses i
     ./board/07_install_led_app.sh
     ```
 
-    It installs a small App Lab app that starts at every boot. While the board's Wi-Fi waits for a phone, the matrix shows a Wi-Fi symbol whose waves grow from the dot. Once a phone is connected, a check mark draws itself and bounces. With the Wi-Fi off, the matrix stays dark. The first start downloads App Lab's Python image, which is why it needs internet.
+    It installs a small App Lab app that starts at every boot. While the board's Wi-Fi waits for a phone, the matrix shows a Wi-Fi symbol whose waves grow from the dot. Once a phone is connected, a check mark draws itself and bounces for a few seconds, then a happy face stays, blinking now and then. With the Wi-Fi off, the matrix stays dark. The first start downloads App Lab's Python image, which is why it needs internet.
 
 4. **Set the board up in the teacher app.** Plug it in and click **Set up this board**. Setup copies the student app, creates the board's Wi-Fi (`Santolina-<board name>`, with its own password) and sends the group's student codes.
 5. **Print the sticker.** On the board page, click **Print the sticker** and stick it on the board's case. It shows the board's name, a QR code that joins the Wi-Fi, the password (for laptops) and the address `http://10.42.0.1`.
