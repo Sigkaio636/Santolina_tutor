@@ -4,7 +4,7 @@
 documents:
   README.md:
     stages:
-      audit: pending
+      audit: done
       critique: pending
       decisions: pending
       repair: pending
@@ -12,7 +12,10 @@ documents:
       adversarial: pending
       signoff: pending
     validated_sha: null
-    notes: {}
+    notes:
+      audit: 'docsauditor: 10 findings (5 verified, 2 suspected, 3 decision); suspected F4 confirmed (no
+        LICENSE in academic-paper-summarizer), F5 confirmed (data subfolders untracked)'
+    last_sha: eff0026b9f3de0af1e7975ac96b47cf6d383c7854f58954e6f3bac9ec3a2cfcc
   docs/BOARD_SETUP.md:
     stages:
       audit: pending
@@ -57,6 +60,17 @@ documents:
       signoff: pending
     validated_sha: null
     notes: {}
+  docs/GOAL_MUSTS.md:
+    stages:
+      audit: pending
+      critique: pending
+      decisions: pending
+      repair: pending
+      language: pending
+      adversarial: pending
+      signoff: pending
+    validated_sha: null
+    notes: {}
   docs/GUIA_RESTRICCIONES_UNOQ.html:
     stages:
       audit: pending
@@ -69,6 +83,17 @@ documents:
     validated_sha: null
     notes: {}
   docs/RESUMEN_QUALCOMM_UNO_Q.md:
+    stages:
+      audit: pending
+      critique: pending
+      decisions: pending
+      repair: pending
+      language: pending
+      adversarial: pending
+      signoff: pending
+    validated_sha: null
+    notes: {}
+  docs/SKILLS_GUIDE.html:
     stages:
       audit: pending
       critique: pending
@@ -123,6 +148,17 @@ documents:
       signoff: pending
     validated_sha: null
     notes: {}
+  docs/vault/papers/_junctions.md:
+    stages:
+      audit: pending
+      critique: pending
+      decisions: pending
+      repair: pending
+      language: pending
+      adversarial: pending
+      signoff: pending
+    validated_sha: null
+    notes: {}
   docs/vault/papers/benchmarks/_synthesis.md:
     stages:
       audit: pending
@@ -135,6 +171,61 @@ documents:
     validated_sha: null
     notes: {}
   docs/vault/papers/finetuning_distillation/_synthesis.md:
+    stages:
+      audit: pending
+      critique: pending
+      decisions: pending
+      repair: pending
+      language: pending
+      adversarial: pending
+      signoff: pending
+    validated_sha: null
+    notes: {}
+  docs/vault/papers/inference/_synthesis.md:
+    stages:
+      audit: pending
+      critique: pending
+      decisions: pending
+      repair: pending
+      language: pending
+      adversarial: pending
+      signoff: pending
+    validated_sha: null
+    notes: {}
+  docs/vault/papers/jev/_synthesis.md:
+    stages:
+      audit: pending
+      critique: pending
+      decisions: pending
+      repair: pending
+      language: pending
+      adversarial: pending
+      signoff: pending
+    validated_sha: null
+    notes: {}
+  docs/vault/papers/pruning/_synthesis.md:
+    stages:
+      audit: pending
+      critique: pending
+      decisions: pending
+      repair: pending
+      language: pending
+      adversarial: pending
+      signoff: pending
+    validated_sha: null
+    notes: {}
+  docs/vault/papers/quantization/_synthesis.md:
+    stages:
+      audit: pending
+      critique: pending
+      decisions: pending
+      repair: pending
+      language: pending
+      adversarial: pending
+      signoff: pending
+    validated_sha: null
+    notes: {}
+  docs/vault/papers/surveys/_synthesis.md:
     stages:
       audit: pending
       critique: pending
