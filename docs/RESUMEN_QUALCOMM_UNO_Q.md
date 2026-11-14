@@ -3,7 +3,7 @@
 > **Fuente:** transcript del vídeo "UPC Datathon - Qualcomm Challenge step by step Arduino UNO Q setup"
 > (ponente de Qualcomm; el nombre sale como "Maros" en el transcript). El `.txt` está en `origin/main`
 > (commit `e44dad9`), **no en la rama `docs-skills-orchestrator`**. Para contrastar se usa
-> [`CHALLENGE_CONTEXT.md`](../CHALLENGE_CONTEXT.md) (en `origin/main` está en `docs/`).
+> [`CHALLENGE_CONTEXT.md`](CHALLENGE_CONTEXT.md) (en `origin/main` está en `docs/`).
 >
 > **Cómo leer este documento:** el transcript es automático y tiene nombres deformados. Lo que **dice el vídeo**
 > va tal cual; lo que es **interpretación mía** va marcado como *(inferido)*. Lo dudoso va marcado *(dudoso)*.

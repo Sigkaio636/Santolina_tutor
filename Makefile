@@ -32,6 +32,16 @@ lint:
 	ruff format --check
 	ruff check
 
+## Serve the MkDocs site with live reload (http://127.0.0.1:8000)
+.PHONY: docs-serve
+docs-serve:
+	NO_MKDOCS_2_WARNING=1 uv run --group docs mkdocs serve -a 127.0.0.1:8000
+
+## Build the MkDocs site into site/ (ignored by Git)
+.PHONY: docs-build
+docs-build:
+	NO_MKDOCS_2_WARNING=1 uv run --group docs mkdocs build
+
 ## Format source code with ruff
 .PHONY: format
 format:

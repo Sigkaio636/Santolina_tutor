@@ -1,0 +1,53 @@
+site_name: Santolina tutor
+site_description: Math on the Edge copilot for the Arduino UNO Q (Qualcomm challenge)
+docs_dir: docs
+site_dir: site  # ignored by .gitignore (/site)
+
+# No `nav:`: the navigation follows the folders in docs/, so new pages appear on their own.
+
+exclude_docs: |
+  .gitkeep
+  vault/.obsidian/
+  vault/.trash/
+  vault/papers/**/parsed/
+  *.pdf
+  vault/papers/download.sh
+
+theme:
+  name: material
+  features:
+    - navigation.sections
+    - navigation.indexes
+    - navigation.top
+    - search.highlight
+    - content.code.copy
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      toggle:
+        icon: material/weather-night
+        name: Dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      toggle:
+        icon: material/weather-sunny
+        name: Light mode
+
+plugins:
+  - search
+
+markdown_extensions:
+  - admonition
+  - tables
+  - attr_list
+  - md_in_html
+  - toc:
+      permalink: true
+  - pymdownx.details
+  - pymdownx.highlight
+  - pymdownx.inlinehilite
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format

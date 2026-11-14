@@ -46,6 +46,10 @@ known-first-party = ["santolina_tutor"]
 force-sort-within-sections = true
 
 [dependency-groups]
+docs = [
+    "mkdocs<2",
+    "mkdocs-material>=9.8.1",
+]
 ocr = [
     "mineru[core]==3.4.5",
 ]
