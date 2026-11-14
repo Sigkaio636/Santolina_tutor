@@ -171,6 +171,12 @@ MCQ benchmarks (MMLU-style A/B/C/D) **hide** generation damage from pruning/quan
 - **MathTutorBench** (ETH Zurich / TU Darmstadt, EMNLP 2025, arXiv:2502.18940): open-source, evaluates **math expertise, student understanding, pedagogical ability**, with a trained **reward model** for scoring open-ended tutor responses. Finds a trade-off between math skill and pedagogy.
 - **MRBench** (MBZUAI, NAACL 2025, arXiv:2412.09416): 192 conversations / 1,596 tutor responses on **student mistakes in math** (from Bridge + MathDial), annotated on **8 pedagogical dimensions** (e.g. mistake identification, providing guidance, actionability, coherence, tutor tone, human-likeness).
 
+### First results on the board (2026-11-14)
+Qwen3.5 0.8B Q8_0, 50 validation problems (28 Catalan, 22 English), `docs/BOARD_SETUP.md` steps 11 and 12:
+- **Baseline: 10/50 (20.0%)**, mean 12.0 s per problem. This is below the 22.0% you get if you always answer `D`.
+- **Retrieval with one example (`--rag 1`): 7/50 (14.0%)**, mean 27.9 s. English goes up (3 → 5), Catalan goes down (7 → 2). The embedding model is English-only.
+- ⇒ A 0.8B model is weak at picking the letter. This supports the tutor goal in §1: put the effort into hints and explanations, not into letter accuracy. Details: `docs/UNO_Q_BOARD_REFERENCE.md` §14.7.
+
 ### Suggested eval harness (for agents to build)
 1. **Pedagogical score** on the chosen benchmark.
 2. **Kangaroo held-out accuracy** (did the explanation reach the correct option?).

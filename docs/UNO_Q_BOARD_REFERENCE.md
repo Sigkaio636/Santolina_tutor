@@ -481,7 +481,7 @@ a conflict or gap in the Arduino documentation, and how BOARD_SETUP.md settles i
 
 ## 14. Measured on our board (2026-11-14)
 
-Everything below was measured on our 4 GB UNO Q while following `docs/BOARD_SETUP.md` steps 0 to 8.
+Everything below was measured on our 4 GB UNO Q while following `docs/BOARD_SETUP.md` steps 0 to 12.
 These are measurements, not Arduino's published figures.
 
 ### 14.1 System
@@ -554,8 +554,38 @@ BOARD_SETUP quotes about 11 tok/s reading and 5–6 tok/s writing. We are close,
 - Needed on Fedora: `webkit2gtk4.1`, a udev rule for vendor IDs `2341` and `05c6` (group `dialout`,
   mode `0666`), `android-tools` for `adb`, and `sudo usermod -a -G dialout $USER`. A group change needs a
   full logout and login. `adb` works without it, because the udev rule opens the device to everyone.
-- The M3Kang preparation (BOARD_SETUP step 9) runs at about **0.8 rows/s** with RapidOCR on the laptop,
-  so about 70 minutes for English plus Catalan (about 3,500 rows).
+- The M3Kang preparation (BOARD_SETUP step 9) runs at about **0.8 rows/s** with RapidOCR on the laptop.
+  The estimate before the run was about 70 minutes for English plus Catalan. The run made 3,494 rows
+  (2,932 train, 562 val). OCR read the answer options for **63%** of the problems. The other 37% have
+  no option text, only the letters A to E.
+
+### 14.7 Data and first evaluations (BOARD_SETUP steps 10 to 12)
+
+Step 10 copied `train.jsonl` and `val.jsonl` into the organizers' folder on the board. The retrieval
+index `data/index.db` holds 1,863 problems (4.1 MB).
+
+Both runs use the same 50 validation problems (28 Catalan, 22 English) and the Qwen3.5 0.8B Q8_0 model.
+
+| Run | Correct | Catalan | English | Mean time | Worst time | Over 60 s |
+|---|---|---|---|---|---|---|
+| Step 11, baseline | **10/50 (20.0%)** | 7/28 | 3/22 | 12.0 s | 19.2 s | 0 |
+| Step 12, retrieval (`--rag 1`) | **7/50 (14.0%)** | 2/28 | 5/22 | 27.9 s | 40.1 s | 0 |
+| Reference: always answer `D` | 11/50 (22.0%) | | | | | |
+
+What the numbers tell us:
+
+- **The baseline is below the "always `D`" floor.** It never answers `C` and picks `B` and `D` too often.
+- **Retrieval with one example does not help.** The letters spread more evenly, but fewer are correct.
+  English goes up by 2, Catalan goes down by 5. The embedding model (`bge-small-en-v1.5`) is
+  English-only, so it probably finds poor examples for Catalan problems.
+- **Retrieval more than doubles the time.** `--rag 2` would probably go over the 60 s limit.
+- With 50 problems, one answer is 2 points. The differences are small, but they all point the same way:
+  a 0.8B model is weak at picking the letter. This supports the "Teach" direction (hints and
+  explanations) over a chase for letter accuracy.
+
+The result files stay on the board, in `~/datathon-UPC-maths-qualcomm-arduino-unoq/results/`:
+`eval-20261114-145823-baseline.csv`, `eval-20261114-172143-rag1.csv` and `ablations.csv`.
+They come from M3Kang problems, so they do not go into Git.
 
 ## Sources
 
