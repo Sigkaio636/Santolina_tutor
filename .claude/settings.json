@@ -1,0 +1,15 @@
+{
+  "extraKnownMarketplaces": {
+    "stellarshenson-marketplace": {
+      "source": {
+        "source": "github",
+        "repo": "stellarshenson/claude-code-plugins"
+      }
+    }
+  },
+  "enabledPlugins": {
+    "devils-advocate@stellarshenson-marketplace": true,
+    "svg-infographics@stellarshenson-marketplace": true,
+    "document-processing@stellarshenson-marketplace": true
+  }
+}
