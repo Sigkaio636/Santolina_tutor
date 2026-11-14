@@ -72,3 +72,66 @@ website, from an app button or by hand is not checked. When the hook
 cannot decide (no `origin` default branch, unreadable input, `--repo`
 aimed at another repo) it lets the command through.
 
+
+--------
+
+## Arduino UNO Q
+
+The board side comes from the organizers' repository
+[mpous/datathon-UPC-maths-qualcomm-arduino-unoq](https://github.com/mpous/datathon-UPC-maths-qualcomm-arduino-unoq),
+copied at commit `d6e3f1b`. Its files keep their upstream paths at the root of
+this repository, so its commands and its skills work unchanged.
+
+| Path | Runs on | What it is |
+| --- | --- | --- |
+| [`docs/BOARD_SETUP.md`](docs/BOARD_SETUP.md) | | The step-by-step guide: from a new board to the baseline, then RAG, the explorer and the project |
+| `board/` | Board | Setup scripts `00` to `05` (check, packages, llama.cpp, models, services, smoke test) and the systemd units |
+| `config.env` | Both | Pinned llama.cpp commit, models (with SHA256), ports, time limit, seed |
+| `copilot/` | Board | The copilot: retrieval, prompt, and the call to the model servers. Python standard library only |
+| `predict.py` | Board | **The organizers' contract.** `python3 predict.py --input X.jsonl --output Y.csv`: one letter A to E per problem, at most 60 s each |
+| `eval.py`, `build_index.py` | Board | Measure accuracy and latency (writes `results/`), and build the RAG index |
+| `explorer/` | Board | A web page to try problems one by one (port 8000) |
+| `laptop/` | Laptop | `prepare_m3kang.py`: download M3Kang and read the options with OCR |
+| `data/sample_problems.jsonl` | Both | The only data file in Git |
+
+Clone this repository on the board as `~/Santolina_tutor`, then follow
+[`docs/BOARD_SETUP.md`](docs/BOARD_SETUP.md).
+
+Rules that keep the two halves apart:
+
+- **Two `predict.py` files.** The root `predict.py` is the one the organizers
+  run. `santolina_tutor/modeling/predict.py` is cookiecutter scaffolding for
+  laptop work. Don't merge them.
+- **Nothing on the board imports `santolina_tutor`.** It needs `loguru` and
+  `python-dotenv`, and the board has no `pip`. `copilot/`, `predict.py`,
+  `eval.py`, `build_index.py` and `explorer/` use the standard library only.
+- **Ruff only checks `santolina_tutor/`**, so `make format` never rewrites the
+  upstream code.
+- **M3Kang is for research use only.** `.gitignore` keeps everything in
+  `data/` out of Git except `sample_problems.jsonl` and `README.md`, plus
+  `*.gguf`, `*.db` and `results/`.
+
+### Skills for Claude
+
+Four skills in `.claude/skills/` teach Claude how the board, this code and the
+datathon work. Claude Code loads them when the request fits, or ask for one by
+name.
+
+| Skill | Use it to |
+| --- | --- |
+| [`unoq-board`](.claude/skills/unoq-board/SKILL.md) | Connect over SSH or adb, check the model services and the RAM, fix common problems |
+| [`m3kang-copilot`](.claude/skills/m3kang-copilot/SKILL.md) | Change the copilot, run measured experiments, analyse the errors |
+| [`unoq-hardware-ui`](.claude/skills/unoq-hardware-ui/SKILL.md) | Build an App Lab app with a web page and the LED matrix |
+| [`publish-project`](.claude/skills/publish-project/SKILL.md) | Prepare the public repository and the Arduino Project Hub write-up |
+
+Each skill has a `PROVENANCE.md` with the upstream commit and the local edits.
+If the ports, models or rules change, change the skills too.
+
+### Credits
+
+- Board setup, copilot, scripts and skills: the UPC Datathon FME 2026
+  Qualcomm challenge organizers, [mpous/datathon-UPC-maths-qualcomm-arduino-unoq](https://github.com/mpous/datathon-UPC-maths-qualcomm-arduino-unoq).
+- **M3Kang**: Torres-Camps et al., 2026, [arXiv:2601.16218](https://arxiv.org/abs/2601.16218).
+  [Dataset card and license](https://huggingface.co/datasets/qualcomm/M3Kang): research use only.
+- [llama.cpp](https://github.com/ggml-org/llama.cpp) (MIT), Qwen3.5 0.8B and
+  bge-small-en-v1.5 (see their model cards), RapidOCR (Apache 2.0).

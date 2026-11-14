@@ -1,5 +1,16 @@
-# Data
-/data/
+# Data. M3Kang is for research use only: never commit it.
+# /data/* (not /data/) so the two negations below can re-include files.
+/data/*
+!/data/sample_problems.jsonl
+!/data/README.md
+
+# Results are created on each board (eval.py, predict.py)
+/results/*
+!/results/.gitkeep
+
+# Models live in ~/models on the board; indexes are built from M3Kang
+*.gguf
+*.db
 
 # Mac OS-specific storage files
 .DS_Store
