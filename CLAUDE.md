@@ -36,4 +36,4 @@ stop and tell the user.
   skill `docs-review`, ledger `docs/review/status.yml`. Only the user marks a
   stage `validated`.
 - The root `predict.py` is the organizers' contract; don't merge it with
-  `santolina_tutor/modeling/predict.py`.
+  `santolina_tutor/templates/modeling/predict.py`.

@@ -104,7 +104,7 @@ Clone this repository on the board as `~/Santolina_tutor`, then follow
 Rules that keep the two halves apart:
 
 - **Two `predict.py` files.** The root `predict.py` is the one the organizers
-  run. `santolina_tutor/modeling/predict.py` is cookiecutter scaffolding for
+  run. `santolina_tutor/templates/modeling/predict.py` is cookiecutter scaffolding for
   laptop work. Don't merge them.
 - **Nothing on the board imports `santolina_tutor`.** It needs `loguru` and
   `python-dotenv`, and the board has no `pip`. `copilot/`, `predict.py`,
