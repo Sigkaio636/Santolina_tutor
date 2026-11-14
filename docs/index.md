@@ -12,6 +12,8 @@ is for research use only, so this site has no problem text.
 - [Challenge context](CHALLENGE_CONTEXT.md): the team's planning notes and research
   for the challenge.
 - [UNO Q board reference](UNO_Q_BOARD_REFERENCE.md): the board's hardware and limits.
+- [How to deploy the copilot on the UNO Q](how-to/deploy-copilot-on-board.md): put the code and data on the board and check it.
+- [How to use the copilot on the UNO Q](how-to/use-copilot-on-board.md): answer problems, measure results, and use retrieval.
 - [Qualcomm UNO Q summary](RESUMEN_QUALCOMM_UNO_Q.md): a Spanish summary of the
   setup video.
 - [UNO Q constraints guide](GUIA_RESTRICCIONES_UNOQ.html): an HTML page with the

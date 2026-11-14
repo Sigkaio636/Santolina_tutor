@@ -115,6 +115,28 @@ documents:
       signoff: pending
     validated_sha: null
     notes: {}
+  docs/how-to/deploy-copilot-on-board.md:
+    stages:
+      audit: pending
+      critique: pending
+      decisions: pending
+      repair: pending
+      language: pending
+      adversarial: pending
+      signoff: pending
+    validated_sha: null
+    notes: {}
+  docs/how-to/use-copilot-on-board.md:
+    stages:
+      audit: pending
+      critique: pending
+      decisions: pending
+      repair: pending
+      language: pending
+      adversarial: pending
+      signoff: pending
+    validated_sha: null
+    notes: {}
   docs/index.md:
     stages:
       audit: pending
