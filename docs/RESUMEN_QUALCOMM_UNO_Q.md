@@ -1,147 +1,176 @@
-# Resumen interpretativo: UPC Datathon – Qualcomm Challenge (Arduino UNO Q)
+# Interpretive summary: UPC Datathon – Qualcomm Challenge setup video (Arduino UNO Q)
 
-> **Fuente:** transcript del vídeo "UPC Datathon - Qualcomm Challenge step by step Arduino UNO Q setup"
-> (ponente de Qualcomm; el nombre sale como "Maros" en el transcript). El `.txt` está en `origin/main`
-> (commit `e44dad9`), **no en la rama `docs-skills-orchestrator`**. Para contrastar se usa
-> [`CHALLENGE_CONTEXT.md`](CHALLENGE_CONTEXT.md) (en `origin/main` está en `docs/`).
+This explanation is for our team. It summarizes the organizers' setup video and gives our reading of it.
+Where the video and this repository differ, the repository wins, and a note says so.
+
+> **Source:** the transcript of the video "UPC Datathon - Qualcomm Challenge step by step Arduino UNO Q setup"
+> ([transcript](https://github.com/Sigkaio636/Santolina_tutor/blob/main/docs/UPC%20Datathon%20-%20Qualcomm%20Challenge%20step%20by%20step%20Arduino%20UNO%20Q%20setup.txt)).
+> The speaker is from Qualcomm. The transcript gives his name as "Maros". The video is in English.
+> The video follows the README of the organizers' repository step by step. That README is [BOARD_SETUP.md](BOARD_SETUP.md).
+> For comparison we also use [CHALLENGE_CONTEXT.md](CHALLENGE_CONTEXT.md).
 >
-> **Cómo leer este documento:** el transcript es automático y tiene nombres deformados. Lo que **dice el vídeo**
-> va tal cual; lo que es **interpretación mía** va marcado como *(inferido)*. Lo dudoso va marcado *(dudoso)*.
+> **How to read this document:** the transcript is automatic and garbles names. This summary gives what **the video says** as the video says it.
+> Quotes are the transcript's words, lightly cleaned. I mark **my interpretation** with *(inferred)*.
+> Where the repository settles a fact, a note says "the video says X. The repo has Y".
 
 ---
 
-## TL;DR
+## Summary
 
-- **Qué se pide:** un *math copilot* que corra **íntegramente en la Arduino UNO Q**, apoyado en el dataset **M3Kang** (problemas del Cangur).
-- **Debe hacer una de dos cosas:** (a) enseñar matemáticas / mejorar la experiencia del estudiante, o (b) ayudar a razonar problemas nuevos o a entender por qué se fallan problemas concretos del Cangur.
-- **Qué entregar:** repo de GitHub open source bien documentado, paso a paso en Arduino Project Hub y presentación.
-- **Límite duro:** la placa lee a ~11 tok/s y escribe a ~5 tok/s, así que cada respuesta tarda 20–40 s. El modelo base acierta poco (el ponente dice que ~80 % de las veces falla).
-- **Evaluación:** **el vídeo no da criterios explícitos.** Hay que preguntarlos a los organizadores (ver §4).
+- **What the challenge asks:** a *math copilot* that runs **entirely on the Arduino UNO Q**, built on the **M3Kang** dataset. M3Kang holds problems from the Kangaroo math competition ("Cangur" in Catalan).
+- **It must do one of two things:** (a) teach math or improve the student's experience. Or (b) help reason through new problems, or understand why students get specific Kangaroo problems wrong.
+- **What to deliver:** a well-documented open-source GitHub repository, a step-by-step write-up on Arduino Project Hub, and a presentation.
+- **Hard limit:** the video says the board reads the prompt at about 11 tokens per second (tok/s) and writes at about 5 tok/s. So each answer takes 20–40 s.
+  A token is about one short word or part of a word. Our board measured 10.1 tok/s reading and 4.8 tok/s writing ([board reference §14](UNO_Q_BOARD_REFERENCE.md#143-speed)).
+- **Accuracy:** the base model gets few right. The speaker says it was wrong about 80% of the time on M3Kang problems.
+- **Evaluation:** see [§3](#3-evaluation-criteria) and the open questions in [§6](#6-uncertainties-to-verify).
 
 ---
 
-## 1. El reto
+## 1. The challenge
 
-| Punto | Lo que dice el vídeo |
+| Point | What the video says |
 |---|---|
-| Problema | La competencia matemática en Cataluña está bajando. Se quiere usar IA para ayudar a estudiantes, profesores o cualquiera. |
-| Datos | **M3Kang**, modelo/dataset del equipo de Qualcomm Barcelona: casi **2.000 problemas** matemáticos de **2007 a 2024** del Cangur, traducidos a **108 idiomas** (el ponente dice 106 una vez). Alojado en Hugging Face. |
-| Entregable técnico | Diseñar y construir un *math copilot* que **corra enteramente en la UNO Q**. |
-| Restricción de propósito | Debe **o bien enseñar** a estudiantes, **o bien ayudar a razonar** problemas nuevos o por qué se fallan ciertos problemas del Cangur (p. ej. preparar las Proves Cangur). |
+| Problem | Math proficiency in Catalonia is declining. The goal is to use AI to help students, teachers, or anyone. |
+| Data | **M3Kang**, from the Qualcomm Barcelona team. The video calls it a model and a dataset. It is a dataset. The video says almost **2,000 problems** from **2007 to 2024** of the Kangaroo, translated into **108 languages** (the speaker says 106 once). Hosted on Hugging Face. The repo has 1,747 problems in 108 languages ([BOARD_SETUP step 9](BOARD_SETUP.md#step-9-prepare-m3kang-on-your-laptop)). |
+| Technical deliverable | Design and build a *math copilot* that **runs entirely on the UNO Q**. |
+| Purpose | It must **either teach** students, **or help reason** through new problems, or through why students get certain Kangaroo problems wrong. An example goal is to prepare for the Proves Cangur. |
 
-*(inferido)* El vídeo insiste en que lo más importante es **elegir un tema que dispare tu curiosidad** y después la tecnología. El reto es abierto: la
-placa y el baseline son el punto de partida, no la solución.
+The video says the most important thing is to **choose a topic that sparks your curiosity**, and only then the technology.
+*(inferred)* The challenge is open: the board and the baseline are the starting point, not the solution.
 
 ---
 
-## 2. Pasos del proyecto
+## 2. Project steps
 
-El ponente habla de **12 pasos de setup + un paso 13 de ideas** ("en un par de horas lo tienes todo montado").
-El transcript **no numera todos los pasos**; la numeración exacta está en el README de Qualcomm, que no tenemos.
-Por eso describo la **acción** y solo cito sintaxis literal cuando es una herramienta estándar.
-La numeración de la tabla es **mía** (orden en que aparece en el vídeo) y no coincide necesariamente con la del README.
+The speaker talks about **12 setup steps plus a step 13 for ideas**. He says "in a couple of hours you will have everything set up and ready".
+These match BOARD_SETUP: steps 0 to 12 prepare the board, and [Step 13](BOARD_SETUP.md#step-13-brainstorm-your-idea) is the brainstorm.
+The transcript does not number every step. So the table follows the order of the video, and the first column links the BOARD_SETUP step that each row shows.
+BOARD_SETUP has the exact commands. The table describes the action, and quotes exact syntax only for standard tools.
 
-| # | Acción | Por qué importa |
+| BOARD_SETUP step | What the video does | Why it matters |
 |---|---|---|
-| 1 | Instalar **Arduino App Lab**, conectar la UNO Q por **USB-C**, ponerle nombre y **contraseña**, e introducir el WiFi de la UPC (**eduroam no funciona**). Actualizar SO y librerías. | La placa se fabricó hace meses: SO y librerías están desactualizados. **Si pierdes la contraseña no entras al dispositivo.** |
-| 2 | Conectarse por **ADB** (`adb devices`, luego `adb shell`; con varias placas, `adb -s <id> shell`). SSH es la alternativa. | Es el canal de trabajo en el resto del vídeo. |
-| 3 | `sudo apt-get update` e instalar paquetes de compilación. | Hacen falta compiladores para el siguiente paso. |
-| 4 | Descargar un **commit concreto** de **llama.cpp**, compilarlo en la placa y comprobar versiones (`llama-server`, `llama-cli`). | Motor que ejecuta el modelo en CPU. |
-| 5 | Descargar con `wget` desde Hugging Face **Qwen 3.5 0.8B** (~1 GB) y un **modelo de embeddings** (384 dimensiones). Nombre del modelo en el transcript: "VGA small" *(dudoso; 384 dim sugiere un modelo tipo bge-small, verificar en el README)*. | SLM para generar + embeddings para recuperar. |
-| 6 | Arrancar `llama-server` en el puerto **8081** y probar la API de chat completions con "¿cuánto es 7×8?". Medir tiempos (en el vídeo: ~6 s de predicción y ~9 s de prompt). | Fija el baseline de velocidad. |
-| 7 | Probar un problema real del Cangur con opciones A–E (enunciado omitido: los datos de M3Kang no se publican, ver la [dataset card](https://huggingface.co/datasets/qualcomm/M3Kang)). | Demuestra que el modelo base falla: elige una opción incorrecta. |
-| 8 | Parar el servidor y arrancar el de **embeddings** en el puerto **8082**; comprobar que devuelve vectores de 384 números. | Base del RAG. |
-| 9 | Dejar ambos modelos como **servicios systemd** para que arranquen solos. Nombres de servicio en el transcript: "mac lm" y "mac embed" *(dudoso, dejados como se oyen)*. | Evita lanzar `llama-server` a mano cada vez. |
-| 10 | Clonar el **repo del datathon** en la placa y ejecutar el script de predicción (llamado `predict`) sobre problemas de ejemplo con salida a CSV. | Mide el baseline: se ve que el SLM tiende a contestar **A o D**. |
-| 11 | **En el portátil:** crear un entorno virtual de Python, instalar requisitos, **descargar M3Kang** (~400 MB; el ponente limita a ~20 problemas para probar) y copiar los ficheros a la placa (`adb push` o `scp`). | Datos para construir embeddings y RAG. |
-| 12 | Construir el **índice RAG** (demo con **13 problemas**) y probar el modo de recuperación (`rag1`): añade los problemas parecidos con su respuesta al prompt. | Si hay un problema similar la respuesta sale en **menos de 1 s**; si no, ~20 s. |
-| 13 | **Interfaz web**: servidor Python en la placa (host `0.0.0.0`, puerto **8000**) para explorar problemas y consultar al modelo desde el portátil. | Hace el proyecto visual y demostrable. La hizo con IA agéntica. |
-| 14 | *(Opcional)* **Problemas con imagen:** otro `llama-server` en el puerto **8083** con un *projector file*. | Muchos problemas del Cangur llevan imagen. |
-| — | **Tu propio proyecto** (el "paso 13" del vídeo): implementar la idea elegida. | Es donde está el valor. |
+| [0](BOARD_SETUP.md#step-0-connect-to-the-board) | Install **Arduino App Lab** and connect the UNO Q over **USB-C**. Give it a name and a **password**, and enter the UPC Wi-Fi (**eduroam does not work**). Update the OS and the libraries. | The board is months old, so its OS and libraries are out of date. **If you lose the password, you can't access the device.** |
+| [0.4](BOARD_SETUP.md#04-if-ssh-doesnt-work-connect-over-usb-with-adb-fallback) | Connect with **ADB** (Android Debug Bridge, a command-line link over the USB cable): `adb devices`, then `adb shell`. With several boards, `adb -s <id> shell`. The video gives SSH as the alternative. BOARD_SETUP uses [SSH first](BOARD_SETUP.md#03-connect-over-ssh), and adb as the fallback. | It is the working channel for the rest of the video. |
+| [2](BOARD_SETUP.md#step-2-install-the-build-tools) | `sudo apt-get update`, then install the build packages. | The next step needs compilers. |
+| [3](BOARD_SETUP.md#step-3-build-llamacpp) | Download a **specific commit** of **llama.cpp**, build it on the board, and check the versions (`llama-server`, `llama-cli`). | The engine that runs the model on the CPU. |
+| [4](BOARD_SETUP.md#step-4-download-the-models) | Download from Hugging Face with `wget`: **Qwen3.5 0.8B** (~1 GB) and an **embedding model** (384 dimensions). The transcript calls it "VGA small". The repo has bge-small-en-v1.5 (`config.env`). | The language model writes the answer. The embedding model finds similar problems. |
+| [5](BOARD_SETUP.md#step-5-hello-world-with-the-language-model) | Start `llama-server` on port **8081**, and test the chat completions API with "what is 7 * 8". Measure the times (in the video: ~6 s predicting and ~9 s on the prompt). | Gives a first speed measurement. |
+| [5.6](BOARD_SETUP.md#56-one-letter-a-to-e) | Ask a question with options A–E. It is the toy arithmetic question from BOARD_SETUP, not an M3Kang problem. | Shows that the base model fails: it picks a wrong option. |
+| [6](BOARD_SETUP.md#step-6-hello-world-with-the-embedding-model) | Stop the server and start the **embedding** server on port **8082**. Check that it returns vectors of 384 numbers. | The basis of retrieval (RAG): the embedding model converts each problem into numbers, so a search can find similar problems. |
+| [7](BOARD_SETUP.md#step-7-run-both-models-as-services) | Run both models as **systemd services**, so they start on their own at boot. systemd is the Linux service manager. The transcript gives the names as "mac lm" and "mac embed". The repo's model services are `math-llm` and `math-embed`. | No need to start `llama-server` by hand each time. |
+| [8](BOARD_SETUP.md#step-8-get-the-datathon-code-and-run-the-first-test) | Clone the **datathon repository** on the board, and run the prediction script (`predict.py`) on sample problems, with the output in a CSV. | Measures the baseline. The language model tends to answer **A or D**. |
+| [9](BOARD_SETUP.md#step-9-prepare-m3kang-on-your-laptop), [10](BOARD_SETUP.md#step-10-copy-the-data-to-the-board) | **On the laptop:** create a Python virtual environment and install the requirements. **Download M3Kang** (~400 MB). The speaker limits it to ~20 problems to test. Copy the files to the board (`adb push` or `scp`). The video says to use a venv and `pip install`. In this repo, [BOARD_SETUP 9.1](BOARD_SETUP.md#91-install-the-requirements) runs the laptop tools with `uv run --no-project` instead. | Data to build the embeddings and retrieval. |
+| [12](BOARD_SETUP.md#step-12-try-retrieval-rag) | Build the **index**: a SQLite file with the embeddings of the problems (the demo has **13 problems**). Then try retrieval with `--rag K` (the video uses `--rag 1`): it adds the K most similar problems, with their answers, to the prompt. | With a similar problem, the answer arrives in **under 1 s**. Without one, it takes ~20 s. |
+| [Optional: explorer](BOARD_SETUP.md#optional-explore-the-problems-in-your-browser) | **Web interface**: a Python server on the board (host `0.0.0.0`, port **8000**) to browse problems and ask the model from the laptop. | Makes the project visual and easy to demo. The speaker built it with agentic AI. |
+| [Explorer: images](BOARD_SETUP.md#let-the-model-see-the-image-experiment) | *(Optional)* **Problems with images:** another `llama-server` on port **8083** with a *projector file*, an extra model file that lets Qwen3.5 0.8B read images. | Many Kangaroo problems have an image. |
+| [13](BOARD_SETUP.md#step-13-brainstorm-your-idea) | **Your own project** (the video's "step 13"): build the idea you chose. | That is where the value is. |
 
-**Cuidados operativos (dichos en el vídeo):**
-- Al terminar, **`sudo poweroff`**. Si no, el `llama-server` puede quedar en estado zombi al reencender (hay que localizarlo con `ps` y matarlo).
-- Vigilar la **memoria** disponible.
-- Tener **dos terminales** abiertas (servidor + pruebas) ayuda.
+**Operational care (said in the video):**
 
----
-
-## 3. Criterios de evaluación
-
-### Lo que el vídeo NO dice
-**No hay una rúbrica explícita**: ni pesos, ni jurado, ni métricas obligatorias. Cualquier lista de "criterios oficiales" sería inventada.
-
-### Lo que el ponente enfatiza *(inferido: son señales, no reglas)*
-1. **Curiosidad e idea propia:** "lo más importante es que elijas un tema que despierte tu curiosidad".
-2. **Documentación y replicabilidad:** pide explicar todo en el repo (qué problemas descargaste, cómo entrenaste, por qué haces el proyecto). "Cualquiera en el mundo debería poder replicarlo."
-3. **Innovación sobre el baseline:** el sistema base falla mucho; ahí es donde "aplicar innovación y creatividad".
-4. **Que funcione dentro de la placa:** el copilot debe correr en la UNO Q.
-
-### Métricas propuestas por el equipo (**NO oficiales**)
-De `CHALLENGE_CONTEXT.md` (§7): exactitud en un conjunto Kangaroo reservado, score pedagógico (MathTutorBench / MRBench, **sin verificar cuál**), comprobaciones de generación (idioma, longitud, alucinaciones) y métricas en placa (tok/s, tiempo al primer token, RAM). Es un arnés de trabajo del equipo, no una exigencia del reto.
-
-### Pregunta pendiente para los organizadores
-¿Hay rúbrica oficial? ¿Qué peso tiene la demo frente al repo? ¿Hay límites de tamaño de modelo, de datos externos o de datos sintéticos?
+- When you finish, run **`sudo poweroff`** ([BOARD_SETUP 0.5](BOARD_SETUP.md#05-turning-the-board-off)).
+  Otherwise `llama-server` can stay stuck when you start the board again. The speaker says "in a zombie state".
+  Then find it with `pgrep -a llama-server`. The video says to stop it with `pkill llama-server`. The repo has `kill <PID>` for that one server only, because `pkill` also stops both model services ([deploy guide, If something fails](how-to/deploy-copilot-on-board.md#if-something-fails)).
+- Watch the available **memory**.
+- Keeping **two terminals** open (server and tests) helps.
 
 ---
 
-## 4. Recursos disponibles
+## 3. Evaluation criteria
 
-| Tipo | Recurso |
+### What the video does NOT say
+
+**There is no explicit rubric**: no weights, no description of who judges, and no required metrics. Any list of "official criteria" would be invented.
+
+### What the speaker stresses *(inferred: these are signals, not rules)*
+
+1. **Curiosity and your own idea:** "choose a topic that actually sparks your curiosity".
+2. **Documentation and replicability:** he asks you to explain everything in the repository (which problems you downloaded, how you trained, why you do the project). "Anyone else can replicate your projects anywhere in the world."
+3. **Innovation over the baseline:** the base system fails often. That is where you "apply your innovation and creativity".
+4. **It works inside the board:** the copilot must run on the UNO Q.
+
+### Metrics proposed by the team (**NOT official**)
+
+From [CHALLENGE_CONTEXT.md §7](CHALLENGE_CONTEXT.md#7-evaluation):
+
+- accuracy on a Kangaroo validation set
+- a pedagogical score (MathTutorBench or MRBench, **which one is not verified**)
+- generation checks (language, length, hallucinations)
+- on-board metrics (tok/s, time to first token, RAM)
+
+It is the team's own evaluation plan, not a requirement of the challenge.
+
+### Questions for the organizers
+
+Is there an official rubric? How much does the demo weigh against the repository? Are there limits on external or synthetic data?
+These questions are in the [pending list of the deliverables checklist](GOAL_MUSTS.md#3-pending-confirmation-with-the-organizers).
+BOARD_SETUP settles model size: it accepts any GGUF model that fits in RAM, answers in time, and has a license you can use ([BOARD_SETUP 13.3](BOARD_SETUP.md#133-ideas-to-reason)).
+
+---
+
+## 4. Available resources
+
+| Type | Resource |
 |---|---|
-| **Hardware** | Arduino UNO Q conectada por USB-C (Mac/Windows/Linux). **No** hay Arduino Ventuno Q (40 TOPS): "quizá en el próximo datathon". Matriz LED de la UNO Q. Micrófono/webcam/hub USB: **hay que pedirlos a los organizadores**. |
-| **Software** | Arduino App Lab, ADB, llama.cpp, Qwen 3.5 0.8B, modelo de embeddings. |
-| **Datos** | M3Kang en Hugging Face (dataset y paper), ~400 MB. |
-| **Repo de Qualcomm** | Contiene el README paso a paso, el script de predicción, el indexador RAG, la interfaz web, herramientas de medición y análisis de errores y ejemplos de matriz LED. La URL **no sale en el vídeo**: pedirla a organizadores o a Qualcomm. |
-| **Skills para agentes** | Carpeta de *skills* en el repo para que tu agente de IA sepa: usar la UNO Q, construir apps para ella, usar el modelo de embeddings, el hardware, y redactar el proyecto para Project Hub. Recomendación: **copiarlas a tu propio repo**. |
-| **Referencias** | Tutorial de un profesor chileno (Qualcomm ambassador, da clases también en Brasil/LatAm) sobre RAG con SLM en Arduino. Nombre del transcript: "Marel Rob" *(dudoso; probable Marcelo Rovai, verificar)*. Artículo del propio ponente sobre LLM/VLM en la UNO Q con Go. Proyecto "Island Sword Fight" en su GitHub (keyword spotting). |
-| **Contacto** | El ponente ofrece contacto por LinkedIn y por correo (el correo en el transcript es ambiguo, no lo copio). |
+| **Hardware** | Arduino UNO Q 4 GB, connected over USB-C (Mac, Windows or Linux). There is **no** Arduino VENTUNO Q (40 TOPS). TOPS means trillions of operations per second, a measure of AI compute. The speaker says: "maybe next time in the next datathon". The UNO Q LED matrix. Microphone, webcam and USB hub: the video says to **ask the organizers for them**. BOARD_SETUP allows no external modules: the LED matrix is the only hardware output ([BOARD_SETUP 14.4](BOARD_SETUP.md#144-add-the-led-matrix-and-a-web-page)). |
+| **Software** | Arduino App Lab, ADB, llama.cpp, Qwen3.5 0.8B, the embedding model bge-small-en-v1.5. |
+| **Data** | M3Kang on Hugging Face (dataset and paper), ~400 MB. |
+| **Organizers' repository** | It holds the step-by-step README, the prediction script, the RAG indexer, the web interface, tools to measure and analyze errors, and LED matrix examples. The video gives no URL. The repo has it: [mpous/datathon-UPC-maths-qualcomm-arduino-unoq](https://github.com/mpous/datathon-UPC-maths-qualcomm-arduino-unoq/tree/d6e3f1b0c28a7dc47db3143c17e1e609006cd0a4), and [BOARD_SETUP.md](BOARD_SETUP.md) is its README. |
+| **Skills for agents** | A *skills* folder in the repository, for your AI agent. The skills teach it to use the UNO Q, build apps for it, and use the embedding model and the hardware. They also teach it to write the project for Project Hub. Advice: **copy them into your own repository**. |
+| **References** | See the list below. |
+| **Contact** | The speaker offers contact on LinkedIn and by email (the email in the transcript is unclear, so I don't copy it). |
+
+References named in the video:
+
+- A tutorial on RAG with small language models on Arduino, by a teacher from Chile. He is a Qualcomm ambassador who also teaches in Brazil and Latin America.
+  The transcript says "Marel Rob". BOARD_SETUP names Marcelo Rovai: [Generative AI at the Edge with the UNO Q, RAG chapter](https://mjrovai.github.io/genai-uno-q/content/rag/rag.html).
+- The speaker's own article on LLMs and VLMs on the UNO Q with Go. Its title is [How to Run High-Performance LLMs Locally on the Arduino UNO Q](https://projecthub.arduino.cc/marc-edgeimpulse/running-local-llms-and-vlms-on-the-arduino-uno-q-with-yzma-74e288).
+- The "Island Sword Fight" project on his GitHub (keyword spotting).
 
 ---
 
-## 5. Trabajo a realizar
+## 5. Interpretive reading
 
-**Checklist en orden** *(inferido a partir de los pasos y entregables)*:
-
-- [ ] Completar el setup (pasos 1–10) y **medir el baseline** (tiempos y acierto).
-- [ ] Descargar M3Kang y construir el RAG con **más de 13 problemas** (inglés y catalán).
-- [ ] **Elegir la idea** y decidir cuál de las dos funciones cubre (enseñar o razonar/diagnosticar fallos).
-- [ ] Implementar la idea sobre la base (RAG + interfaz web).
-- [ ] **Documentar mientras se construye.**
-- [ ] Publicar el **repo de GitHub open source** (qué problemas, cómo se entrenó/indexó, por qué).
-- [ ] Publicar el **paso a paso en Arduino Project Hub** (hay una skill para redactarlo).
-- [ ] **Presentación.** El vídeo dice "la presentación del domingo" y "te veo el lunes": **fecha ambigua, confirmar**.
-
-**Ideas que propone el ponente (paso 13):**
-1. **Problema parecido más fácil:** si el estudiante se atasca, el copilot busca (por embeddings) un problema similar pero más sencillo.
-2. **Caja de debate en clase:** se proyecta un problema, los alumnos votan A–E desde el móvil, botón o voz, y la UNO Q valida la respuesta. Interfaz web en Python.
-3. **Puente multilingüe / simplificación de enunciados:** reescribir el texto de forma más simple (p. ej. ayuda para personas con dislexia).
-4. **Keyword spotting A–E por voz:** reconocer "a, b, c, d, e" con un modelo local y mostrar acierto/fallo en la matriz LED (rojo/verde). Requiere micrófono.
-5. **Problemas con imagen:** leer imágenes con el projector file (puerto 8083).
+1. **The bottleneck is speed, not only accuracy.** About 5 tok/s means 20–40 s per answer. Anything that avoids or shortens generation gains a lot.
+2. **Retrieval (RAG) is the path Qualcomm demonstrates.** With only 13 problems in the index, a similar question got its answer in under 1 s. The organizers measured the cost: 2 RAG examples take about 30 s, against about 9 s without. The video used `--rag 1` on 13 problems ([BOARD_SETUP 13.1](BOARD_SETUP.md#131-start-from-what-the-board-can-do)).
+3. **The difference is in the idea and the experience, not in a bigger model.** The board can't run more. The value is in how people use the copilot (classroom debate, accessibility, diagnosing errors).
+4. **The speaker values documentation almost as much as the result.** Repository, Project Hub and presentation appear as deliverables. He stresses that anyone should be able to replicate the project.
+5. **Divergence from the team's plan.** [CHALLENGE_CONTEXT.md](CHALLENGE_CONTEXT.md) starts from fine-tuning, pruning and quantizing a Gemma model.
+   The video demonstrates another path: Qwen3.5 0.8B with embeddings and retrieval, without retraining.
+   They don't exclude each other, but the team should **decide on purpose**.
+   The deployed language model is Qwen3.5 0.8B Q8_0 (`config.env`). The fine-tune base is not chosen yet. Gemma 3 is one candidate under study.
 
 ---
 
-## 6. Lectura interpretativa
+## 6. Uncertainties to verify
 
-1. **El cuello de botella es la velocidad, no solo el acierto.** ~5 tok/s implica 20–40 s por respuesta. Todo lo que evite generar o acorte la generación gana mucho.
-2. **El RAG es el camino que Qualcomm demuestra y la palanca más barata.** Con solo 13 problemas indexados, una pregunta parecida se respondió en menos de 1 s. Con el dataset completo la ganancia debería crecer *(inferido)*.
-3. **El diferencial está en la idea y la experiencia, no en un modelo mayor.** La placa no da para más: el valor está en cómo se usa el copilot (debate en clase, accesibilidad, diagnóstico de fallos).
-4. **El ponente valora la documentación casi tanto como el resultado.** Repo, Project Hub y presentación aparecen como entregables, y repite que "todo debe poder replicarse".
-5. **Divergencia con el plan del equipo.** `CHALLENGE_CONTEXT.md` parte de afinar/podar/cuantizar un modelo Gemma; el vídeo demuestra un camino distinto (Qwen 3.5 0.8B + embeddings + RAG sin reentrenar). No son excluyentes, pero conviene **decidirlo conscientemente**:
+- **Evaluation criteria:** the video gives none ([§3](#3-evaluation-criteria)). The question is in the [pending list](GOAL_MUSTS.md#3-pending-confirmation-with-the-organizers).
+- **Presentation date:** the video mentions "the presentation that you're going to do on Sundays" and says "I will see your projects on Monday". The date is unclear. It is in the [pending list](GOAL_MUSTS.md#3-pending-confirmation-with-the-organizers).
+- **Names the automatic transcript garbles:** "Dathlon" (datathon) and "provis kangur" (Proves Cangur).
 
-   | Punto | Vídeo | `CHALLENGE_CONTEXT.md` |
-   |---|---|---|
-   | Nº de problemas | ~2.000 (M3Kang, 108 idiomas) | ~1.000 |
-   | Enfoque | RAG + embeddings sobre Qwen 3.5 0.8B | Fine-tune, poda, cuantización de Gemma |
-   | Servidor | `llama-server` en 8081 / 8082 / 8083 | LLM Brick de App Lab (puerto 9999) |
+Settled by the repository:
+
+- The organizers' repository and its README: [BOARD_SETUP.md](BOARD_SETUP.md), with the exact commands and the real step numbers.
+- The embedding model ("VGA small" in the transcript) is bge-small-en-v1.5.
+- The model services ("mac lm" / "mac embed") are `math-llm` and `math-embed`.
+- The teacher from Chile ("Marel Rob") is Marcelo Rovai.
+- M3Kang has 1,747 problems in 108 languages.
+- The board is the 4 GB variant (ABX00173). The video only says "you will need a lot of memory". See the [board reference](UNO_Q_BOARD_REFERENCE.md).
 
 ---
 
-## 7. Incertidumbres a verificar
+## 7. What to try
 
-- **Criterios de evaluación:** no existen en el vídeo; preguntar a los organizadores.
-- **Fecha de la presentación:** "domingo" y "lunes" son ambiguos.
-- **URL y README del repo de Qualcomm:** no salen en el transcript; ahí están los comandos exactos y la numeración real de los pasos.
-- **Nombres deformados por el transcript automático:** modelo de embeddings ("VGA small"), servicios systemd ("mac lm" / "mac embed"), profesor chileno ("Marel Rob"), "Dathlon", "provis kangur".
-- **Cifras:** 108 vs 106 idiomas; "casi 2.000" problemas (≈) frente a ~1.000 en el contexto del equipo.
-- **Variante de la placa (2 GB o 4 GB):** el vídeo dice que "necesitarás mucha memoria", pero no indica la variante.
+Prepare the board with [BOARD_SETUP](BOARD_SETUP.md#the-steps-at-a-glance) steps 0 to 8, then step 9 on your laptop. Then follow the [deploy guide](how-to/deploy-copilot-on-board.md) and the [use guide](how-to/use-copilot-on-board.md). For our copilot they replace steps 10 to 12.
+Then choose an idea ([Step 13](BOARD_SETUP.md#step-13-brainstorm-your-idea)). Document it while you build.
+The deliverables checklist is [GOAL_MUSTS.md](GOAL_MUSTS.md).
+
+**Ideas the speaker proposes (step 13):**
+
+1. **An easier similar problem:** when the student is stuck, the copilot finds (with embeddings) a similar but easier problem.
+2. **A classroom debate box:** a problem is projected. Students vote A–E from their phone, a button or their voice, and the UNO Q checks the answer. Web interface in Python.
+3. **Multilingual bridge and simpler statements:** rewrite the text more simply (for example, to help people with dyslexia).
+4. **A–E keyword spotting by voice:** recognize "a, b, c, d, e" with a local model. Show right or wrong on the LED matrix (red or green). It needs a microphone. BOARD_SETUP allows no external modules.
+5. **Problems with images:** read the images with the projector file (port 8083).
+
+[BOARD_SETUP 13.2](BOARD_SETUP.md#132-ideas-to-teach) and [13.3](BOARD_SETUP.md#133-ideas-to-reason) describe most of these ideas, and more. 13.2 says how to measure each one.
