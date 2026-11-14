@@ -153,37 +153,32 @@ class AdbLink:
         """
         name = HOTSPOT_CONNECTION
         self._sh(f"nmcli connection delete {name} >/dev/null 2>&1; true")
-        args = [
-            "nmcli",
-            "connection",
-            "add",
-            "type",
-            "wifi",
-            "ifname",
-            "wlan0",
-            "con-name",
-            name,
-            "autoconnect",
-            "yes",
-            "ssid",
-            ssid,
-            "802-11-wireless.mode",
-            "ap",
-            "802-11-wireless.band",
-            "bg",
-            "ipv4.method",
-            "shared",
-            "ipv4.addresses",
-            "10.42.0.1/24",
-            "ipv6.method",
-            "disabled",
-            "wifi-sec.key-mgmt",
-            "wpa-psk",
-            "wifi-sec.psk",
-            password,
-            "connection.autoconnect-priority",
-            "100",
-        ]
+        settings = {
+            "ifname": "wlan0",
+            "con-name": name,
+            "autoconnect": "yes",
+            "ssid": ssid,
+            "802-11-wireless.mode": "ap",
+            "802-11-wireless.band": "bg",
+            # Channel 6 is allowed in every country; an automatic choice can land on 12-13.
+            "802-11-wireless.channel": "6",
+            "802-11-wireless.hidden": "no",
+            "ipv4.method": "shared",
+            "ipv4.addresses": "10.42.0.1/24",
+            "ipv6.method": "disabled",
+            # Plain WPA2 with AES. NetworkManager's default mixes in WPA1 (TKIP) and announces
+            # WPA3, and many phones then leave the network out of their list.
+            "wifi-sec.key-mgmt": "wpa-psk",
+            "wifi-sec.proto": "rsn",
+            "wifi-sec.pairwise": "ccmp",
+            "wifi-sec.group": "ccmp",
+            "wifi-sec.pmf": "disable",
+            "wifi-sec.psk": password,
+            "connection.autoconnect-priority": "100",
+        }
+        args = ["nmcli", "connection", "add", "type", "wifi"]
+        for key, value in settings.items():
+            args += [key, value]
         result = self._sh(" ".join(shlex.quote(a) for a in args), check=False)
         if result.returncode != 0:
             raise LinkError(
