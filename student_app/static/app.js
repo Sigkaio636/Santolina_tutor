@@ -8,6 +8,7 @@ let info = {};         // board name, professor mode, languages, address
 let token = null;
 let lang = "cat";
 let teacher = false;
+let myCode = "";
 
 // ---------------------------------------------------------------- helpers
 function h(tag, attrs, ...children) {
@@ -24,6 +25,8 @@ function h(tag, attrs, ...children) {
   }
   return el;
 }
+// Show a screen. Leaves out null/false parts (optional blocks).
+const render = (...nodes) => app.replaceChildren(...nodes.flat().filter((n) => n !== null && n !== undefined && n !== false));
 const t = (key, vars) => (S[key] || key).replace(/\{(\w+)\}/g, (_, k) => (vars && k in vars ? vars[k] : ""));
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
@@ -63,7 +66,7 @@ function go(hash) { if (location.hash === hash) route(); else location.hash = ha
 function topbar(backTo) {
   return h("div", { class: "topbar" },
     backTo ? h("button", { class: "link", onclick: () => go(backTo) }, "← " + t("back"))
-           : h("span", { class: "who" }, teacher ? "👩‍🏫" : "🎓"),
+           : h("span", { class: "who" }, teacher ? "👩‍🏫" : "🎓 " + myCode),
     h("button", { class: "link", onclick: logout }, t("not_you")));
 }
 function statusChip(status) {
@@ -84,6 +87,7 @@ function langButtons(onchange) {
 }
 function showLogin(message) {
   history.replaceState(null, "", location.pathname);
+  document.body.className = "login";
   const input = h("input", { class: "code-input", maxlength: "12", autocomplete: "off",
     autocapitalize: "characters", spellcheck: "false", inputmode: "text", placeholder: t("code_placeholder") });
   const err = h("p", { class: "error" }, message || "");
@@ -95,12 +99,12 @@ function showLogin(message) {
           client_ts: new Date().toISOString() }) });
       const data = await r.json();
       if (!r.ok) { err.textContent = t("bad_code"); input.select(); return; }
-      token = data.token; teacher = data.teacher;
+      token = data.token; teacher = data.teacher; myCode = data.code || "";
       go("#home");
     } catch (e) { err.textContent = t("error"); }
   };
   input.addEventListener("keydown", (e) => { if (e.key === "Enter") start(false); });
-  app.replaceChildren(h("div", { class: "login" },
+  render(h("div", { class: "login" },
     info.board_name ? h("p", { class: "muted" }, "🎓 " + info.board_name) : null,
     h("h1", {}, t("welcome_title")),
     h("p", {}, t("welcome_text")),
@@ -133,7 +137,7 @@ async function showHome() {
   const hw = d.homework_pending
     ? t("homework_pending", { n: d.homework_pending }) + (d.homework_next_due ? " · " + t("due", { date: d.homework_next_due }) : "")
     : t("homework_none");
-  app.replaceChildren(
+  render(
     topbar(null),
     teacher ? h("div", { class: "banner" }, t("teacher_banner")) : null,
     h("h1", {}, t("home_title")),
@@ -156,7 +160,7 @@ function exerciseRow(x, onclick) {
 async function showHomework() {
   event("view_opened", { view: "homework" });
   const list = await api("homework");
-  app.replaceChildren(topbar("#home"), h("h1", {}, t("homework")),
+  render(topbar("#home"), h("h1", {}, t("homework")),
     list.length ? null : h("p", { class: "muted" }, t("homework_none")),
     list.map((a) => h("div", { class: "card" },
       h("h2", {}, a.title),
@@ -167,7 +171,7 @@ async function showHomework() {
 async function showPractice() {
   event("view_opened", { view: "practice" });
   const topics = await api("practice");
-  app.replaceChildren(topbar("#home"), h("h1", {}, t("practice")),
+  render(topbar("#home"), h("h1", {}, t("practice")),
     topics.length ? null : h("p", { class: "muted" }, t("no_exercises")),
     topics.map((g, i) => h("details", { class: "topic", open: topics.length === 1 || i === 0 },
       h("summary", {}, h("span", {}, g.topic), h("span", { class: "muted" }, `${g.done}/${g.exercises.length}`)),
@@ -274,7 +278,7 @@ function makeThread(container) {
     },
   };
 }
-function composer(thread, placeholder, getKey) {
+function composer(thread, placeholder, getKey, extra) {
   let photo = null;
   const attached = h("div", { class: "attached", hidden: true });
   const area = h("textarea", { rows: "1", placeholder });
@@ -296,7 +300,7 @@ function composer(thread, placeholder, getKey) {
     try { const { ticket } = await api("ask", body); thread.reply(ticket); } catch (e) { showError(e); }
   }
   area.addEventListener("keydown", (e) => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); send(); } });
-  return h("div", { class: "composer" }, attached,
+  return h("div", { class: "composer" }, extra ? h("div", { class: "next" }, extra) : null, attached,
     h("div", { class: "inner" },
       h("button", { class: "icon-btn", title: t("photo"), "aria-label": t("photo"), onclick: () => file.click() }, "📷"),
       file, area,
@@ -337,7 +341,7 @@ async function showExercise() {
   const chat = h("div", { class: "thread" });
   const thread = makeThread(chat);
   thread.onSuggest = (k) => openExercise(k, mode, null, "suggested");
-  app.replaceChildren(
+  render(
     topbar(mode === "homework" ? "#homework" : "#practice"),
     teacher ? h("div", { class: "banner" }, t("teacher_banner")) : null,
     exerciseCard(ex, { thread }),
@@ -361,14 +365,14 @@ async function showFree() {
     } catch (e) { if (e.message === "no exercises") thread.bot(t("no_exercises")); else showError(e); }
   }
   thread.onSuggest = (k) => show(api("exercise?" + new URLSearchParams({ key: k, mode: "free", path_reason: "suggested" })));
-  app.replaceChildren(
+  render(
     topbar("#home"),
     teacher ? h("div", { class: "banner" }, t("teacher_banner")) : null,
     h("h1", {}, t("free")),
     h("div", { class: "msg bot" }, h("span", { class: "who" }, t("copilot")), t("free_intro")),
     box,
-    h("button", { class: "btn primary free-next", onclick: () => show(api("free/next", {})) }, "🎲 " + t("next_problem")),
-    composer(thread, t("ask_placeholder"), () => current));
+    composer(thread, t("ask_placeholder"), () => current,
+      h("button", { class: "btn primary", onclick: () => show(api("free/next", {})) }, "🎲 " + t("next_problem"))));
   show(api("free/next", {}));
 }
 
@@ -376,6 +380,7 @@ async function showFree() {
 async function route() {
   if (!token) return showLogin();
   const view = location.hash.slice(1) || "home";
+  document.body.className = view;
   try {
     if (view === "homework") await showHomework();
     else if (view === "practice") await showPractice();
