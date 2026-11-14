@@ -1,0 +1,23 @@
+<div class="widgets">
+{% for w, data in widgets %}
+  <section class="card widget widget-{{ data.kind }}">
+    <h3>{{ w.title }}</h3>
+    {% if data.kind == "kpis" %}
+      <div class="kpis">
+        {% for item in data["items"] %}
+          <div class="kpi"><div class="value">{{ item.value }}</div><div class="label">{{ item.label }}</div></div>
+        {% endfor %}
+      </div>
+    {% elif data.kind in ("bar", "line") %}
+      <div class="chart-box"><canvas data-chart='{{ data | tojson_compact }}'></canvas></div>
+    {% elif data.kind == "table" %}
+      <table>
+        <thead><tr>{% for c in data.columns %}<th>{{ c }}</th>{% endfor %}</tr></thead>
+        <tbody>{% for row in data.rows %}<tr>{% for cell in row %}<td>{{ cell }}</td>{% endfor %}</tr>{% endfor %}</tbody>
+      </table>
+    {% else %}
+      <p class="muted">{{ data.message }}</p>
+    {% endif %}
+  </section>
+{% endfor %}
+</div>

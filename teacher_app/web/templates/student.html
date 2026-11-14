@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block content %}
+<p><a href="/students">← {{ S.students_title }}</a></p>
+<h1>{{ student.display_name }} <code class="code big">{{ student.code }}</code></h1>
+<p class="muted">{{ student.group_name or S.no_group }}{% if student.notes %} · {{ student.notes }}{% endif %}</p>
+<p class="muted small">{{ S.students_code_help }}</p>
+{% include "_widgets.html" %}
+<section class="card">
+  <h3>{{ S.students_sessions }}</h3>
+  <table>
+    <thead><tr><th>Start</th><th>End</th><th>{{ S.nav_boards }}</th><th>Answers</th><th>Time</th></tr></thead>
+    <tbody>
+    {% for x in sessions %}
+      <tr>
+        <td>{{ x.started_at | when }}</td><td>{{ x.ended_at | when }}</td>
+        <td><a href="/boards/{{ x.board_id }}">{{ x.board_name or x.board_id }}</a></td>
+        <td>{{ x.answers }}</td>
+        <td>{% if x.time_quality == "phone" %}phone clock{% else %}<span class="muted">estimated</span>{% endif %}</td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</section>
+<div class="row">
+  <form class="card inline" method="post" action="/students/{{ student.id }}/group">
+    <h3>{{ S.students_move }}</h3>
+    <select name="group_id">
+      <option value="">{{ S.no_group }}</option>
+      {% for g in groups %}<option value="{{ g.id }}" {% if g.id == student.group_id %}selected{% endif %}>{{ g.name }}</option>{% endfor %}
+    </select>
+    <button>{{ S.save }}</button>
+  </form>
+  <form class="card inline" method="post" action="/students/{{ student.id }}/delete" onsubmit="return confirm('{{ S.students_delete_confirm }}')">
+    <h3>{{ S.students_delete }}</h3>
+    <button class="danger">{{ S.students_delete }}</button>
+  </form>
+</div>
+{% endblock %}

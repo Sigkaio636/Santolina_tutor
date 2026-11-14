@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>{{ S.boards_title }}</h1>
+{% if boards %}
+<table>
+  <thead><tr><th>{{ S.setup_name }}</th><th>Serial</th><th>{{ S.board_group }}</th><th>{{ S.board_mode }}</th><th>Last unload</th></tr></thead>
+  <tbody>
+  {% for b in boards %}
+    <tr>
+      <td><a href="/boards/{{ b.board_id }}">{{ b.name }}</a></td><td>{{ b.board_id }}</td>
+      <td>{{ b.group_name or S.no_group }}</td><td><span class="badge {{ b.mode }}">{{ b.mode }}</span></td>
+      <td>{{ b.last_sync | when }}</td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% else %}<p class="muted">{{ S.boards_none }}</p>{% endif %}
+{% endblock %}

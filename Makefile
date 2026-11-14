@@ -48,6 +48,16 @@ docs-status:
 	uv run --group docs python .claude/skills/docs-review/scripts/docs_status.py check
 	uv run --group docs python .claude/skills/docs-review/scripts/docs_status.py table
 
+## Start the teacher app (http://127.0.0.1:8010)
+.PHONY: teacher
+teacher:
+	uv run --group teacher python -m teacher_app serve
+
+## Run the tests of the teacher app and the board data contract
+.PHONY: test
+test:
+	uv run --group teacher pytest
+
 ## Format source code with ruff
 .PHONY: format
 format:

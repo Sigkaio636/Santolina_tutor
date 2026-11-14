@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+{% block content %}
+<p><a href="/boards">← {{ S.boards_title }}</a></p>
+<h1>{{ board.name }} <span class="badge {{ board.mode }}">{{ board.mode }}</span></h1>
+<p class="muted">{{ board.board_id }} · {{ board.group_name or S.no_group }}</p>
+
+{% if not connected %}
+  <p class="flash info">{{ S.board_not_connected }}</p>
+{% elif live_error %}
+  <p class="flash err">{{ S.error }}: {{ live_error }}</p>
+{% else %}
+<div class="grid2">
+  <section class="card">
+    <h3>{{ S.board_status }}</h3>
+    <table class="kv">
+      <tr><th>{{ S.board_waiting }}</th><td>{{ live.waiting | length }}</td></tr>
+      <tr><th>{{ S.board_open_sessions }}</th><td>{{ live.open | length }}</td></tr>
+      <tr><th>{{ S.board_archive }}</th><td>{{ live.archive | length }} ({{ live.archive | sum(attribute="size") | bytes }})</td></tr>
+      <tr><th>{{ S.board_roster }}</th><td>{{ (live.roster or {}).get("codes", []) | length }}</td></tr>
+      <tr><th>{{ S.board_disk }}</th><td>{{ live.disk.free | bytes }} / {{ live.disk.total | bytes }}</td></tr>
+      <tr><th>{{ S.board_clock }}</th><td>{% if live.offset | abs < 60 %}OK ({{ "%+.0f" | format(live.offset) }} s){% else %}<span class="warn">{{ "%+.0f" | format(live.offset / 60) }} min</span>{% endif %}</td></tr>
+      <tr><th>{{ S.board_services }}</th><td>{% for k, v in live.services.items() %}{{ k }}: {% if v %}{{ S.up }}{% else %}<span class="warn">{{ S.down }}</span>{% endif %}{% if not loop.last %}, {% endif %}{% endfor %}</td></tr>
+    </table>
+    <form method="post" action="/boards/{{ board.board_id }}/unload">
+      <button class="primary" {% if not live.waiting %}disabled{% endif %}>{{ S.board_unload }} ({{ live.waiting | length }})</button>
+      <p class="muted small">{{ S.board_unload_help }}</p>
+    </form>
+    {% if live.archive %}
+    <form method="post" action="/boards/{{ board.board_id }}/clear" onsubmit="return confirm('{{ S.board_clear_confirm }}')">
+      <button class="danger">{{ S.board_clear }}</button>
+    </form>
+    {% endif %}
+  </section>
+
+  <section class="card">
+    <h3>{{ S.board_mode }}</h3>
+    <form method="post" action="/boards/{{ board.board_id }}/mode" class="inline">
+      {% if board.mode == "student" %}
+        <input type="hidden" name="mode" value="professor"><button>{{ S.board_mode_to_professor }}</button>
+      {% else %}
+        <input type="hidden" name="mode" value="student"><button class="primary">{{ S.board_mode_to_student }}</button>
+      {% endif %}
+    </form>
+    <h3>{{ S.board_group }}</h3>
+    <form method="post" action="/boards/{{ board.board_id }}/group" class="inline">
+      <select name="group_id">
+        <option value="">{{ S.no_group }}</option>
+        {% for g in groups %}<option value="{{ g.id }}" {% if g.id == board.group_id %}selected{% endif %}>{{ g.name }}</option>{% endfor %}
+      </select>
+      <button>{{ S.board_group_save }}</button>
+    </form>
+    <h3>{{ S.board_rag }}</h3>
+    {% set rag = live.rag %}
+    {% if not rag.exists %}<p class="warn">Missing: {{ rag.path }}</p>
+    {% elif rag.error %}<p class="warn">{{ rag.error }}</p>
+    {% else %}
+      <p>{{ rag.rows }} problems · {% for l, n in rag.languages.items() %}{{ l }} {{ n }}{% if not loop.last %}, {% endif %}{% endfor %} · {{ rag.size | bytes }} · built {{ rag.mtime | when }}</p>
+    {% endif %}
+    <p class="muted small">{{ S.board_rag_help }}</p>
+  </section>
+</div>
+
+<section class="card">
+  <h3>{{ S.board_packs }}</h3>
+  <table>
+    <tbody>
+    {% for p in live.packs %}
+      <tr><td>{{ p.title }}</td><td><code>{{ p.pack_id }}</code> v{{ p.version }}</td><td>{{ p.count }} exercises</td>
+        <td><form method="post" action="/boards/{{ board.board_id }}/packs/{{ p.pack_id }}/remove"><button class="small">{{ S.board_packs_remove }}</button></form></td></tr>
+    {% else %}<tr><td class="muted">{{ S.packs_none }}</td></tr>{% endfor %}
+    </tbody>
+  </table>
+  {% if library %}
+  <form method="post" action="/boards/{{ board.board_id }}/packs" class="inline">
+    <select name="pack_id">{% for p in library %}<option value="{{ p.pack_id }}">{{ p.title }} (v{{ p.version }})</option>{% endfor %}</select>
+    <button>{{ S.board_packs_load }}</button>
+  </form>
+  {% else %}<p class="muted small"><a href="/packs">{{ S.packs_title }}</a></p>{% endif %}
+</section>
+{% endif %}
+
+{% include "_widgets.html" %}
+
+<section class="card">
+  <h3>{{ S.board_syncs }}</h3>
+  <table>
+    <thead><tr><th>When</th><th>Files</th><th>New events</th><th>Clock offset</th></tr></thead>
+    <tbody>
+    {% for y in syncs %}
+      <tr><td>{{ y.at | when }}</td><td>{{ y.files_pulled }}</td><td>{{ y.events_imported }}</td><td>{{ "%+.0f" | format(y.offset_s) }} s</td></tr>
+    {% else %}<tr><td class="muted">{{ S.never }}</td></tr>{% endfor %}
+    </tbody>
+  </table>
+</section>
+{% endblock %}
