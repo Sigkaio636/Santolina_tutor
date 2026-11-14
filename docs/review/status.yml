@@ -224,18 +224,17 @@ documents:
       language: validated
       adversarial: validated
       signoff: validated
-    validated_sha: ffc3b053382cbb555a4b912683bd2a975c801379c86c31287becfde816d598a2
+    validated_sha: bdac2e2693a641b4dff3f7485b9cd37d21ecadb7b5c83d60bbaf5355c89f8da2
     notes:
       audit: 'docsauditor: 11 findings (1 breaks, 1 decisions)'
       critique: 'diataxis: how-to; docs-critic: 21 findings (4 misleading, 4 decisions)'
       decisions: 'grilling Q1-Q23: 7 findings settled (0 wontfix, 0 dismissed); 32 verified left for S4'
-      repair: 'docsjanitor: all verified findings fixed or settled; 0 open'
-      language: asd-ste100 (strict), ste-lint 2 -> 0; remaining hits are quotes, locked headings or linter
-        false positives
-      adversarial: 2 rounds, 9 lenses by hand (adversarial-reviewer, no plugin toolchain) + adjudicator;
-        round 2 verdict SHIP, its 8 in-scope minors fixed
-      signoff: user sign-off 2026-11-14 after S1-S6 (commit b9c84d2)
-    last_sha: ffc3b053382cbb555a4b912683bd2a975c801379c86c31287becfde816d598a2
+      repair: 'merge of PR #3: smoke-test hint and fallback wording'
+      language: ste-lint 0 after the merge edit
+      adversarial: short change checked against copilot/pipeline.py and board/05_smoke_test.sh; no new
+        round
+      signoff: 'user re-sign-off after merging PR #3'
+    last_sha: bdac2e2693a641b4dff3f7485b9cd37d21ecadb7b5c83d60bbaf5355c89f8da2
   docs/how-to/use-copilot-on-board.md:
     stages:
       audit: validated
@@ -245,19 +244,18 @@ documents:
       language: validated
       adversarial: validated
       signoff: validated
-    validated_sha: 082c0edebdd9e5eccc2c7da4989aeec9ce2d600f6a0afb799f1c80c84bd545ab
+    validated_sha: 0091182296eb8b48613c7cedf84f1d6ec59ff3d7a5b044d71a2d4a949bd68f27
     notes:
       audit: 'docsauditor: 6 findings (0 breaks, 3 decisions)'
       critique: 'diataxis: how-to; docs-critic: 24 findings (5 misleading, 7 decisions)'
       decisions: 'grilling Q1-Q23: 11 findings settled (0 wontfix, 0 dismissed); 30 verified left for
         S4'
-      repair: 'docsjanitor: all verified findings fixed or settled; 0 open'
-      language: asd-ste100 (strict), ste-lint 2 -> 0; remaining hits are quotes, locked headings or linter
-        false positives
-      adversarial: 2 rounds, 9 lenses by hand (adversarial-reviewer, no plugin toolchain) + adjudicator;
-        round 2 verdict SHIP, its 8 in-scope minors fixed
-      signoff: user sign-off 2026-11-14 after S1-S6 (commit b9c84d2)
-    last_sha: 082c0edebdd9e5eccc2c7da4989aeec9ce2d600f6a0afb799f1c80c84bd545ab
+      repair: 'merge of PR #3: smoke-test hint and fallback wording'
+      language: ste-lint 0 after the merge edit
+      adversarial: short change checked against copilot/pipeline.py and board/05_smoke_test.sh; no new
+        round
+      signoff: 'user re-sign-off after merging PR #3'
+    last_sha: 0091182296eb8b48613c7cedf84f1d6ec59ff3d7a5b044d71a2d4a949bd68f27
   docs/index.md:
     stages:
       audit: validated
