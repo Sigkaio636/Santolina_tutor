@@ -4,6 +4,9 @@
 !/data/sample_problems.jsonl
 !/data/README.md
 
+# Session uploads and outputs; can hold M3Kang problem images
+/output/
+
 # Results are created on each board (eval.py, predict.py)
 /results/*
 !/results/.gitkeep
