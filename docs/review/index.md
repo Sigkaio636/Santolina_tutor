@@ -15,12 +15,14 @@ Each document goes through the `/docs-review` stages. ✅ validated by the user,
 | [docs/CHALLENGE_CONTEXT.md](../CHALLENGE_CONTEXT.md) | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ |
 | [docs/GOAL_MUSTS.md](../GOAL_MUSTS.md) | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ |
 | [docs/GUIA_RESTRICCIONES_UNOQ.html](../GUIA_RESTRICCIONES_UNOQ.html) | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ |
+| [docs/INSTALL_DECIDER.md](../INSTALL_DECIDER.md) | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ |
 | [docs/OCR_FAILURE_MODES.md](../OCR_FAILURE_MODES.md) | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ |
 | [docs/RESUMEN_QUALCOMM_UNO_Q.md](../RESUMEN_QUALCOMM_UNO_Q.md) | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ |
 | [docs/SKILLS_GUIDE.html](../SKILLS_GUIDE.html) | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ |
 | [docs/UNO_Q_BOARD_REFERENCE.md](../UNO_Q_BOARD_REFERENCE.md) | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ |
 | [docs/experiments/2026-11-decider-0.8b.md](../experiments/2026-11-decider-0.8b.md) | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | [docs/experiments/2026-11-ocr-text-vs-annotation.md](../experiments/2026-11-ocr-text-vs-annotation.md) | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| [docs/experiments/2026-11-option-extraction-consensus.md](../experiments/2026-11-option-extraction-consensus.md) | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | [docs/experiments/2026-11-ppformulanet.md](../experiments/2026-11-ppformulanet.md) | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | [docs/index.md](../index.md) | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ |
 | [docs/vault/guides/mineru-ocr-papers.md](../vault/guides/mineru-ocr-papers.md) | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ |
@@ -36,4 +38,4 @@ Each document goes through the `/docs-review` stages. ✅ validated by the user,
 | [docs/vault/papers/tutoring_pedagogy/_synthesis.md](../vault/papers/tutoring_pedagogy/_synthesis.md) | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ |
 | mkdocs.yml | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ |
 
-Signed off: 3 of 27 documents.
+Signed off: 4 of 29 documents.

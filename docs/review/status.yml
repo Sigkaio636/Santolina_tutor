@@ -82,6 +82,17 @@ documents:
       signoff: pending
     validated_sha: null
     notes: {}
+  docs/INSTALL_DECIDER.md:
+    stages:
+      audit: pending
+      critique: pending
+      decisions: pending
+      repair: pending
+      language: pending
+      adversarial: pending
+      signoff: pending
+    validated_sha: null
+    notes: {}
   docs/OCR_FAILURE_MODES.md:
     stages:
       audit: pending
@@ -174,6 +185,31 @@ documents:
         re-reviewed; 8 deferred items in findings file'
       signoff: signed off by the user after S1-S6; 8 deferred items in the findings file
     last_sha: e9266d9fe34320659996e2928a65b3dfb59ca3143f410902c18cd388b142d2ac
+  docs/experiments/2026-11-option-extraction-consensus.md:
+    stages:
+      audit: validated
+      critique: validated
+      decisions: validated
+      repair: validated
+      language: validated
+      adversarial: validated
+      signoff: validated
+    validated_sha: c4498e95df83b8980cff614b6b6fe1b60d291d9e804f1203c6d3adb9fca94259
+    notes:
+      audit: 'docsauditor: 15 findings (12 verified, 1 suspected, 2 decision); F1 and F3 misleading, checked
+        in code'
+      critique: 'diataxis explanation/heavy; docs-critic: 46 findings F16-F61 (0 breaks, 13 misleading,
+        33 cosmetic; 3 decisions); F44 resolved by script check'
+      decisions: 'grilling: 5 decisions settled (F14,F15,F35,F42,F61), F13 and F44 resolved by agent;
+        no GLOSSARY.md, so no term entries'
+      repair: 'docsjanitor: 61/61 fixed; measurement fixes in laptop/option_consensus.py for F1, F3, F54;
+        OCR_FAILURE_MODES.md cut to a link (F61); mkdocs --strict ok, anchors ok'
+      language: 'asd-ste100 STE-flavored: 52 -> 1 lint violations (semicolons, long sentences, passives,
+        fix/set); kept ''C fix''/''A fix'' as names from OCR_FAILURE_MODES.md'
+      adversarial: 2 rounds, 3 lenses hand-spawned (user chose no plugin toolchain); r1 25 findings ->
+        adjudicator 3 changes, 8 declined; r2 4 findings from r1 edits, fixed after round; 0 open
+      signoff: user signed off after S1-S6; 0 open findings
+    last_sha: c4498e95df83b8980cff614b6b6fe1b60d291d9e804f1203c6d3adb9fca94259
   docs/experiments/2026-11-ppformulanet.md:
     stages:
       audit: validated

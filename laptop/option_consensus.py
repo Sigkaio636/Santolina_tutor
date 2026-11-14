@@ -15,6 +15,8 @@ gold-pick    choose the gold sample (fixed seed) and write option-band sheets to
 score        score the arms: coverage, format checks, agreement with the other
              languages, and accuracy on the gold sample.
 repair       write the options of arm 7 (cross-language repair) as JSONL.
+by-level     coverage, format checks and likely fractions per difficulty level
+             (lvl-0 is grade 5), and accuracy on the gold sample per level.
 
 It prints counts only: M3Kang is research-use only, so the box files, the gold
 file and every output stay under data/ (gitignored).
@@ -55,6 +57,7 @@ UNITS = ["km", "cm", "mm", "dm", "m", "kg", "g", "ml", "l", "min", "h", "s", "�
          "euros", "euro", "eur"]
 UNIT_RE = re.compile(r"(?<![a-z])(" + "|".join(re.escape(u) for u in UNITS) + r")(\^?[23])?(?![a-z])")
 THOUSANDS = re.compile(r"^-?\d{1,3}([ .,'  ])\d{3}(\1\d{3})*$")
+TWO_NUMBERS = re.compile(r"^\s*\d+\s+\d+\s*$")  # two bare numbers: a stacked fraction?
 
 
 def basic(value):
@@ -299,18 +302,11 @@ def check_row(opts, votes, meta_k, which=1):
     return out
 
 
-def strict_only_agree(opts, votes, meta_k):
-    """Options that agree only thanks to the unordered-pair tolerance."""
-    n = 0
-    for letter in LETTERS:
-        v = opts.get(letter)
-        c = canon(v) if v else None
-        if not c or c[0] == c[1]:
-            continue
-        ref = reference(votes, meta_k["id"], letter, meta_k["lang"])
-        if ref and ref[0].get(c[1], 0) == max(ref[0].values()):
-            n += 1
-    return n
+def strict_only_agree(opts, votes, votes_strict, meta_k):
+    """Options that agree with the pair tolerance and disagree without it."""
+    tolerant = check_row(opts, votes, meta_k, 1)
+    strict = check_row(opts, votes_strict, meta_k, 0)
+    return sum(tolerant[x] == "agree" and strict[x] == "disagree" for x in LETTERS)
 
 
 # --- Arms 6 and 7: they use the other languages, score them on gold only ----
@@ -542,10 +538,12 @@ def cmd_score(args):
     arms["7 repair (on 3)"], changed = repair(arms["3 v5>v4 (baseline)"], p, votes, meta, keys)
     uses_consensus = {"6 consensus select", "7 repair (on 3)"}
 
-    # Share of options that the cross-language check can cover.
-    inv = sum(1 for k in keys for v in arms["3 v5>v4 (baseline)"][k].values() if canon(v))
-    tot = sum(len(arms["3 v5>v4 (baseline)"][k]) for k in keys)
-    print(f"baseline: {inv} of {tot} options ({100 * inv / max(tot, 1):.1f}%) are language-free "
+    # Share of options that the cross-language check can cover (latin rows).
+    lat = strata["latin"]
+    votes_strict = votes_by_problem(p, meta, keys, which=0)
+    inv = sum(1 for k in lat for v in arms["3 v5>v4 (baseline)"][k].values() if canon(v))
+    tot = sum(len(arms["3 v5>v4 (baseline)"][k]) for k in lat)
+    print(f"latin, baseline: {inv} of {tot} options ({100 * inv / max(tot, 1):.1f}%) are language-free "
           f"(numbers, formulas, units) and can be checked; repair changed {changed} options")
 
     base = "3 v5>v4 (baseline)"
@@ -576,26 +574,26 @@ def cmd_score(args):
                   f"  +{n01:<4}-{n10:<4}p={pv:.3f}")
 
     # Format checks: share of complete baseline rows that fail each.
-    print("\nformat checks failed, among rows with five options:")
+    print("\nformat checks failed, latin rows with five options (a row can fail several):")
     for name in ("1 v4", "2 v5", base, "4c v5>v4 lines", "5 v5>v4 format fusion"):
-        fl = Counter(x for k in keys for x in flags_cache[(name, k)] if "incomplete" not in flags_cache[(name, k)])
-        n5 = sum("incomplete" not in flags_cache[(name, k)] for k in keys)
-        print(f"  {name:24}" + "  ".join(f"{f} {fl[f]} ({100 * fl[f] / max(n5, 1):.1f}%)"
-                                         for f in ("label_inside", "too_long", "junk", "duplicate", "mixed_kind")))
+        fl = Counter(x for k in lat for x in flags_cache[(name, k)] if "incomplete" not in flags_cache[(name, k)])
+        n5 = sum("incomplete" not in flags_cache[(name, k)] for k in lat)
+        multi = sum(len(flags_cache[(name, k)]) > 1 for k in lat if "incomplete" not in flags_cache[(name, k)])
+        print(f"  {name:24}rows {n5}  " + "  ".join(f"{f} {fl[f]} ({100 * fl[f] / max(n5, 1):.1f}%)"
+                                         for f in ("empty", "label_inside", "too_long", "junk", "duplicate", "mixed_kind"))
+              + f"  2+ checks {multi}")
     pair = re.compile(r"^\s*\d+\s+\d+\s*$")
     for name in (base, "5 v5>v4 format fusion"):
-        n = sum(any(pair.match(v) and not THOUSANDS.match(basic(v)) for v in arms[name][k].values()) for k in keys)
-        print(f"post-hoc: {name}: {n} rows with an option that is two bare numbers (a stacked fraction?)")
-    lens = sorted(len(v) for k in keys for v in arms[base][k].values())
+        n = sum(any(pair.match(v) and not THOUSANDS.match(basic(v)) for v in arms[name][k].values()) for k in lat)
+        print(f"post-hoc, latin: {name}: {n} rows with an option that is two bare numbers (a stacked fraction?)")
+    lens = sorted(len(v) for k in lat for v in arms[base][k].values())
     if lens:
-        print(f"option length, baseline: p99 {lens[int(0.99 * len(lens))]}, max {lens[-1]} (limit {MAX_LEN})")
-    tol = sum(strict_only_agree(arms[base][k], votes, meta[k]) for k in keys)
-    print(f"baseline options that agree only with the unordered-pair fraction rule: {tol}")
+        print(f"option length, latin, baseline: p99 {lens[int(0.99 * len(lens))]}, max {lens[-1]} (limit {MAX_LEN})")
+    tol = sum(strict_only_agree(arms[base][k], votes, votes_strict, meta[k]) for k in lat)
+    print(f"latin, baseline options that agree with the pair rule and disagree without it: {tol}")
 
     # Sensitivity (post-hoc): VALID with "two bare numbers" as a format failure,
     # and VALID without the unordered-pair fraction tolerance.
-    votes_strict = votes_by_problem(p, meta, keys, which=0)
-    lat = strata["latin"]
     print("\nsensitivity, latin rows (post-hoc):")
     for name in (base, "5 v5>v4 format fusion"):
         v = results[("latin", name)]["valid"]
@@ -606,9 +604,9 @@ def cmd_score(args):
         print(f"  {name:24} VALID {100 * sum(v) / len(lat):.1f}%  pair flag counted {100 * sum(no_pair) / len(lat):.1f}%"
               f"  no pair tolerance {100 * sum(strict) / len(lat):.1f}%  both {100 * sum(a and b for a, b in zip(no_pair, strict)) / len(lat):.1f}%")
 
-    # What arm 5 changed, checked against the other languages.
+    # What arm 5 changed (latin rows), checked against the other languages.
     sw = Counter()
-    for k in keys:
+    for k in lat:
         a, b = arms[base][k], arms["5 v5>v4 format fusion"][k]
         if not a:
             continue
@@ -617,7 +615,7 @@ def cmd_score(args):
             if a[letter] != b[letter]:
                 sw["swapped"] += 1
                 sw[str(chk[letter])] += 1
-    print(f"arm 5 swapped {sw['swapped']} options: agree {sw['agree']}, disagree {sw['disagree']}, not checkable {sw['None']}")
+    print(f"latin: arm 5 swapped {sw['swapped']} options: agree {sw['agree']}, disagree {sw['disagree']}, not checkable {sw['None']}")
 
     # Per language (latin), baseline and best non-consensus arms.
     if args.per_language:
@@ -703,6 +701,47 @@ def cmd_repair(args):
     print(f"{len(keys)} rows, {changed} options repaired -> {args.out}")
 
 
+def cmd_by_level(args):
+    """Counts per level, all text-only rows: is OCR worse on harder problems, and why?"""
+    meta = load_meta()
+    boxes = {e: load_boxes(path) for e, path in BOXES.items()}
+    keys = sorted(k for k in meta if k in boxes["v4"] and k in boxes["v5"])
+    arms, _ = build_arms(boxes, keys)
+    level = lambda k: int(re.match(r"lvl-(\d+)", k).group(1))
+    levels = sorted({level(k) for k in keys})
+    two = lambda v: bool(TWO_NUMBERS.match(v)) and not THOUSANDS.match(basic(v))
+    for name in ("3 v5>v4 (baseline)", "5 v5>v4 format fusion"):
+        arm = arms[name]
+        print(f"\n== {name}, all {len(keys)} rows ==")
+        print(f"{'level':>5}{'rows':>7}{'probs':>6}{'5 opts':>9}{'format ok':>10}{'math opts':>10}"
+              f"{'text opts':>10}{'two nums':>10}{'%':>6}")
+        tot = 0
+        for lv in levels:
+            ks = [k for k in keys if level(k) == lv]
+            five = [k for k in ks if row_flags(arm[k]) != {"incomplete"}]
+            ok = sum(not row_flags(arm[k]) for k in five)
+            kinds = Counter(kind(v) for k in ks for v in arm[k].values() if v)
+            n_opts = max(sum(kinds.values()), 1)
+            n_two = sum(any(two(v) for v in arm[k].values()) for k in ks)
+            tot += n_two
+            print(f"{lv:>5}{len(ks):>7}{len({meta[k]['id'] for k in ks}):>6}{100 * len(five) / len(ks):8.1f}%"
+                  f"{100 * ok / len(ks):9.1f}%{100 * kinds['math'] / n_opts:9.1f}%{100 * kinds['text'] / n_opts:9.1f}%"
+                  f"{n_two:>10}{100 * n_two / len(ks):5.1f}%")
+        print(f"rows with two bare numbers, all levels: {tot}")
+    if os.path.exists(GOLD):
+        gold = {g["key"]: g["options"] for g in json.load(open(GOLD)) if g.get("options")}
+        print(f"\ngold, {len(gold)} rows (Claude, no person checked; 40 rows chosen as hard cases)")
+        print(f"{'level':>5}{'rows':>6}{'base 5/5':>10}{'arm5 5/5':>10}{'fraction':>10}{'exponent':>10}")
+        for lv in levels:
+            g = {k: v for k, v in gold.items() if level(k) == lv}
+            if not g:
+                continue
+            frac = sum(any("/" in v and not v.lstrip().startswith("{") for v in o.values()) for o in g.values())
+            expo = sum(any("^" in basic(v) for v in o.values()) for o in g.values())
+            print(f"{lv:>5}{len(g):>6}{gold_scores(arms['3 v5>v4 (baseline)'], g)[0]:>10}"
+                  f"{gold_scores(arms['5 v5>v4 format fusion'], g)[0]:>10}{frac:>10}{expo:>10}")
+
+
 def selftest():
     # Made-up values only.
     assert canon("1,5") == canon("1.5") == ("1.5", "1.5")
@@ -755,10 +794,12 @@ def main():
     s.add_argument("--per-language", action="store_true")
     s = sub.add_parser("repair")
     s.add_argument("--out", default=f"{DIR}/options_repaired.jsonl")
+    sub.add_parser("by-level")
     args = ap.parse_args()
     if args.selftest:
         return selftest()
-    {"pilot": cmd_pilot, "gold-pick": cmd_gold_pick, "score": cmd_score, "repair": cmd_repair}[args.cmd](args)
+    {"pilot": cmd_pilot, "gold-pick": cmd_gold_pick, "score": cmd_score, "repair": cmd_repair,
+     "by-level": cmd_by_level}[args.cmd](args)
 
 
 if __name__ == "__main__":
