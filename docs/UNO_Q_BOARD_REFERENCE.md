@@ -93,7 +93,7 @@ Two processors on one board, joined by an RPC layer called **Bridge**:
 | Usable by Linux | About **3.6 GB** free on a fresh 4 GB board (llama.cpp guide) |
 | GPU memory | "Available video memory" 1740 MB, **shared** with RAM |
 | Storage | **32 GB eMMC**, holds the OS and data |
-| Root filesystem | Described as "small". Keep about 1 GB free for a model plus binaries (llama.cpp guide) ⚠️ VERIFY with `df -h /` |
+| Root filesystem | Described as "small". On our board `/` is a separate 9.8 GB partition and **`/home/arduino` is 18 GB** (measured, §14.1) |
 
 ### 3.4 Wireless
 
@@ -306,7 +306,7 @@ Up to 1920×1080. Not relevant to a text tutor, but useful for a camera demo.
   **the CPU path is the contest path**. A GPU test is an optional side experiment (§13.2).
 - GPU memory is shared with the 4 GB of system RAM. Offloading layers does not add memory.
 - **No NPU** and no DSP path is documented. Plan for CPU inference.
-- Cortex-A53 has no SDOT or I8MM instructions. ⚠️ VERIFY with `grep Features /proc/cpuinfo`.
+- Cortex-A53 has no SDOT or I8MM instructions. ✅ **Confirmed on our board** (§14.2): the CPU flags list `asimd` but no `asimddp` and no `i8mm`.
 
 ---
 
@@ -463,11 +463,11 @@ a conflict or gap in the Arduino documentation, and how BOARD_SETUP.md settles i
 
 | Topic | Gap | Action |
 |---|---|---|
-| CPU flags | No source states whether the A53 has dot-product or I8MM | `grep Features /proc/cpuinfo` on the board |
+| ~~CPU flags~~ | ✅ Resolved: `fp asimd evtstrm aes pmull sha1 sha2 crc32 cpuid`, no `asimddp`, no `i8mm` (§14.2) | None |
 | Power draw | No official figure and none in BOARD_SETUP.md | Measure with a USB power meter during inference |
 | Temperature and throttling | Operating range is −10 to +60 °C. Sustained-load throttling is not documented | Watch `/sys/class/thermal/*/temp` during a long `eval.py` run |
 | GPU benefit | Untested | Optional: `llama-bench` on CPU vs a Mesa OpenCL or Vulkan build. Do not change the pinned build for the contest |
-| Speed gap | Official 3.6 tok/s (Q4_K_M) vs our 5 (Q8_0) | Different quantization and llama.cpp build. Measure our own number with `llama-bench` |
+| Speed gap | Official 3.6 tok/s (Q4_K_M) vs 4.8 tok/s measured on our board (Q8_0, §14.3) | Different quantization and llama.cpp build. Run `llama-bench` for a cleaner number |
 
 ### 13.3 Cosmetic discrepancies inside the Arduino docs (no action)
 
@@ -478,6 +478,84 @@ a conflict or gap in the Arduino documentation, and how BOARD_SETUP.md settles i
 | Page coverage | The live user manual and App Lab pages were not fetchable. The content here comes from Arduino's `docs-content` GitHub repo. `support.arduino.cc` returned HTTP 403, so the "code repositories for App Lab components" article was **not read** |
 
 ---
+
+## 14. Measured on our board (2026-11-14)
+
+Everything below was measured on our 4 GB UNO Q while following `docs/BOARD_SETUP.md` steps 0 to 8.
+These are measurements, not Arduino's published figures.
+
+### 14.1 System
+
+| Item | Measured |
+|---|---|
+| Model string | `Arduino SA,Imola`, device tree `arduino,imola` / `qcom,qrb2210` |
+| OS | Debian GNU/Linux 13 (trixie), aarch64, kernel 6.16.7 |
+| CPU | 4 cores |
+| RAM | 3.6 GiB total, about 2.9 GiB available when idle, 1.8 GiB swap |
+| Root `/` | 9.8 GB partition (`mmcblk0p68`), 4.9 GB free after the App Lab update |
+| Home `/home/arduino` | **18 GB partition** (`mmcblk0p69`), about 15 GB free after llama.cpp and both models |
+| Clock | Synchronized once Wi-Fi is up. Not synchronized before the App Lab first setup |
+| Network | The Linux side reports two addresses: Docker's `172.17.0.1` and the Wi-Fi address. Use the Wi-Fi one |
+| Tools present | `adb shell` logs in as `arduino` with no password. `sudo` needs the project password |
+
+### 14.2 CPU flags (answers an open question)
+
+```
+Features : fp asimd evtstrm aes pmull sha1 sha2 crc32 cpuid
+```
+
+No `asimddp` (dot product) and no `i8mm`. int8 and int4 matrix multiplication gets no hardware
+speedup on this CPU. Decoding stays limited by memory bandwidth, so fewer bytes per weight still
+means more tokens per second. This supports the CPU-only build.
+
+### 14.3 Speed
+
+| Measurement | Value |
+|---|---|
+| Prompt reading (Qwen3.5 0.8B Q8_0, 27 tokens) | **10.1 tok/s** |
+| Writing (10 tokens) | **4.8 tok/s** |
+| "7 times 8" question, end to end | 4.6 s |
+| One letter A–E, grammar-constrained, 62-token prompt | a few seconds |
+| Smoke test, 5 sample problems | **5.6–7.0 s each**, limit 60 s |
+| Embedding (bge-small, 3 sentences) | 384 dimensions in 0.18 s |
+| Embedding quality check | similar pair 0.86, unrelated pair 0.52 |
+
+BOARD_SETUP quotes about 11 tok/s reading and 5–6 tok/s writing. We are close, slightly lower on writing.
+
+### 14.4 Build and services
+
+| Item | Result |
+|---|---|
+| llama.cpp | Built from source at pinned commit `2cbe0ec`, `-DGGML_NATIVE=ON`, Release, `-j4`, **about 25 minutes**. `llama-server --version` reports `0.9.0-dev (build 1, commit 2cbe0ec)` with GNU 14.2.0 |
+| Models | `Qwen_Qwen3.5-0.8B-Q8_0.gguf` (835 MB) and `bge-small-en-v1.5-q8_0.gguf` (37 MB), both SHA256-verified |
+| Services | `math-llm` (8081) and `math-embed` (8082), both **active and enabled at boot**, listening only on `127.0.0.1` |
+| Memory with both services up | about 920 MiB used, about 2.7 GiB available |
+| Health script | `board/00_check_board.sh` reports "The board looks healthy" |
+| Smoke test | `board/05_smoke_test.sh` passes: servers answer, embeddings look right, 5 valid letters, worst latency 7.0 s |
+| Baseline accuracy | 0/5 on the sample problems, every answer `A` (the baseline's letter bias). This checks the pipeline, not quality |
+
+### 14.5 Practical notes from the setup
+
+- **`apt` shows a "Daemons using outdated libraries" dialog** (`needrestart`) after the package install.
+  Choose `<Cancel>`. Nothing needs restarting for the build, and restarting `arduino-router`,
+  `arduino-app-cli`, `containerd` or `avahi` can drop your `adb` or SSH session.
+- **Long jobs:** run the build and the downloads with `nohup` over `adb shell`, so a dropped SSH session
+  cannot stop them. Check `~/llama-build.log` for `BUILD_EXIT=0`.
+- **Repository on the board:** the board currently uses the organizers' clone
+  `~/datathon-UPC-maths-qualcomm-arduino-unoq` (commit `d6e3f1b`). Our `Santolina_tutor` repo is not on the
+  board yet. Until it is, copy data into the organizers' folder (`~/datathon-UPC-maths-qualcomm-arduino-unoq/data/`).
+  The code is byte-identical for steps 0 to 8.
+
+### 14.6 The laptop side (Fedora 44)
+
+- Arduino App Lab **0.12.0** runs on Fedora even though the store page lists only Ubuntu 22.04+ and
+  Debian Trixie. Download the Linux x86-64 `.tar.gz` from the Arduino software page, then
+  `tar -xf ... -C ~/Applications`. All shared libraries resolved.
+- Needed on Fedora: `webkit2gtk4.1`, a udev rule for vendor IDs `2341` and `05c6` (group `dialout`,
+  mode `0666`), `android-tools` for `adb`, and `sudo usermod -a -G dialout $USER`. A group change needs a
+  full logout and login. `adb` works without it, because the udev rule opens the device to everyone.
+- The M3Kang preparation (BOARD_SETUP step 9) runs at about **0.8 rows/s** with RapidOCR on the laptop,
+  so about 70 minutes for English plus Catalan (about 3,500 rows).
 
 ## Sources
 

@@ -57,7 +57,7 @@
 - ⇒ **The most pragmatic deployment path: produce a GGUF of our fine-tuned model and serve it with llama.cpp on the board** (as our own `llama-server` systemd service, the way `docs/BOARD_SETUP.md` does it, not through the App Lab LLM Brick).
 
 ### Hardware implications for agents (important)
-- **Cortex-A53 is ARMv8.0-A.** It has NEON SIMD but **no SDOT/UDOT dot-product instructions and no I8MM**, which newer Arm cores use to accelerate int8/int4 matmuls in llama.cpp. Expect modest throughput. Decode is **memory-bandwidth-bound**, so **fewer bytes per weight ⇒ more tokens/s**. ⚠️ VERIFY by running `cat /proc/cpuinfo` (features line) on the board.
+- **Cortex-A53 is ARMv8.0-A.** It has NEON SIMD but **no SDOT/UDOT dot-product instructions and no I8MM**, which newer Arm cores use to accelerate int8/int4 matmuls in llama.cpp. Expect modest throughput. Decode is **memory-bandwidth-bound**, so **fewer bytes per weight ⇒ more tokens/s**. ✅ **Confirmed on our board:** `Features: fp asimd evtstrm aes pmull sha1 sha2 crc32 cpuid`, no `asimddp`, no `i8mm`.
 - **GPU (Adreno 702):** llama.cpp has an **OpenCL backend designed for Adreno**, optimized for **pure Q4_0** (`llama-quantize --pure ... Q4_0`). Q8_0 and Q6_K are supported (Q6_K not optimized). Qualcomm's Dragonwing docs say llama.cpp models on those boards run on the GPU via OpenCL. **But** the verified devices list only high-end Adreno (750/830/X85), the docs say **Adreno 6xx doesn't work**, and older phone A6x drivers are "likely not supported". **⚠️ VERIFY whether OpenCL llama.cpp actually works / is faster on Adreno 702**. CPU may well be the only practical path. Benchmark both with `llama-bench`.
 - Martí's point: **check that the GPU has integer kernels.** In llama.cpp the quantized kernels dequantize/compute inside the kernel (Q4_0/Q8_0 blocks), so "integer support" really means "does the backend have an optimized kernel for our quant type".
 - **Sparse kernels:** Martí asked whether the GPU supports **2:4 sparse matmul** (NVIDIA Ampere+ style). There is no evidence that Adreno 702 or llama.cpp exploit 2:4 or unstructured sparsity. **llama.cpp stores and computes zeros like any other weight.** ⇒ Unstructured or 2:4 pruning gives **no speed or memory win** in the standard deployment path unless we write custom kernels. See §5.
@@ -206,7 +206,7 @@ Note: the team's original order was prune → fine-tune. Fine-tuning first (step
 - [ ] Which pedagogical benchmark exactly? Is there an official evaluation script/rules from the challenge?
 - [ ] Required response language(s)?
 - [ ] Does llama.cpp's OpenCL backend work on Adreno 702? Is it faster than CPU?
-- [ ] CPU feature flags on QRB2210 (`/proc/cpuinfo`): confirm no `asimddp`/`i8mm`
+- [x] CPU feature flags on QRB2210 (`/proc/cpuinfo`): confirmed, no `asimddp`/`i8mm`
 - [x] Custom GGUF: we run our own `llama-server` as a systemd service (`docs/BOARD_SETUP.md` step 7). Swap the model file in `config.env` and the service.
 - [ ] Does LLM-Pruner support Gemma 3? Does `convert_hf_to_gguf.py` accept non-uniform pruned Gemma 3 configs?
 - [ ] Challenge rules on model size / allowed base models / external data / synthetic data?
