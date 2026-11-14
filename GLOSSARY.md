@@ -91,3 +91,35 @@ _Avoid_: log entry, record
 **Unload**:
 Copying finished sessions from a board into the teacher store. The board keeps a copy in `archive/` until the teacher deletes it.
 _Avoid_: sync (alone), download
+
+**Student app**:
+The interface the board serves to the student's phone over its own Wi-Fi (`student_app/`): code login, homework, practice, free mode, and the copilot chat.
+_Avoid_: student interface (fine in prose), frontend, client
+
+**Hotspot**:
+The board's own Wi-Fi network, `Santolina-<board name>`, created by the teacher app at setup. Phones that join it open the student app by themselves.
+_Avoid_: access point, AP, board Wi-Fi (alone)
+
+**Sticker**:
+The label on the board's case: board name, a QR code that joins the hotspot, the Wi-Fi password and the address. Printed from the teacher app.
+_Avoid_: label, tag
+
+**Assignment**:
+Homework: exercises from one exercise pack that the teacher gives to a group, with an optional due date. Boards receive it in `assignments.json`.
+_Avoid_: task, homework (fine in the student app's text)
+
+**Free mode**:
+Learning by doing: one conversation where problems arrive one after another, chosen by the learning path, and the student can ask anything.
+_Avoid_: chat mode, open mode
+
+**Learning path**:
+The rule that picks the next problem in free mode (`student_app/planner.py`). The stand-in picks a random problem, or an easier one after a failure.
+_Avoid_: recommender, curriculum
+
+**Clue**:
+A hint about the current exercise that doesn't give the answer away. Logged as `hint_requested`.
+_Avoid_: tip, help
+
+**Solved with help**:
+An exercise whose solution the student asked for. Answers after that are logged but don't count as correct.
+_Avoid_: revealed, cheated

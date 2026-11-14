@@ -1,8 +1,8 @@
 # Board data contract
 
-The files a board keeps under `~/santolina/`, shared by the teacher app (laptop) and the student interface (board). The `classroom/` package implements them with the Python standard library only. The teacher app copies it to `~/santolina/lib/classroom/` at setup and at every connection, so the board always has the same version as the laptop.
+The files a board keeps under `~/santolina/`, shared by the teacher app (laptop) and the student app (board, `student_app/`). The `classroom/` package implements them with the Python standard library only. The teacher app copies it and the student app to `~/santolina/lib/` at setup and at every connection, so the board always runs the same version as the laptop. When the code changed, it also rewrites `lib/VERSION`, and the student app restarts with the new code.
 
-The student interface imports it from there:
+Board code imports the package from there:
 
 ```python
 import sys
@@ -20,13 +20,16 @@ from classroom.events import EventWriter
 | `exercises/<pack_id>/` | teacher app | an exercise pack (below) |
 | `outbox/<session_id>.jsonl` | student interface | one session, one event per line |
 | `archive/` | teacher app | sessions already unloaded |
-| `lib/classroom/` | teacher app | this package |
+| `assignments.json` | teacher app | the group's homework: `assignment_id`, `title`, `pack_id`, `exercise_ids` (`null` = whole pack), `due`, `created_at` |
+| `hotspot.json` | teacher app | the board's Wi-Fi: `ssid`, `password` |
+| `progress/<code>.json` | student app | per student code: each exercise's status (`done`, `with_help`, `tried`), attempts, and the last unfinished exercise |
+| `lib/classroom/`, `lib/student_app/`, `lib/VERSION` | teacher app | the board code and its version |
 
 Every JSON object carries `schema_version` (now `1`). Readers ignore fields they don't know. Times are ISO 8601.
 
 ## Rules for the student interface
 
-- **Read** `mode.json`, `roster.json` and `exercises/`. Never write them.
+- **Read** `mode.json`, `roster.json`, `assignments.json` and `exercises/`. Never write them. `progress/` is the student app's own.
 - **Respect the mode.** In `student` mode, don't show answers or settings, and don't delete data.
 - **Ask for the student code** at the start, and check it against `roster.json`. Store only the code.
 - **Send the phone's time** as `client_ts` when a session starts. The board's clock can be wrong, because it syncs only with internet. The teacher app corrects times with it.
@@ -57,15 +60,22 @@ Each line of a session file is one event:
 | `type` | what happened |
 | `payload` | free-form details |
 
-These types are known today. New types need no change to the contract.
+These types are known today. New types need no change to the contract. Most events also carry the context: `mode` (`homework`, `practice` or `free`), `assignment_id`, `pack_id`, `exercise_id`, `level` and `topic`.
 
-| Type | Payload the statistics use |
+| Type | Payload |
 | --- | --- |
-| `session_start` | `client_ts` |
-| `exercise_shown` | `pack_id`, `exercise_id`, `level` |
-| `hint_requested` | `pack_id`, `exercise_id`, `hint_level` |
-| `answer_submitted` | `pack_id`, `exercise_id`, `level`, `answer`, `correct` |
-| `session_end` | `reason` |
+| `session_start` | `client_ts` (the phone's clock), `language` |
+| `session_end` | `reason`: `logout`, `idle` (30 min), `new_login`, `restart` |
+| `view_opened` | `view`: `home`, `homework`, `practice`, `free`, `exercise` |
+| `exercise_shown` | `path_reason` in free mode: `random`, `easier_after_fail`, `suggested` |
+| `answer_submitted` | `answer`, `correct`, `attempt`, `seconds_since_shown`, `with_help` (after the solution) |
+| `hint_requested` | `hint_number` |
+| `solution_requested` | `attempts_before` |
+| `question_asked` | `text`, `has_photo`, `photo_bytes`, `photo_type` (the photo itself is not stored) |
+| `copilot_reply` | `text`, `seconds`, `kind` (`chat`, `clue`, `solution`), `suggestions` |
+| `exercise_left` | `seconds`, `attempts` (left without solving) |
+| `page_hidden`, `page_visible` | `seconds_hidden` (the student was in another app) |
+| `language_changed` | `language` |
 
 ## Exercise packs
 

@@ -49,11 +49,21 @@ uv run --group teacher python -m teacher_app m3kang-pack \
   --languages eng,cat --levels 0 --limit 30
 ```
 
+## Give homework
+
+On **Homework**, pick a title, a group, a pack and an optional due date, then tick the exercises (or none, for the whole pack). Boards of that group that are plugged in get it at once, with the pack if they don't have it. The others get it the next time you plug them in. **Homework done** shows how many students finished each one.
+
+## Print a board's sticker
+
+Setup also creates the board's own Wi-Fi. On the board page, **Print the sticker** gives a label with a QR code that joins that Wi-Fi, its password and the address of the student app. See [Use the student app](use-student-app.md).
+
 ## Unload student data
 
 Open the connected board and click **Unload student data**. The app copies every finished session, adds it to the teacher store, and moves the files on the board to its archive. Sessions still in progress stay on the board for the next time. Unloading twice never counts anything twice.
 
 Sessions whose code doesn't match a student appear in **Unassigned**. Pick the student they belong to there.
+
+Click a session's start time on a student's page to see its timeline: every answer, clue, solution, question and copilot reply.
 
 **Delete unloaded data from the board** empties the board's archive. The data is already on the laptop.
 
