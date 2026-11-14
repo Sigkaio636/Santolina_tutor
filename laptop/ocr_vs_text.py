@@ -277,6 +277,12 @@ def main():
     print(f"  v4 reaches {PARTIAL:.0%} and v5 does not: {sum(d['v4'] >= PARTIAL > d['v5'] for d in ratio.values())}")
     print(f"  v5 reaches {PARTIAL:.0%} and v4 does not: {sum(d['v5'] >= PARTIAL > d['v4'] for d in ratio.values())}")
     print(f"  neither reaches it: {sum(max(d.values()) < PARTIAL for d in ratio.values())}")
+    for eng in ("v4", "v5"):
+        cers = {r["key"]: r["cer_ns"] for r in clean if r["engine"] == eng}
+        short = [cers[k] for k, d in ratio.items() if d[eng] < PARTIAL]
+        rest = [cers[k] for k, d in ratio.items() if d[eng] >= PARTIAL]
+        print(f"  {eng}: the short rows give {pct(sum(short) / sum(cers.values()))} of the summed CER; "
+              f"mean CER on the other {len(rest)} rows {pct(statistics.mean(rest))}")
     print(f"per-row CSV: {args.out}")
 
 

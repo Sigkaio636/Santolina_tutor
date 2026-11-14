@@ -15,52 +15,54 @@ comparison for the question.
 ## Terms used here
 
 The [OCR failure modes page](../OCR_FAILURE_MODES.md#background-how-the-options-are-read)
-defines row, empty row, coverage and text-only. In short:
+defines the terms for the options. The terms for this report:
 
 - **OCR** (optical character recognition) reads the text in an image.
 - **Box**: a region of the image that the OCR returns, with the text it read.
+- **Reference** (also called the annotation): the question text in the `text` column of
+  M3Kang.
 - **Row**: one problem in one language. A **text-only** row has `text_only` set to true
   in M3Kang: its question needs no figure.
 - **CER** (character error rate): the edit distance between the OCR text and the
-  reference text, divided by the length of the reference. The edit distance is the
-  number of characters to insert, delete or change to turn one text into the other.
-- **WER** (word error rate): the same, counted in words.
-- **Clean rows**: text-only rows whose reference has no LaTeX and no answer options.
-  The others are **flagged rows**.
+  reference, divided by the length of the reference. The edit distance is the number of
+  characters to insert, delete or change to turn one text into the other.
+- **Clean rows**: text-only rows whose reference has no LaTeX (maths markup) and no
+  answer options. The others are **flagged rows**.
 
 ## Summary
 
-- **Use PP-OCRv5 for the question text, and PP-OCRv4 only as a fallback.** We did not
-  test the combination of the two for the question. In 203 of 2,236 clean rows,
-  PP-OCRv4 reaches 70 % of the reference length and PP-OCRv5 does not.
+- **Use PP-OCRv5 (`rapidocr` 3.10) for the question text.** Keep PP-OCRv4 only as a
+  fallback, but we did not define or test the fallback. The 70 % rule below needs the
+  reference, so it cannot run on a new problem. PP-OCRv5 reaches 70 % of the reference
+  length in 587 clean rows where PP-OCRv4 does not. PP-OCRv4 does so in 203 rows where
+  PP-OCRv5 does not. We did not test the combination of the two for the question.
 - **PP-OCRv5 reads the question better in all three languages.** On 2,236 clean rows
   (of 2,277 text-only rows in English, Catalan and Spanish), the mean CER with spaces
   ignored is 9.5 % for PP-OCRv5 and 21.6 % for PP-OCRv4. With spaces counted, it is
-  9.5 % and 31.1 %. PP-OCRv5 has the lower CER in 1,565 rows, PP-OCRv4 in 351, and
-  320 rows have the same CER. We did not measure whether lost spaces matter for the
-  copilot.
-- **The OCR reads the typical row well, but many rows come out short.** The median CER is
-  0.4 % for PP-OCRv5 and 4.5 % for PP-OCRv4. The mean is much higher. In 330 of 2,236
-  rows for PP-OCRv5 and 714 for PP-OCRv4, the OCR text is under 70 % of the reference
-  length. We do not know the cause (see
+  9.5 % and 31.1 %. A lower CER is better: 10 % is about one wrong character in ten.
+  The digits match the reference in 86.1 % of rows for PP-OCRv5 and 67.7 % for
+  PP-OCRv4. We did not measure whether lost spaces matter for the copilot. The two
+  runs also differ in package (`rapidocr` 3.10 against `rapidocr_onnxruntime` 1.4.4),
+  so the gap is between two setups, not only two model versions.
+- **The OCR reads the typical row well, but the mean is mostly missing text.** The
+  median CER is 0.4 % for PP-OCRv5 and 4.5 % for PP-OCRv4. A row is short when the OCR
+  text is under 70 % of the reference length. That is 330 of 2,236 rows for PP-OCRv5
+  and 714 for PP-OCRv4. They give 89 % and 84 % of the summed CER. On the other rows
+  the mean CER is 1.2 % and 5.3 %. We do not know why the texts are short (see
   [Rows where the OCR text is much shorter](#rows-where-the-ocr-text-is-much-shorter)).
-- **The three languages give similar results for PP-OCRv5.** The means are 10.3 %
-  (English), 8.9 % (Catalan) and 9.4 % (Spanish). The languages share the same
-  problems, so these are not three independent checks.
-- **This does not say how well the OCR reads the options.** The annotation covers the
-  question only.
+- **How sure we are.** The result is strong for the question text of text-only rows,
+  from one file. It says nothing yet about the options, which matter more because only
+  the image has them. The cause of the short texts is unknown. We checked 4 lists of
+  boxes and 2 images by hand, and no person looked at them. If the hidden test gives
+  the question as text, the pipeline does not need OCR for the question.
 
 ## Why we ran it
 
-Earlier experiments counted how many rows have all five options after OCR and how
-often the options agree between languages. Neither compares the OCR text with a
-reference text. The question is the only part of the image that has one.
-
-We use the question as a **proxy**: it shows how each engine reads this kind of image.
-How far the proxy holds for the options is not tested. The proxy is useful whatever
-the hidden test contains. The format of the hidden test is a working hypothesis:
-[`GOAL_MUSTS.md`](../GOAL_MUSTS.md) says that no source supports it. If the test gives
-the question as text only, the pipeline does not need OCR for the question.
+The question is the only part of the image that has a reference text. We use it as a
+**proxy**: it shows how each engine reads this kind of image. How far the proxy holds
+for the options is not tested. The proxy is useful whatever the hidden test contains.
+The format of the hidden test is a working hypothesis:
+[`GOAL_MUSTS.md`](../GOAL_MUSTS.md) says that no source supports it.
 
 ## What we compared
 
@@ -81,16 +83,14 @@ version. We cannot say which of these causes the gap. The versions come from the
 [OCR failure modes page](../OCR_FAILURE_MODES.md), which gives them with one sentence
 on how we made the boxes.
 
-**Reference.** The `text` column of M3Kang.
-
 **Scoring** (`laptop/ocr_vs_text.py`):
 
 1. Sort the boxes into lines, top to bottom and left to right, with the reading order
    of `laptop/prepare_m3kang.py`.
 2. Cut the OCR text before the first `A` label that has a `B` label after it. The
    options are not in `text`.
-3. Normalize both texts: Unicode NFC, collapse spaces and line breaks, delete the
-   problem number at the start.
+3. Normalize both texts: Unicode NFC (one fixed form for accented letters), collapse
+   spaces and line breaks, delete the problem number at the start.
 4. Compute the edit distance and divide it by the length of the reference.
 
 | Measure | What it counts |
@@ -98,11 +98,11 @@ on how we made the boxes.
 | CER | characters, spaces included |
 | CER, no spaces | characters, with all spaces deleted. This is the main figure |
 | CER, no spaces or accents | as above, with accents deleted, to price the accents |
-| WER | words |
 | Numbers match | share of rows where the digit sequences are equal, with all spaces deleted (so `1 10` and `110` are equal) |
 
-PP-OCRv4 often drops the space between words. Its CER falls by 9.5 points when we
-ignore spaces. The main figure ignores spaces so that this does not hide how well the
+PP-OCRv4 often drops the space between words. Counting spaces, PP-OCRv4 trails
+PP-OCRv5 by 21.6 points. Ignoring spaces, it trails by 12.1. So lost spaces cause under
+half of the gap. The main figure ignores spaces so that they do not hide how well the
 engine reads the characters. The Summary gives both figures.
 
 **Clean and flagged rows.** 41 of the 2,277 rows have LaTeX or the answer options inside
@@ -111,24 +111,26 @@ apart. The other 2,236 are the clean rows.
 
 **How we judged the result.** We set no threshold before the run. Afterwards we used
 two criteria: the engine has the lower mean CER in every language, and it has the lower
-CER in more rows than the other engine does. PP-OCRv5 meets both.
+CER in more rows than the other engine does.
 
 ## Error rates by engine and language
 
-Mean CER with spaces ignored, clean rows. The brackets are a 95 % bootstrap interval:
-we drew problems with replacement 2,000 times (803 problems with at least one clean
-row, seed 0), and kept the same problem in three languages together.
+Mean CER with spaces ignored, clean rows. The brackets show the likely range of the
+mean. They are a 95 % bootstrap interval: we drew problems with replacement 2,000
+times (803 problems with at least one clean row, seed 0), and kept the same problem in
+three languages together.
 
-| Language | Clean rows | PP-OCRv4 | PP-OCRv5 | PP-OCRv4 minus PP-OCRv5, points |
+| Language | Clean rows | PP-OCRv4 | PP-OCRv5 | PP-OCRv4 minus PP-OCRv5, percentage points |
 |---|---|---|---|---|
 | English | 793 | 19.5 % [17.5, 21.5] | 10.3 % [8.7, 11.9] | 9.2 [6.6, 11.8] |
 | Catalan | 803 | 23.4 % [21.5, 25.5] | 8.9 % [7.5, 10.3] | 14.6 [12.3, 17.0] |
 | Spanish | 640 | 22.0 % [20.1, 24.1] | 9.4 % [7.8, 11.1] | 12.6 [10.2, 15.2] |
 | All | 2,236 | 21.6 % [20.3, 22.9] | 9.5 % [8.5, 10.5] | 12.1 [10.5, 13.6] |
 
-The intervals do not include the choice to cut at `A` or the manual checks below. We
-did not run a paired significance test. The rows of one problem in three languages are
-not independent, which is why the draw is by problem.
+In each language the ranges of the two engines do not overlap, and the range of the
+difference stays above zero. The ranges do not include the effect of how we cut the
+options off at the `A` label, or the manual checks below. The rows of one problem in
+three languages are not independent, which is why the draw is by problem.
 
 Median CER with spaces ignored, clean rows:
 
@@ -145,27 +147,14 @@ Other measures, clean rows, all languages (2,236):
 |---|---|---|
 | CER, spaces included | 31.1 % | 9.5 % |
 | CER, no spaces or accents | 20.5 % | 9.5 % |
-| WER | 81.3 % | 11.3 % |
 | Rows with CER (no spaces) under 5 % | 52.5 % | 82.9 % |
 | Numbers match | 67.7 % | 86.1 % |
 
 - **PP-OCRv5 has the lower CER (no spaces) in 1,565 of 2,236 rows**, PP-OCRv4 in 351,
   and 320 rows have the same CER.
-- **Spaces explain 9.5 of the 21.6 points** that separate the two engines when spaces
-  count (31.1 % against 9.5 %). That is 44 %. A gap of 12.1 points remains when we
-  ignore spaces.
-- **Accents.** Mean CER with spaces ignored, then with accents also ignored. The
-  difference is the cost of the accents.
-
-  | Language | PP-OCRv4 | PP-OCRv5 |
-  |---|---|---|
-  | English | 19.5 % → 19.5 % | 10.3 % → 10.3 % |
-  | Catalan | 23.4 % → 22.2 % | 8.9 % → 8.8 % |
-  | Spanish | 22.0 % → 19.6 % | 9.4 % → 9.4 % |
-
-  We did not test single characters such as `ç` or `ñ`.
-- **Flagged rows (41).** The CER with spaces ignored is 24.5 % for PP-OCRv4 and 19.0 %
-  for PP-OCRv5. With so few rows we draw no conclusion from them.
+- **Accents.** Ignoring accents lowers the mean CER by 0.1 points or less, except for
+  PP-OCRv4 on Catalan (1.2 points) and Spanish (2.5 points). We did not test single
+  characters such as `ç` or `ñ`.
 
 ## Rows where the OCR text is much shorter
 
@@ -182,15 +171,20 @@ tune.
 | PP-OCRv5 reaches 70 %, PP-OCRv4 does not | 587 |
 | Neither reaches 70 % | 127 |
 
+The short rows give 89 % of the summed CER for PP-OCRv5 and 84 % for PP-OCRv4. On the
+other rows the mean CER is 1.2 % for PP-OCRv5 (1,906 rows) and 5.3 % for PP-OCRv4
+(1,522 rows). The script prints these figures.
+
 A short OCR text is a sign of missing lines, not proof. A wrong read, or option text
 left in the OCR text, also changes the length.
 
 **What we know.** Two manual checks, on different rows, by Claude, the coding agent of
-this project. No person looked at the images.
+this project. No person looked at the images. They are anecdotes: the choice of rows is
+not saved in the repository.
 
-- We looked at the PP-OCRv5 boxes of 4 rows. They are the rows ranked 41 to 44 by
-  PP-OCRv5 CER among the clean rows with a CER over 5 %. The boxes hold only the last
-  line of the question and the options.
+- We looked at the PP-OCRv5 boxes of 4 rows. They are the rows ranked 41 to 44, from
+  the highest PP-OCRv5 CER down, among the clean rows with a CER over 5 %. The boxes
+  hold only the last line of the question and the options.
 - We drew 3 rows at random (seed 1) from the 203 rows where only PP-OCRv4 reaches 70 %,
   and opened the images of 2 of them. The full question is in both images.
 
@@ -211,20 +205,15 @@ PP-OCRv5 against PP-OCRv4 on how many rows have all five options. The
 ## Limitations
 
 - **The reference covers the question, not the options.** In the 2 images we opened, the
-  options are short values in a serif font and the question is sans-serif text. The
-  question scores may not carry over to the options. There is still no annotated
-  reference for the options.
+  options use a different font. The question scores may not carry over to the options.
+  There is still no annotated reference for the options.
 - **One file, three languages, text-only rows.** Rows with a figure are not measured.
-- **The engines differ in more than the model version.** See the note under the table of
-  engines.
-- **The 70 % rule is a sign.** We found no cause for the short OCR texts.
 - **The reading order may hurt both engines.** We joined the boxes with the same rule
   that the option parser uses. A question in two columns, or with a figure beside the
   text, may be put in a wrong order. We did not measure this.
 - **The edit distance is our own code.** The package `rapidfuzz` could not be installed.
-  A self-test in the script compares our distance with a plain dynamic program on 300
+  A self-test in the script compares our distance with a plain textbook method on 300
   random pairs.
-- **An agent made the checks.** No person checked the images.
 
 ## Next steps
 
@@ -240,11 +229,10 @@ PP-OCRv5 against PP-OCRv4 on how many rows have all five options. The
 
 | Item | Value |
 |---|---|
-| Data | M3Kang `high_quality`, first file. Text-only rows in `eng`, `cat` and `esp`: 2,277 rows |
 | Boxes | `data/interim/ocr_boxes_txto_yes.jsonl` (PP-OCRv4) and `data/interim/ocr_boxes_txto_yes_v5.jsonl` (PP-OCRv5), made by `laptop/ocr_boxes.py dump`. Not in Git: M3Kang is for research use only |
 | Reference | `text` column of `data/raw_txto_yes/*.parquet` |
-| Code | `laptop/ocr_boxes.py` (commit `a3b89a5`) and `laptop/ocr_vs_text.py` (commit `41f17f7`). A later commit added the bootstrap interval |
-| Output | the printed tables, and `data/interim/ocr_vs_text.csv`: one row per problem and engine, with no problem text |
+| Code | `laptop/ocr_boxes.py` (commit `a3b89a5`) and `laptop/ocr_vs_text.py` (first in commit `41f17f7`, extended in later commits: see `git log`) |
+| Output | the printed figures, and `data/interim/ocr_vs_text.csv`: one row per problem, language and engine, with no problem text |
 
 To reproduce the numbers, run from the repository root, with the `.venv` of the
 repository (it holds pyarrow, the only package the script needs):
@@ -257,6 +245,6 @@ repository (it holds pyarrow, the only package the script needs):
 .venv/bin/python -I laptop/ocr_vs_text.py
 ```
 
-The first command prints `selftest ok`. The second prints the tables above, in the
-order of this report, and writes `data/interim/ocr_vs_text.csv`. It reads the boxes and
-the reference from the paths in the table.
+The first command prints `selftest ok`. The second prints the figures of this report and
+writes `data/interim/ocr_vs_text.csv`. It reads the boxes and the reference from the
+paths in the table.
