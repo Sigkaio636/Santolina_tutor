@@ -13,6 +13,8 @@ nav:
       - Use the copilot on the board: how-to/use-copilot-on-board.md
       - Try the prior solver on the board: how-to/try-prior-solver.md
       - Extract papers to Markdown with MinerU: how-to/mineru-ocr-papers.md
+  - Experiments:
+      - The prior solver on the board: experiments/2026-11-prior-on-board.md
   - Reference:
       - UNO Q board reference: UNO_Q_BOARD_REFERENCE.md
       - Board limits (interactive page): GUIA_RESTRICCIONES_UNOQ.html
