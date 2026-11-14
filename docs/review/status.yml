@@ -79,17 +79,6 @@ documents:
       signoff: pending
     validated_sha: null
     notes: {}
-  docs/SKILLS_GUIDE.html:
-    stages:
-      audit: pending
-      critique: pending
-      decisions: pending
-      repair: pending
-      language: pending
-      adversarial: pending
-      signoff: pending
-    validated_sha: null
-    notes: {}
   docs/UNO_Q_BOARD_REFERENCE.md:
     stages:
       audit: pending
@@ -146,39 +135,6 @@ documents:
     validated_sha: null
     notes: {}
   docs/vault/papers/finetuning_distillation/_synthesis.md:
-    stages:
-      audit: pending
-      critique: pending
-      decisions: pending
-      repair: pending
-      language: pending
-      adversarial: pending
-      signoff: pending
-    validated_sha: null
-    notes: {}
-  docs/vault/papers/inference/_synthesis.md:
-    stages:
-      audit: pending
-      critique: pending
-      decisions: pending
-      repair: pending
-      language: pending
-      adversarial: pending
-      signoff: pending
-    validated_sha: null
-    notes: {}
-  docs/vault/papers/pruning/_synthesis.md:
-    stages:
-      audit: pending
-      critique: pending
-      decisions: pending
-      repair: pending
-      language: pending
-      adversarial: pending
-      signoff: pending
-    validated_sha: null
-    notes: {}
-  docs/vault/papers/surveys/_synthesis.md:
     stages:
       audit: pending
       critique: pending
