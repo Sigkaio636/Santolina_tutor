@@ -4,279 +4,383 @@
 documents:
   README.md:
     stages:
-      audit: pending
-      critique: pending
-      decisions: pending
+      audit: validated
+      critique: validated
+      decisions: validated
       repair: pending
       language: pending
       adversarial: pending
       signoff: pending
     validated_sha: null
     notes:
-      audit: 'docsauditor: 10 findings (5 verified, 2 suspected, 3 decision); suspected F4 confirmed (no
-        LICENSE in academic-paper-summarizer), F5 confirmed (data subfolders untracked)'
+      audit: 'docsauditor: 9 findings (0 breaks, 3 decisions)'
+      critique: 'diataxis: explanation (project landing page); docs-critic: 32 findings (6 misleading,
+        6 decisions)'
+      decisions: 'grilling Q1-Q23: 10 findings settled (0 wontfix, 0 dismissed); 41 verified left for
+        S4'
     last_sha: 8fe2291657840f68e31c2a53acf1e90864507e60ce05bb09edcef17d47043415
   docs/BOARD_SETUP.md:
     stages:
-      audit: pending
-      critique: pending
-      decisions: pending
+      audit: validated
+      critique: validated
+      decisions: validated
       repair: pending
       language: pending
       adversarial: pending
       signoff: pending
     validated_sha: null
-    notes: {}
+    notes:
+      audit: 'docsauditor: 15 findings (4 breaks, 4 decisions)'
+      critique: 'diataxis: tutorial (steps 0-12) with reference and explanation parts; docs-critic: 30
+        findings (10 misleading, 3 decisions)'
+      decisions: 'grilling Q1-Q23: 45 findings settled (45 wontfix, 0 dismissed); 0 verified left for
+        S4'
+    last_sha: c19e8ba53247732f7634562ce092f35531d1944b5bc4496adbff8dfadddc87fe
   CLAUDE.md:
     stages:
-      audit: pending
-      critique: pending
-      decisions: pending
+      audit: validated
+      critique: validated
+      decisions: validated
       repair: pending
       language: pending
       adversarial: pending
       signoff: pending
     validated_sha: null
-    notes: {}
+    notes:
+      audit: 'docsauditor: 1 findings (0 breaks, 0 decisions)'
+      critique: 'diataxis: reference (agent instructions); docs-critic: 11 findings (4 misleading, 5 decisions)'
+      decisions: 'grilling Q1-Q23: 6 findings settled (0 wontfix, 0 dismissed); 12 verified left for S4'
+    last_sha: 7393418bb95f1ba9fe33a62afd7ef44212102bce157e365b90a74bb65fbac235
   data/README.md:
     stages:
-      audit: pending
-      critique: pending
-      decisions: pending
+      audit: validated
+      critique: validated
+      decisions: validated
       repair: pending
       language: pending
       adversarial: pending
       signoff: pending
     validated_sha: null
-    notes: {}
+    notes:
+      audit: 'docsauditor: 1 findings (1 breaks, 1 decisions)'
+      critique: 'diataxis: reference; docs-critic: 10 findings (2 misleading, 3 decisions)'
+      decisions: 'grilling Q1-Q23: 4 findings settled (1 wontfix, 0 dismissed); 10 verified left for S4'
+    last_sha: 8502d874042c727bf70c44d31be9521b4aaf939ec57d1d4d7c32d98e8a51c97f
   docs/CHALLENGE_CONTEXT.md:
     stages:
-      audit: pending
-      critique: pending
-      decisions: pending
+      audit: validated
+      critique: validated
+      decisions: validated
       repair: pending
       language: pending
       adversarial: pending
       signoff: pending
     validated_sha: null
-    notes: {}
+    notes:
+      audit: 'docsauditor: 13 findings (1 breaks, 2 decisions)'
+      critique: 'diataxis: explanation; docs-critic: 24 findings (2 misleading, 2 decisions)'
+      decisions: 'grilling Q1-Q23: 5 findings settled (0 wontfix, 0 dismissed); 37 verified left for S4'
+    last_sha: a79894c8ef617ff04a0d002dfdf94aa6e2d38261b03f31b030db243ba7c645ae
   docs/GOAL_MUSTS.md:
     stages:
-      audit: pending
-      critique: pending
-      decisions: pending
+      audit: validated
+      critique: validated
+      decisions: validated
       repair: pending
       language: pending
       adversarial: pending
       signoff: pending
     validated_sha: null
-    notes: {}
+    notes:
+      audit: 'docsauditor: 5 findings (1 breaks, 0 decisions)'
+      critique: 'diataxis: reference (checklist); docs-critic: 23 findings (3 misleading, 6 decisions)'
+      decisions: 'grilling Q1-Q23: 6 findings settled (0 wontfix, 0 dismissed); 28 verified left for S4'
+    last_sha: accf7b4d08d98419a8dd967cf445e0f837a2ec8dd2b3033098501163963f821e
   docs/GUIA_RESTRICCIONES_UNOQ.html:
     stages:
-      audit: pending
-      critique: pending
-      decisions: pending
+      audit: validated
+      critique: validated
+      decisions: validated
       repair: pending
       language: pending
       adversarial: pending
       signoff: pending
     validated_sha: null
-    notes: {}
+    notes:
+      audit: 'docsauditor: 8 findings (1 breaks, 3 decisions)'
+      critique: 'diataxis: explanation + reference with a calculator; docs-critic: 23 findings (2 misleading,
+        2 decisions)'
+      decisions: 'grilling Q1-Q23: 6 findings settled (0 wontfix, 1 dismissed); 30 verified left for S4'
+    last_sha: e4b9b660bab89862456e29d6f5f55155fcb4f32a70dd9b0dc39f8520f3a28266
   docs/RESUMEN_QUALCOMM_UNO_Q.md:
     stages:
-      audit: pending
-      critique: pending
-      decisions: pending
+      audit: validated
+      critique: validated
+      decisions: validated
       repair: pending
       language: pending
       adversarial: pending
       signoff: pending
     validated_sha: null
-    notes: {}
+    notes:
+      audit: 'docsauditor: 16 findings (0 breaks, 5 decisions)'
+      critique: 'diataxis: explanation (video summary); docs-critic: 24 findings (4 misleading, 3 decisions)'
+      decisions: 'grilling Q1-Q23: 8 findings settled (0 wontfix, 1 dismissed); 39 verified left for S4'
+    last_sha: 132dc06bf19cde99b22a15cab9a7eb3a4dcb27c23b2a5211f8b279f7d04d5c74
   docs/SKILLS_GUIDE.html:
     stages:
-      audit: pending
-      critique: pending
-      decisions: pending
+      audit: validated
+      critique: validated
+      decisions: validated
       repair: pending
       language: pending
       adversarial: pending
       signoff: pending
     validated_sha: null
-    notes: {}
+    notes:
+      audit: 'docsauditor: 12 findings (0 breaks, 1 decisions)'
+      critique: 'diataxis: tutorial (self-study guide); docs-critic: 24 findings (2 misleading, 3 decisions)'
+      decisions: 'grilling Q1-Q23: 8 findings settled (0 wontfix, 3 dismissed); 33 verified left for S4'
+    last_sha: 1331c27e096cd32185999c4f6308151184b6ce62e888985d850b34ded99097f4
   docs/UNO_Q_BOARD_REFERENCE.md:
     stages:
-      audit: pending
-      critique: pending
-      decisions: pending
+      audit: validated
+      critique: validated
+      decisions: validated
       repair: pending
       language: pending
       adversarial: pending
       signoff: pending
     validated_sha: null
-    notes: {}
+    notes:
+      audit: 'docsauditor: 19 findings (1 breaks, 5 decisions)'
+      critique: 'diataxis: reference; docs-critic: 25 findings (7 misleading, 1 decisions)'
+      decisions: 'grilling Q1-Q23: 9 findings settled (0 wontfix, 0 dismissed); 44 verified left for S4'
+    last_sha: 1973cba96c138e66c2d9cb7a46396d5fd565d58ae24704ca87d9e6c5b4cd656c
   docs/how-to/deploy-copilot-on-board.md:
     stages:
-      audit: pending
-      critique: pending
-      decisions: pending
+      audit: validated
+      critique: validated
+      decisions: validated
       repair: pending
       language: pending
       adversarial: pending
       signoff: pending
     validated_sha: null
-    notes: {}
+    notes:
+      audit: 'docsauditor: 11 findings (1 breaks, 1 decisions)'
+      critique: 'diataxis: how-to; docs-critic: 21 findings (4 misleading, 4 decisions)'
+      decisions: 'grilling Q1-Q23: 7 findings settled (0 wontfix, 0 dismissed); 32 verified left for S4'
+    last_sha: 58faf8dcde64b066e209c7d51803f26fb1fe8a0c0fc289bdbad03ca0ac804fd2
   docs/how-to/use-copilot-on-board.md:
     stages:
-      audit: pending
-      critique: pending
-      decisions: pending
+      audit: validated
+      critique: validated
+      decisions: validated
       repair: pending
       language: pending
       adversarial: pending
       signoff: pending
     validated_sha: null
-    notes: {}
+    notes:
+      audit: 'docsauditor: 6 findings (0 breaks, 3 decisions)'
+      critique: 'diataxis: how-to; docs-critic: 24 findings (5 misleading, 7 decisions)'
+      decisions: 'grilling Q1-Q23: 11 findings settled (0 wontfix, 0 dismissed); 30 verified left for
+        S4'
+    last_sha: 75adfa69a634a9338c6dfa5a6e15a7c7b7d816288300326cc82a39a80833e776
   docs/index.md:
     stages:
-      audit: pending
-      critique: pending
-      decisions: pending
+      audit: validated
+      critique: validated
+      decisions: validated
       repair: pending
       language: pending
       adversarial: pending
       signoff: pending
     validated_sha: null
-    notes: {}
+    notes:
+      audit: 'docsauditor: 2 findings (0 breaks, 0 decisions)'
+      critique: 'diataxis: landing page; docs-critic: 9 findings (1 misleading, 3 decisions)'
+      decisions: 'grilling Q1-Q23: 3 findings settled (1 wontfix, 0 dismissed); 10 verified left for S4'
+    last_sha: 6a5af96bf0eb284fb02273246e348ca61cdd9c808b26863d28f355f9d0209616
   docs/vault/guides/mineru-ocr-papers.md:
     stages:
-      audit: pending
-      critique: pending
-      decisions: pending
+      audit: validated
+      critique: validated
+      decisions: validated
       repair: pending
       language: pending
       adversarial: pending
       signoff: pending
     validated_sha: null
-    notes: {}
+    notes:
+      audit: 'docsauditor: 3 findings (1 breaks, 1 decisions)'
+      critique: 'diataxis: how-to; docs-critic: 19 findings (2 misleading, 2 decisions)'
+      decisions: 'grilling Q1-Q23: 4 findings settled (0 wontfix, 0 dismissed); 22 verified left for S4'
+    last_sha: 98305b2460bb2be4180762df890db995e03bc25788e3ca7e2434aadb440086c5
   docs/vault/papers/README.md:
     stages:
-      audit: pending
-      critique: pending
-      decisions: pending
+      audit: validated
+      critique: validated
+      decisions: validated
       repair: pending
       language: pending
       adversarial: pending
       signoff: pending
     validated_sha: null
-    notes: {}
+    notes:
+      audit: 'docsauditor: 8 findings (2 breaks, 2 decisions)'
+      critique: 'diataxis: reference (vault index); docs-critic: 16 findings (0 misleading, 3 decisions)'
+      decisions: 'grilling Q1-Q23: 5 findings settled (0 wontfix, 0 dismissed); 24 verified left for S4'
+    last_sha: 1ed207fedd8fdf99ca26f4a1c164ceeb3ef293c1e4f84ad739ccabfc035b0c7b
   docs/vault/papers/_junctions.md:
     stages:
-      audit: pending
-      critique: pending
-      decisions: pending
+      audit: validated
+      critique: validated
+      decisions: validated
       repair: pending
       language: pending
       adversarial: pending
       signoff: pending
     validated_sha: null
-    notes: {}
+    notes:
+      audit: 'docsauditor: 7 findings (1 breaks, 1 decisions)'
+      critique: 'diataxis: explanation; docs-critic: 20 findings (3 misleading, 1 decisions)'
+      decisions: 'grilling Q1-Q23: 2 findings settled (0 wontfix, 0 dismissed); 27 verified left for S4'
+    last_sha: a37af7c2f9806b7e1367cb7e7e6f0352e1a03ca3753d4639bfb30b6b27978881
   docs/vault/papers/benchmarks/_synthesis.md:
     stages:
-      audit: pending
-      critique: pending
-      decisions: pending
+      audit: validated
+      critique: validated
+      decisions: validated
       repair: pending
       language: pending
       adversarial: pending
       signoff: pending
     validated_sha: null
-    notes: {}
+    notes:
+      audit: 'docsauditor: 6 findings (1 breaks, 1 decisions)'
+      critique: 'diataxis: explanation; docs-critic: 17 findings (3 misleading, 1 decisions)'
+      decisions: 'grilling Q1-Q23: 4 findings settled (0 wontfix, 0 dismissed); 23 verified left for S4'
+    last_sha: cd8b614b13f20c383cc8deba32460b9d9c6c6a5e1c52cdc4c0d9f15d32ce32c2
   docs/vault/papers/finetuning_distillation/_synthesis.md:
     stages:
-      audit: pending
-      critique: pending
-      decisions: pending
+      audit: validated
+      critique: validated
+      decisions: validated
       repair: pending
       language: pending
       adversarial: pending
       signoff: pending
     validated_sha: null
-    notes: {}
+    notes:
+      audit: 'docsauditor: 8 findings (1 breaks, 1 decisions)'
+      critique: 'diataxis: explanation; docs-critic: 15 findings (4 misleading, 3 decisions)'
+      decisions: 'grilling Q1-Q23: 7 findings settled (0 wontfix, 2 dismissed); 21 verified left for S4'
+    last_sha: 5ec53b398b51aa4550b41d49c6edc677c12ff05d400b4a900c35b1951307e956
   docs/vault/papers/inference/_synthesis.md:
     stages:
-      audit: pending
-      critique: pending
-      decisions: pending
+      audit: validated
+      critique: validated
+      decisions: validated
       repair: pending
       language: pending
       adversarial: pending
       signoff: pending
     validated_sha: null
-    notes: {}
+    notes:
+      audit: 'docsauditor: 11 findings (2 breaks, 2 decisions)'
+      critique: 'diataxis: explanation; docs-critic: 12 findings (5 misleading, 0 decisions)'
+      decisions: 'grilling Q1-Q23: 3 findings settled (0 wontfix, 0 dismissed); 23 verified left for S4'
+    last_sha: 5c829b455b495b8ba6326172b3aa45569bba6c078202665cf321c05c09f0089e
   docs/vault/papers/jev/_synthesis.md:
     stages:
-      audit: pending
-      critique: pending
-      decisions: pending
+      audit: validated
+      critique: validated
+      decisions: validated
       repair: pending
       language: pending
       adversarial: pending
       signoff: pending
     validated_sha: null
-    notes: {}
+    notes:
+      audit: 'docsauditor: 7 findings (1 breaks, 5 decisions)'
+      critique: 'diataxis: explanation; docs-critic: 14 findings (4 misleading, 2 decisions)'
+      decisions: 'grilling Q1-Q23: 7 findings settled (0 wontfix, 0 dismissed); 21 verified left for S4'
+    last_sha: ce5dab1b2597a30dedf0d1c4b1f663675c66723e489b3b516a61f1af99aa4bc9
   docs/vault/papers/pruning/_synthesis.md:
     stages:
-      audit: pending
-      critique: pending
-      decisions: pending
+      audit: validated
+      critique: validated
+      decisions: validated
       repair: pending
       language: pending
       adversarial: pending
       signoff: pending
     validated_sha: null
-    notes: {}
+    notes:
+      audit: 'docsauditor: 10 findings (1 breaks, 5 decisions)'
+      critique: 'diataxis: explanation; docs-critic: 12 findings (5 misleading, 1 decisions)'
+      decisions: 'grilling Q1-Q23: 9 findings settled (0 wontfix, 1 dismissed); 21 verified left for S4'
+    last_sha: 073c9285e562854ffa7a395d6e81b485d4b1efd9fd4050ca7dcd687453cdee33
   docs/vault/papers/quantization/_synthesis.md:
     stages:
-      audit: pending
-      critique: pending
-      decisions: pending
+      audit: validated
+      critique: validated
+      decisions: validated
       repair: pending
       language: pending
       adversarial: pending
       signoff: pending
     validated_sha: null
-    notes: {}
+    notes:
+      audit: 'docsauditor: 12 findings (1 breaks, 6 decisions)'
+      critique: 'diataxis: explanation; docs-critic: 12 findings (4 misleading, 0 decisions)'
+      decisions: 'grilling Q1-Q23: 9 findings settled (0 wontfix, 0 dismissed); 24 verified left for S4'
+    last_sha: d1b8f5802d1b4258f46fc29a2a40d37310084c2299290669a62b767a630dabf8
   docs/vault/papers/surveys/_synthesis.md:
     stages:
-      audit: pending
-      critique: pending
-      decisions: pending
+      audit: validated
+      critique: validated
+      decisions: validated
       repair: pending
       language: pending
       adversarial: pending
       signoff: pending
     validated_sha: null
-    notes: {}
+    notes:
+      audit: 'docsauditor: 6 findings (1 breaks, 2 decisions)'
+      critique: 'diataxis: explanation; docs-critic: 19 findings (2 misleading, 0 decisions)'
+      decisions: 'grilling Q1-Q23: 4 findings settled (0 wontfix, 0 dismissed); 25 verified left for S4'
+    last_sha: 04a0791e644e259052adcec06e821db3886622a250b1d28208991d616481a85d
   docs/vault/papers/tutoring_pedagogy/_synthesis.md:
     stages:
-      audit: pending
-      critique: pending
-      decisions: pending
+      audit: validated
+      critique: validated
+      decisions: validated
       repair: pending
       language: pending
       adversarial: pending
       signoff: pending
     validated_sha: null
-    notes: {}
+    notes:
+      audit: 'docsauditor: 11 findings (1 breaks, 4 decisions)'
+      critique: 'diataxis: explanation; docs-critic: 13 findings (4 misleading, 0 decisions)'
+      decisions: 'grilling Q1-Q23: 9 findings settled (0 wontfix, 2 dismissed); 22 verified left for S4'
+    last_sha: 6828af14fbe69988d9e8700cf406d69eb5a612f555f5382d5c203c056781687d
   mkdocs.yml:
     stages:
-      audit: pending
-      critique: pending
-      decisions: pending
+      audit: validated
+      critique: validated
+      decisions: validated
       repair: pending
       language: pending
       adversarial: pending
       signoff: pending
     validated_sha: null
-    notes: {}
+    notes:
+      audit: 'docsauditor: 3 findings (0 breaks, 3 decisions)'
+      critique: 'diataxis: navigation; docs-critic: 12 findings (2 misleading, 8 decisions)'
+      decisions: 'grilling Q1-Q23: 15 findings settled (1 wontfix, 0 dismissed); 14 verified left for
+        S4'
+    last_sha: eb8d82ebaeb2d23751b2378ec2fe1b07f57ce7421f36dd4520eaba50c25c72cc
