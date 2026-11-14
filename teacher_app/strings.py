@@ -137,6 +137,13 @@ S = SimpleNamespace(
     # Session detail
     session_title="Session",
     session_timeline="What happened",
+    # Demo mode
+    demo_title="Demo mode: made-up classroom, simulated boards.",
+    demo_text="Student app of Board 1:",
+    demo_phone=(
+        "On a phone, join the same Wi-Fi as this computer and scan the QR code. "
+        "Log in with a code from Students."
+    ),
     # Common
     save="Save",
     add="Add",

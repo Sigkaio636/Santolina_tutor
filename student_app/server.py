@@ -44,9 +44,11 @@ class Handler(BaseHTTPRequestHandler):
     server_version = "Santolina"
     board: Board = None  # set by make_server
     public_host: str | None = None
+    log_requests = False
 
-    def log_message(self, fmt, *args):  # quiet: the events are the log that matters
-        pass
+    def log_message(self, fmt, *args):  # quiet unless asked: the events are the log that matters
+        if self.log_requests:
+            super().log_message(fmt, *args)
 
     # ------------------------------------------------------------------ helpers
     def _send(self, status, body: bytes, ctype: str, extra=None):
@@ -220,9 +222,13 @@ class Handler(BaseHTTPRequestHandler):
         raise Refused("not found")
 
 
-def make_server(root, host="0.0.0.0", port=80, public_host=None, board=None):
+def make_server(root, host="0.0.0.0", port=80, public_host=None, board=None, log_requests=False):
     board = board or Board(root)
-    handler = type("BoundHandler", (Handler,), {"board": board, "public_host": public_host})
+    handler = type(
+        "BoundHandler",
+        (Handler,),
+        {"board": board, "public_host": public_host, "log_requests": log_requests},
+    )
     server = ThreadingHTTPServer((host, port), handler)
     server.daemon_threads = True
     server.board = board
@@ -258,9 +264,12 @@ def main():
     p.add_argument(
         "--public-host", default=None, help="e.g. 10.42.0.1 (turns on the captive portal)"
     )
+    p.add_argument("--log-requests", action="store_true", help="print every request (debugging)")
     args = p.parse_args()
     root = paths.board_root(args.root)
-    server = make_server(root, args.host, args.port, args.public_host)
+    server = make_server(
+        root, args.host, args.port, args.public_host, log_requests=args.log_requests
+    )
     threading.Thread(target=_watch, args=(server, root, 10), daemon=True).start()
     print(f"Student app on http://{args.public_host or args.host}:{args.port} (board {root})")
     try:

@@ -44,11 +44,17 @@ Clues, solutions and chat replies come from a stand-in (`student_app/tutor.py`),
 
 ## Try it on the laptop
 
+Double-click **Santolina Demo** on the desktop, or run:
+
 ```bash
-export SANTOLINA_FAKE_BOARDS=/tmp/fake-boards
-uv run --group teacher python -m teacher_app fake-boards --dir $SANTOLINA_FAKE_BOARDS --n 1
-make teacher          # set FAKE0001 up, add students, a pack and some homework
-uv run python -m student_app.server --root /tmp/fake-boards/FAKE0001/santolina --port 8080 --host 0.0.0.0
+uv run --group teacher python -m teacher_app demo
 ```
 
-Open `http://localhost:8080` on the laptop, or `http://<laptop IP>:8080` on a phone on the same Wi-Fi. Log in with a student code from the teacher app. Then unload FAKE0001 in the teacher app to see the session.
+It builds a made-up class in its own folder (`~/.local/share/santolina-teacher-demo`, apart from your real data): 5 students, 3 simulated boards set up for their group, a pack, homework, and some past sessions already unloaded. Then it starts:
+
+- the **teacher app** with that data, at <http://127.0.0.1:8012>;
+- the **student app of Board 1**, at `http://<this computer's address>:8081`.
+
+The teacher app shows a banner with the student app's address and a QR code. On a phone, **join the same Wi-Fi as the computer**, scan the QR code, and log in with a code from **Students**. Then unload Board 1 in the teacher app to see the session.
+
+`--reset` throws the demo data away and builds it again. Messages, including every request the student app receives, go to `~/.local/state/santolina-demo.log` when started from the shortcut.

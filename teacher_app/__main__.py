@@ -58,6 +58,23 @@ def _port_open(port: int) -> bool:
         return s.connect_ex(("127.0.0.1", port)) == 0
 
 
+@app.command()
+def demo(
+    reset: bool = typer.Option(False, help="Throw the demo data away and build it again"),
+    teacher_port: int = typer.Option(8012, help="Port of the teacher app (demo copy)"),
+    student_port: int = typer.Option(8081, help="Port of Board 1's student app"),
+    open_browser: bool = typer.Option(True, help="Open the teacher app in the browser"),
+    log_file: Path = typer.Option(None, help="Write messages to this file (for the shortcut)"),
+):
+    """A complete demo with made-up students and simulated boards, apart from your real data."""
+    from . import demo as demo_mod
+
+    if log_file:
+        log_file.parent.mkdir(parents=True, exist_ok=True)
+        sys.stdout = sys.stderr = open(log_file, "a", buffering=1, encoding="utf-8")  # noqa: SIM115
+    demo_mod.run(demo_mod.default_home(), reset, teacher_port, student_port, open_browser)
+
+
 @app.command("install-shortcut")
 def install_shortcut():
     """Add a "Santolina Teacher" shortcut to the desktop and the applications menu."""

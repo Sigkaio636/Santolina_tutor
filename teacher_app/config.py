@@ -16,6 +16,7 @@ class Settings:
     port: int
     fake_boards: Path | None  # a folder of simulated boards (tests and demos)
     adb: str  # the adb command
+    demo_student_url: str | None = None  # demo mode: where a phone opens the student app
 
     @property
     def db_path(self) -> Path:

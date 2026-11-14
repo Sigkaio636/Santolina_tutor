@@ -69,3 +69,8 @@ label input, label select { display: block; margin-top: .25rem; font-weight: 400
 .step.ok { color: var(--ok); }
 .step.failed { color: var(--err); }
 .step.skipped { color: var(--muted); }
+.demo-banner { max-width: 1200px; margin: 1rem auto 0; padding: .8rem 1.25rem; display: flex; gap: 1rem;
+  align-items: center; justify-content: space-between; background: var(--panel); border: 2px dashed var(--accent);
+  border-radius: 10px; }
+.demo-banner p { margin: .2rem 0; }
+.demo-qr svg { width: 110px; height: auto; background: #fff; border-radius: 6px; display: block; }

@@ -23,6 +23,16 @@
       <a href="/unassigned">{{ S.nav_unassigned }}</a>
     </nav>
   </header>
+  {% if demo_url %}
+  <section class="demo-banner">
+    <div>
+      <strong>{{ S.demo_title }}</strong>
+      <p>{{ S.demo_text }} <a href="{{ demo_url }}" target="_blank">{{ demo_url }}</a></p>
+      <p class="small">{{ S.demo_phone }}</p>
+    </div>
+    <div class="demo-qr">{{ demo_qr | safe }}</div>
+  </section>
+  {% endif %}
   <section class="connected" hx-get="/fragments/connected" hx-trigger="load, every 2s" hx-swap="innerHTML">
   </section>
   <main>

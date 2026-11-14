@@ -45,7 +45,9 @@ def create_app(settings: config.Settings | None = None) -> FastAPI:
     app = FastAPI(title=S.app_name, docs_url=None, redoc_url=None)
     app.mount("/static", StaticFiles(directory=HERE / "static"), name="static")
     templates = Jinja2Templates(directory=HERE / "templates")
-    templates.env.globals.update(S=S)
+    templates.env.globals.update(S=S, demo_url=settings.demo_student_url, demo_qr=None)
+    if settings.demo_student_url:
+        templates.env.globals["demo_qr"] = hotspot.qr_svg(settings.demo_student_url, scale=4)
     templates.env.filters.update(bytes=_bytes, when=_when, tojson_compact=json.dumps)
 
     def get_conn():
