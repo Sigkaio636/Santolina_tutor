@@ -1,0 +1,122 @@
+# vis-design seed decision: Two keys with many levels as a reordered heatmap
+schema_version: 1
+id: matrix-pattern-two-keys--reordered-heatmap
+status: declared
+title: Two keys with many levels as a reordered heatmap
+problem:
+  archetype: matrix-pattern-two-keys
+  catalog_functions:
+  - patterns
+  - relationships
+  statement: Where does {measure} concentrate across {category} × {category2}?
+  mode: analysis
+  domain_examples:
+  - product × region sales
+  - origin × destination trips
+  - gene × sample expression
+user:
+  profile: data-analyst
+  modifiers: []
+tasks:
+  why:
+    goal: discover
+    search: browse
+    query: identify
+  low_level:
+  - cluster
+  - find-anomalies
+  - compare
+  - find-extremum
+  temporal: []
+  shneiderman:
+  - overview
+  - relate
+  - details-on-demand
+data:
+  dataset_type: table
+  keys:
+  - role: category
+    type: categorical
+    cardinality: many
+  - role: category2
+    type: categorical
+    cardinality: many
+  values:
+  - role: measure
+    type: quantitative
+    semantics: amount
+  items: medium
+constraints: []
+solution:
+  idiom: heatmap
+  family: heatmap
+  mark: rect
+  encodings:
+  - attribute: category
+    channel: position-y
+    scale: ordinal
+    sort: clustered
+  - attribute: category2
+    channel: position-x
+    scale: ordinal
+    sort: clustered
+  - attribute: measure
+    channel: color-luminance
+    scale: sequential
+  derived_data:
+  - log or quantile scale for skewed values; hierarchical clustering order
+  ordering: rows and columns by clustering or totals
+  color:
+    purpose: encode-value
+    palette_type: sequential
+    suggested:
+    - viridis
+    - blues
+    cvd_safe: true
+  text:
+    title: descriptive
+    axis_units: true
+    direct_labels: false
+    annotations: []
+    source_line: true
+  interaction:
+    level: optional
+    default_state_answers_task: true
+    intents:
+    - filter
+    - select
+    - abstract-elaborate
+  layout:
+    small_multiples: false
+    facet_by: null
+    aspect: square
+  rejected_alternatives:
+  - idiom: multiset_barchart
+    reason: more than ~12 groups
+    rule: EFF-19
+  - idiom: bubble_chart
+    reason: area reads worse than luminance at this density
+    rule: EFF-02
+  validation:
+    stage3_checks:
+    - IDM-HEATMAP
+    - COL-02
+    - CMP-01
+    critique_skill: optional
+  library_notes:
+    altair: mark_rect with sort lists computed in pandas
+    matplotlib: pcolormesh on reordered pivot
+    plotly: px.imshow with ordered labels
+rationale: Reordering turns a noisy matrix into visible blocks (Bertin); luminance scales to thousands of cells.
+confidence: high
+provenance:
+  origin: seed
+  author: vis-design
+  created: '2026-11-07'
+  updated: '2026-11-07'
+  times_used: 0
+  last_used: null
+  supersedes: null
+  sources:
+  - Bertin 1983
+  - Munzner 2014

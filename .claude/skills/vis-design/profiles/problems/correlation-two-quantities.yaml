@@ -1,0 +1,48 @@
+# Problem archetype: Relation between two measures
+id: correlation-two-quantities
+name: Relation between two measures
+question_templates:
+- Is {measure} related to {measure2}?
+- Which items are outliers in {measure} vs {measure2}?
+catalog_functions:
+- relationships
+chart_types_md_sections:
+- Relationships / Scatterplot
+default_tasks:
+  why:
+    goal: discover
+    search: explore
+    query: compare
+  low_level:
+  - correlate
+  - find-anomalies
+  - cluster
+  - characterize-distribution
+  temporal: []
+expected_shape:
+  dataset_type: table
+  keys: []
+  values:
+  - type: quantitative
+  - type: quantitative
+preferred_idioms:
+- scatterplot
+- bubble_chart
+- connected_scatterplot
+- heatmap
+discouraged_idioms:
+- idiom: line_graph
+  when: x is not ordered
+  rule: EXP-03
+- idiom: bar_chart
+  when: two measures per item is not a ranking
+  rule: EFF-01
+related_archetypes:
+- multivariate-relationships
+- compare-two-keys
+disambiguation: Add a third attribute as color (categorical, ≤7) or size (quantitative, with legend); thousands
+  of points → opacity or 2-D binning.
+domain_examples:
+- income vs life expectancy
+- area burned vs number of fires
+- price vs rating

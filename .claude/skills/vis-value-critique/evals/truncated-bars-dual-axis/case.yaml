@@ -1,0 +1,6 @@
+schema_version: "1.1"
+name: truncated-bars-dual-axis
+expected_outcome: |
+  A ranked, evidence-based critique in the report-template structure that flags the truncated bar axis, the dual axis, the line over nominal categories, the redundant hue/legend, colorblind risk, missing title/units, and proposes a concrete redesign; no aesthetic commentary.
+context:
+  scaffold_script: place-files.sh

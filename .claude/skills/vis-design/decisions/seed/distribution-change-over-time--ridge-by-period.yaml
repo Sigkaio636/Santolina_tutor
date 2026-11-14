@@ -1,0 +1,119 @@
+# vis-design seed decision: Distribution per period as ridge plots
+schema_version: 1
+id: distribution-change-over-time--ridge-by-period
+status: declared
+title: Distribution per period as ridge plots
+problem:
+  archetype: distribution-change-over-time
+  catalog_functions:
+  - distribution
+  - data-over-time
+  statement: Has the distribution of {measure} changed between periods of {time}?
+  mode: analysis
+  domain_examples:
+  - event sizes in the first vs last decade
+  - customer age per year
+  - delay per quarter
+user:
+  profile: scientist-reviewer
+  modifiers: []
+tasks:
+  why:
+    goal: discover
+    search: browse
+    query: compare
+  low_level:
+  - characterize-distribution
+  - compare
+  - trend
+  temporal:
+  - pattern
+  - rate-of-change
+  shneiderman:
+  - overview
+data:
+  dataset_type: table
+  keys:
+  - role: time
+    type: temporal
+    cardinality: some
+    grain: year
+  values:
+  - role: measure
+    type: quantitative
+    semantics: amount
+  items: medium
+constraints: []
+solution:
+  idiom: ridge_plot
+  family: distribution
+  mark: area
+  encodings:
+  - attribute: time
+    channel: position-y
+    scale: ordinal
+  - attribute: measure
+    channel: position-x
+    scale: linear
+  - attribute: derived
+    channel: length
+    scale: linear
+  derived_data:
+  - density per period; median per period
+  ordering: periods chronological top to bottom
+  color:
+    purpose: encode-value
+    palette_type: sequential
+    suggested:
+    - viridis
+    - blues
+    cvd_safe: true
+  text:
+    title: descriptive
+    axis_units: true
+    direct_labels: false
+    annotations:
+    - median marker per row
+    source_line: true
+  interaction:
+    level: none
+    default_state_answers_task: true
+    intents: []
+  layout:
+    small_multiples: false
+    facet_by: null
+    aspect: tall
+  rejected_alternatives:
+  - idiom: stacked_area_graph
+    reason: composition, not distribution
+    rule: EXP-06
+  - idiom: bar_chart
+    reason: means hide the change in spread
+    rule: EXP-16
+  - idiom: heatmap
+    reason: binned 2-D version is a fallback when periods exceed ~40
+    rule: IDM-HEATMAP
+  validation:
+    stage3_checks:
+    - EXP-15
+    - CMP-01
+    - EXP-16
+    critique_skill: optional
+  library_notes:
+    altair: mark_area with transform_density, row facet with overlap
+    matplotlib: stacked fill_between per period
+    plotly: go.Violin side='positive' per period
+rationale: Aligned densities on one axis show how location and spread move across periods; ordered rows make the
+  trend readable.
+confidence: high
+provenance:
+  origin: seed
+  author: vis-design
+  created: '2026-11-07'
+  updated: '2026-11-07'
+  times_used: 0
+  last_used: null
+  supersedes: null
+  sources:
+  - Munzner 2014
+  - Wilke 2019

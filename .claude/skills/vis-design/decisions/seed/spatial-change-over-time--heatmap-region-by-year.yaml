@@ -1,0 +1,130 @@
+# vis-design seed decision: A measure per region per year as a region × year heatmap
+schema_version: 1
+id: spatial-change-over-time--heatmap-region-by-year
+status: declared
+title: A measure per region per year as a region × year heatmap
+problem:
+  archetype: spatial-change-over-time
+  catalog_functions:
+  - location
+  - data-over-time
+  statement: How has {measure} per {region} evolved over {time}?
+  mode: analysis
+  domain_examples:
+  - events per county per year
+  - rainfall per station per month
+  - votes per district across elections
+user:
+  profile: domain-expert
+  modifiers: []
+tasks:
+  why:
+    goal: discover
+    search: browse
+    query: compare
+  low_level:
+  - compare
+  - trend
+  - find-anomalies
+  - find-extremum
+  temporal:
+  - pattern
+  - rate-of-change
+  - synchronization
+  shneiderman:
+  - overview
+  - details-on-demand
+data:
+  dataset_type: geometry
+  keys:
+  - role: time
+    type: temporal
+    cardinality: some
+    grain: year
+  - role: location
+    type: geo-code
+    cardinality: many
+  values:
+  - role: measure
+    type: quantitative
+    semantics: count
+    derived: true
+    derivation: count per (year, region)
+  items: small
+constraints: []
+solution:
+  idiom: heatmap
+  family: heatmap
+  mark: rect
+  encodings:
+  - attribute: time
+    channel: position-x
+    scale: ordinal
+  - attribute: location
+    channel: position-y
+    scale: ordinal
+    sort: row total desc
+  - attribute: measure
+    channel: color-luminance
+    scale: sequential
+    zero: true
+  derived_data:
+  - count per (year, region); optional row-normalised variant
+  ordering: regions by total descending; years chronological
+  color:
+    purpose: encode-value
+    palette_type: sequential
+    suggested:
+    - viridis
+    - blues
+    cvd_safe: true
+  text:
+    title: descriptive
+    axis_units: true
+    direct_labels: false
+    annotations:
+    - max cell annotated
+    source_line: true
+  interaction:
+    level: optional
+    default_state_answers_task: true
+    intents:
+    - abstract-elaborate
+  layout:
+    small_multiples: false
+    facet_by: null
+    aspect: wide
+  rejected_alternatives:
+  - idiom: line_graph
+    reason: dozens of regions tangle
+    rule: IDM-LINE
+  - idiom: choropleth
+    reason: one map per year cannot be compared side by side beyond ~6
+    rule: CMP-08
+  - idiom: multiset_barchart
+    reason: time as groups
+    rule: EXP-04
+  validation:
+    stage3_checks:
+    - IDM-HEATMAP
+    - COL-02
+    - CMP-01
+    critique_skill: optional
+  library_notes:
+    altair: mark_rect; sort y by sum
+    matplotlib: pcolormesh on pivot
+    plotly: px.imshow
+rationale: Regions × years with a count is a dense matrix; position carries both keys exactly and luminance shows
+  where and when the measure concentrates.
+confidence: high
+provenance:
+  origin: seed
+  author: vis-design
+  created: '2026-11-07'
+  updated: '2026-11-07'
+  times_used: 0
+  last_used: null
+  supersedes: null
+  sources:
+  - Munzner 2014
+  - Wilke 2019

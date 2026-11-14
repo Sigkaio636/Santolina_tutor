@@ -1,0 +1,6 @@
+schema_version: "1.1"
+name: linked-dashboard-spec
+expected_outcome: |
+  A critique following the template that runs the dashboard pass on a five-view Altair concatenation: the brush on the scatterplot drives nothing (INT-09), the scatterplot and the bar chart show the same stores with no linked highlighting (CMP-09), the three panels that draw sales_eur each use their own y scale (SCL-08), the strip of points is displaced by random() (EXP-21), the box plot's whiskers are undefined (DAT-10), the histogram uses the default bins (EXP-15), plus missing title and raw axis names. It scores V=T+I+E+C and proposes fewer, linked views with one highlight color and shared scales.
+context:
+  scaffold_script: place-files.sh

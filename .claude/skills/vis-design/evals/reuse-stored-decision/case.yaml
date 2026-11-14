@@ -1,0 +1,6 @@
+schema_version: "1.1"
+name: reuse-stored-decision
+expected_outcome: |
+  The run asks the full four-stage questionnaire (or declares assumptions), offers the stored project decision as the recommended idiom citing its id, offers matplotlib (from project.yaml) as the recommended library, reuses the record without creating a new one, generates code that runs headless and produces a sorted bar chart from zero, and writes the design document in Spanish with four stages, rejected alternatives and validations.
+context:
+  scaffold_script: place-files.sh

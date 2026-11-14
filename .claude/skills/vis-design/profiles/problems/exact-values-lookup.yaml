@@ -1,0 +1,46 @@
+# Problem archetype: Precise values and heterogeneous attributes
+id: exact-values-lookup
+name: Precise values and heterogeneous attributes
+question_templates:
+- What exactly is {measure} for {item}?
+- Give me the numbers for {items}.
+catalog_functions:
+- reference-tool
+chart_types_md_sections:
+- Tables and text
+default_tasks:
+  why:
+    goal: present
+    search: lookup
+    query: identify
+  low_level:
+  - retrieve-value
+  - sort
+  - compare
+  temporal: []
+expected_shape:
+  dataset_type: table
+  keys:
+  - type: categorical
+    cardinality:
+    - few
+    - some
+  values:
+  - type: quantitative
+    semantics: amount
+preferred_idioms:
+- data_table
+- bar_chart
+- timetable
+discouraged_idioms:
+- idiom: pie_chart
+  when: always
+  rule: IDM-PIE
+related_archetypes:
+- compare-values-across-categories
+disambiguation: When the reader will quote numbers, or there are ≤5 values, or attributes mix text and numbers,
+  a table beats a chart (Munzner / Few). Add inline bars only if ranking matters.
+domain_examples:
+- league table
+- budget lines
+- schedule

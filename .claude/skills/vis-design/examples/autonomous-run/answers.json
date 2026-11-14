@@ -1,0 +1,106 @@
+{
+  "title": "Share of burnt area per region, 2015-2017 vs 2022-2024",
+  "language": "es",
+  "problem": {
+    "archetype": "rank-change-two-points",
+    "catalog_functions": [
+      "comparisons",
+      "data-over-time"
+    ],
+    "statement": "¿Ha cambiado el reparto de la superficie (AREA_HA) entre regiones entre el inicio (2015-2017) y el final (2022-2024) del periodo?",
+    "mode": "analysis"
+  },
+  "user": {
+    "profile": "domain-expert",
+    "modifiers": []
+  },
+  "tasks": {
+    "why": {
+      "goal": "present",
+      "search": "locate",
+      "query": "compare"
+    },
+    "low_level": [
+      "compare",
+      "compute-derived",
+      "sort",
+      "find-extremum",
+      "gist"
+    ],
+    "temporal": [
+      "rate-of-change"
+    ],
+    "shneiderman": [
+      "overview"
+    ]
+  },
+  "data": {
+    "dataset_type": "table",
+    "source_file": "events.csv",
+    "keys": [
+      {
+        "role": "time",
+        "type": "temporal",
+        "cardinality": 2,
+        "grain": "year",
+        "source_column": "EVENT_DATE",
+        "note": "two periods: first three years (2015-2017) and last three years (2022-2024)"
+      },
+      {
+        "role": "category",
+        "type": "categorical",
+        "cardinality": 40,
+        "source_column": "REGION"
+      }
+    ],
+    "values": [
+      {
+        "role": "measure",
+        "type": "quantitative",
+        "semantics": "share",
+        "derived": true,
+        "derivation": "share_pct = 100 * sum(AREA_HA) per (period, REGION) / sum(AREA_HA) per period",
+        "unit": "% of the period's AREA_HA"
+      }
+    ],
+    "items": "tiny",
+    "filters": [
+      "EVENT_DATE year in 2015-2017 or 2022-2024 (middle years 2018-2021 excluded by definition of the two periods)"
+    ],
+    "normalization": "share of the period total (part / whole per period)",
+    "parse": {
+      "delimiter": ",",
+      "decimal": ".",
+      "date_format": "%d/%m/%Y",
+      "code_columns": [
+        "REGION_CODE"
+      ]
+    }
+  },
+  "constraints": [
+    "static-only"
+  ],
+  "library": "matplotlib",
+  "host": "script",
+  "stage_validation": {
+    "stage1": "assumed",
+    "stage2": "assumed",
+    "stage3": "assumed",
+    "stage4": "run_check ok (headless), reader acceptance assumed"
+  },
+  "decision_id": "p-rank-change-two-points--area-share-shift-by-region-20261107",
+  "match": {
+    "tier": "REUSE",
+    "best": "rank-change-two-points--slope-chart",
+    "score": 0.827,
+    "note": "stored slope_chart rejected at stage-3 rule checklist (EFF-16: 40 colliding end labels); dumbbell_plot (catalog candidate 2) taken"
+  },
+  "solution_summary": {
+    "idiom": "dumbbell_plot",
+    "color": "neutral-accent (#8c8c8c, #0072b2 gain, #d55e00 loss)",
+    "interaction": "none"
+  },
+  "out_dir": "out",
+  "persist": true,
+  "validation3": "rule checklist + render inspection (sibling inspectors + grayscale/CVD images)"
+}

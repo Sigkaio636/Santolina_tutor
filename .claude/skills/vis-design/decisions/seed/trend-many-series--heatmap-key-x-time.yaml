@@ -1,0 +1,133 @@
+# vis-design seed decision: Many categories over time as a category × time heatmap
+schema_version: 1
+id: trend-many-series--heatmap-key-x-time
+status: declared
+title: Many categories over time as a category × time heatmap
+problem:
+  archetype: trend-many-series
+  catalog_functions:
+  - data-over-time
+  - patterns
+  statement: How has {measure} per {category} evolved over {time}?
+  mode: analysis
+  domain_examples:
+  - events per region per year
+  - sales per store per month
+  - readings per sensor per hour
+user:
+  profile: domain-expert
+  modifiers: []
+tasks:
+  why:
+    goal: discover
+    search: browse
+    query: compare
+  low_level:
+  - compare
+  - find-anomalies
+  - find-extremum
+  - characterize-distribution
+  temporal:
+  - pattern
+  - rate-of-change
+  - synchronization
+  shneiderman:
+  - overview
+  - details-on-demand
+data:
+  dataset_type: table
+  keys:
+  - role: time
+    type: temporal
+    cardinality: some
+    grain: year
+  - role: category
+    type: categorical
+    cardinality: many
+  values:
+  - role: measure
+    type: quantitative
+    semantics: count
+    derived: true
+    derivation: count rows per (period, category)
+  items: small
+constraints: []
+solution:
+  idiom: heatmap
+  family: heatmap
+  mark: rect
+  encodings:
+  - attribute: time
+    channel: position-x
+    scale: ordinal
+    sort: chronological
+  - attribute: category
+    channel: position-y
+    scale: ordinal
+    sort: row total desc
+  - attribute: measure
+    channel: color-luminance
+    scale: sequential
+    zero: true
+  derived_data:
+  - count per (period, category)
+  - optional row-normalised variant for the pattern task
+  ordering: rows by total descending; columns chronological
+  color:
+    purpose: encode-value
+    palette_type: sequential
+    suggested:
+    - viridis
+    - blues
+    cvd_safe: true
+  text:
+    title: descriptive
+    axis_units: true
+    direct_labels: false
+    annotations:
+    - max cell
+    source_line: true
+  interaction:
+    level: optional
+    default_state_answers_task: true
+    intents:
+    - abstract-elaborate
+  layout:
+    small_multiples: false
+    facet_by: null
+    aspect: wide
+  rejected_alternatives:
+  - idiom: line_graph
+    reason: more than ~7 lines are unreadable
+    rule: IDM-LINE
+  - idiom: stacked_area_graph
+    reason: only the bottom layer has a baseline; the task compares series
+    rule: IDM-STACK
+  - idiom: small_multiples
+    reason: 40+ panels get tiny on a laptop; kept as the alternative for ≤30 categories
+    rule: CMP-05
+  validation:
+    stage3_checks:
+    - COL-02
+    - IDM-HEATMAP
+    - CMP-01
+    - TXT-01
+    critique_skill: optional
+  library_notes:
+    altair: mark_rect; color quantitative with scheme; sort y by aggregate
+    matplotlib: pcolormesh over pivot table; ordered categorical axes
+    plotly: go.Heatmap with explicit z matrix; px.imshow for simple cases
+rationale: Position on both axes carries the two keys exactly; luminance carries the value with roughly ten distinguishable
+  levels, enough for pattern and anomaly tasks. Scales to hundreds of rows where lines and panels fail.
+confidence: high
+provenance:
+  origin: seed
+  author: vis-design
+  created: '2026-11-07'
+  updated: '2026-11-07'
+  times_used: 0
+  last_used: null
+  supersedes: null
+  sources:
+  - Munzner 2014 ch.7
+  - Bertin 1983 (reorderable matrix)

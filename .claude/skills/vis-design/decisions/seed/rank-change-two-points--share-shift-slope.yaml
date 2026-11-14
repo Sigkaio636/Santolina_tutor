@@ -1,0 +1,124 @@
+# vis-design seed decision: Share per category at the first vs last period as a slope chart
+schema_version: 1
+id: rank-change-two-points--share-shift-slope
+status: declared
+title: Share per category at the first vs last period as a slope chart
+problem:
+  archetype: rank-change-two-points
+  catalog_functions:
+  - comparisons
+  - data-over-time
+  statement: Did the share of {category} in {total} change between the start and the end of {time}?
+  mode: explanatory
+  domain_examples:
+  - share of each region at the first vs last period
+  - share of each cause in two decades
+  - share of channels in two years
+user:
+  profile: executive
+  modifiers: []
+tasks:
+  why:
+    goal: present
+    search: locate
+    query: compare
+  low_level:
+  - compare
+  - sort
+  - compute-derived
+  temporal:
+  - rate-of-change
+  shneiderman:
+  - overview
+data:
+  dataset_type: table
+  keys:
+  - role: time
+    type: temporal
+    cardinality: few
+    grain: year
+  - role: category
+    type: categorical
+    cardinality: some
+  values:
+  - role: measure
+    type: quantitative
+    semantics: share
+    derived: true
+    derivation: share per period = part / period total
+  items: tiny
+constraints: []
+solution:
+  idiom: slope_chart
+  family: slope
+  mark: line
+  encodings:
+  - attribute: time
+    channel: position-x
+    scale: ordinal
+  - attribute: measure
+    channel: position-y
+    scale: linear
+    zero: false
+  - attribute: category
+    channel: connection
+  - attribute: highlight
+    channel: color-hue
+    scale: nominal
+  derived_data:
+  - share per (period, category); periods defined as first and last n years, stated
+  ordering: labels at both ends; rising items highlighted
+  color:
+    purpose: highlight
+    palette_type: neutral-accent
+    suggested:
+    - '#8c8c8c'
+    - '#0072b2'
+    cvd_safe: true
+    second_cue: direct label
+  text:
+    title: takeaway
+    axis_units: true
+    direct_labels: true
+    annotations:
+    - period definition in subtitle
+    source_line: true
+  interaction:
+    level: none
+    default_state_answers_task: true
+    intents: []
+  layout:
+    small_multiples: false
+    facet_by: null
+    aspect: tall
+  rejected_alternatives:
+  - idiom: pie_chart
+    reason: two pies cannot be compared
+    rule: IDM-PIE
+  - idiom: stacked_bar_graph
+    reason: middle segments have no baseline
+    rule: IDM-STACK
+  validation:
+    stage3_checks:
+    - TXT-04
+    - EFF-09
+    - EXP-13
+    critique_skill: optional
+  library_notes:
+    altair: mark_line + mark_text
+    matplotlib: segments per item with end labels
+    plotly: go.Scatter per item
+rationale: Two moments and many categories is exactly the slope chart's shape; shares at the ends are read as positions
+  and the change as slope.
+confidence: high
+provenance:
+  origin: seed
+  author: vis-design
+  created: '2026-11-07'
+  updated: '2026-11-07'
+  times_used: 0
+  last_used: null
+  supersedes: null
+  sources:
+  - Munzner 2014
+  - Wilke 2019

@@ -1,0 +1,57 @@
+# Problem archetype: Events and intervals in time
+id: event-timeline-intervals
+name: Events and intervals in time
+question_templates:
+- When did {events} happen and how long did they last?
+- Which {tasks} overlap?
+catalog_functions:
+- data-over-time
+- processes-and-methods
+- range
+chart_types_md_sections: []
+default_tasks:
+  why:
+    goal: present
+    search: lookup
+    query: identify
+  low_level:
+  - determine-range
+  - sort
+  - retrieve-value
+  temporal:
+  - existence
+  - temporal-location
+  - interval
+  - sequence
+  - synchronization
+expected_shape:
+  dataset_type: table
+  keys:
+  - type: categorical
+    cardinality:
+    - few
+    - some
+    - many
+  values:
+  - type: temporal
+    semantics: position
+  - type: temporal
+    semantics: position
+preferred_idioms:
+- gantt_chart
+- timeline
+- span_chart
+- data_table
+discouraged_idioms:
+- idiom: line_graph
+  when: events are not a continuous measure
+  rule: EXP-03
+related_archetypes:
+- trend-single-series
+- exact-values-lookup
+disambiguation: Instants only → timeline; intervals → gantt/span rows sorted by start; many events → aggregate to
+  counts per period (trend-single-series).
+domain_examples:
+- project tasks
+- reigns and governments
+- outages per service

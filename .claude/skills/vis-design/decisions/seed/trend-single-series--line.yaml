@@ -1,0 +1,123 @@
+# vis-design seed decision: One measure over time as a line chart
+schema_version: 1
+id: trend-single-series--line
+status: declared
+title: One measure over time as a line chart
+problem:
+  archetype: trend-single-series
+  catalog_functions:
+  - data-over-time
+  statement: How has {measure} changed over {time}?
+  mode: explanatory
+  domain_examples:
+  - monthly revenue
+  - annual incidents
+  - daily temperature
+user:
+  profile: general-public
+  modifiers: []
+tasks:
+  why:
+    goal: present
+    search: browse
+    query: identify
+  low_level:
+  - trend
+  - find-extremum
+  - find-anomalies
+  - retrieve-value
+  temporal:
+  - pattern
+  - rate-of-change
+  - temporal-location
+  shneiderman:
+  - overview
+data:
+  dataset_type: table
+  keys:
+  - role: time
+    type: temporal
+    cardinality: many
+    grain: month
+  values:
+  - role: measure
+    type: quantitative
+    semantics: amount
+  items: small
+constraints: []
+solution:
+  idiom: line_graph
+  family: line
+  mark: line
+  encodings:
+  - attribute: time
+    channel: position-x
+    scale: temporal
+  - attribute: measure
+    channel: position-y
+    scale: linear
+    zero: false
+    note: range chosen for the meaningful effect; baseline stated
+  derived_data:
+  - aggregate per period; optional rolling mean as a second layer
+  ordering: chronological
+  color:
+    purpose: highlight
+    palette_type: neutral-accent
+    suggested:
+    - '#8c8c8c'
+    - '#0072b2'
+    cvd_safe: true
+    second_cue: direct label
+  text:
+    title: takeaway
+    axis_units: true
+    direct_labels: true
+    annotations:
+    - peak and trough annotated with value and date
+    - events explaining breaks
+    source_line: true
+  interaction:
+    level: optional
+    default_state_answers_task: true
+    intents:
+    - abstract-elaborate
+  layout:
+    small_multiples: false
+    facet_by: null
+    aspect: wide
+  rejected_alternatives:
+  - idiom: bar_chart
+    reason: more than ~12 periods; the task is trend
+    rule: EXP-04
+  - idiom: area_graph
+    reason: axis must then start at zero
+    rule: EXP-08
+  - idiom: pie_chart
+    reason: always
+    rule: IDM-PIE
+  validation:
+    stage3_checks:
+    - IDM-LINE
+    - SCL-02
+    - SCL-04
+    - TXT-05
+    critique_skill: optional
+  library_notes:
+    altair: mark_line + mark_point; annotations with mark_text
+    matplotlib: plot + annotate
+    plotly: px.line + add_annotation
+rationale: Position over time shows trend, peaks and breaks; annotations supply the context readers ask for (Stokes
+  & Hearst).
+confidence: high
+provenance:
+  origin: seed
+  author: vis-design
+  created: '2026-11-07'
+  updated: '2026-11-07'
+  times_used: 0
+  last_used: null
+  supersedes: null
+  sources:
+  - Correll et al. 2020
+  - Stokes & Hearst 2022

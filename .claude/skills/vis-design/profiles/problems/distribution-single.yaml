@@ -1,0 +1,50 @@
+# Problem archetype: Shape of one numeric variable
+id: distribution-single
+name: Shape of one numeric variable
+question_templates:
+- How are the values of {measure} distributed?
+- Are there outliers or several modes in {measure}?
+catalog_functions:
+- distribution
+chart_types_md_sections:
+- Distributions / Histogram
+default_tasks:
+  why:
+    goal: discover
+    search: browse
+    query: summarize
+  low_level:
+  - characterize-distribution
+  - find-anomalies
+  - determine-range
+  temporal: []
+expected_shape:
+  dataset_type: table
+  keys: []
+  values:
+  - type: quantitative
+    semantics: amount
+preferred_idioms:
+- histogram
+- density_plot
+- strip_plot
+- wilkinson_dot_plot
+- stem_and_leaf_plot
+discouraged_idioms:
+- idiom: pie_chart
+  when: always
+  rule: IDM-PIE
+- idiom: bar_chart
+  when: values are continuous, not categories
+  rule: EXP-15
+related_archetypes:
+- distribution-compare-groups
+- distribution-change-over-time
+- compare-values-across-categories
+disambiguation: '''Distribution of X across categories'' means compare-values-across-categories; this archetype
+  is the spread of one numeric variable over items. Explore several bin widths. Small samples or readers who
+  count better than they read densities → stacked dots (Wilkinson dot plot).'
+domain_examples:
+- size of individual fires in hectares
+- response times of a service
+- exam scores

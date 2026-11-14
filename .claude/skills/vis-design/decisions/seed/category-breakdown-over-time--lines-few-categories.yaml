@@ -1,0 +1,131 @@
+# vis-design seed decision: Counts per category over time, few categories, as labelled lines
+schema_version: 1
+id: category-breakdown-over-time--lines-few-categories
+status: declared
+title: Counts per category over time, few categories, as labelled lines
+problem:
+  archetype: category-breakdown-over-time
+  catalog_functions:
+  - data-over-time
+  - proportions
+  statement: How has the number of {events} by {category} evolved over {time}?
+  mode: explanatory
+  domain_examples:
+  - incidents by cause per year
+  - tickets by type per week
+  - enrolments by programme per year
+user:
+  profile: domain-expert
+  modifiers: []
+tasks:
+  why:
+    goal: present
+    search: browse
+    query: compare
+  low_level:
+  - trend
+  - compare
+  - compute-derived
+  - gist
+  temporal:
+  - pattern
+  - rate-of-change
+  shneiderman:
+  - overview
+  - details-on-demand
+data:
+  dataset_type: table
+  keys:
+  - role: time
+    type: temporal
+    cardinality: some
+    grain: year
+  - role: category
+    type: categorical
+    cardinality: few
+  values:
+  - role: measure
+    type: quantitative
+    semantics: count
+    derived: true
+    derivation: count rows per (period, category)
+  items: tiny
+constraints: []
+solution:
+  idiom: line_graph
+  family: line
+  mark: line
+  encodings:
+  - attribute: time
+    channel: position-x
+    scale: temporal
+  - attribute: measure
+    channel: position-y
+    scale: linear
+    zero: true
+  - attribute: category
+    channel: color-hue
+    scale: nominal
+  - attribute: category
+    channel: connection
+  derived_data:
+  - count per (period, category); optional share variant as a second panel
+  ordering: labels at line ends
+  color:
+    purpose: distinguish
+    palette_type: qualitative
+    suggested:
+    - okabe-ito
+    max_hues: 6
+    cvd_safe: true
+    second_cue: direct label
+  text:
+    title: takeaway
+    axis_units: true
+    direct_labels: true
+    annotations:
+    - labels at line ends
+    source_line: true
+  interaction:
+    level: optional
+    default_state_answers_task: true
+    intents:
+    - abstract-elaborate
+  layout:
+    small_multiples: false
+    facet_by: null
+    aspect: wide
+  rejected_alternatives:
+  - idiom: stacked_area_graph
+    reason: individual trends hidden above the bottom band
+    rule: IDM-STACK
+  - idiom: multiset_barchart
+    reason: time as groups
+    rule: EXP-04
+  - idiom: pie_chart
+    reason: one pie per year
+    rule: IDM-PIE
+  validation:
+    stage3_checks:
+    - IDM-LINE
+    - TXT-04
+    - COL-04
+    critique_skill: optional
+  library_notes:
+    altair: mark_line + end labels
+    matplotlib: plot per category; annotate
+    plotly: px.line
+rationale: Counts from zero on one panel show both totals and crossings between categories; if the question is about
+  shares, switch to the 100% stacked area seed.
+confidence: high
+provenance:
+  origin: seed
+  author: vis-design
+  created: '2026-11-07'
+  updated: '2026-11-07'
+  times_used: 0
+  last_used: null
+  supersedes: null
+  sources:
+  - Munzner 2014
+  - Wilke 2019

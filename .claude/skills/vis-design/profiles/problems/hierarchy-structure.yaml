@@ -1,0 +1,54 @@
+# Problem archetype: Structure of a tree
+id: hierarchy-structure
+name: Structure of a tree
+question_templates:
+- How is {organisation|taxonomy} structured?
+- Which node is the parent of {item}?
+catalog_functions:
+- hierarchy
+- reference-tool
+chart_types_md_sections:
+- Hierarchies and networks
+default_tasks:
+  why:
+    goal: present
+    search: lookup
+    query: identify
+  low_level:
+  - retrieve-value
+  - cluster
+  - gist
+  temporal: []
+expected_shape:
+  dataset_type: tree
+  keys:
+  - type: categorical
+    cardinality:
+    - some
+    - many
+  values: []
+preferred_idioms:
+- tree_diagram
+- indented_tree
+- icicle
+- dendrogram
+- treemap
+- sunburst_diagram
+- data_table
+discouraged_idioms:
+- idiom: treemap
+  when: structure matters more than size
+  rule: EFF-02
+- idiom: circle_packing
+  when: space matters
+  rule: CLT-03
+related_archetypes:
+- part-to-whole-hierarchy
+disambiguation: 'If each node carries a size that matters, use part-to-whole-hierarchy. Node-link tree: the shape
+  of a small hierarchy for any reader. Indented tree: looking up names, long labels or attribute columns beside
+  each node, at the cost of vertical space and overview. Icicle: structure plus a size on aligned lengths. Dendrogram:
+  only when the tree comes from clustering and the merge distance matters.'
+domain_examples:
+- org chart
+- file system
+- taxonomy of species

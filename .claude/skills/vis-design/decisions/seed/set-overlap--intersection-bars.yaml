@@ -1,0 +1,120 @@
+# vis-design seed decision: Overlap of sets as sorted intersection bars
+schema_version: 1
+id: set-overlap--intersection-bars
+status: declared
+title: Overlap of sets as sorted intersection bars
+problem:
+  archetype: set-overlap
+  catalog_functions:
+  - concepts
+  - relationships
+  statement: How many {items} belong to each combination of {sets}?
+  mode: analysis
+  domain_examples:
+  - customers using several products
+  - genes in several conditions
+  - skills shared by teams
+user:
+  profile: domain-expert
+  modifiers: []
+tasks:
+  why:
+    goal: present
+    search: lookup
+    query: identify
+  low_level:
+  - retrieve-value
+  - compare
+  - sort
+  temporal: []
+  shneiderman:
+  - overview
+data:
+  dataset_type: table
+  keys:
+  - role: category
+    type: categorical
+    cardinality: some
+  values:
+  - role: measure
+    type: quantitative
+    semantics: count
+    derived: true
+    derivation: count per set combination
+  items: tiny
+constraints: []
+solution:
+  idiom: upset
+  family: set
+  mark: line
+  encodings:
+  - attribute: category
+    channel: position-x
+    scale: ordinal
+    sort: measure desc
+    note: one bar per combination
+  - attribute: measure
+    channel: length
+    scale: linear
+    zero: true
+  - attribute: derived
+    channel: shape
+    scale: nominal
+    note: membership matrix under the bars
+  derived_data:
+  - count per combination; membership matrix
+  ordering: combinations by count descending
+  color:
+    purpose: highlight
+    palette_type: neutral-accent
+    suggested:
+    - '#8c8c8c'
+    - '#0072b2'
+    cvd_safe: true
+    second_cue: direct label
+  text:
+    title: takeaway
+    axis_units: true
+    direct_labels: true
+    annotations:
+    - counts on bars
+    - one line explaining that filled dots mark the sets in each combination
+    source_line: true
+  interaction:
+    level: none
+    default_state_answers_task: true
+    intents: []
+  layout:
+    small_multiples: false
+    facet_by: null
+    aspect: wide
+  rejected_alternatives:
+  - idiom: venn_diagram
+    reason: beyond 3 sets the regions cannot be drawn or read
+    rule: IDM-VENN
+  validation:
+    stage3_checks:
+    - IDM-VENN
+    - EXP-07
+    - CMP-01
+    - TXT-07
+    critique_skill: optional
+  library_notes:
+    altair: vconcat of mark_bar (intersection sizes, sorted) over a membership matrix of mark_circle + mark_rule sharing
+      the x order
+    matplotlib: two stacked axes with shared x (bar above, scatter + vlines matrix below); the upsetplot package draws
+      the same
+    plotly: make_subplots with shared x (go.Bar above, go.Scatter markers+lines matrix below)
+rationale: Sorted bars give exact, comparable intersection sizes for any number of sets (UpSet style); a Venn is
+  kept only for 2–3 sets.
+confidence: high
+provenance:
+  origin: seed
+  author: vis-design
+  created: '2026-11-07'
+  updated: '2026-11-13'
+  times_used: 0
+  last_used: null
+  supersedes: null
+  sources:
+  - Lex et al. 2014 (UpSet)

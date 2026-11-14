@@ -1,0 +1,540 @@
+{
+ "source": "https://datavizcatalogue.com/search.html",
+ "fetched": "2026-11-07",
+ "note": "Each function's 'charts' list holds the site's members followed by our supplement entries (source.origin='supplement' in chart-catalog.json, not on the site); 'groups' are the site's own.",
+ "functions": {
+  "comparisons": {
+   "site_slug": "comparisons",
+   "name": "Comparisons",
+   "description": "Charts that let the reader compare magnitudes of several items or groups.",
+   "charts": [
+    "bar_chart",
+    "box_plot",
+    "bubble_chart",
+    "bullet_graph",
+    "line_graph",
+    "marimekko_chart",
+    "multiset_barchart",
+    "nightingale_rose_chart",
+    "parallel_coordinates",
+    "population_pyramid",
+    "radar_chart",
+    "radial_bar_chart",
+    "radial_column_chart",
+    "span_chart",
+    "stacked_area_graph",
+    "stacked_bar_graph",
+    "chord_diagram",
+    "choropleth",
+    "donut_chart",
+    "dot_matrix_chart",
+    "heatmap",
+    "parallel_sets",
+    "pictogram",
+    "pie_chart",
+    "area_chart",
+    "tally_chart",
+    "treemap",
+    "venn_diagram",
+    "bump_chart",
+    "data_table",
+    "dot_plot",
+    "dumbbell_plot",
+    "ridge_plot",
+    "slope_chart",
+    "small_multiples",
+    "strip_plot",
+    "upset",
+    "raincloud",
+    "beeswarm",
+    "difference_view",
+    "spike_map",
+    "tile_cartogram"
+   ],
+   "groups": {
+    "With an axis": [
+     "bar_chart",
+     "box_plot",
+     "bubble_chart",
+     "bullet_graph",
+     "line_graph",
+     "marimekko_chart",
+     "multiset_barchart",
+     "nightingale_rose_chart",
+     "parallel_coordinates",
+     "population_pyramid",
+     "radar_chart",
+     "radial_bar_chart",
+     "radial_column_chart",
+     "span_chart",
+     "stacked_area_graph",
+     "stacked_bar_graph"
+    ],
+    "Without an axis": [
+     "chord_diagram",
+     "choropleth",
+     "donut_chart",
+     "dot_matrix_chart",
+     "heatmap",
+     "parallel_sets",
+     "pictogram",
+     "pie_chart",
+     "area_chart",
+     "tally_chart",
+     "treemap",
+     "venn_diagram"
+    ]
+   },
+   "archetypes": [
+    "compare-values-across-categories",
+    "compare-two-keys",
+    "compare-against-target",
+    "rank-change-two-points",
+    "distribution-compare-groups",
+    "range-per-item",
+    "trend-few-series"
+   ]
+  },
+  "proportions": {
+   "site_slug": "proportions",
+   "name": "Proportions",
+   "description": "Charts whose marks are sized relative to one another or to a whole.",
+   "charts": [
+    "bubble_chart",
+    "bubble_map",
+    "circle_packing",
+    "dot_matrix_chart",
+    "nightingale_rose_chart",
+    "area_chart",
+    "stacked_bar_graph",
+    "wordcloud",
+    "donut_chart",
+    "marimekko_chart",
+    "parallel_sets",
+    "pie_chart",
+    "sankey_diagram",
+    "treemap",
+    "icicle"
+   ],
+   "groups": {
+    "Proportions between values": [
+     "bubble_chart",
+     "bubble_map",
+     "circle_packing",
+     "dot_matrix_chart",
+     "nightingale_rose_chart",
+     "area_chart",
+     "stacked_bar_graph",
+     "wordcloud"
+    ],
+    "Proportions in parts-to-a-whole relationships": [
+     "donut_chart",
+     "marimekko_chart",
+     "parallel_sets",
+     "pie_chart",
+     "sankey_diagram",
+     "stacked_bar_graph",
+     "treemap"
+    ]
+   },
+   "archetypes": [
+    "part-to-whole-single",
+    "part-to-whole-over-time",
+    "part-to-whole-hierarchy",
+    "category-breakdown-over-time"
+   ]
+  },
+  "relationships": {
+   "site_slug": "relationships",
+   "name": "Relationships",
+   "description": "Charts that show connections between entities or correlations between variables.",
+   "charts": [
+    "heatmap",
+    "marimekko_chart",
+    "parallel_coordinates",
+    "radar_chart",
+    "venn_diagram",
+    "arc_diagram",
+    "brainstorm",
+    "chord_diagram",
+    "connection_map",
+    "network_diagram",
+    "non_ribbon_chord_diagram",
+    "tree_diagram",
+    "bubble_chart",
+    "scatterplot",
+    "connected_scatterplot",
+    "dendrogram",
+    "adjacency_matrix",
+    "upset"
+   ],
+   "groups": {
+    "For showing connections": [
+     "arc_diagram",
+     "brainstorm",
+     "chord_diagram",
+     "connection_map",
+     "network_diagram",
+     "non_ribbon_chord_diagram",
+     "tree_diagram"
+    ],
+    "For finding correlations": [
+     "bubble_chart",
+     "heatmap",
+     "scatterplot"
+    ]
+   },
+   "archetypes": [
+    "correlation-two-quantities",
+    "multivariate-relationships",
+    "matrix-pattern-two-keys",
+    "network-relationships",
+    "set-overlap"
+   ]
+  },
+  "hierarchy": {
+   "site_slug": "hierarchy",
+   "name": "Hierarchy",
+   "description": "Charts for nested, parent-child structures.",
+   "charts": [
+    "circle_packing",
+    "sunburst_diagram",
+    "tree_diagram",
+    "treemap",
+    "dendrogram",
+    "indented_tree",
+    "icicle"
+   ],
+   "groups": {},
+   "archetypes": [
+    "hierarchy-structure",
+    "part-to-whole-hierarchy"
+   ]
+  },
+  "concepts": {
+   "site_slug": "concepts",
+   "name": "Concepts",
+   "description": "Diagrams that explain ideas rather than encode measured data.",
+   "charts": [
+    "brainstorm",
+    "flow_chart",
+    "illustration_diagram",
+    "venn_diagram"
+   ],
+   "groups": {},
+   "archetypes": [
+    "process-sequence",
+    "set-overlap"
+   ]
+  },
+  "location": {
+   "site_slug": "location",
+   "name": "Location",
+   "description": "Charts drawn over geography.",
+   "charts": [
+    "bubble_map",
+    "choropleth",
+    "connection_map",
+    "dot_map",
+    "flow_map",
+    "arrow_map",
+    "spike_map",
+    "tile_cartogram",
+    "streamline_map"
+   ],
+   "groups": {},
+   "archetypes": [
+    "spatial-distribution",
+    "spatial-change-over-time",
+    "point-events-on-map",
+    "flow-between-states"
+   ]
+  },
+  "part-to-a-whole": {
+   "site_slug": "part_to_a_whole",
+   "name": "Part-to-a-whole",
+   "description": "Charts whose parts sum to a meaningful total.",
+   "charts": [
+    "donut_chart",
+    "marimekko_chart",
+    "pie_chart",
+    "stacked_bar_graph",
+    "sunburst_diagram",
+    "treemap",
+    "icicle"
+   ],
+   "groups": {},
+   "archetypes": [
+    "part-to-whole-single",
+    "part-to-whole-over-time",
+    "part-to-whole-hierarchy"
+   ]
+  },
+  "distribution": {
+   "site_slug": "distribution",
+   "name": "Distribution",
+   "description": "Charts that show how values or items are spread.",
+   "charts": [
+    "box_plot",
+    "bubble_chart",
+    "density_plot",
+    "dot_matrix_chart",
+    "histogram",
+    "multiset_barchart",
+    "parallel_sets",
+    "pictogram",
+    "stem_and_leaf_plot",
+    "tally_chart",
+    "timeline",
+    "violin_plot",
+    "dot_map",
+    "connection_map",
+    "flow_map",
+    "population_pyramid",
+    "wordcloud",
+    "ridge_plot",
+    "strip_plot",
+    "raincloud",
+    "beeswarm",
+    "wilkinson_dot_plot",
+    "quantile_dotplot",
+    "hypothetical_outcome_plot"
+   ],
+   "groups": {
+    "Distribution shown geographically": [
+     "dot_map",
+     "connection_map",
+     "flow_map"
+    ],
+    "Distribution shown over age and sex in a population": [
+     "population_pyramid"
+    ],
+    "Distribution in a body of text": [
+     "wordcloud"
+    ]
+   },
+   "archetypes": [
+    "distribution-single",
+    "distribution-compare-groups",
+    "distribution-change-over-time",
+    "point-events-on-map",
+    "uncertainty-of-estimate-or-forecast"
+   ]
+  },
+  "how-things-work": {
+   "site_slug": "how_things_work",
+   "name": "How Things Work",
+   "description": "Diagrams that explain mechanisms and systems.",
+   "charts": [
+    "flow_chart",
+    "illustration_diagram",
+    "sankey_diagram"
+   ],
+   "groups": {},
+   "archetypes": [
+    "process-sequence",
+    "flow-between-states"
+   ]
+  },
+  "processes-and-methods": {
+   "site_slug": "methods",
+   "name": "Processes and Methods",
+   "description": "Charts for sequences of steps, schedules and procedures.",
+   "charts": [
+    "flow_chart",
+    "gantt_chart",
+    "illustration_diagram",
+    "parallel_sets",
+    "sankey_diagram"
+   ],
+   "groups": {},
+   "archetypes": [
+    "process-sequence",
+    "event-timeline-intervals"
+   ]
+  },
+  "movement-or-flow": {
+   "site_slug": "movement",
+   "name": "Movement or Flow",
+   "description": "Charts for quantities moving between places or states.",
+   "charts": [
+    "connection_map",
+    "flow_map",
+    "parallel_sets",
+    "sankey_diagram",
+    "streamline_map"
+   ],
+   "groups": {},
+   "archetypes": [
+    "flow-between-states"
+   ]
+  },
+  "patterns": {
+   "site_slug": "patterns",
+   "name": "Patterns",
+   "description": "Charts in which the reader looks for structure, trends, clusters or anomalies.",
+   "charts": [
+    "arc_diagram",
+    "area_graph",
+    "bar_chart",
+    "box_plot",
+    "bubble_chart",
+    "candlestick_chart",
+    "choropleth",
+    "connection_map",
+    "density_plot",
+    "dot_map",
+    "dot_matrix_chart",
+    "heatmap",
+    "histogram",
+    "kagi_chart",
+    "line_graph",
+    "multiset_barchart",
+    "OHLC_chart",
+    "parallel_coordinates",
+    "point_and_figure_chart",
+    "population_pyramid",
+    "radar_chart",
+    "scatterplot",
+    "spiral_plot",
+    "stacked_area_graph",
+    "stream_graph",
+    "timeline",
+    "violin_plot",
+    "horizon_graph",
+    "small_multiples",
+    "adjacency_matrix",
+    "sparkline",
+    "ensemble_plot",
+    "overview_detail"
+   ],
+   "groups": {},
+   "archetypes": [
+    "trend-many-series",
+    "matrix-pattern-two-keys",
+    "seasonality-cycles",
+    "multivariate-relationships",
+    "categorical-state-over-time"
+   ]
+  },
+  "range": {
+   "site_slug": "range",
+   "name": "Range",
+   "description": "Charts that show spans between a low and a high value.",
+   "charts": [
+    "box_plot",
+    "bullet_graph",
+    "candlestick_chart",
+    "error_bars",
+    "gantt_chart",
+    "kagi_chart",
+    "OHLC_chart",
+    "span_chart",
+    "violin_plot",
+    "dumbbell_plot",
+    "quantile_dotplot",
+    "gradient_interval",
+    "ensemble_plot",
+    "hypothetical_outcome_plot"
+   ],
+   "groups": {},
+   "archetypes": [
+    "range-per-item",
+    "compare-against-target",
+    "event-timeline-intervals",
+    "uncertainty-of-estimate-or-forecast"
+   ]
+  },
+  "data-over-time": {
+   "site_slug": "time",
+   "name": "Showing Data Over Time",
+   "description": "Charts whose main axis is time.",
+   "charts": [
+    "area_graph",
+    "bubble_chart",
+    "candlestick_chart",
+    "gantt_chart",
+    "heatmap",
+    "line_graph",
+    "nightingale_rose_chart",
+    "OHLC_chart",
+    "spiral_plot",
+    "stacked_area_graph",
+    "stream_graph",
+    "calendar",
+    "timeline",
+    "timetable",
+    "bump_chart",
+    "connected_scatterplot",
+    "horizon_graph",
+    "ridge_plot",
+    "slope_chart",
+    "small_multiples",
+    "sparkline",
+    "gradient_interval",
+    "ensemble_plot",
+    "overview_detail",
+    "arrow_map"
+   ],
+   "groups": {},
+   "archetypes": [
+    "trend-single-series",
+    "trend-few-series",
+    "trend-many-series",
+    "category-breakdown-over-time",
+    "seasonality-cycles",
+    "event-timeline-intervals",
+    "rank-change-two-points",
+    "distribution-change-over-time",
+    "spatial-change-over-time",
+    "part-to-whole-over-time",
+    "uncertainty-of-estimate-or-forecast",
+    "categorical-state-over-time"
+   ]
+  },
+  "analysing-text": {
+   "site_slug": "text",
+   "name": "Analysing Text",
+   "description": "Charts built from word frequencies in text.",
+   "charts": [
+    "wordcloud"
+   ],
+   "groups": {},
+   "archetypes": [
+    "text-frequency"
+   ]
+  },
+  "reference-tool": {
+   "site_slug": "reference",
+   "name": "Reference Tool",
+   "description": "Lookup layouts rather than analytic charts.",
+   "charts": [
+    "calendar",
+    "gantt_chart",
+    "timetable",
+    "tree_diagram",
+    "stem_and_leaf_plot",
+    "data_table",
+    "indented_tree"
+   ],
+   "groups": {
+    "Dates and time": [
+     "calendar",
+     "gantt_chart",
+     "timetable"
+    ],
+    "Hierarchy, organisation structure, genealogy": [
+     "tree_diagram"
+    ],
+    "Individual Data Values": [
+     "stem_and_leaf_plot"
+    ]
+   },
+   "archetypes": [
+    "exact-values-lookup",
+    "event-timeline-intervals",
+    "hierarchy-structure"
+   ]
+  }
+ }
+}

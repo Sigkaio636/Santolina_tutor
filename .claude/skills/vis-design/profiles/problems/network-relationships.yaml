@@ -1,0 +1,57 @@
+# Problem archetype: Nodes and links
+id: network-relationships
+name: Nodes and links
+question_templates:
+- Which {entities} are connected?
+- Are there communities or hubs among {entities}?
+catalog_functions:
+- relationships
+chart_types_md_sections:
+- Hierarchies and networks
+default_tasks:
+  why:
+    goal: discover
+    search: explore
+    query: identify
+  low_level:
+  - cluster
+  - find-anomalies
+  - retrieve-value
+  temporal: []
+expected_shape:
+  dataset_type: network
+  keys:
+  - type: categorical
+    cardinality:
+    - some
+    - many
+    - huge
+  values:
+  - type: quantitative
+    semantics: weight
+preferred_idioms:
+- network_diagram
+- adjacency_matrix
+- heatmap
+- arc_diagram
+- chord_diagram
+discouraged_idioms:
+- idiom: network_diagram
+  when: more than a few hundred nodes (hairball)
+  rule: EFF-16
+- idiom: chord_diagram
+  when: more than ~12 nodes
+  rule: EFF-16
+- idiom: adjacency_matrix
+  when: rows and columns are left in arbitrary order
+  rule: CMP-01
+related_archetypes:
+- matrix-pattern-two-keys
+- flow-between-states
+disambiguation: Dense graphs → adjacency_matrix with rows and columns reordered (seriation) so clusters form blocks;
+  sparse graphs or path-following tasks → node-link; weighted flows between few categories → flow-between-states.
+  A matrix has no edge crossings but paths are hard to trace.
+domain_examples:
+- collaboration network
+- trade links
+- citations

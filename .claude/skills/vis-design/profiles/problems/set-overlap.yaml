@@ -1,0 +1,50 @@
+# Problem archetype: Membership overlap between sets
+id: set-overlap
+name: Membership overlap between sets
+question_templates:
+- How many {items} belong to both {setA} and {setB}?
+- How do the sets overlap?
+catalog_functions:
+- concepts
+- relationships
+chart_types_md_sections: []
+default_tasks:
+  why:
+    goal: present
+    search: lookup
+    query: identify
+  low_level:
+  - retrieve-value
+  - compare
+  - gist
+  temporal: []
+expected_shape:
+  dataset_type: table
+  keys:
+  - type: categorical
+    cardinality:
+    - few
+  values:
+  - type: quantitative
+    semantics: count
+preferred_idioms:
+- upset
+- venn_diagram
+- bar_chart
+- heatmap
+discouraged_idioms:
+- idiom: venn_diagram
+  when: more than 3 sets
+  rule: IDM-VENN
+- idiom: venn_diagram
+  when: areas must be proportional to the counts
+  rule: EXP-07
+related_archetypes:
+- part-to-whole-single
+disambiguation: 'Two or three sets for a general reader → Venn. Four or more sets, or exact intersection sizes
+  → upset (sorted bars of intersection sizes over a membership matrix); plain sorted bars of the combinations when
+  the matrix would need explaining.'
+domain_examples:
+- customers using products A and B
+- genes in two conditions
+- skills shared by teams

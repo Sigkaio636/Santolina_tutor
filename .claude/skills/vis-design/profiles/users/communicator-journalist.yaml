@@ -1,0 +1,75 @@
+# User profile: Communicator or journalist
+id: communicator-journalist
+name: Communicator or journalist
+summary: Builds and reads narrative graphics for a broad audience; reads for about a minute and expects
+  annotation, a highlighted series against grey context, honest scales and a story the title states.
+capabilities:
+  vis_literacy: medium
+  domain_knowledge: medium
+  statistical_literacy: low
+  time_per_chart: a-minute
+  interaction_tolerance: medium
+  working_memory_budget: 3
+  learned_idioms:
+  - bar
+  - line
+  - map-choropleth
+  - slope
+  - scatter
+  - small-multiples
+  - stacked-bar
+  - pictogram
+  - table
+  needs_explanation:
+  - heatmap
+  - parallel
+  - network
+  - distribution
+cognitive_tasks:
+  why:
+    goal: present
+    search: locate
+    query: compare
+  low_level_primary:
+  - find-extremum
+  - compare
+  - trend
+  low_level_secondary:
+  - gist
+  - retrieve-value
+  - find-anomalies
+  shneiderman:
+  - overview
+  - details-on-demand
+text_needs:
+  title_style: takeaway
+  annotation_density: high
+  needs_units_and_n: true
+confidence_needs:
+- source
+- period
+- definition-of-the-metric
+- caveats
+default_mode: explanatory
+default_modifiers:
+- cvd
+- mobile
+avoid:
+- pie-over-5
+- dual-axes
+- radial
+- gauge
+- 3d
+- word-cloud
+prefer_families:
+- line
+- bar
+- slope
+- map-choropleth
+- small-multiples
+- scatter
+- dot-plot
+typical_readers:
+- data journalist
+- communications officer
+- NGO report author

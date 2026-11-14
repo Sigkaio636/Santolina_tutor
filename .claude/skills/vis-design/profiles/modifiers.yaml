@@ -1,0 +1,65 @@
+# Cross-cutting reader/medium modifiers. They modulate the solution (color, text, size,
+# interaction) but are NOT part of the decision-matching key.
+modifiers:
+  cvd:
+    name: Color-vision deficiency
+    share_of_readers: about 8% of men, 0.5% of women
+    implies:
+    - no red-green or purple-blue pairs
+    - qualitative palette must pass deuteranopia simulation
+    - a second cue (shape, texture, direct label) for every hue-encoded category
+    constraints: []
+  low-vision:
+    name: Low vision or elderly readers
+    share_of_readers: about half of people over 50 have some condition
+    implies:
+    - text ≥ 12 px on screen
+    - non-text contrast ≥ 3:1, text ≥ 4.5:1
+    - marks ≥ 3 px, lines ≥ 1.5 px
+    constraints: []
+  mobile:
+    name: Phone screen
+    share_of_readers: varies
+    implies:
+    - single column, tall rather than wide
+    - no hover-only interaction
+    - ≤ 2 panels per screen
+    - larger tap targets
+    constraints:
+    - mobile
+    - small-space
+  print-grayscale:
+    name: Printed or photocopied in grayscale
+    share_of_readers: n/a
+    implies:
+    - primary attribute encoded in luminance or position, never hue alone
+    - no interaction
+    - direct labels instead of color legends
+    constraints:
+    - print-grayscale
+    - static-only
+  projector:
+    name: Projected in a room
+    share_of_readers: n/a
+    implies:
+    - text ≥ 18 pt equivalent
+    - few marks, strong contrast
+    - no fine gridlines or pastel palettes
+    constraints:
+    - few-categories-only
+  novice-interaction:
+    name: Not used to interactive charts
+    share_of_readers: n/a
+    implies:
+    - default state must answer the main question
+    - widgets labelled in plain words
+    - no brushing or linked views without instructions
+    constraints: []
+  non-native-language:
+    name: Reads in a second language
+    share_of_readers: n/a
+    implies:
+    - short labels, numbers over words
+    - no idioms or puns in titles
+    - units spelled out
+    constraints: []

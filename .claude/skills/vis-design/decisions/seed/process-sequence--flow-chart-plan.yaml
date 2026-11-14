@@ -1,0 +1,105 @@
+# vis-design seed decision: Steps of a process as a flow-chart plan (not a data chart)
+schema_version: 1
+id: process-sequence--flow-chart-plan
+status: declared
+title: Steps of a process as a flow-chart plan (not a data chart)
+problem:
+  archetype: process-sequence
+  catalog_functions:
+  - processes-and-methods
+  - how-things-work
+  statement: What are the steps of {process}?
+  mode: explanatory
+  domain_examples:
+  - onboarding workflow
+  - data pipeline
+  - approval procedure
+user:
+  profile: student-learner
+  modifiers: []
+tasks:
+  why:
+    goal: present
+    search: lookup
+    query: identify
+  low_level:
+  - gist
+  - retrieve-value
+  temporal:
+  - sequence
+  shneiderman:
+  - overview
+data:
+  dataset_type: network
+  keys:
+  - role: node
+    type: categorical
+    cardinality: few
+  values: []
+  items: tiny
+constraints:
+- static-only
+solution:
+  idiom: flow_chart
+  family: diagram
+  mark: glyph
+  encodings:
+  - attribute: node
+    channel: position-x
+    scale: ordinal
+    note: step order
+  - attribute: node
+    channel: connection
+  - attribute: none
+    channel: shape
+    scale: nominal
+    note: start/step/decision symbols
+  derived_data:
+  - 'none: no measured attribute'
+  ordering: left to right or top to bottom
+  color:
+    purpose: none
+    palette_type: neutral-accent
+    suggested:
+    - '#4d4d4d'
+    cvd_safe: true
+  text:
+    title: descriptive
+    axis_units: true
+    direct_labels: true
+    annotations: []
+    source_line: true
+  interaction:
+    level: none
+    default_state_answers_task: true
+    intents: []
+  layout:
+    small_multiples: false
+    facet_by: null
+    aspect: wide
+  rejected_alternatives:
+  - idiom: sankey_diagram
+    reason: no quantities flow
+    rule: EXP-10
+  validation:
+    stage3_checks:
+    - PUR-10
+    critique_skill: optional
+  library_notes:
+    altair: 'not applicable: produce a diagram spec (Mermaid/Graphviz) instead of a chart'
+    matplotlib: not applicable
+    plotly: not applicable
+rationale: There is no data to encode; the deliverable is a diagram specification, and the skill says so instead
+  of forcing a chart.
+confidence: medium
+provenance:
+  origin: seed
+  author: vis-design
+  created: '2026-11-07'
+  updated: '2026-11-07'
+  times_used: 0
+  last_used: null
+  supersedes: null
+  sources:
+  - Munzner 2014
+  - Wilke 2019

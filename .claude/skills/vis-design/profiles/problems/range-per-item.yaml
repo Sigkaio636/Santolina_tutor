@@ -1,0 +1,58 @@
+# Problem archetype: A low and a high value per item
+id: range-per-item
+name: A low and a high value per item
+question_templates:
+- What is the range of {measure} per {category}?
+- How uncertain is {measure} per {category}?
+catalog_functions:
+- range
+- comparisons
+chart_types_md_sections:
+- Relationships / Connected scatterplot / dumbbell / range plot
+default_tasks:
+  why:
+    goal: present
+    search: lookup
+    query: compare
+  low_level:
+  - determine-range
+  - compare
+  - sort
+  - find-anomalies
+  temporal: []
+expected_shape:
+  dataset_type: table
+  keys:
+  - type: categorical
+    cardinality:
+    - few
+    - some
+    - many
+  values:
+  - type: quantitative
+    semantics: lower
+  - type: quantitative
+    semantics: upper
+preferred_idioms:
+- dumbbell_plot
+- span_chart
+- error_bars
+- box_plot
+- strip_plot
+discouraged_idioms:
+- idiom: bar_chart
+  when: range has no zero baseline meaning
+  rule: EXP-08
+- idiom: span_chart
+  when: the inside of the range matters
+  rule: EXP-16
+related_archetypes:
+- distribution-compare-groups
+- compare-against-target
+- uncertainty-of-estimate-or-forecast
+disambiguation: If raw observations exist, show them (distribution-compare-groups); intervals must state what they
+  are (SD, CI, min–max). Inferential or predictive intervals → uncertainty-of-estimate-or-forecast.
+domain_examples:
+- temperature min–max per city
+- price range per product
+- confidence interval per estimate

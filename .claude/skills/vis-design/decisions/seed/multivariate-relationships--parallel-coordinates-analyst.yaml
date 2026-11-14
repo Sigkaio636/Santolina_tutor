@@ -1,0 +1,133 @@
+# vis-design seed decision: Many measures per item as parallel coordinates with brushing
+schema_version: 1
+id: multivariate-relationships--parallel-coordinates-analyst
+status: declared
+title: Many measures per item as parallel coordinates with brushing
+problem:
+  archetype: multivariate-relationships
+  catalog_functions:
+  - relationships
+  - patterns
+  statement: How do items compare across {measures} and are there groups?
+  mode: exploration
+  domain_examples:
+  - car specifications
+  - country indicators
+  - player statistics
+user:
+  profile: data-analyst
+  modifiers: []
+tasks:
+  why:
+    goal: discover
+    search: explore
+    query: summarize
+  low_level:
+  - correlate
+  - cluster
+  - find-anomalies
+  - compare
+  temporal: []
+  shneiderman:
+  - overview
+  - filter
+  - relate
+  - details-on-demand
+data:
+  dataset_type: table
+  keys:
+  - role: category
+    type: categorical
+    cardinality: many
+  values:
+  - role: measure
+    type: quantitative
+    semantics: amount
+  - role: measure2
+    type: quantitative
+    semantics: amount
+  - role: weight
+    type: quantitative
+    semantics: amount
+  items: small
+constraints:
+- interactive-required
+solution:
+  idiom: parallel_coordinates
+  family: parallel
+  mark: line
+  encodings:
+  - attribute: measure
+    channel: position-y
+    scale: linear
+    note: one axis per measure, normalised
+  - attribute: category
+    channel: connection
+  - attribute: highlight
+    channel: color-hue
+    scale: nominal
+  derived_data:
+  - min-max normalisation per axis; axis order by correlation
+  ordering: axes ordered to put correlated pairs adjacent
+  color:
+    purpose: highlight
+    palette_type: neutral-accent
+    suggested:
+    - '#8c8c8c'
+    - '#0072b2'
+    cvd_safe: true
+    second_cue: direct label
+  text:
+    title: descriptive
+    axis_units: true
+    direct_labels: false
+    annotations:
+    - axis units
+    source_line: true
+  interaction:
+    level: required
+    default_state_answers_task: true
+    intents:
+    - filter
+    - select
+    - connect
+    - reconfigure
+    - abstract-elaborate
+  layout:
+    small_multiples: false
+    facet_by: null
+    aspect: wide
+  rejected_alternatives:
+  - idiom: radar_chart
+    reason: axis order arbitrary; polygons mislead
+    rule: IDM-RADAR/GAUGE
+  - idiom: scatterplot
+    reason: only two measures
+    rule: EFF-11
+  - idiom: bubble_chart
+    reason: three measures at most
+    rule: EFF-11
+  validation:
+    stage3_checks:
+    - EFF-17
+    - EFF-16
+    - EFF-19
+    critique_skill: optional
+  library_notes:
+    altair: transform_fold + mark_line with selection brush
+    matplotlib: pandas.plotting.parallel_coordinates (static)
+    plotly: px.parallel_coordinates
+rationale: An analyst can read correlations between adjacent axes and brush to isolate groups; the idiom needs interaction
+  and training, which this profile has.
+confidence: high
+provenance:
+  origin: seed
+  author: vis-design
+  created: '2026-11-07'
+  updated: '2026-11-07'
+  times_used: 0
+  last_used: null
+  supersedes: null
+  sources:
+  - Munzner 2014
+  - Wilke 2019

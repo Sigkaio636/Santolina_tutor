@@ -1,0 +1,123 @@
+# vis-design decision record (project)
+schema_version: 1
+id: p-compare-values-across-categories--events-per-region-20261101
+status: declared
+title: Eventos por región como barras horizontales ordenadas
+problem:
+  archetype: compare-values-across-categories
+  catalog_functions:
+  - comparisons
+  statement: ¿Qué regiones registran más eventos en el periodo?
+  mode: explanatory
+  domain_examples:
+  - events per region
+  - incidents per district
+user:
+  profile: executive
+  modifiers: []
+tasks:
+  why:
+    goal: present
+    search: lookup
+    query: compare
+  low_level:
+  - compare
+  - find-extremum
+  - sort
+  - retrieve-value
+  temporal: []
+  shneiderman:
+  - overview
+data:
+  dataset_type: table
+  keys:
+  - role: category
+    type: categorical
+    cardinality: many
+  values:
+  - role: measure
+    type: quantitative
+    semantics: count
+    derived: true
+    derivation: count rows per region
+  items: tiny
+  signature: table|k:categorical:many|v:quantitative:count
+constraints: []
+solution:
+  idiom: bar_chart
+  family: bar
+  mark: line
+  encodings:
+  - attribute: category
+    channel: position-y
+    scale: ordinal
+    sort: measure desc
+  - attribute: measure
+    channel: length
+    scale: linear
+    zero: true
+  - attribute: highlight
+    channel: color-hue
+    scale: nominal
+  derived_data:
+  - sum or count per category
+  ordering: categories by measure descending; highlighted item named in the title
+  color:
+    purpose: highlight
+    palette_type: neutral-accent
+    suggested:
+    - '#8c8c8c'
+    - '#0072b2'
+    cvd_safe: true
+    second_cue: direct label
+  text:
+    title: takeaway
+    axis_units: true
+    direct_labels: true
+    annotations:
+    - value label at bar end
+    source_line: true
+  interaction:
+    level: none
+    default_state_answers_task: true
+    intents: []
+  layout:
+    small_multiples: false
+    facet_by: null
+    aspect: wide
+  rejected_alternatives:
+  - idiom: pie_chart
+    reason: angle comparison fails beyond 3–5 parts
+    rule: IDM-PIE
+  - idiom: dot_plot
+    reason: differences are large enough for bars; zero baseline keeps ratios honest
+    rule: EXP-08
+  - idiom: radial_bar_chart
+    reason: outer bars look longer
+    rule: EXP-07
+  validation:
+    stage3_checks:
+    - EXP-08
+    - CMP-01
+    - COL-03
+    - SCL-12
+    - TXT-01
+    critique_skill: optional
+  library_notes:
+    altair: mark_bar with y sorted by -x; alt.condition for the accent
+    matplotlib: barh on a sorted frame; ax.bar_label; spines off
+    plotly: px.bar orientation='h' with category_orders; marker_color list
+rationale: Length on a common baseline is the most accurate channel for comparing magnitudes; sorting
+  makes extremum and rank immediate; one neutral hue plus one accent avoids a legend.
+confidence: high
+provenance:
+  origin: project
+  author: vis-design
+  created: '2026-11-01'
+  updated: '2026-11-01'
+  times_used: 2
+  last_used: '2026-11-01'
+  supersedes: null
+  sources:
+  - Munzner 2014
+  - Wilke 2019

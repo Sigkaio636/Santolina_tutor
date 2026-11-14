@@ -1,0 +1,65 @@
+# Problem archetype: Change of many items between two moments
+id: rank-change-two-points
+name: Change of many items between two moments
+question_templates:
+- How did {measure} per {category} change between {t0} and {t1}?
+- Which {category} gained or lost the most?
+catalog_functions:
+- comparisons
+- data-over-time
+chart_types_md_sections:
+- Relationships / Slope chart
+- Relationships / Connected scatterplot / dumbbell / range plot
+default_tasks:
+  why:
+    goal: present
+    search: locate
+    query: compare
+  low_level:
+  - compare
+  - sort
+  - compute-derived
+  - find-extremum
+  temporal:
+  - rate-of-change
+  - sequence
+expected_shape:
+  dataset_type: table
+  keys:
+  - type: temporal
+    cardinality:
+    - few
+  - type: categorical
+    cardinality:
+    - few
+    - some
+    - many
+  values:
+  - type: quantitative
+    semantics: amount
+preferred_idioms:
+- slope_chart
+- dumbbell_plot
+- bar_chart
+- bump_chart
+discouraged_idioms:
+- idiom: multiset_barchart
+  when: more than ~8 items
+  rule: EFF-19
+- idiom: pie_chart
+  when: always
+  rule: IDM-PIE
+- idiom: slope_chart
+  when: 'more than ~25 items with close values: end labels collide; use a sorted dumbbell'
+  rule: EFF-16
+related_archetypes:
+- trend-few-series
+- distribution-change-over-time
+- compare-two-keys
+disambiguation: Exactly two moments → this archetype, for amounts and for shares of a whole (value semantics share);
+  three or more → trend-few-series or trend-many-series; if the question is the spread of a numeric variable per
+  item, use distribution-change-over-time.
+domain_examples:
+- unemployment per region 2015 vs 2025
+- market share per brand before and after a launch
+- scores per school in two exams

@@ -1,0 +1,125 @@
+# vis-design seed decision: Sparse network as a node-link diagram
+schema_version: 1
+id: network-relationships--node-link-sparse
+status: declared
+title: Sparse network as a node-link diagram
+problem:
+  archetype: network-relationships
+  catalog_functions:
+  - relationships
+  statement: Which {entities} are connected and are there communities?
+  mode: exploration
+  domain_examples:
+  - collaboration network
+  - trade links
+  - citation graph
+user:
+  profile: data-analyst
+  modifiers: []
+tasks:
+  why:
+    goal: discover
+    search: explore
+    query: identify
+  low_level:
+  - cluster
+  - find-anomalies
+  - retrieve-value
+  temporal: []
+  shneiderman:
+  - overview
+  - zoom
+  - filter
+  - details-on-demand
+data:
+  dataset_type: network
+  keys:
+  - role: node
+    type: categorical
+    cardinality: many
+  values:
+  - role: weight
+    type: quantitative
+    semantics: weight
+  items: small
+constraints:
+- interactive-required
+solution:
+  idiom: network_diagram
+  family: network
+  mark: point
+  encodings:
+  - attribute: node
+    channel: position-x
+    scale: nominal
+    note: force layout
+  - attribute: node
+    channel: connection
+  - attribute: weight
+    channel: size
+    scale: linear
+  - attribute: derived
+    channel: color-hue
+    scale: nominal
+    note: community
+  derived_data:
+  - community detection; degree per node; layout seed fixed
+  ordering: layout deterministic (seeded)
+  color:
+    purpose: distinguish
+    palette_type: qualitative
+    suggested:
+    - okabe-ito
+    max_hues: 7
+    cvd_safe: true
+    second_cue: direct label
+  text:
+    title: descriptive
+    axis_units: true
+    direct_labels: true
+    annotations:
+    - hub labels only
+    source_line: true
+  interaction:
+    level: required
+    default_state_answers_task: true
+    intents:
+    - filter
+    - select
+    - connect
+    - reconfigure
+    - abstract-elaborate
+  layout:
+    small_multiples: false
+    facet_by: null
+    aspect: square
+  rejected_alternatives:
+  - idiom: heatmap
+    reason: adjacency matrix is the fallback above a few hundred nodes
+    rule: EFF-16
+  - idiom: chord_diagram
+    reason: more than ~12 nodes
+    rule: EFF-16
+  validation:
+    stage3_checks:
+    - EFF-16
+    - EFF-17
+    critique_skill: optional
+  library_notes:
+    altair: precomputed layout + mark_line/mark_circle; selection for highlight
+    matplotlib: networkx draw
+    plotly: plotly with networkx positions
+rationale: Node-link with a seeded layout and community color lets an analyst see clusters and hubs; the matrix
+  is reserved for dense graphs.
+confidence: medium
+provenance:
+  origin: seed
+  author: vis-design
+  created: '2026-11-07'
+  updated: '2026-11-07'
+  times_used: 0
+  last_used: null
+  supersedes: null
+  sources:
+  - Munzner 2014
+  - Wilke 2019

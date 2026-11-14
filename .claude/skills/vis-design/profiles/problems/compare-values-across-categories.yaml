@@ -1,0 +1,59 @@
+# Problem archetype: Compare one measure across categories
+id: compare-values-across-categories
+name: Compare one measure across categories
+question_templates:
+- How does {measure} compare across {category}?
+- Which {category} has the highest {measure}?
+- How is {measure} distributed among {category}?
+catalog_functions:
+- comparisons
+chart_types_md_sections:
+- Quantities / Bar chart
+- Quantities / Dot plot / lollipop
+default_tasks:
+  why:
+    goal: present
+    search: lookup
+    query: compare
+  low_level:
+  - compare
+  - find-extremum
+  - sort
+  - retrieve-value
+  temporal: []
+expected_shape:
+  dataset_type: table
+  keys:
+  - type: categorical
+    cardinality:
+    - few
+    - some
+    - many
+  values:
+  - type: quantitative
+    semantics: amount
+preferred_idioms:
+- bar_chart
+- dot_plot
+- data_table
+discouraged_idioms:
+- idiom: pie_chart
+  when: more than 5 categories or the task is comparison
+  rule: IDM-PIE
+- idiom: radial_bar_chart
+  when: 'always: geometry lies'
+  rule: EXP-07
+- idiom: area_chart
+  when: precise comparison needed
+  rule: EFF-02
+related_archetypes:
+- part-to-whole-single
+- compare-two-keys
+- exact-values-lookup
+disambiguation: If the measure is a share of one total and there are ≤5 parts, part-to-whole-single may apply; if
+  the user says 'distribution among categories' they usually mean this archetype, not distribution-single (which
+  is the spread of a numeric variable).
+domain_examples:
+- burned area per region
+- revenue per product line
+- students per degree programme

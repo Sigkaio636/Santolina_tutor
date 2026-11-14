@@ -1,0 +1,6 @@
+schema_version: "1.1"
+name: missing-attribute-stage2
+expected_outcome: |
+  events.csv has no severity attribute. The run must detect this in stage 2 (data/task abstraction), report the missing attribute instead of silently substituting another column, write a design document whose stage-2 validation is marked failed and explains what attribute would be needed, and must not force a chart on the existing columns (no code output claiming to answer the question).
+context:
+  scaffold_script: place-files.sh

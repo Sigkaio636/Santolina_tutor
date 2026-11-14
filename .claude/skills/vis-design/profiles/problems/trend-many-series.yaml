@@ -1,0 +1,69 @@
+# Problem archetype: Eight or more series over time
+id: trend-many-series
+name: Eight or more series over time
+question_templates:
+- How has {measure} per {category} evolved over {time}?
+- Which {category} deviate from the common pattern?
+catalog_functions:
+- data-over-time
+- patterns
+chart_types_md_sections:
+- Time series / Small multiples
+- Relationships / Heat map
+- Time series / Horizon graph
+default_tasks:
+  why:
+    goal: discover
+    search: browse
+    query: compare
+  low_level:
+  - compare
+  - find-anomalies
+  - find-extremum
+  - characterize-distribution
+  temporal:
+  - pattern
+  - rate-of-change
+  - synchronization
+expected_shape:
+  dataset_type: table
+  keys:
+  - type: temporal
+    cardinality:
+    - few
+    - some
+    - many
+  - type: categorical
+    cardinality:
+    - some
+    - many
+  values:
+  - type: quantitative
+    semantics: amount
+preferred_idioms:
+- heatmap
+- small_multiples
+- line_graph
+- horizon_graph
+- bump_chart
+discouraged_idioms:
+- idiom: line_graph
+  when: more than ~12 series, or more than ~7 told apart only by hue without direct labels or a highlight-on-grey
+    design
+  rule: IDM-LINE
+- idiom: stacked_area_graph
+  when: comparison of individual series
+  rule: IDM-STACK
+- idiom: multiset_barchart
+  when: always with time
+  rule: EXP-04
+related_archetypes:
+- trend-few-series
+- compare-two-keys
+- spatial-change-over-time
+disambiguation: ≤7 series → trend-few-series. If shares of a whole are the point → part-to-whole-over-time. Rows
+  of the heatmap sorted by total or by trajectory similarity.
+domain_examples:
+- incidents per region per year
+- sales per store per month
+- sensor readings per machine per hour

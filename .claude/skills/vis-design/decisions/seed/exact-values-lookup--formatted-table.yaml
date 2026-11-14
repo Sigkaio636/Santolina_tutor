@@ -1,0 +1,110 @@
+# vis-design seed decision: Precise values as a formatted table
+schema_version: 1
+id: exact-values-lookup--formatted-table
+status: declared
+title: Precise values as a formatted table
+problem:
+  archetype: exact-values-lookup
+  catalog_functions:
+  - reference-tool
+  statement: What exactly is {measure} for {items}?
+  mode: explanatory
+  domain_examples:
+  - league table
+  - budget lines
+  - schedule
+user:
+  profile: executive
+  modifiers: []
+tasks:
+  why:
+    goal: present
+    search: lookup
+    query: identify
+  low_level:
+  - retrieve-value
+  - sort
+  - compare
+  temporal: []
+  shneiderman:
+  - overview
+data:
+  dataset_type: table
+  keys:
+  - role: category
+    type: categorical
+    cardinality: few
+  values:
+  - role: measure
+    type: quantitative
+    semantics: amount
+  items: tiny
+constraints:
+- exact-values
+solution:
+  idiom: data_table
+  family: table
+  mark: text
+  encodings:
+  - attribute: category
+    channel: position-y
+    scale: ordinal
+    sort: measure desc
+  - attribute: measure
+    channel: position-x
+    scale: nominal
+    note: right-aligned column
+  derived_data:
+  - sorted rows; optional inline bar column
+  ordering: by the key measure descending
+  color:
+    purpose: none
+    palette_type: neutral-accent
+    suggested:
+    - '#4d4d4d'
+    cvd_safe: true
+  text:
+    title: descriptive
+    axis_units: true
+    direct_labels: true
+    annotations:
+    - units in header
+    source_line: true
+  interaction:
+    level: none
+    default_state_answers_task: true
+    intents: []
+  layout:
+    small_multiples: false
+    facet_by: null
+    aspect: wide
+  rejected_alternatives:
+  - idiom: bar_chart
+    reason: '≤5 values that will be quoted: the chart adds no value'
+    rule: PUR-02
+  - idiom: pie_chart
+    reason: always
+    rule: IDM-PIE
+  validation:
+    stage3_checks:
+    - IDM-TABLE
+    - TXT-13
+    - PUR-02
+    critique_skill: optional
+  library_notes:
+    altair: 'not a chart: pandas Styler / st.dataframe'
+    matplotlib: ax.table or pandas Styler
+    plotly: go.Table
+rationale: When the reader will quote numbers, or there are a handful of them, a table beats a chart (Munzner, Few).
+confidence: high
+provenance:
+  origin: seed
+  author: vis-design
+  created: '2026-11-07'
+  updated: '2026-11-07'
+  times_used: 0
+  last_used: null
+  supersedes: null
+  sources:
+  - Munzner 2014
+  - Wilke 2019

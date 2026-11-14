@@ -1,0 +1,185 @@
+# Enumerations used by every schema, profile, archetype, seed and script of vis-design.
+# Scripts validate against this file; references/*.md cite the same ids.
+
+dataset_types: [table, network, tree, field, geometry, text]
+
+attribute_types: [categorical, ordinal, quantitative, temporal, identifier, geo-code, text, boolean]
+
+# cardinality bands: number of distinct levels of a key (or items after derivation)
+cardinality_bands:
+  one:  {min: 1,   max: 1}
+  few:  {min: 2,   max: 7}
+  some: {min: 8,   max: 30}
+  many: {min: 31,  max: 200}
+  huge: {min: 201, max: null}
+
+items_bands:
+  tiny:   {max: 50}
+  small:  {max: 1000}
+  medium: {max: 100000}
+  large:  {max: null}
+
+key_roles: [time, category, category2, hierarchy-level, node, source, target, location, item]
+value_roles: [measure, measure2, weight, lower, upper, label]
+value_semantics: [count, amount, rate, share, score, index, position, duration, delta, weight]
+temporal_grains: [second, minute, hour, day, week, month, quarter, year, decade]
+
+modes: [explanatory, analysis, exploration]
+
+# Brehmer & Munzner 2013 (why)
+why_goal:   [present, discover, enjoy, produce]
+why_search: [lookup, locate, browse, explore]
+why_query:  [identify, compare, summarize]
+
+# Amar, Eagan & Stasko 2005 low-level tasks (+ trend and gist as synonyms used by profiles)
+low_level_tasks:
+  - retrieve-value
+  - filter
+  - compute-derived
+  - find-extremum
+  - sort
+  - determine-range
+  - characterize-distribution
+  - find-anomalies
+  - cluster
+  - correlate
+  - compare           # explicit comparison of two or more items/groups (Brehmer "compare")
+  - trend             # direction and shape of change along an ordered key
+  - gist              # five-second takeaway (Stasko's essence)
+
+# Aigner et al. 2011 temporal tasks
+temporal_tasks: [existence, temporal-location, interval, pattern, rate-of-change, sequence, synchronization]
+
+# Shneiderman 1996
+shneiderman_tasks: [overview, zoom, filter, details-on-demand, relate, history, extract]
+
+# Yi, Kang, Stasko & Jacko 2007 interaction intents
+interaction_intents: [select, explore, reconfigure, encode, abstract-elaborate, filter, connect]
+interaction_levels: [none, optional, required]
+
+# Multiple views (Munzner 2014 ch. 12; Roberts 2007). A decision's optional
+# solution.composition block uses these.
+view_compositions: [single, juxtapose, superimpose, small-multiples, overview-detail, focus-context, tabs]
+data_sharing: [all, subset, none]            # do the views show the same items?
+encoding_sharing: [same, different]          # do the views use the same idiom/encoding?
+# data_sharing x encoding_sharing -> relation between two views
+view_relations: [redundant, multiform, overview-detail, small-multiples, no-linkage]
+link_types: [highlight, filter, navigation, details]
+view_roles: [overview, detail, focus, context, facet, layer, control, alternative, difference]
+
+constraints:
+  - static-only
+  - interactive-required
+  - print-grayscale
+  - mobile
+  - small-space
+  - exact-values
+  - uncertainty
+  - streamlit
+  - few-categories-only
+  - no-geometry-file
+
+modifiers: [cvd, low-vision, mobile, print-grayscale, projector, novice-interaction, non-native-language]
+
+# datavizcatalogue.com functions (our ids)
+catalog_functions:
+  - comparisons
+  - proportions
+  - relationships
+  - hierarchy
+  - concepts
+  - location
+  - part-to-a-whole
+  - distribution
+  - how-things-work
+  - processes-and-methods
+  - movement-or-flow
+  - patterns
+  - range
+  - data-over-time
+  - analysing-text
+  - reference-tool
+
+# idiom families used by templates and seeds (a catalog chart maps to one family)
+idiom_families:
+  - bar
+  - grouped-bar
+  - stacked-bar
+  - dot-plot
+  - bullet
+  - histogram
+  - distribution      # box, violin, strip, density, ridge
+  - pie               # pie, donut
+  - proportional-area
+  - treemap           # treemap, sunburst, circle packing
+  - scatter           # scatter, bubble
+  - heatmap           # heatmap, calendar, matrix
+  - parallel          # parallel coordinates, parallel sets
+  - slope             # slope, dumbbell, range
+  - line
+  - area
+  - stacked-area      # stacked area, streamgraph
+  - small-multiples
+  - map-choropleth
+  - map-symbol        # bubble map, dot map
+  - map-flow          # connection map, flow map
+  - timeline          # timeline, gantt, timetable, span
+  - network           # node-link, arc, chord
+  - tree
+  - flow              # sankey, flow chart
+  - set               # venn, upset
+  - text              # word cloud
+  - table
+  - pictogram
+  - radial            # radial bar/column, rose, radar, spiral
+  - financial         # candlestick, OHLC, kagi, point & figure
+  - diagram           # illustration, brainstorm
+  - uncertainty       # interval band, gradient, quantile dotplot, ensemble, hypothetical outcomes
+  - composite         # overview+detail, difference view: several coordinated views as one idiom
+
+marks: [point, line, area, rect, arc, text, geoshape, glyph, arrow]
+
+channels:
+  - position-x
+  - position-y
+  - position-common-scale
+  - length
+  - angle
+  - area
+  - color-hue
+  - color-luminance
+  - color-saturation
+  - shape
+  - size
+  - connection
+  - containment
+  - texture
+  - orientation
+  - text
+
+scale_types: [linear, log, sqrt, ordinal, nominal, temporal, sequential, diverging, qualitative]
+
+color_purposes: [distinguish, encode-value, highlight, none]
+palette_types: [qualitative, sequential, diverging, neutral-accent]
+title_styles: [takeaway, descriptive, minimal]
+
+record_status: [declared, candidate, superseded, deprecated]
+confidence: [high, medium, low]
+origins: [seed, project]
+
+libraries: [altair, matplotlib, plotly]
+hosts: [script, streamlit, notebook]
+library_support: [native, workaround, none]
+
+user_profiles:
+  - general-public
+  - executive
+  - domain-expert
+  - data-analyst
+  - scientist-reviewer
+  - student-learner
+  - operator-monitoring
+  - communicator-journalist
+
+vis_literacy: [low, medium, high]
+time_per_chart: [seconds, a-minute, minutes, sustained]

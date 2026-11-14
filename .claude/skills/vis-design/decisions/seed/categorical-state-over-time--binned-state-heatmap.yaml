@@ -1,0 +1,148 @@
+# vis-design seed decision: State over time as a heatmap of time bin by state share
+schema_version: 1
+id: categorical-state-over-time--binned-state-heatmap
+status: declared
+title: State over time as a heatmap of time bin by state share
+problem:
+  archetype: categorical-state-over-time
+  catalog_functions:
+  - data-over-time
+  - patterns
+  statement: Which {category} state occurs when, and for how long?
+  mode: analysis
+  domain_examples:
+  - dominant sound class per second over a day
+  - machine status per minute over a shift
+  - sleep stage per 30-second epoch over a night
+user:
+  profile: domain-expert
+  modifiers: []
+tasks:
+  why:
+    goal: discover
+    search: browse
+    query: identify
+  low_level:
+  - characterize-distribution
+  - find-anomalies
+  - compare
+  - cluster
+  temporal:
+  - existence
+  - temporal-location
+  - interval
+  - pattern
+  shneiderman:
+  - overview
+  - details-on-demand
+data:
+  dataset_type: table
+  keys:
+  - role: time
+    type: temporal
+    cardinality: huge
+    grain: second
+  - role: category
+    type: categorical
+    cardinality: some
+  values:
+  - role: measure
+    type: quantitative
+    semantics: share
+    derived: true
+    derivation: samples in the state / samples in the time bin
+  items: medium
+constraints: []
+solution:
+  idiom: heatmap
+  family: heatmap
+  mark: rect
+  encodings:
+  - attribute: time
+    channel: position-x
+    scale: ordinal
+    note: equal time bins (roughly 100–300 across the width), labelled at round clock times
+  - attribute: category
+    channel: position-y
+    scale: nominal
+    sort: total share desc, or a domain order
+    note: one row per state
+  - attribute: measure
+    channel: color-luminance
+    scale: sequential
+    note: share of the bin spent in the state, 0–100 %; empty cells stay background
+  derived_data:
+  - time bin = floor(time, bin width); bin width chosen so that bins hold many samples
+  - share per (bin, state) = samples in state / samples in bin; bins with no samples marked as gaps
+  - 'optional: run-length merge of consecutive equal samples for a companion interval view'
+  ordering: time left to right; states by total share descending unless the domain has its own order
+  color:
+    purpose: encode-value
+    palette_type: sequential
+    suggested:
+    - viridis
+    - greys
+    cvd_safe: true
+  text:
+    title: descriptive
+    axis_units: true
+    direct_labels: true
+    annotations:
+    - legend states the bin width and that colour is the share of the bin
+    - total share per state at the row end
+    - gaps in recording marked
+    source_line: true
+  interaction:
+    level: optional
+    default_state_answers_task: true
+    intents:
+    - abstract-elaborate
+  layout:
+    small_multiples: false
+    facet_by: null
+    aspect: wide
+  rejected_alternatives:
+  - idiom: line_graph
+    reason: a nominal state has no order or in-between values for a line to cross
+    rule: EXP-03
+  - idiom: scatterplot
+    reason: raw samples coloured by a dozen hues overplot and cannot be told apart
+    rule: COL-04
+  - idiom: stacked_area_graph
+    reason: 'more than ~5 states: inner bands have no baseline'
+    rule: IDM-STACK
+  - idiom: gantt_chart
+    reason: kept for when states last long; rapid switching gives thousands of slivers
+    rule: EFF-19
+  validation:
+    stage3_checks:
+    - EXP-03
+    - COL-04
+    - IDM-HEATMAP
+    - COL-02
+    - CMP-01
+    - TXT-07
+    critique_skill: optional
+  library_notes:
+    altair: aggregate in pandas to (bin, state, share) first; mark_rect with x as the bin start and x2 as the bin
+      end (or an ordinal bin label), y = state sorted, color = share; row totals with mark_text
+    matplotlib: pivot to states × bins and pcolormesh (or imshow with aspect='auto'); colorbar labelled as share
+      of bin
+    plotly: go.Heatmap(z=pivot, x=bin starts, y=states) or px.imshow; hovertemplate with the share
+rationale: The state is nominal, so position on a common time axis with one row per state keeps it on an identity
+  channel while luminance carries how much of each bin the state filled. Binning turns thousands of samples into
+  a readable grid and shows both when a state occurs and how persistently, without a dozen hues or a line through
+  unordered categories.
+confidence: medium
+provenance:
+  origin: seed
+  author: vis-design
+  created: '2026-11-13'
+  updated: '2026-11-13'
+  times_used: 0
+  last_used: null
+  supersedes: null
+  sources:
+  - Munzner 2014
+  - Aigner et al. 2011
+  - Wilke 2019

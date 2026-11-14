@@ -1,0 +1,44 @@
+# Problem archetype: Individual events with coordinates
+id: point-events-on-map
+name: Individual events with coordinates
+question_templates:
+- Where do {events} happen?
+- Do {events} cluster in space?
+catalog_functions:
+- location
+- distribution
+chart_types_md_sections:
+- Geospatial / Dot map / pixel map
+default_tasks:
+  why:
+    goal: discover
+    search: browse
+    query: identify
+  low_level:
+  - cluster
+  - gist
+  - find-anomalies
+  temporal: []
+expected_shape:
+  dataset_type: geometry
+  keys:
+  - type: geo-code
+    cardinality:
+    - many
+    - huge
+  values: []
+preferred_idioms:
+- dot_map
+- bubble_map
+- heatmap
+discouraged_idioms:
+- idiom: choropleth
+  when: events are points, not rates
+  rule: EXP-12
+related_archetypes:
+- spatial-distribution
+disambiguation: 'Thousands of points overplot: bin them (hex/grid heatmap) or aggregate to regions (spatial-distribution).'
+domain_examples:
+- locations of ignition points
+- store locations
+- GPS traces of deliveries

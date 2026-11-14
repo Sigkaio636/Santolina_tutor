@@ -1,0 +1,57 @@
+# Problem archetype: Composition of one whole at one moment
+id: part-to-whole-single
+name: Composition of one whole at one moment
+question_templates:
+- What share of {total} does each {category} take?
+- How is {total} split among {category}?
+catalog_functions:
+- proportions
+- part-to-a-whole
+chart_types_md_sections:
+- Proportions / Pie / donut
+- Quantities / Normalized (100 %) stacked bar
+default_tasks:
+  why:
+    goal: present
+    search: lookup
+    query: identify
+  low_level:
+  - gist
+  - retrieve-value
+  - compare
+  temporal: []
+expected_shape:
+  dataset_type: table
+  keys:
+  - type: categorical
+    cardinality:
+    - few
+  values:
+  - type: quantitative
+    semantics: share
+preferred_idioms:
+- bar_chart
+- stacked_bar_graph
+- pie_chart
+- treemap
+- dot_matrix_chart
+discouraged_idioms:
+- idiom: pie_chart
+  when: more than 5 parts or similar sizes
+  rule: IDM-PIE
+- idiom: donut_chart
+  when: more than 5 parts
+  rule: IDM-PIE
+- idiom: sunburst_diagram
+  when: single level
+  rule: EFF-02
+related_archetypes:
+- compare-values-across-categories
+- part-to-whole-hierarchy
+- part-to-whole-over-time
+disambiguation: Parts must sum to a meaningful whole; otherwise it is compare-values-across-categories. Sorted bars
+  with percentages beat the pie whenever parts are more than 3 or similar in size.
+domain_examples:
+- budget by cost centre
+- energy mix by source
+- survey answers by option

@@ -1,0 +1,58 @@
+# Problem archetype: Periodic patterns in time
+id: seasonality-cycles
+name: Periodic patterns in time
+question_templates:
+- Is there a seasonal pattern in {measure}?
+- Which {weekday|month|hour} concentrates {events}?
+catalog_functions:
+- data-over-time
+- patterns
+chart_types_md_sections:
+- Time series / Calendar heatmap, punch card
+default_tasks:
+  why:
+    goal: discover
+    search: browse
+    query: identify
+  low_level:
+  - find-anomalies
+  - trend
+  - compare
+  - characterize-distribution
+  temporal:
+  - pattern
+  - temporal-location
+expected_shape:
+  dataset_type: table
+  keys:
+  - type: temporal
+    cardinality:
+    - many
+    - huge
+  values:
+  - type: quantitative
+    semantics: amount
+preferred_idioms:
+- heatmap
+- calendar
+- line_graph
+- small_multiples
+discouraged_idioms:
+- idiom: spiral_plot
+  when: unfamiliar readers
+  rule: EFF-17
+- idiom: radial_column_chart
+  when: precise reading
+  rule: EFF-02
+- idiom: nightingale_rose_chart
+  when: always
+  rule: EXP-07
+related_archetypes:
+- trend-single-series
+- trend-many-series
+disambiguation: Two temporal grains (e.g. month × year, hour × weekday) → heatmap; one grain over several cycles
+  → overlaid lines per cycle or small multiples.
+domain_examples:
+- fires per month across years
+- visits per hour and weekday
+- sales per week across years

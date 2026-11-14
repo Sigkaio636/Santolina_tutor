@@ -1,0 +1,62 @@
+# Problem archetype: How a distribution shifts across periods
+id: distribution-change-over-time
+name: How a distribution shifts across periods
+question_templates:
+- Has the distribution of {measure} changed between periods of {time}?
+- Did {measure} per {category} become more concentrated over {time}?
+catalog_functions:
+- distribution
+- data-over-time
+chart_types_md_sections:
+- Distributions / Histogram
+- Time series / Small multiples
+- Relationships / Heat map
+default_tasks:
+  why:
+    goal: discover
+    search: browse
+    query: compare
+  low_level:
+  - characterize-distribution
+  - compare
+  - trend
+  - find-anomalies
+  temporal:
+  - pattern
+  - rate-of-change
+expected_shape:
+  dataset_type: table
+  keys:
+  - type: temporal
+    cardinality:
+    - few
+    - some
+  values:
+  - type: quantitative
+    semantics: amount
+preferred_idioms:
+- ridge_plot
+- small_multiples
+- heatmap
+- histogram
+discouraged_idioms:
+- idiom: stacked_area_graph
+  when: distribution, not composition
+  rule: EXP-06
+- idiom: bar_chart
+  when: bars of means
+  rule: EXP-16
+- idiom: slope_chart
+  when: shares of categories belong to rank-change-two-points
+  rule: PUR-01
+related_archetypes:
+- distribution-single
+- rank-change-two-points
+- trend-many-series
+disambiguation: This archetype is the spread of a numeric variable per item across periods (ridges, faceted histograms).
+  If the question is 'share of each category at start vs end', it is rank-change-two-points with value semantics
+  share (seed rank-change-two-points--share-shift-slope).
+domain_examples:
+- fire sizes in the first vs last decade
+- age distribution of customers per year
+- delay distribution by quarter

@@ -1,0 +1,67 @@
+# User profile: Operator monitoring a system
+id: operator-monitoring
+name: Operator monitoring a system
+summary: Glances at the same display many times a day to spot anomalies and current levels. Needs stable
+  layout, thresholds and reference lines, alert color only for alerts, and values readable in a second.
+capabilities:
+  vis_literacy: medium
+  domain_knowledge: high
+  statistical_literacy: medium
+  time_per_chart: seconds
+  interaction_tolerance: low
+  working_memory_budget: 3
+  learned_idioms:
+  - line
+  - bar
+  - bullet
+  - table
+  - heatmap
+  needs_explanation:
+  - parallel
+  - network
+  - scatter
+  - treemap
+cognitive_tasks:
+  why:
+    goal: discover
+    search: lookup
+    query: identify
+  low_level_primary:
+  - find-anomalies
+  - retrieve-value
+  - determine-range
+  low_level_secondary:
+  - trend
+  - compare
+  shneiderman:
+  - overview
+  - details-on-demand
+  - filter
+text_needs:
+  title_style: minimal
+  annotation_density: low
+  needs_units_and_n: true
+confidence_needs:
+- threshold-definition
+- time-of-last-update
+- units
+default_mode: analysis
+default_modifiers:
+- projector
+avoid:
+- pie
+- radial
+- word-cloud
+- animation
+- treemap
+- gauge
+prefer_families:
+- line
+- bullet
+- bar
+- heatmap
+- table
+typical_readers:
+- network operations engineer
+- plant supervisor
+- on-call analyst watching a dashboard

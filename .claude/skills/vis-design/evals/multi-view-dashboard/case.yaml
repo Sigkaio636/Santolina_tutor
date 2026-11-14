@@ -1,0 +1,6 @@
+schema_version: "1.1"
+name: multi-view-dashboard
+expected_outcome: |
+  A design that needs two coordinated views: the design document names the composition (juxtaposed multiform views or overview + detail), lists the views and the links between them, and the decision record carries a solution.composition block that validates. The Altair code defines named selections with explicit fields or encodings, every selection is read by another view, both views use one highlight color, and no finding INT-09, CMP-09 or INT-10 is left by the sibling inspector. The script runs headless and writes a .vl.json and an HTML.
+context:
+  scaffold_script: place-files.sh

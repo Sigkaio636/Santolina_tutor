@@ -1,0 +1,114 @@
+# vis-design seed decision: A few yearly totals as bars from zero
+schema_version: 1
+id: trend-single-series--yearly-bars-from-zero
+status: declared
+title: A few yearly totals as bars from zero
+problem:
+  archetype: trend-single-series
+  catalog_functions:
+  - data-over-time
+  - comparisons
+  statement: How many {events} per year, when amounts matter more than the trend?
+  mode: explanatory
+  domain_examples:
+  - incidents per year over a decade
+  - units sold per year
+  - graduates per year
+user:
+  profile: executive
+  modifiers: []
+tasks:
+  why:
+    goal: present
+    search: lookup
+    query: compare
+  low_level:
+  - retrieve-value
+  - compare
+  - find-extremum
+  temporal:
+  - temporal-location
+  shneiderman:
+  - overview
+data:
+  dataset_type: table
+  keys:
+  - role: time
+    type: temporal
+    cardinality: some
+    grain: year
+  values:
+  - role: measure
+    type: quantitative
+    semantics: count
+  items: tiny
+constraints: []
+solution:
+  idiom: bar_chart
+  family: bar
+  mark: line
+  encodings:
+  - attribute: time
+    channel: position-x
+    scale: ordinal
+  - attribute: measure
+    channel: length
+    scale: linear
+    zero: true
+  - attribute: highlight
+    channel: color-hue
+    scale: nominal
+  derived_data:
+  - count per year
+  ordering: chronological
+  color:
+    purpose: highlight
+    palette_type: neutral-accent
+    suggested:
+    - '#8c8c8c'
+    - '#0072b2'
+    cvd_safe: true
+    second_cue: direct label
+  text:
+    title: takeaway
+    axis_units: true
+    direct_labels: true
+    annotations:
+    - value labels
+    source_line: true
+  interaction:
+    level: none
+    default_state_answers_task: true
+    intents: []
+  layout:
+    small_multiples: false
+    facet_by: null
+    aspect: wide
+  rejected_alternatives:
+  - idiom: line_graph
+    reason: with ≤12 discrete totals the amounts are the point
+    rule: EXP-04
+  validation:
+    stage3_checks:
+    - EXP-08
+    - EXP-04
+    - TXT-01
+    critique_skill: optional
+  library_notes:
+    altair: mark_bar with x ordinal year
+    matplotlib: bar with year labels
+    plotly: px.bar
+rationale: Few discrete yearly totals read as amounts; bars from zero keep the ratios honest and labels give the
+  numbers.
+confidence: medium
+provenance:
+  origin: seed
+  author: vis-design
+  created: '2026-11-07'
+  updated: '2026-11-07'
+  times_used: 0
+  last_used: null
+  supersedes: null
+  sources:
+  - Munzner 2014
+  - Wilke 2019

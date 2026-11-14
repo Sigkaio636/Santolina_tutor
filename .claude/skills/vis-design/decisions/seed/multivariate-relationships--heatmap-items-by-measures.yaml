@@ -1,0 +1,123 @@
+# vis-design seed decision: Items × normalised measures as a heatmap for non-interactive readers
+schema_version: 1
+id: multivariate-relationships--heatmap-items-by-measures
+status: declared
+title: Items × normalised measures as a heatmap for non-interactive readers
+problem:
+  archetype: multivariate-relationships
+  catalog_functions:
+  - relationships
+  - patterns
+  statement: How do items compare across {measures} in a static view?
+  mode: explanatory
+  domain_examples:
+  - product scorecards
+  - country indicators for a report
+  - team metrics
+user:
+  profile: executive
+  modifiers: []
+tasks:
+  why:
+    goal: present
+    search: browse
+    query: compare
+  low_level:
+  - compare
+  - find-extremum
+  - cluster
+  temporal: []
+  shneiderman:
+  - overview
+data:
+  dataset_type: table
+  keys:
+  - role: category
+    type: categorical
+    cardinality: some
+  values:
+  - role: measure
+    type: quantitative
+    semantics: score
+  - role: measure2
+    type: quantitative
+    semantics: score
+  - role: weight
+    type: quantitative
+    semantics: score
+  items: tiny
+constraints:
+- static-only
+solution:
+  idiom: heatmap
+  family: heatmap
+  mark: rect
+  encodings:
+  - attribute: category
+    channel: position-y
+    scale: ordinal
+    sort: first measure desc
+  - attribute: derived
+    channel: position-x
+    scale: ordinal
+    note: one column per measure
+  - attribute: derived
+    channel: color-luminance
+    scale: sequential
+    note: rank or z-score per column
+  derived_data:
+  - per-column normalisation (rank or z-score); values printed in cells
+  ordering: rows by the primary measure
+  color:
+    purpose: encode-value
+    palette_type: sequential
+    suggested:
+    - viridis
+    - blues
+    cvd_safe: true
+  text:
+    title: takeaway
+    axis_units: true
+    direct_labels: true
+    annotations:
+    - values in cells
+    source_line: true
+  interaction:
+    level: none
+    default_state_answers_task: true
+    intents: []
+  layout:
+    small_multiples: false
+    facet_by: null
+    aspect: wide
+  rejected_alternatives:
+  - idiom: parallel_coordinates
+    reason: static readers cannot brush
+    rule: EFF-17
+  - idiom: radar_chart
+    reason: always
+    rule: IDM-RADAR/GAUGE
+  validation:
+    stage3_checks:
+    - IDM-HEATMAP
+    - COL-02
+    - TXT-13
+    critique_skill: optional
+  library_notes:
+    altair: mark_rect + mark_text; fold measures
+    matplotlib: imshow on normalised matrix + annotations
+    plotly: px.imshow text_auto
+rationale: A normalised matrix with printed values gives a static reader both the pattern and the numbers without
+  a legend lookup.
+confidence: medium
+provenance:
+  origin: seed
+  author: vis-design
+  created: '2026-11-07'
+  updated: '2026-11-07'
+  times_used: 0
+  last_used: null
+  supersedes: null
+  sources:
+  - Munzner 2014
+  - Wilke 2019

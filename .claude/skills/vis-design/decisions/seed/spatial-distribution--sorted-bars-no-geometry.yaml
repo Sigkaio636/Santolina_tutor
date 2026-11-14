@@ -1,0 +1,116 @@
+# vis-design seed decision: A measure per region without a geometry file as sorted bars
+schema_version: 1
+id: spatial-distribution--sorted-bars-no-geometry
+status: declared
+title: A measure per region without a geometry file as sorted bars
+problem:
+  archetype: spatial-distribution
+  catalog_functions:
+  - location
+  - comparisons
+  statement: Where is {measure} highest across {region} (no map geometry available)?
+  mode: explanatory
+  domain_examples:
+  - totals per county
+  - complaints per district
+  - sales per territory
+user:
+  profile: general-public
+  modifiers: []
+tasks:
+  why:
+    goal: present
+    search: lookup
+    query: compare
+  low_level:
+  - find-extremum
+  - sort
+  - retrieve-value
+  temporal: []
+  shneiderman:
+  - overview
+data:
+  dataset_type: geometry
+  keys:
+  - role: location
+    type: geo-code
+    cardinality: many
+  values:
+  - role: measure
+    type: quantitative
+    semantics: amount
+  items: small
+constraints:
+- no-geometry-file
+solution:
+  idiom: bar_chart
+  family: bar
+  mark: line
+  encodings:
+  - attribute: location
+    channel: position-y
+    scale: ordinal
+    sort: measure desc
+  - attribute: measure
+    channel: length
+    scale: linear
+    zero: true
+  - attribute: highlight
+    channel: color-hue
+    scale: nominal
+  derived_data:
+  - sum per region; top-N shown, rest summarised
+  ordering: descending by measure
+  color:
+    purpose: highlight
+    palette_type: neutral-accent
+    suggested:
+    - '#8c8c8c'
+    - '#0072b2'
+    cvd_safe: true
+    second_cue: direct label
+  text:
+    title: takeaway
+    axis_units: true
+    direct_labels: true
+    annotations: []
+    source_line: true
+  interaction:
+    level: none
+    default_state_answers_task: true
+    intents: []
+  layout:
+    small_multiples: false
+    facet_by: null
+    aspect: tall
+  rejected_alternatives:
+  - idiom: choropleth
+    reason: no geometry file
+    rule: IDM-MAP
+  - idiom: bubble_map
+    reason: no coordinates
+    rule: IDM-MAP
+  validation:
+    stage3_checks:
+    - EXP-08
+    - CMP-01
+    - TXT-01
+    critique_skill: optional
+  library_notes:
+    altair: mark_bar sorted
+    matplotlib: barh sorted
+    plotly: px.bar
+rationale: Without geometry the comparison task is served exactly by sorted bars; the spatial pattern is deferred
+  until a geometry file exists.
+confidence: high
+provenance:
+  origin: seed
+  author: vis-design
+  created: '2026-11-07'
+  updated: '2026-11-07'
+  times_used: 0
+  last_used: null
+  supersedes: null
+  sources:
+  - Munzner 2014
+  - Wilke 2019

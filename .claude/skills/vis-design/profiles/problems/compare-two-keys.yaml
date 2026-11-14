@@ -1,0 +1,65 @@
+# Problem archetype: Compare a measure across two categorical keys
+id: compare-two-keys
+name: Compare a measure across two categorical keys
+question_templates:
+- How does {measure} vary by {category} and {category2}?
+- Within each {category}, which {category2} is largest?
+catalog_functions:
+- comparisons
+- patterns
+chart_types_md_sections:
+- Quantities / Grouped / paired bar chart
+- Quantities / Stacked bar chart
+- Relationships / Heat map
+default_tasks:
+  why:
+    goal: discover
+    search: browse
+    query: compare
+  low_level:
+  - compare
+  - find-extremum
+  - cluster
+  - retrieve-value
+  temporal: []
+expected_shape:
+  dataset_type: table
+  keys:
+  - type: categorical
+    cardinality:
+    - few
+    - some
+  - type: categorical
+    cardinality:
+    - few
+    - some
+    - many
+  values:
+  - type: quantitative
+    semantics: amount
+preferred_idioms:
+- multiset_barchart
+- heatmap
+- dumbbell_plot
+- small_multiples
+- stacked_bar_graph
+discouraged_idioms:
+- idiom: stacked_bar_graph
+  when: comparison within or across groups is the task
+  rule: IDM-STACK
+- idiom: multiset_barchart
+  when: one key is time
+  rule: EXP-04
+- idiom: marimekko_chart
+  when: precise comparison needed
+  rule: EFF-02
+related_archetypes:
+- compare-values-across-categories
+- matrix-pattern-two-keys
+- trend-many-series
+disambiguation: If one key is time, use trend-few-series / trend-many-series. If both keys have many levels, use
+  matrix-pattern-two-keys.
+domain_examples:
+- sales by region and product
+- incidents by cause and severity
+- grades by course and cohort

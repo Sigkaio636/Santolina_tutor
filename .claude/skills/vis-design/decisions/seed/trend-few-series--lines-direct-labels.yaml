@@ -1,0 +1,130 @@
+# vis-design seed decision: Two to seven series over time as labelled lines
+schema_version: 1
+id: trend-few-series--lines-direct-labels
+status: declared
+title: Two to seven series over time as labelled lines
+problem:
+  archetype: trend-few-series
+  catalog_functions:
+  - data-over-time
+  - comparisons
+  statement: How do {category} compare over {time}?
+  mode: explanatory
+  domain_examples:
+  - three products per month
+  - two cities' temperature
+  - cases per age group per week
+user:
+  profile: domain-expert
+  modifiers: []
+tasks:
+  why:
+    goal: present
+    search: browse
+    query: compare
+  low_level:
+  - trend
+  - compare
+  - find-extremum
+  - find-anomalies
+  temporal:
+  - pattern
+  - rate-of-change
+  - synchronization
+  shneiderman:
+  - overview
+  - details-on-demand
+data:
+  dataset_type: table
+  keys:
+  - role: time
+    type: temporal
+    cardinality: many
+    grain: month
+  - role: category
+    type: categorical
+    cardinality: few
+  values:
+  - role: measure
+    type: quantitative
+    semantics: amount
+  items: small
+constraints: []
+solution:
+  idiom: line_graph
+  family: line
+  mark: line
+  encodings:
+  - attribute: time
+    channel: position-x
+    scale: temporal
+  - attribute: measure
+    channel: position-y
+    scale: linear
+    zero: false
+  - attribute: category
+    channel: color-hue
+    scale: nominal
+  - attribute: category
+    channel: connection
+  derived_data:
+  - aggregate per (period, category)
+  ordering: series labelled at their right end, ordered by last value
+  color:
+    purpose: distinguish
+    palette_type: qualitative
+    suggested:
+    - okabe-ito
+    max_hues: 7
+    cvd_safe: true
+    second_cue: direct label
+  text:
+    title: takeaway
+    axis_units: true
+    direct_labels: true
+    annotations:
+    - labels at line ends
+    source_line: true
+  interaction:
+    level: optional
+    default_state_answers_task: true
+    intents:
+    - abstract-elaborate
+  layout:
+    small_multiples: false
+    facet_by: null
+    aspect: wide
+  rejected_alternatives:
+  - idiom: multiset_barchart
+    reason: one key is time
+    rule: EXP-04
+  - idiom: stacked_area_graph
+    reason: comparison of individual series
+    rule: IDM-STACK
+  - idiom: small_multiples
+    reason: same units and ≤7 series fit one panel
+    rule: CMP-05
+  validation:
+    stage3_checks:
+    - IDM-LINE
+    - TXT-04
+    - COL-04
+    - SCL-02
+    critique_skill: optional
+  library_notes:
+    altair: mark_line + mark_text at last point; color okabe-ito
+    matplotlib: plot per series; annotate last value
+    plotly: px.line + end annotations
+rationale: Up to seven lines on one panel stay readable when directly labelled; a shared y keeps magnitudes comparable.
+confidence: high
+provenance:
+  origin: seed
+  author: vis-design
+  created: '2026-11-07'
+  updated: '2026-11-07'
+  times_used: 0
+  last_used: null
+  supersedes: null
+  sources:
+  - Munzner 2014
+  - Wilke 2019

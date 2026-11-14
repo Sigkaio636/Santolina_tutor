@@ -1,0 +1,53 @@
+# Problem archetype: Nested composition
+id: part-to-whole-hierarchy
+name: Nested composition
+question_templates:
+- How is {total} split into {level1} and then {level2}?
+- Which branches of the hierarchy dominate {measure}?
+catalog_functions:
+- hierarchy
+- part-to-a-whole
+chart_types_md_sections:
+- Proportions / Treemap
+default_tasks:
+  why:
+    goal: discover
+    search: browse
+    query: identify
+  low_level:
+  - find-extremum
+  - gist
+  - retrieve-value
+  temporal: []
+expected_shape:
+  dataset_type: tree
+  keys:
+  - type: categorical
+    cardinality:
+    - some
+    - many
+    - huge
+  values:
+  - type: quantitative
+    semantics: amount
+preferred_idioms:
+- treemap
+- sunburst_diagram
+- circle_packing
+- bar_chart
+discouraged_idioms:
+- idiom: sunburst_diagram
+  when: more than 3 levels or labels needed
+  rule: TXT-10
+- idiom: circle_packing
+  when: space matters
+  rule: CLT-03
+related_archetypes:
+- part-to-whole-single
+- hierarchy-structure
+disambiguation: If only one level matters, flatten it and use part-to-whole-single; if structure matters more than
+  size, use hierarchy-structure.
+domain_examples:
+- disk usage by folder
+- budget by ministry and programme
+- species by family and genus

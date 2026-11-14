@@ -1,0 +1,128 @@
+# vis-design seed decision: Seasonality as a month × year heatmap
+schema_version: 1
+id: seasonality-cycles--month-by-year-heatmap
+status: declared
+title: Seasonality as a month × year heatmap
+problem:
+  archetype: seasonality-cycles
+  catalog_functions:
+  - data-over-time
+  - patterns
+  statement: Is there a seasonal pattern in {measure}?
+  mode: analysis
+  domain_examples:
+  - events per month across years
+  - sales per week across years
+  - visits per hour and weekday
+user:
+  profile: domain-expert
+  modifiers: []
+tasks:
+  why:
+    goal: discover
+    search: browse
+    query: identify
+  low_level:
+  - find-anomalies
+  - trend
+  - compare
+  temporal:
+  - pattern
+  - temporal-location
+  shneiderman:
+  - overview
+data:
+  dataset_type: table
+  keys:
+  - role: time
+    type: temporal
+    cardinality: some
+    grain: year
+  - role: category
+    type: ordinal
+    cardinality: some
+  values:
+  - role: measure
+    type: quantitative
+    semantics: count
+    derived: true
+    derivation: count per (year, month)
+  items: small
+constraints: []
+solution:
+  idiom: heatmap
+  family: heatmap
+  mark: rect
+  encodings:
+  - attribute: category
+    channel: position-x
+    scale: ordinal
+    note: month 1–12
+  - attribute: time
+    channel: position-y
+    scale: ordinal
+    note: year
+  - attribute: measure
+    channel: color-luminance
+    scale: sequential
+    zero: true
+  derived_data:
+  - count per (year, month); marginal totals per month as a companion bar
+  ordering: months left to right, years top to bottom
+  color:
+    purpose: encode-value
+    palette_type: sequential
+    suggested:
+    - viridis
+    - blues
+    cvd_safe: true
+  text:
+    title: takeaway
+    axis_units: true
+    direct_labels: false
+    annotations:
+    - peak month named in title
+    source_line: true
+  interaction:
+    level: optional
+    default_state_answers_task: true
+    intents:
+    - abstract-elaborate
+  layout:
+    small_multiples: false
+    facet_by: null
+    aspect: wide
+  rejected_alternatives:
+  - idiom: spiral_plot
+    reason: unfamiliar
+    rule: EFF-17
+  - idiom: radial_column_chart
+    reason: curved scale reads worse
+    rule: EFF-02
+  - idiom: line_graph
+    reason: overlaid years tangle beyond ~5
+    rule: IDM-LINE
+  validation:
+    stage3_checks:
+    - IDM-HEATMAP
+    - COL-02
+    - CMP-01
+    critique_skill: optional
+  library_notes:
+    altair: mark_rect with month(date) and year(date)
+    matplotlib: pcolormesh on pivot(year, month)
+    plotly: px.imshow
+rationale: Two temporal grains as the two axes make the cycle a visible stripe; anomalies appear as cells that break
+  the stripe.
+confidence: high
+provenance:
+  origin: seed
+  author: vis-design
+  created: '2026-11-07'
+  updated: '2026-11-07'
+  times_used: 0
+  last_used: null
+  supersedes: null
+  sources:
+  - Munzner 2014
+  - Wilke 2019

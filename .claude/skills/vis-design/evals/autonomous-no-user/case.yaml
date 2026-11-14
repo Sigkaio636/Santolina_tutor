@@ -1,0 +1,6 @@
+schema_version: "1.1"
+name: autonomous-no-user
+expected_outcome: |
+  Autonomous run: no AskUserQuestion call; the design document has a complete Assumptions section (question id, assumed answer, reason); the record is saved with status candidate; the archetype is distribution-change-over-time or rank-change-two-points with a stated period definition (first vs last years); the idiom is a slope chart, dumbbell or paired sorted bars, not an animation; every validation says it was not confirmed by the user; the script ran headless and produced a PNG.
+context:
+  scaffold_script: place-files.sh

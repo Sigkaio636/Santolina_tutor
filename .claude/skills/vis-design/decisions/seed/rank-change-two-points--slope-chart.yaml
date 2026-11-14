@@ -1,0 +1,125 @@
+# vis-design seed decision: Change of many items between two moments as a slope chart
+schema_version: 1
+id: rank-change-two-points--slope-chart
+status: declared
+title: Change of many items between two moments as a slope chart
+problem:
+  archetype: rank-change-two-points
+  catalog_functions:
+  - comparisons
+  - data-over-time
+  statement: How did {measure} per {category} change between {t0} and {t1}?
+  mode: explanatory
+  domain_examples:
+  - unemployment per region in two years
+  - share per brand before and after
+  - score per school in two exams
+user:
+  profile: communicator-journalist
+  modifiers: []
+tasks:
+  why:
+    goal: present
+    search: locate
+    query: compare
+  low_level:
+  - compare
+  - sort
+  - compute-derived
+  - find-extremum
+  temporal:
+  - rate-of-change
+  shneiderman:
+  - overview
+data:
+  dataset_type: table
+  keys:
+  - role: time
+    type: temporal
+    cardinality: few
+    grain: year
+  - role: category
+    type: categorical
+    cardinality: some
+  values:
+  - role: measure
+    type: quantitative
+    semantics: amount
+  items: tiny
+constraints: []
+solution:
+  idiom: slope_chart
+  family: slope
+  mark: line
+  encodings:
+  - attribute: time
+    channel: position-x
+    scale: ordinal
+  - attribute: measure
+    channel: position-y
+    scale: linear
+    zero: false
+  - attribute: category
+    channel: connection
+  - attribute: highlight
+    channel: color-hue
+    scale: nominal
+  derived_data:
+  - change = v(t1) - v(t0)
+  ordering: labels at both ends; items of interest highlighted, rest grey
+  color:
+    purpose: highlight
+    palette_type: neutral-accent
+    suggested:
+    - '#8c8c8c'
+    - '#0072b2'
+    cvd_safe: true
+    second_cue: direct label
+  text:
+    title: takeaway
+    axis_units: true
+    direct_labels: true
+    annotations:
+    - largest change annotated
+    source_line: true
+  interaction:
+    level: none
+    default_state_answers_task: true
+    intents: []
+  layout:
+    small_multiples: false
+    facet_by: null
+    aspect: tall
+  rejected_alternatives:
+  - idiom: multiset_barchart
+    reason: two bars per item hide the direction of change
+    rule: EFF-19
+  - idiom: pie_chart
+    reason: always
+    rule: IDM-PIE
+  - idiom: bump_chart
+    reason: values matter, not only ranks
+    rule: EXP-18
+  validation:
+    stage3_checks:
+    - TXT-04
+    - EFF-09
+    - SCL-13
+    critique_skill: optional
+  library_notes:
+    altair: mark_line + mark_text at ends; alt.condition for highlight
+    matplotlib: plot segments per item; annotate ends
+    plotly: go.Scatter lines per item with text labels
+rationale: Slope direction and crossing lines show change and rank change at once; direct labels remove the legend.
+confidence: high
+provenance:
+  origin: seed
+  author: vis-design
+  created: '2026-11-07'
+  updated: '2026-11-07'
+  times_used: 0
+  last_used: null
+  supersedes: null
+  sources:
+  - Munzner 2014
+  - Wilke 2019

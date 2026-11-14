@@ -1,0 +1,77 @@
+# Problem archetype: Uncertainty of an estimate or forecast
+id: uncertainty-of-estimate-or-forecast
+name: Uncertainty of an estimate or forecast
+question_templates:
+- How sure are we about {measure} for each {category}?
+- What range of outcomes should we expect for {measure} over {time}?
+- How likely is {measure} to pass {threshold}?
+catalog_functions:
+- range
+- distribution
+- data-over-time
+chart_types_md_sections: []
+default_tasks:
+  why:
+    goal: present
+    search: lookup
+    query: compare
+  low_level:
+  - determine-range
+  - compare
+  - retrieve-value
+  - characterize-distribution
+  temporal:
+  - rate-of-change
+expected_shape:
+  dataset_type: table
+  keys:
+  - type: categorical
+    cardinality:
+    - one
+    - few
+    - some
+    - many
+  values:
+  - type: quantitative
+    semantics: amount
+  - type: quantitative
+    semantics: amount
+  - type: quantitative
+    semantics: amount
+preferred_idioms:
+- gradient_interval
+- quantile_dotplot
+- error_bars
+- ensemble_plot
+- violin_plot
+- hypothetical_outcome_plot
+discouraged_idioms:
+- idiom: bar_chart
+  when: only point estimates are drawn and the uncertainty is left out
+  rule: DAT-03
+- idiom: error_bars
+  when: the interval is not defined on the chart, or the reader is a lay audience
+  rule: PUR-14
+- idiom: ensemble_plot
+  when: members come from different models, dates or resolutions, or are stale
+  rule: DAT-12
+- idiom: gradient_interval
+  when: the band can be read as a physical area or a hard limit
+  rule: DAT-11
+- idiom: hypothetical_outcome_plot
+  when: the output is static or printed
+  rule: CMP-08
+related_archetypes:
+- range-per-item
+- distribution-compare-groups
+- trend-single-series
+disambiguation: 'range-per-item shows observed extremes (a measured min and max); this archetype shows inferential
+  or predictive uncertainty (standard error, confidence, credible or prediction interval, posterior draws, model
+  runs). Name the interval and its level and make it match the analysis. Expert readers: gradient bands or intervals;
+  lay readers: countable frequencies (quantile dots, icon grids) with one sentence of explanation. The key may
+  be a category (one estimate each) or time (a forecast path); with raw observations only, use distribution-compare-groups.'
+domain_examples:
+- forecast demand per week with a prediction interval
+- estimated effect per treatment with a credible interval
+- arrival-time prediction for a bus
+- projected temperature path from several model runs

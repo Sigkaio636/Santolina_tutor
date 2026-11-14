@@ -1,0 +1,45 @@
+# Problem archetype: Term frequencies in text
+id: text-frequency
+name: Term frequencies in text
+question_templates:
+- Which terms are most frequent in {corpus}?
+- How do two texts differ in vocabulary?
+catalog_functions:
+- analysing-text
+chart_types_md_sections:
+- Text
+default_tasks:
+  why:
+    goal: discover
+    search: browse
+    query: summarize
+  low_level:
+  - find-extremum
+  - sort
+  - compare
+  temporal: []
+expected_shape:
+  dataset_type: text
+  keys:
+  - type: categorical
+    cardinality:
+    - many
+    - huge
+  values:
+  - type: quantitative
+    semantics: count
+preferred_idioms:
+- bar_chart
+- wordcloud
+- dumbbell_plot
+discouraged_idioms:
+- idiom: wordcloud
+  when: comparison or exact ranking needed
+  rule: IDM-WORDCLOUD
+related_archetypes:
+- compare-values-across-categories
+disambiguation: A sorted bar chart of the top-N terms is the analytic answer; a word cloud is at most a teaser.
+domain_examples:
+- survey free-text answers
+- tweets about a topic
+- exam answers

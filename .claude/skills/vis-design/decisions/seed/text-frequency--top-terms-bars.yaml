@@ -1,0 +1,110 @@
+# vis-design seed decision: Term frequencies as sorted bars of the top terms
+schema_version: 1
+id: text-frequency--top-terms-bars
+status: declared
+title: Term frequencies as sorted bars of the top terms
+problem:
+  archetype: text-frequency
+  catalog_functions:
+  - analysing-text
+  statement: Which terms are most frequent in {corpus}?
+  mode: analysis
+  domain_examples:
+  - survey free-text answers
+  - social-media posts about a topic
+  - support tickets
+user:
+  profile: domain-expert
+  modifiers: []
+tasks:
+  why:
+    goal: discover
+    search: browse
+    query: summarize
+  low_level:
+  - find-extremum
+  - sort
+  - compare
+  temporal: []
+  shneiderman:
+  - overview
+data:
+  dataset_type: text
+  keys:
+  - role: category
+    type: categorical
+    cardinality: huge
+  values:
+  - role: measure
+    type: quantitative
+    semantics: count
+    derived: true
+    derivation: term count after stop-word removal
+  items: small
+constraints: []
+solution:
+  idiom: bar_chart
+  family: bar
+  mark: line
+  encodings:
+  - attribute: category
+    channel: position-y
+    scale: ordinal
+    sort: measure desc
+    note: top 20 terms
+  - attribute: measure
+    channel: length
+    scale: linear
+    zero: true
+  derived_data:
+  - tokenise, lower-case, remove stop words, count; top-N
+  ordering: descending by count
+  color:
+    purpose: highlight
+    palette_type: neutral-accent
+    suggested:
+    - '#8c8c8c'
+    - '#0072b2'
+    cvd_safe: true
+    second_cue: direct label
+  text:
+    title: descriptive
+    axis_units: true
+    direct_labels: true
+    annotations:
+    - n documents in subtitle
+    source_line: true
+  interaction:
+    level: none
+    default_state_answers_task: true
+    intents: []
+  layout:
+    small_multiples: false
+    facet_by: null
+    aspect: tall
+  rejected_alternatives:
+  - idiom: wordcloud
+    reason: area depends on word length; comparison impossible
+    rule: IDM-WORDCLOUD
+  validation:
+    stage3_checks:
+    - IDM-WORDCLOUD
+    - CMP-01
+    critique_skill: optional
+  library_notes:
+    altair: mark_bar sorted
+    matplotlib: barh
+    plotly: px.bar
+rationale: Length on a common baseline compares term counts exactly; a word cloud is kept at most as a teaser.
+confidence: high
+provenance:
+  origin: seed
+  author: vis-design
+  created: '2026-11-07'
+  updated: '2026-11-07'
+  times_used: 0
+  last_used: null
+  supersedes: null
+  sources:
+  - Munzner 2014
+  - Wilke 2019

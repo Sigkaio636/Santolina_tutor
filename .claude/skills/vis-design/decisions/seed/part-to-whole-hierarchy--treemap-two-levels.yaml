@@ -1,0 +1,118 @@
+# vis-design seed decision: Nested composition as a two-level treemap
+schema_version: 1
+id: part-to-whole-hierarchy--treemap-two-levels
+status: declared
+title: Nested composition as a two-level treemap
+problem:
+  archetype: part-to-whole-hierarchy
+  catalog_functions:
+  - hierarchy
+  - part-to-a-whole
+  statement: How is {total} split into {level1} and then {level2}?
+  mode: explanatory
+  domain_examples:
+  - disk usage by folder
+  - budget by ministry and programme
+  - exports by sector and product
+user:
+  profile: executive
+  modifiers: []
+tasks:
+  why:
+    goal: discover
+    search: browse
+    query: identify
+  low_level:
+  - find-extremum
+  - gist
+  - retrieve-value
+  temporal: []
+  shneiderman:
+  - overview
+  - details-on-demand
+data:
+  dataset_type: tree
+  keys:
+  - role: hierarchy-level
+    type: categorical
+    cardinality: many
+  values:
+  - role: measure
+    type: quantitative
+    semantics: amount
+  items: small
+constraints: []
+solution:
+  idiom: treemap
+  family: treemap
+  mark: area
+  encodings:
+  - attribute: measure
+    channel: area
+    scale: linear
+  - attribute: hierarchy-level
+    channel: containment
+  - attribute: hierarchy-level
+    channel: color-hue
+    scale: nominal
+  derived_data:
+  - sum per node; leaves below 1% grouped as 'other (n)'
+  ordering: squarified; largest top-left
+  color:
+    purpose: distinguish
+    palette_type: qualitative
+    suggested:
+    - okabe-ito
+    max_hues: 7
+    cvd_safe: true
+    second_cue: direct label
+  text:
+    title: descriptive
+    axis_units: true
+    direct_labels: true
+    annotations:
+    - values on cells above a size threshold
+    source_line: true
+  interaction:
+    level: optional
+    default_state_answers_task: true
+    intents:
+    - abstract-elaborate
+  layout:
+    small_multiples: false
+    facet_by: null
+    aspect: wide
+  rejected_alternatives:
+  - idiom: sunburst_diagram
+    reason: labels on outer rings unreadable
+    rule: TXT-10
+  - idiom: circle_packing
+    reason: wastes space
+    rule: CLT-03
+  - idiom: pie_chart
+    reason: single level only
+    rule: IDM-PIE
+  validation:
+    stage3_checks:
+    - EFF-02
+    - TXT-10
+    - COL-04
+    critique_skill: optional
+  library_notes:
+    altair: 'no native treemap: use plotly or precomputed rectangles'
+    matplotlib: squarify + Rectangle patches
+    plotly: px.treemap path=[level1, level2]
+rationale: Area with containment is the only idiom that shows two levels and size at once; it is accepted as approximate,
+  with values printed on the large cells.
+confidence: high
+provenance:
+  origin: seed
+  author: vis-design
+  created: '2026-11-07'
+  updated: '2026-11-07'
+  times_used: 0
+  last_used: null
+  supersedes: null
+  sources:
+  - Munzner 2014
+  - Wilke 2019

@@ -1,0 +1,6 @@
+schema_version: "1.1"
+name: vegalite-gapminder-spec
+expected_outcome: |
+  A Spanish-language critique following the template that identifies year encoded as nominal hue (EXP-02), the forced x domain with clip cutting data (EXP-09), the shape+color conjunction with too many shapes (EFF-08), three legends (EFF-11), raw axis names and missing title, scores V=T+I+E+C, and proposes a connected scatterplot / slope chart or small multiples with year on an ordered channel.
+context:
+  scaffold_script: place-files.sh

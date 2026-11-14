@@ -1,0 +1,74 @@
+# User profile: General public
+id: general-public
+name: General public
+summary: Reads charts in news, reports or slides for seconds, with no training and no prior knowledge
+  of the data. Wants one clear message and the numbers behind it; gives up on anything that needs a legend
+  lookup or an unfamiliar idiom.
+capabilities:
+  vis_literacy: low
+  domain_knowledge: low
+  statistical_literacy: low
+  time_per_chart: seconds
+  interaction_tolerance: none
+  working_memory_budget: 2
+  learned_idioms:
+  - bar
+  - line
+  - pie
+  - map-choropleth
+  - pictogram
+  - table
+  needs_explanation:
+  - heatmap
+  - scatter
+  - distribution
+  - parallel
+  - network
+  - stacked-area
+  - treemap
+  - slope
+cognitive_tasks:
+  why:
+    goal: present
+    search: lookup
+    query: identify
+  low_level_primary:
+  - gist
+  - find-extremum
+  - retrieve-value
+  low_level_secondary:
+  - compare
+  - trend
+  shneiderman:
+  - overview
+text_needs:
+  title_style: takeaway
+  annotation_density: high
+  needs_units_and_n: true
+confidence_needs:
+- source
+- period
+- what-the-numbers-mean
+default_mode: explanatory
+default_modifiers:
+- cvd
+avoid:
+- pie-over-5
+- dual-axes
+- log-scale
+- parallel
+- network
+- radar
+- gauge
+- word-cloud
+prefer_families:
+- bar
+- line
+- dot-plot
+- map-choropleth
+- pictogram
+- small-multiples
+typical_readers:
+- newspaper reader
+- citizen reading a public-health report
+- audience of a public talk

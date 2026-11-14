@@ -1,0 +1,116 @@
+# vis-design seed decision: One measure per category with small differences as a sorted dot plot
+schema_version: 1
+id: compare-values-across-categories--dot-plot-small-differences
+status: declared
+title: One measure per category with small differences as a sorted dot plot
+problem:
+  archetype: compare-values-across-categories
+  catalog_functions:
+  - comparisons
+  statement: How does {measure} compare across {category} when differences are small?
+  mode: analysis
+  domain_examples:
+  - life expectancy per country
+  - conversion rate per campaign
+  - mean score per school
+user:
+  profile: domain-expert
+  modifiers: []
+tasks:
+  why:
+    goal: discover
+    search: browse
+    query: compare
+  low_level:
+  - compare
+  - sort
+  - find-extremum
+  - retrieve-value
+  temporal: []
+  shneiderman:
+  - overview
+  - details-on-demand
+data:
+  dataset_type: table
+  keys:
+  - role: category
+    type: categorical
+    cardinality: many
+  values:
+  - role: measure
+    type: quantitative
+    semantics: rate
+  items: small
+constraints: []
+solution:
+  idiom: dot_plot
+  family: dot-plot
+  mark: point
+  encodings:
+  - attribute: category
+    channel: position-y
+    scale: ordinal
+    sort: measure desc
+  - attribute: measure
+    channel: position-x
+    scale: linear
+    zero: false
+  derived_data:
+  - rate per category
+  ordering: sorted by value; axis starts near the data minimum and says so
+  color:
+    purpose: highlight
+    palette_type: neutral-accent
+    suggested:
+    - '#8c8c8c'
+    - '#0072b2'
+    cvd_safe: true
+    second_cue: direct label
+  text:
+    title: descriptive
+    axis_units: true
+    direct_labels: true
+    annotations:
+    - axis start stated
+    source_line: true
+  interaction:
+    level: optional
+    default_state_answers_task: true
+    intents:
+    - abstract-elaborate
+  layout:
+    small_multiples: false
+    facet_by: null
+    aspect: tall
+  rejected_alternatives:
+  - idiom: bar_chart
+    reason: bars from zero hide differences of a few percent
+    rule: EFF-05
+  - idiom: pie_chart
+    reason: not a part-to-whole
+    rule: IDM-PIE
+  validation:
+    stage3_checks:
+    - CMP-01
+    - SCL-02
+    - EFF-05
+    - SCL-06
+    critique_skill: optional
+  library_notes:
+    altair: mark_circle, y sorted, x scale zero=False; tooltip
+    matplotlib: plot with 'o' on sorted frame; ax.set_xlim near data
+    plotly: px.scatter with category_orders
+rationale: Position does not require a zero baseline, so the axis can zoom into the band where the differences live
+  (Weber); sorting keeps rank readable with many rows.
+confidence: high
+provenance:
+  origin: seed
+  author: vis-design
+  created: '2026-11-07'
+  updated: '2026-11-07'
+  times_used: 0
+  last_used: null
+  supersedes: null
+  sources:
+  - Munzner 2014
+  - Wilke 2019

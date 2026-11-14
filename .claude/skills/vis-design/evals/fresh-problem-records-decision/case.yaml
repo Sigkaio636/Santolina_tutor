@@ -1,0 +1,6 @@
+schema_version: "1.1"
+name: fresh-problem-records-decision
+expected_outcome: |
+  A fresh problem: the free-text question is mapped to trend-many-series (temporal key × many regions, count) with temporal tasks shown for confirmation; the recommended idiom is a region × year heatmap or small multiples of lines with shared scales, never grouped bars or a pie; project.yaml names plotly, which is installed; a new project record is written; the title is computed from the data; at least two rejected idioms are listed with a rule.
+context:
+  scaffold_script: place-files.sh

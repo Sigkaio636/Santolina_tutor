@@ -1,0 +1,62 @@
+# Problem archetype: Quantities moving between categories
+id: flow-between-states
+name: Quantities moving between categories
+question_templates:
+- How much {flow} moves from {source} to {target}?
+- Where does {total} go?
+catalog_functions:
+- movement-or-flow
+- how-things-work
+chart_types_md_sections:
+- Geospatial / Flow / line maps, network maps
+default_tasks:
+  why:
+    goal: present
+    search: browse
+    query: compare
+  low_level:
+  - find-extremum
+  - compare
+  - gist
+  - compute-derived
+  temporal: []
+expected_shape:
+  dataset_type: network
+  keys:
+  - type: categorical
+    cardinality:
+    - few
+    - some
+  - type: categorical
+    cardinality:
+    - few
+    - some
+  values:
+  - type: quantitative
+    semantics: weight
+preferred_idioms:
+- sankey_diagram
+- parallel_sets
+- heatmap
+- adjacency_matrix
+- flow_map
+- chord_diagram
+discouraged_idioms:
+- idiom: chord_diagram
+  when: more than ~12 nodes
+  rule: EFF-16
+- idiom: sankey_diagram
+  when: exact values needed without labels
+  rule: EFF-02
+- idiom: sankey_diagram
+  when: too many links, heavy crossings or nodes in no meaningful order
+  rule: IDM-SANKEY
+related_archetypes:
+- network-relationships
+- matrix-pattern-two-keys
+disambiguation: Source × target with many levels → a matrix (heatmap) beats a Sankey; geographic endpoints → flow
+  map.
+domain_examples:
+- energy balance
+- migration between regions
+- customer journey stages

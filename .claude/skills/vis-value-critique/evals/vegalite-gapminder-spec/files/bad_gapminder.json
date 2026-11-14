@@ -1,0 +1,50 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Deliberately bad: year as nominal hue (11 values), population on area, x from zero, raw field names, no title, stacked by nothing, clip on a forced domain.",
+  "width": 400,
+  "height": 300,
+  "data": {
+    "values": [
+      {"country": "Aruba", "year": 1955, "life_expect": 64.1, "fertility": 4.8, "pop": 53865},
+      {"country": "Aruba", "year": 1975, "life_expect": 70.1, "fertility": 2.8, "pop": 60096},
+      {"country": "Aruba", "year": 1995, "life_expect": 73.1, "fertility": 2.0, "pop": 80326},
+      {"country": "Aruba", "year": 2005, "life_expect": 74.1, "fertility": 1.8, "pop": 102000},
+      {"country": "Iceland", "year": 1955, "life_expect": 73.0, "fertility": 3.7, "pop": 157000},
+      {"country": "Iceland", "year": 1965, "life_expect": 73.5, "fertility": 3.5, "pop": 193000},
+      {"country": "Iceland", "year": 1975, "life_expect": 76.0, "fertility": 2.3, "pop": 218000},
+      {"country": "Iceland", "year": 1985, "life_expect": 77.0, "fertility": 1.9, "pop": 241000},
+      {"country": "Iceland", "year": 1995, "life_expect": 78.8, "fertility": 2.1, "pop": 267000},
+      {"country": "Iceland", "year": 2005, "life_expect": 81.2, "fertility": 2.0, "pop": 296000},
+      {"country": "Jamaica", "year": 1955, "life_expect": 62.6, "fertility": 4.2, "pop": 1540000},
+      {"country": "Jamaica", "year": 1965, "life_expect": 66.9, "fertility": 5.8, "pop": 1770000},
+      {"country": "Jamaica", "year": 1975, "life_expect": 69.0, "fertility": 4.0, "pop": 2000000},
+      {"country": "Jamaica", "year": 1985, "life_expect": 71.0, "fertility": 3.3, "pop": 2310000},
+      {"country": "Jamaica", "year": 1995, "life_expect": 71.5, "fertility": 2.8, "pop": 2470000},
+      {"country": "Jamaica", "year": 2005, "life_expect": 72.2, "fertility": 2.5, "pop": 2730000},
+      {"country": "Lebanon", "year": 1955, "life_expect": 58.0, "fertility": 5.7, "pop": 1600000},
+      {"country": "Lebanon", "year": 1965, "life_expect": 63.7, "fertility": 5.4, "pop": 2060000},
+      {"country": "Lebanon", "year": 1975, "life_expect": 65.1, "fertility": 4.3, "pop": 2660000},
+      {"country": "Lebanon", "year": 1985, "life_expect": 66.9, "fertility": 3.4, "pop": 2800000},
+      {"country": "Lebanon", "year": 1995, "life_expect": 69.0, "fertility": 2.7, "pop": 3180000},
+      {"country": "Lebanon", "year": 2005, "life_expect": 71.0, "fertility": 2.2, "pop": 3580000},
+      {"country": "Israel", "year": 1955, "life_expect": 68.0, "fertility": 3.9, "pop": 1740000},
+      {"country": "Israel", "year": 1965, "life_expect": 71.3, "fertility": 3.8, "pop": 2560000},
+      {"country": "Israel", "year": 1975, "life_expect": 72.5, "fertility": 3.6, "pop": 3440000},
+      {"country": "Israel", "year": 1985, "life_expect": 74.6, "fertility": 3.0, "pop": 4230000},
+      {"country": "Israel", "year": 1995, "life_expect": 77.4, "fertility": 2.9, "pop": 5500000},
+      {"country": "Israel", "year": 2005, "life_expect": 80.0, "fertility": 2.8, "pop": 6720000},
+      {"country": "Grenada", "year": 1955, "life_expect": 58.0, "fertility": 6.7, "pop": 90000},
+      {"country": "Grenada", "year": 1975, "life_expect": 65.0, "fertility": 4.2, "pop": 97000},
+      {"country": "Grenada", "year": 1995, "life_expect": 70.0, "fertility": 3.2, "pop": 100000},
+      {"country": "Grenada", "year": 2005, "life_expect": 71.0, "fertility": 2.3, "pop": 105000}
+    ]
+  },
+  "mark": {"type": "square", "clip": true},
+  "encoding": {
+    "x": {"field": "life_expect", "type": "quantitative", "scale": {"domain": [0, 80]}},
+    "y": {"field": "fertility", "type": "quantitative"},
+    "color": {"field": "year", "type": "nominal", "scale": {"scheme": "category10"}},
+    "size": {"field": "pop", "type": "quantitative"},
+    "shape": {"field": "country", "type": "nominal"}
+  }
+}

@@ -1,0 +1,124 @@
+# vis-design seed decision: A low and a high value per item as a sorted dumbbell plot
+schema_version: 1
+id: range-per-item--dumbbell-sorted
+status: declared
+title: A low and a high value per item as a sorted dumbbell plot
+problem:
+  archetype: range-per-item
+  catalog_functions:
+  - range
+  - comparisons
+  statement: What is the range of {measure} per {category}?
+  mode: explanatory
+  domain_examples:
+  - min–max temperature per city
+  - price range per product
+  - confidence interval per estimate
+user:
+  profile: domain-expert
+  modifiers: []
+tasks:
+  why:
+    goal: present
+    search: lookup
+    query: compare
+  low_level:
+  - determine-range
+  - compare
+  - sort
+  - find-anomalies
+  temporal: []
+  shneiderman:
+  - overview
+data:
+  dataset_type: table
+  keys:
+  - role: category
+    type: categorical
+    cardinality: some
+  values:
+  - role: lower
+    type: quantitative
+    semantics: amount
+  - role: upper
+    type: quantitative
+    semantics: amount
+  items: tiny
+constraints: []
+solution:
+  idiom: dumbbell_plot
+  family: slope
+  mark: point
+  encodings:
+  - attribute: category
+    channel: position-y
+    scale: ordinal
+    sort: upper desc
+  - attribute: lower
+    channel: position-x
+    scale: linear
+    zero: false
+  - attribute: upper
+    channel: position-x
+    scale: linear
+    zero: false
+  - attribute: category
+    channel: connection
+  derived_data:
+  - span = upper - lower; interval type stated (min–max, CI, IQR)
+  ordering: by upper value descending
+  color:
+    purpose: distinguish
+    palette_type: qualitative
+    suggested:
+    - okabe-ito
+    max_hues: 2
+    cvd_safe: true
+    second_cue: direct label
+  text:
+    title: descriptive
+    axis_units: true
+    direct_labels: true
+    annotations:
+    - interval definition in subtitle
+    source_line: true
+  interaction:
+    level: optional
+    default_state_answers_task: true
+    intents:
+    - abstract-elaborate
+  layout:
+    small_multiples: false
+    facet_by: null
+    aspect: tall
+  rejected_alternatives:
+  - idiom: bar_chart
+    reason: a range has no zero baseline meaning
+    rule: EXP-08
+  - idiom: box_plot
+    reason: only two values per item exist
+    rule: EXP-16
+  validation:
+    stage3_checks:
+    - CMP-01
+    - TXT-04
+    - DAT-03
+    critique_skill: optional
+  library_notes:
+    altair: mark_rule between x and x2 + mark_circle
+    matplotlib: hlines + scatter
+    plotly: go.Scatter pairs per row
+rationale: Two positions joined by a segment show both ends and the span per item; sorting makes range comparison
+  immediate.
+confidence: high
+provenance:
+  origin: seed
+  author: vis-design
+  created: '2026-11-07'
+  updated: '2026-11-07'
+  times_used: 0
+  last_used: null
+  supersedes: null
+  sources:
+  - Munzner 2014
+  - Wilke 2019

@@ -1,0 +1,71 @@
+# Problem archetype: Distributions compared across groups
+id: distribution-compare-groups
+name: Distributions compared across groups
+question_templates:
+- How does the distribution of {measure} differ between {category}?
+- Do {category} groups overlap on {measure}?
+catalog_functions:
+- distribution
+- comparisons
+chart_types_md_sections:
+- Distributions / Box plot
+- Distributions / Violin / strip / beeswarm / ridge / raincloud
+default_tasks:
+  why:
+    goal: discover
+    search: browse
+    query: compare
+  low_level:
+  - characterize-distribution
+  - compare
+  - find-anomalies
+  - determine-range
+  temporal: []
+expected_shape:
+  dataset_type: table
+  keys:
+  - type: categorical
+    cardinality:
+    - few
+    - some
+  values:
+  - type: quantitative
+    semantics: amount
+preferred_idioms:
+- strip_plot
+- violin_plot
+- raincloud
+- beeswarm
+- box_plot
+- ridge_plot
+- wilkinson_dot_plot
+- small_multiples
+discouraged_idioms:
+- idiom: bar_chart
+  when: bars of means hide the distribution
+  rule: EXP-16
+- idiom: box_plot
+  when: multimodality matters
+  rule: EXP-16
+- idiom: raincloud
+  when: built from a density, randomly jittered points and a box plot with undefined whiskers
+  rule: IDM-RAINCLOUD
+- idiom: beeswarm
+  when: more than a few hundred points per group
+  rule: EFF-19
+- idiom: density_plot
+  when: values are discrete, rounded or bounded and the curve spills past the possible range
+  rule: EXP-22
+related_archetypes:
+- distribution-single
+- compare-values-across-categories
+- range-per-item
+disambiguation: Never summarise with bars of means (Wilmer & Kerns); show the points when n is small and a density
+  when n is large; state n per group. Points go at their true value (ticks, translucent or hollow marks); where
+  they must be spread use a beeswarm, stacked dots or a seeded documented offset, never an unseeded random one,
+  which redraws differently each time (EXP-21). A raincloud earns its layers only when each covers another's
+  weakness (density + strip + median with a labelled interval; Correll 2023).
+domain_examples:
+- treatment outcome by group
+- salary by department
+- fire size by cause

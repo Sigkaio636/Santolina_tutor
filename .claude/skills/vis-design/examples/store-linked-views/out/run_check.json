@@ -1,0 +1,66 @@
+{
+  "script": "/home/sigkaio/Desktop/clase/VI/.claude/skills/vis-design/examples/store-linked-views/store_sales_linked.py",
+  "library": "altair",
+  "ok": true,
+  "steps": [
+    {
+      "cmd": "/home/sigkaio/Desktop/clase/VI/Project1/vis/.venv/bin/python store_sales_linked.py --out-dir /home/sigkaio/Desktop/clase/VI/.claude/skills/vis-design/examples/store-linked-views/out",
+      "returncode": 0,
+      "stdout": "loaded 156 rows from /home/sigkaio/Desktop/clase/VI/.claude/skills/vis-design/examples/store-linked-views/store_weeks.csv\nwrote /home/sigkaio/Desktop/clase/VI/.claude/skills/vis-design/examples/store-linked-views/out/store_sales_linked.html\nwrote /home/sigkaio/Desktop/clase/VI/.claude/skills/vis-design/examples/store-linked-views/out/store_sales_linked.vl.json\nwrote /home/sigkaio/Desktop/clase/VI/.claude/skills/vis-design/examples/store-linked-views/out/store_sales_linked.png\n",
+      "stderr": "",
+      "seconds": 2.45,
+      "step": "run script"
+    },
+    {
+      "cmd": "/home/sigkaio/Desktop/clase/VI/Project1/vis/.venv/bin/python /home/sigkaio/Desktop/clase/VI/.claude/skills/vis-value-critique/scripts/inspect_vegalite.py /home/sigkaio/Desktop/clase/VI/.claude/skills/vis-design/examples/store-linked-views/out/store_sales_linked.vl.json",
+      "returncode": 0,
+      "stderr": "",
+      "seconds": 0.26,
+      "step": "sibling inspect_vegalite.py"
+    },
+    {
+      "cmd": "/home/sigkaio/Desktop/clase/VI/Project1/vis/.venv/bin/python -c from streamlit.testing.v1 import AppTest\nat = AppTest.from_file('app.py', default_timeout=60).run()\nimport json; print(json.dumps({'exceptions': [str(e) for e in at.exception], 'n_elements': len(at.main)}))",
+      "returncode": 0,
+      "stdout": "loaded 156 rows from /home/sigkaio/Desktop/clase/VI/.claude/skills/vis-design/examples/store-linked-views/store_weeks.csv\n{\"exceptions\": [], \"n_elements\": 2}\n",
+      "stderr": "2026-11-13 10:48:23.227 WARNING streamlit.runtime.scriptrunner_utils.script_run_context: Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n",
+      "seconds": 1.56,
+      "step": "streamlit AppTest"
+    }
+  ],
+  "outputs": [
+    {
+      "file": "/home/sigkaio/Desktop/clase/VI/.claude/skills/vis-design/examples/store-linked-views/out/store_sales_linked.html",
+      "bytes": 17996
+    },
+    {
+      "file": "/home/sigkaio/Desktop/clase/VI/.claude/skills/vis-design/examples/store-linked-views/out/store_sales_linked.png",
+      "bytes": 389459
+    },
+    {
+      "file": "/home/sigkaio/Desktop/clase/VI/.claude/skills/vis-design/examples/store-linked-views/out/store_sales_linked.vl.json",
+      "bytes": 16740
+    }
+  ],
+  "findings": [],
+  "blocking": [],
+  "warnings": [],
+  "environment": {
+    "missing_modules": [],
+    "png_renderer": true,
+    "streamlit": true
+  },
+  "sibling": "/home/sigkaio/Desktop/clase/VI/.claude/skills/vis-value-critique",
+  "inspector_warnings": [],
+  "inspector_ran_script": true,
+  "image_artifacts": [
+    "/home/sigkaio/Desktop/clase/VI/.claude/skills/vis-design/examples/store-linked-views/out/inspect/store_sales_linked_deuteranopia.png",
+    "/home/sigkaio/Desktop/clase/VI/.claude/skills/vis-design/examples/store-linked-views/out/inspect/store_sales_linked_protanopia.png",
+    "/home/sigkaio/Desktop/clase/VI/.claude/skills/vis-design/examples/store-linked-views/out/inspect/store_sales_linked_tritanopia.png",
+    "/home/sigkaio/Desktop/clase/VI/.claude/skills/vis-design/examples/store-linked-views/out/inspect/store_sales_linked_grayscale.png"
+  ],
+  "image_findings": [],
+  "streamlit": {
+    "exceptions": [],
+    "n_elements": 2
+  }
+}

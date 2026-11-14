@@ -1,0 +1,5 @@
+library: plotly
+host: script
+output_dir: out
+disabled_seeds: []
+updated: '2026-11-01'

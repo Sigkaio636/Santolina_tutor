@@ -1,0 +1,63 @@
+# Problem archetype: Composition changing over time
+id: part-to-whole-over-time
+name: Composition changing over time
+question_templates:
+- How has the share of each {category} in {total} changed over {time}?
+catalog_functions:
+- part-to-a-whole
+- data-over-time
+chart_types_md_sections:
+- Time series / Area / stacked area / streamgraph
+- Quantities / Normalized (100 %) stacked bar
+default_tasks:
+  why:
+    goal: present
+    search: browse
+    query: compare
+  low_level:
+  - trend
+  - compare
+  - gist
+  - compute-derived
+  temporal:
+  - pattern
+  - rate-of-change
+expected_shape:
+  dataset_type: table
+  keys:
+  - type: temporal
+    cardinality:
+    - some
+    - many
+  - type: categorical
+    cardinality:
+    - few
+  values:
+  - type: quantitative
+    semantics: share
+preferred_idioms:
+- stacked_area_graph
+- stacked_bar_graph
+- small_multiples
+- line_graph
+- stream_graph
+discouraged_idioms:
+- idiom: stream_graph
+  when: exact values or few time steps
+  rule: EXP-06
+- idiom: stacked_area_graph
+  when: more than 5–6 categories or non-additive values
+  rule: IDM-STACK
+- idiom: pie_chart
+  when: always
+  rule: IDM-PIE
+related_archetypes:
+- category-breakdown-over-time
+- trend-few-series
+- part-to-whole-single
+disambiguation: If the reader must compare individual categories rather than the composition, use small multiples
+  or lines (category-breakdown-over-time).
+domain_examples:
+- energy mix per year
+- share of each cause in annual incidents
+- device share of web traffic by month

@@ -1,0 +1,57 @@
+# Problem archetype: Three or more measures per item
+id: multivariate-relationships
+name: Three or more measures per item
+question_templates:
+- How do items compare across {measures}?
+- Are there groups of items with similar profiles?
+catalog_functions:
+- relationships
+- patterns
+chart_types_md_sections:
+- Relationships / Scatterplot matrix (SPLOM)
+- Relationships / Parallel coordinates
+- Relationships / Bubble chart
+default_tasks:
+  why:
+    goal: discover
+    search: explore
+    query: summarize
+  low_level:
+  - correlate
+  - cluster
+  - find-anomalies
+  - compare
+  temporal: []
+expected_shape:
+  dataset_type: table
+  keys:
+  - type: categorical
+    cardinality:
+    - some
+    - many
+  values:
+  - type: quantitative
+  - type: quantitative
+  - type: quantitative
+preferred_idioms:
+- parallel_coordinates
+- scatterplot
+- bubble_chart
+- heatmap
+- small_multiples
+discouraged_idioms:
+- idiom: radar_chart
+  when: axis order is arbitrary and polygons mislead
+  rule: IDM-RADAR/GAUGE
+- idiom: bubble_chart
+  when: more than 3 measures
+  rule: EFF-11
+related_archetypes:
+- correlation-two-quantities
+- compare-two-keys
+disambiguation: 'Analysts: parallel coordinates or SPLOM with brushing; general readers: pick the two measures that
+  answer the question (correlation-two-quantities) or a heatmap of items × measures (normalised).'
+domain_examples:
+- car specs
+- country indicators
+- player statistics

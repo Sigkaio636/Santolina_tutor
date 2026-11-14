@@ -1,0 +1,109 @@
+# vis-design seed decision: Individual events with coordinates as a dot map
+schema_version: 1
+id: point-events-on-map--dot-map
+status: declared
+title: Individual events with coordinates as a dot map
+problem:
+  archetype: point-events-on-map
+  catalog_functions:
+  - location
+  - distribution
+  statement: Where do {events} happen?
+  mode: analysis
+  domain_examples:
+  - ignition points
+  - store locations
+  - accident sites
+user:
+  profile: domain-expert
+  modifiers: []
+tasks:
+  why:
+    goal: discover
+    search: browse
+    query: identify
+  low_level:
+  - cluster
+  - gist
+  - find-anomalies
+  temporal: []
+  shneiderman:
+  - overview
+  - zoom
+  - filter
+data:
+  dataset_type: geometry
+  keys:
+  - role: location
+    type: geo-code
+    cardinality: huge
+  values: []
+  items: medium
+constraints: []
+solution:
+  idiom: dot_map
+  family: map-symbol
+  mark: point
+  encodings:
+  - attribute: location
+    channel: position-x
+    scale: nominal
+    note: lon/lat
+  - attribute: none
+    channel: color-hue
+    scale: nominal
+  derived_data:
+  - optional hex-binned counts when points exceed a few thousand
+  ordering: n/a
+  color:
+    purpose: none
+    palette_type: neutral-accent
+    suggested:
+    - '#4d4d4d'
+    cvd_safe: true
+  text:
+    title: descriptive
+    axis_units: true
+    direct_labels: false
+    annotations: []
+    source_line: true
+  interaction:
+    level: optional
+    default_state_answers_task: true
+    intents:
+    - filter
+    - select
+    - abstract-elaborate
+  layout:
+    small_multiples: false
+    facet_by: null
+    aspect: square
+  rejected_alternatives:
+  - idiom: choropleth
+    reason: events are points, not rates
+    rule: EXP-12
+  - idiom: bubble_map
+    reason: no magnitude per point
+    rule: EFF-02
+  validation:
+    stage3_checks:
+    - EFF-16
+    - IDM-MAP
+    critique_skill: optional
+  library_notes:
+    altair: mark_circle with longitude/latitude over mark_geoshape
+    matplotlib: scatter over a basemap
+    plotly: px.scatter_geo / scatter_mapbox
+rationale: Positions show spatial clustering directly; opacity or binning handles overplotting when events are many.
+confidence: medium
+provenance:
+  origin: seed
+  author: vis-design
+  created: '2026-11-07'
+  updated: '2026-11-07'
+  times_used: 0
+  last_used: null
+  supersedes: null
+  sources:
+  - Munzner 2014
+  - Wilke 2019

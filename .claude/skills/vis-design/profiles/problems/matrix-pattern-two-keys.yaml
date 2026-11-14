@@ -1,0 +1,61 @@
+# Problem archetype: Pattern across two keys with many levels
+id: matrix-pattern-two-keys
+name: Pattern across two keys with many levels
+question_templates:
+- Where do {measure} concentrate across {category} × {category2}?
+- Which combinations are unusual?
+catalog_functions:
+- patterns
+- relationships
+chart_types_md_sections:
+- Relationships / Heat map
+default_tasks:
+  why:
+    goal: discover
+    search: browse
+    query: identify
+  low_level:
+  - cluster
+  - find-anomalies
+  - compare
+  - find-extremum
+  temporal: []
+expected_shape:
+  dataset_type: table
+  keys:
+  - type: categorical
+    cardinality:
+    - some
+    - many
+    - huge
+  - type: categorical
+    cardinality:
+    - some
+    - many
+    - huge
+  values:
+  - type: quantitative
+    semantics: amount
+preferred_idioms:
+- heatmap
+- dendrogram
+- bubble_chart
+- small_multiples
+discouraged_idioms:
+- idiom: multiset_barchart
+  when: more than ~12 groups
+  rule: EFF-19
+- idiom: stacked_bar_graph
+  when: many categories
+  rule: IDM-STACK
+related_archetypes:
+- compare-two-keys
+- trend-many-series
+- network-relationships
+disambiguation: Order rows and columns by totals or clustering; a categorical palette for values is wrong (sequential
+  or diverging). A dendrogram is a companion on the margin of a cluster-ordered heatmap, showing why the rows
+  sit where they do; it is not a replacement for the matrix.
+domain_examples:
+- product × region sales
+- origin × destination trips
+- gene × sample expression

@@ -1,0 +1,123 @@
+# vis-design seed decision: Two keys, one with many levels, as a heatmap
+schema_version: 1
+id: compare-two-keys--heatmap-one-key-many
+status: declared
+title: Two keys, one with many levels, as a heatmap
+problem:
+  archetype: compare-two-keys
+  catalog_functions:
+  - comparisons
+  - patterns
+  statement: How does {measure} vary across {category} × {category2}?
+  mode: analysis
+  domain_examples:
+  - incidents by cause and region
+  - spend by vendor and month
+  - species counts by site and season
+user:
+  profile: domain-expert
+  modifiers: []
+tasks:
+  why:
+    goal: discover
+    search: browse
+    query: compare
+  low_level:
+  - compare
+  - find-anomalies
+  - cluster
+  - find-extremum
+  temporal: []
+  shneiderman:
+  - overview
+  - details-on-demand
+data:
+  dataset_type: table
+  keys:
+  - role: category
+    type: categorical
+    cardinality: few
+  - role: category2
+    type: categorical
+    cardinality: many
+  values:
+  - role: measure
+    type: quantitative
+    semantics: amount
+  items: small
+constraints: []
+solution:
+  idiom: heatmap
+  family: heatmap
+  mark: rect
+  encodings:
+  - attribute: category2
+    channel: position-y
+    scale: ordinal
+    sort: row total desc
+  - attribute: category
+    channel: position-x
+    scale: ordinal
+  - attribute: measure
+    channel: color-luminance
+    scale: sequential
+    zero: true
+  derived_data:
+  - sum per (category, category2)
+  - row-normalised share as an optional second view
+  ordering: rows by total descending, columns in natural order
+  color:
+    purpose: encode-value
+    palette_type: sequential
+    suggested:
+    - viridis
+    - blues
+    cvd_safe: true
+  text:
+    title: descriptive
+    axis_units: true
+    direct_labels: false
+    annotations:
+    - max cell annotated
+    source_line: true
+  interaction:
+    level: optional
+    default_state_answers_task: true
+    intents:
+    - abstract-elaborate
+  layout:
+    small_multiples: false
+    facet_by: null
+    aspect: wide
+  rejected_alternatives:
+  - idiom: multiset_barchart
+    reason: dozens of groups exceed the idiom's scale
+    rule: EFF-19
+  - idiom: stacked_bar_graph
+    reason: middle segments have no baseline
+    rule: IDM-STACK
+  validation:
+    stage3_checks:
+    - IDM-HEATMAP
+    - COL-02
+    - CMP-01
+    - COL-04
+    critique_skill: optional
+  library_notes:
+    altair: mark_rect, color quantitative with scheme, sort rows by sum
+    matplotlib: pcolormesh on a pivot; ordered categoricals
+    plotly: px.imshow / go.Heatmap
+rationale: Position on both axes carries the keys exactly and luminance gives ~10 distinguishable levels, enough
+  for pattern and anomaly tasks at this scale.
+confidence: high
+provenance:
+  origin: seed
+  author: vis-design
+  created: '2026-11-07'
+  updated: '2026-11-07'
+  times_used: 0
+  last_used: null
+  supersedes: null
+  sources:
+  - Munzner 2014
+  - Wilke 2019

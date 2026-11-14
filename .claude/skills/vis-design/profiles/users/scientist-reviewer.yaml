@@ -1,0 +1,75 @@
+# User profile: Scientist or reviewer
+id: scientist-reviewer
+name: Scientist or reviewer
+summary: Reads figures in papers and technical reports with high statistical literacy and scepticism.
+  Wants distributions rather than means, uncertainty and sample sizes stated, honest axes, and figures
+  that survive grayscale printing.
+capabilities:
+  vis_literacy: high
+  domain_knowledge: high
+  statistical_literacy: high
+  time_per_chart: minutes
+  interaction_tolerance: low
+  working_memory_budget: 4
+  learned_idioms:
+  - bar
+  - line
+  - scatter
+  - distribution
+  - heatmap
+  - small-multiples
+  - slope
+  - table
+  - histogram
+  needs_explanation:
+  - network
+  - parallel
+  - stacked-area
+cognitive_tasks:
+  why:
+    goal: present
+    search: locate
+    query: compare
+  low_level_primary:
+  - characterize-distribution
+  - determine-range
+  - find-anomalies
+  - compare
+  low_level_secondary:
+  - correlate
+  - retrieve-value
+  - trend
+  shneiderman:
+  - overview
+  - details-on-demand
+text_needs:
+  title_style: descriptive
+  annotation_density: medium
+  needs_units_and_n: true
+confidence_needs:
+- n
+- uncertainty-definition
+- source
+- method
+- units
+default_mode: analysis
+default_modifiers:
+- print-grayscale
+avoid:
+- pie
+- mean-bars-without-data
+- dual-axes
+- radial
+- word-cloud
+- 3d
+prefer_families:
+- distribution
+- scatter
+- small-multiples
+- dot-plot
+- line
+- heatmap
+typical_readers:
+- peer reviewer
+- thesis committee member
+- lab colleague reading a results figure

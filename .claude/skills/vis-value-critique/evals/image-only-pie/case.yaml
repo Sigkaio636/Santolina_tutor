@@ -1,0 +1,6 @@
+schema_version: "1.1"
+name: image-only-pie
+expected_outcome: |
+  A critique that looks at the image and its derived CVD/grayscale versions, flags the 8-slice exploded pie (IDM-PIE, EFF-02), the red/green Set1 palette (COL-05), the missing title/source, and recommends a sorted bar chart; it states the assumed purpose and scores value.
+context:
+  scaffold_script: place-files.sh

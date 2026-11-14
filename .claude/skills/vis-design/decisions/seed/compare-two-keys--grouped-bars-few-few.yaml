@@ -1,0 +1,117 @@
+# vis-design seed decision: Two small categorical keys as grouped bars
+schema_version: 1
+id: compare-two-keys--grouped-bars-few-few
+status: declared
+title: Two small categorical keys as grouped bars
+problem:
+  archetype: compare-two-keys
+  catalog_functions:
+  - comparisons
+  statement: Within each {category}, how does {measure} compare across {category2}?
+  mode: explanatory
+  domain_examples:
+  - sales by region and product line
+  - votes by district and party
+  - grades by course and cohort
+user:
+  profile: executive
+  modifiers: []
+tasks:
+  why:
+    goal: present
+    search: lookup
+    query: compare
+  low_level:
+  - compare
+  - find-extremum
+  - retrieve-value
+  temporal: []
+  shneiderman:
+  - overview
+data:
+  dataset_type: table
+  keys:
+  - role: category
+    type: categorical
+    cardinality: few
+  - role: category2
+    type: categorical
+    cardinality: few
+  values:
+  - role: measure
+    type: quantitative
+    semantics: amount
+  items: tiny
+constraints: []
+solution:
+  idiom: multiset_barchart
+  family: grouped-bar
+  mark: line
+  encodings:
+  - attribute: category
+    channel: position-x
+    scale: nominal
+  - attribute: category2
+    channel: color-hue
+    scale: nominal
+  - attribute: measure
+    channel: length
+    scale: linear
+    zero: true
+  derived_data:
+  - sum per (category, category2)
+  ordering: groups by total descending; consistent series order
+  color:
+    purpose: distinguish
+    palette_type: qualitative
+    suggested:
+    - okabe-ito
+    max_hues: 5
+    cvd_safe: true
+    second_cue: direct label
+  text:
+    title: takeaway
+    axis_units: true
+    direct_labels: true
+    annotations: []
+    source_line: true
+  interaction:
+    level: none
+    default_state_answers_task: true
+    intents: []
+  layout:
+    small_multiples: false
+    facet_by: null
+    aspect: wide
+  rejected_alternatives:
+  - idiom: stacked_bar_graph
+    reason: within-group comparison needs a common baseline
+    rule: IDM-STACK
+  - idiom: heatmap
+    reason: too few levels; length is more accurate than color
+    rule: EFF-01
+  validation:
+    stage3_checks:
+    - EXP-08
+    - COL-04
+    - EFF-19
+    - TXT-04
+    critique_skill: optional
+  library_notes:
+    altair: mark_bar with xOffset=category2
+    matplotlib: grouped bars via offsets; ax.legend outside
+    plotly: px.bar barmode='group'
+rationale: With ≤5 × ≤5 levels, grouped bars keep every value on a common baseline; hue identifies the secondary
+  key within working-memory limits.
+confidence: high
+provenance:
+  origin: seed
+  author: vis-design
+  created: '2026-11-07'
+  updated: '2026-11-07'
+  times_used: 0
+  last_used: null
+  supersedes: null
+  sources:
+  - Munzner 2014
+  - Wilke 2019

@@ -1,0 +1,71 @@
+# Problem archetype: A measure per region across periods
+id: spatial-change-over-time
+name: A measure per region across periods
+question_templates:
+- How has {measure} per {region} evolved over {time}?
+- Which regions changed most?
+catalog_functions:
+- location
+- data-over-time
+chart_types_md_sections:
+- Time series / Small multiples
+- Geospatial / Choropleth
+- Relationships / Heat map
+default_tasks:
+  why:
+    goal: discover
+    search: browse
+    query: compare
+  low_level:
+  - compare
+  - trend
+  - find-anomalies
+  - find-extremum
+  temporal:
+  - pattern
+  - rate-of-change
+  - synchronization
+expected_shape:
+  dataset_type: geometry
+  keys:
+  - type: temporal
+    cardinality:
+    - few
+    - some
+  - type: geo-code
+    cardinality:
+    - some
+    - many
+  values:
+  - type: quantitative
+    semantics: rate
+preferred_idioms:
+- small_multiples
+- heatmap
+- slope_chart
+- choropleth
+- arrow_map
+- spike_map
+- tile_cartogram
+discouraged_idioms:
+- idiom: choropleth
+  when: more than ~6 periods as separate maps
+  rule: CMP-08
+- idiom: line_graph
+  when: more than ~7 regions
+  rule: IDM-LINE
+- idiom: arrow_map
+  when: more than two periods, or small dense regions where arrows overlap
+  rule: EFF-16
+related_archetypes:
+- trend-many-series
+- spatial-distribution
+- rank-change-two-points
+disambiguation: Few periods → small multiple maps or a slope chart of regions; many periods → region × time heatmap
+  (regions as rows), which is trend-many-series with a geographic key. Exactly two periods → map the difference
+  itself, one arrow per region (direction and length of the shift) or spikes of the change in totals, instead of
+  two maps to subtract by eye; a tile cartogram can hold a small trend chart per region.
+domain_examples:
+- fires per county per year
+- rainfall per station per month
+- votes per district across elections

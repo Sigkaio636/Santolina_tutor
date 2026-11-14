@@ -1,0 +1,58 @@
+# Problem archetype: One measure over time
+id: trend-single-series
+name: One measure over time
+question_templates:
+- How has {measure} changed over {time}?
+- When did {measure} peak?
+catalog_functions:
+- data-over-time
+chart_types_md_sections:
+- Time series / Line chart
+default_tasks:
+  why:
+    goal: present
+    search: browse
+    query: identify
+  low_level:
+  - trend
+  - find-extremum
+  - find-anomalies
+  - retrieve-value
+  temporal:
+  - pattern
+  - rate-of-change
+  - temporal-location
+expected_shape:
+  dataset_type: table
+  keys:
+  - type: temporal
+    cardinality:
+    - some
+    - many
+    - huge
+  values:
+  - type: quantitative
+    semantics: amount
+preferred_idioms:
+- line_graph
+- area_graph
+- bar_chart
+discouraged_idioms:
+- idiom: bar_chart
+  when: more than ~12 periods or the task is trend
+  rule: EXP-04
+- idiom: area_graph
+  when: axis not from zero
+  rule: EXP-08
+- idiom: pie_chart
+  when: always
+  rule: IDM-PIE
+related_archetypes:
+- trend-few-series
+- seasonality-cycles
+disambiguation: Few discrete totals (yearly) where amounts matter can be bars from zero; otherwise a line. Annotate
+  events that explain spikes.
+domain_examples:
+- monthly revenue
+- annual number of incidents
+- daily temperature

@@ -1,0 +1,132 @@
+# vis-design seed decision: Distributions by group as strip plots with a median marker
+schema_version: 1
+id: distribution-compare-groups--strip-with-summary
+status: declared
+title: Distributions by group as strip plots with a median marker
+problem:
+  archetype: distribution-compare-groups
+  catalog_functions:
+  - distribution
+  - comparisons
+  statement: How does the distribution of {measure} differ between {category}?
+  mode: analysis
+  domain_examples:
+  - outcome by treatment group
+  - salary by department
+  - event size by cause
+user:
+  profile: scientist-reviewer
+  modifiers: []
+tasks:
+  why:
+    goal: discover
+    search: browse
+    query: compare
+  low_level:
+  - characterize-distribution
+  - compare
+  - find-anomalies
+  - determine-range
+  temporal: []
+  shneiderman:
+  - overview
+  - details-on-demand
+data:
+  dataset_type: table
+  keys:
+  - role: category
+    type: categorical
+    cardinality: few
+  values:
+  - role: measure
+    type: quantitative
+    semantics: amount
+  items: small
+constraints:
+- uncertainty
+solution:
+  idiom: strip_plot
+  family: distribution
+  mark: point
+  encodings:
+  - attribute: category
+    channel: position-x
+    scale: nominal
+  - attribute: measure
+    channel: position-y
+    scale: linear
+    zero: false
+  - attribute: derived
+    channel: position-y
+    scale: linear
+    marker: median tick
+  - attribute: none
+    channel: color-luminance
+    note: translucent or hollow marks, so ties and dense stretches read darker
+  derived_data:
+  - median and IQR per group; n per group
+  ordering: groups by median descending
+  color:
+    purpose: none
+    palette_type: neutral-accent
+    suggested:
+    - '#4d4d4d'
+    cvd_safe: true
+  text:
+    title: descriptive
+    axis_units: true
+    direct_labels: false
+    annotations:
+    - n per group under each strip
+    - median value
+    source_line: true
+  interaction:
+    level: optional
+    default_state_answers_task: true
+    intents:
+    - abstract-elaborate
+  layout:
+    small_multiples: false
+    facet_by: null
+    aspect: wide
+  rejected_alternatives:
+  - idiom: bar_chart
+    reason: bars of means hide distribution and invite the bar-tip error
+    rule: EXP-16
+  - idiom: box_plot
+    reason: multimodality hidden; kept only for n > 500
+    rule: EXP-16
+  - idiom: beeswarm
+    reason: kept for heavy ties; unseeded random jitter is never used, it redraws differently each time
+    rule: EXP-21
+  validation:
+    stage3_checks:
+    - EXP-16
+    - DAT-03
+    - EXP-21
+    - TXT-08
+    critique_skill: optional
+  library_notes:
+    altair: values at their true position with mark_tick, or translucent/hollow mark_point; a longer mark_tick for the
+      median. If points must be spread, compute a seeded, documented offset or beeswarm positions in pandas, never
+      a random() transform
+    matplotlib: eventplot per group, or scatter with alpha and no offset; hlines for medians. Any offset comes from
+      a seeded generator and is stated
+    plotly: go.Box with boxpoints='all', jitter=0 (box hidden), or px.strip with jitter set to 0; go.Scatter median
+      markers
+rationale: Showing every observation at its true value makes overlap and shape visible, which bars of means cannot
+  (Wilmer & Kerns); the median tick keeps the summary task. Points are not randomly jittered, because the picture
+  would change on every render (Correll 2023); ties show through opacity, or a beeswarm takes over.
+confidence: high
+provenance:
+  origin: seed
+  author: vis-design
+  created: '2026-11-07'
+  updated: '2026-11-13'
+  times_used: 0
+  last_used: null
+  supersedes: null
+  sources:
+  - Wilmer & Kerns 2022
+  - Weissgerber et al. 2015
+  - Correll 2023

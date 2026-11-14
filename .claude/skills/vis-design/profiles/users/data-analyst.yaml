@@ -1,0 +1,79 @@
+# User profile: Data analyst
+id: data-analyst
+name: Data analyst
+summary: Explores to find the questions worth asking, for sustained sessions. Expects interaction (filter,
+  brush, reconfigure), linked views and dense multivariate idioms; cares about distributions and outliers,
+  not polish.
+capabilities:
+  vis_literacy: high
+  domain_knowledge: medium
+  statistical_literacy: high
+  time_per_chart: sustained
+  interaction_tolerance: high
+  working_memory_budget: 4
+  learned_idioms:
+  - bar
+  - line
+  - scatter
+  - heatmap
+  - distribution
+  - parallel
+  - small-multiples
+  - network
+  - stacked-bar
+  - grouped-bar
+  - map-choropleth
+  - table
+  needs_explanation: []
+cognitive_tasks:
+  why:
+    goal: discover
+    search: explore
+    query: summarize
+  low_level_primary:
+  - correlate
+  - cluster
+  - filter
+  - characterize-distribution
+  - find-anomalies
+  low_level_secondary:
+  - compute-derived
+  - determine-range
+  - sort
+  - trend
+  shneiderman:
+  - overview
+  - zoom
+  - filter
+  - details-on-demand
+  - relate
+  - history
+  - extract
+text_needs:
+  title_style: descriptive
+  annotation_density: low
+  needs_units_and_n: true
+confidence_needs:
+- n
+- aggregation-method
+- missing-data
+- filters-applied
+default_mode: exploration
+default_modifiers: []
+avoid:
+- pie
+- radial
+- word-cloud
+- gauge
+- proportional-area
+prefer_families:
+- scatter
+- heatmap
+- parallel
+- small-multiples
+- distribution
+- line
+typical_readers:
+- data scientist in an exploratory session
+- BI analyst building a view
+- researcher cleaning a dataset

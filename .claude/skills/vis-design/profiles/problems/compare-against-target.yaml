@@ -1,0 +1,55 @@
+# Problem archetype: Compare actual values against a target or reference
+id: compare-against-target
+name: Compare actual values against a target or reference
+question_templates:
+- Is {measure} on target for each {category}?
+- How far is {measure} from the {reference}?
+catalog_functions:
+- comparisons
+- range
+chart_types_md_sections:
+- Quantities / Gauge vs bullet chart
+default_tasks:
+  why:
+    goal: present
+    search: lookup
+    query: compare
+  low_level:
+  - compare
+  - retrieve-value
+  - compute-derived
+  - find-anomalies
+  temporal: []
+expected_shape:
+  dataset_type: table
+  keys:
+  - type: categorical
+    cardinality:
+    - one
+    - few
+    - some
+  values:
+  - type: quantitative
+    semantics: amount
+  - type: quantitative
+    semantics: amount
+preferred_idioms:
+- bullet_graph
+- bar_chart
+- dumbbell_plot
+discouraged_idioms:
+- idiom: radar_chart
+  when: 'always: axis order is arbitrary'
+  rule: IDM-RADAR/GAUGE
+- idiom: pie_chart
+  when: always
+  rule: IDM-PIE
+related_archetypes:
+- compare-values-across-categories
+- range-per-item
+disambiguation: A reference can be a target, a previous period, a mean or a threshold; if the reference is itself
+  a full series over time, use trend-few-series with a reference line.
+domain_examples:
+- KPI vs plan per department
+- temperature vs threshold per sensor
+- vaccination rate vs goal per district

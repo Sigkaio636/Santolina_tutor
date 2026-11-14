@@ -1,0 +1,173 @@
+# vis-design seed decision: Scatterplot linked to a bar chart of categories
+schema_version: 1
+id: correlation-two-quantities--linked-scatter-and-bars
+status: declared
+title: Scatterplot linked to a bar chart of categories
+problem:
+  archetype: correlation-two-quantities
+  catalog_functions:
+  - relationships
+  - patterns
+  statement: How are {measure} and {measure2} related, and does the relation differ by {category}?
+  mode: exploration
+  domain_examples:
+  - price versus rating of products by type
+  - height versus weight of athletes by sport
+  - response time versus load of requests by service
+user:
+  profile: data-analyst
+  modifiers: []
+tasks:
+  why:
+    goal: discover
+    search: explore
+    query: compare
+  low_level:
+  - correlate
+  - cluster
+  - find-anomalies
+  - filter
+  - compare
+  temporal: []
+  shneiderman:
+  - overview
+  - filter
+  - relate
+  - details-on-demand
+data:
+  dataset_type: table
+  keys:
+  - role: category
+    type: categorical
+    cardinality: few
+  values:
+  - role: measure
+    type: quantitative
+    semantics: amount
+  - role: measure2
+    type: quantitative
+    semantics: amount
+  items: medium
+constraints:
+- interactive-required
+solution:
+  idiom: scatterplot
+  family: scatter
+  mark: point
+  encodings:
+  - attribute: measure
+    channel: position-x
+    scale: linear
+    zero: false
+    note: scatter view
+  - attribute: measure2
+    channel: position-y
+    scale: linear
+    zero: false
+    note: scatter view
+  - attribute: category
+    channel: position-y
+    scale: nominal
+    sort: count desc
+    note: 'bar view: one bar per category'
+  - attribute: derived
+    channel: length
+    scale: linear
+    zero: true
+    note: 'bar view: number of items per category, recomputed for the brushed points'
+  - attribute: highlight
+    channel: color-hue
+    scale: nominal
+    note: one accent colour for the selected category in both views; everything else grey
+  derived_data:
+  - count of items per category, for all items and for the brushed subset
+  ordering: bars by count descending; scatter beside the bars
+  color:
+    purpose: highlight
+    palette_type: neutral-accent
+    suggested:
+    - '#8c8c8c'
+    - '#0072b2'
+    cvd_safe: true
+    second_cue: selected points drawn on top with full opacity
+  text:
+    title: descriptive
+    axis_units: true
+    direct_labels: true
+    annotations:
+    - counts at the bar ends, showing selected / total
+    - 'hint: drag in the scatter to filter the bars, click a bar to highlight its points'
+    source_line: true
+  interaction:
+    level: required
+    default_state_answers_task: true
+    intents:
+    - select
+    - connect
+    - filter
+  layout:
+    small_multiples: false
+    facet_by: null
+    aspect: wide
+  composition:
+    type: juxtapose
+    relation: multiform
+    data_sharing: all
+    encoding_sharing: different
+    views:
+    - id: scatter
+      idiom: scatterplot
+      role: focus
+    - id: bars
+      idiom: bar_chart
+      role: context
+    links:
+    - from: scatter
+      to: bars
+      type: filter
+    - from: bars
+      to: scatter
+      type: highlight
+  rejected_alternatives:
+  - idiom: bubble_chart
+    reason: a third attribute on size adds clutter without showing category counts
+    rule: EFF-02
+  - idiom: small_multiples
+    reason: kept for the final comparison; panels per category hide the pooled relation
+    rule: CMP-13
+  - idiom: parallel_coordinates
+    reason: two measures and one category do not need it
+    rule: EFF-17
+  validation:
+    stage3_checks:
+    - CMP-09
+    - INT-09
+    - INT-10
+    - INT-11
+    - IDM-SCATTER
+    critique_skill: optional
+  library_notes:
+    altair: brush = alt.selection_interval() on the scatter; bars use transform_filter(brush) over a grey layer
+      of the totals; pick = alt.selection_point(fields=[category]) on the bars; scatter and bars colour = alt.condition(pick,
+      alt.value(accent), alt.value(grey)); scatter | bars
+    matplotlib: 'static only: draw the pair once per category of interest; linked brushing needs widgets (LassoSelector)
+      and manual redraw'
+    plotly: linked selection across traces needs Dash callbacks (selectedData → figure update); within one figure
+      use make_subplots with a shared customdata key
+rationale: 'Two idioms of the same items answer different questions: the scatter shows the relation, the bars show
+  who the points are. Linking them both ways lets the analyst ask which categories fill a region and where a category
+  sits, and a single accent colour with one meaning keeps the two views one display (Munzner 2014 ch. 12; Roberts
+  2007). Highlighting, not filtering, is used on the scatter so the pooled cloud stays as context.'
+confidence: high
+provenance:
+  origin: seed
+  author: vis-design
+  created: '2026-11-13'
+  updated: '2026-11-13'
+  times_used: 0
+  last_used: null
+  supersedes: null
+  sources:
+  - Munzner 2014
+  - Roberts 2007
+  - Becker & Cleveland 1987

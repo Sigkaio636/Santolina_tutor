@@ -1,0 +1,129 @@
+# vis-design seed decision: Composition over time with few categories as a 100% stacked area
+schema_version: 1
+id: part-to-whole-over-time--stacked-area-few
+status: declared
+title: Composition over time with few categories as a 100% stacked area
+problem:
+  archetype: part-to-whole-over-time
+  catalog_functions:
+  - part-to-a-whole
+  - data-over-time
+  statement: How has the share of each {category} in {total} changed over {time}?
+  mode: explanatory
+  domain_examples:
+  - energy mix per year
+  - share of each cause in annual incidents
+  - device share of traffic by month
+user:
+  profile: communicator-journalist
+  modifiers: []
+tasks:
+  why:
+    goal: present
+    search: browse
+    query: compare
+  low_level:
+  - trend
+  - compare
+  - gist
+  temporal:
+  - pattern
+  - rate-of-change
+  shneiderman:
+  - overview
+data:
+  dataset_type: table
+  keys:
+  - role: time
+    type: temporal
+    cardinality: some
+    grain: year
+  - role: category
+    type: categorical
+    cardinality: few
+  values:
+  - role: measure
+    type: quantitative
+    semantics: share
+    derived: true
+    derivation: share per period = part / period total
+  items: small
+constraints: []
+solution:
+  idiom: stacked_area_graph
+  family: stacked-area
+  mark: area
+  encodings:
+  - attribute: time
+    channel: position-x
+    scale: temporal
+  - attribute: measure
+    channel: length
+    scale: linear
+    zero: true
+    stack: normalize
+  - attribute: category
+    channel: color-hue
+    scale: nominal
+  derived_data:
+  - share per (period, category)
+  ordering: largest category at the bottom, stable order across periods
+  color:
+    purpose: distinguish
+    palette_type: qualitative
+    suggested:
+    - okabe-ito
+    max_hues: 6
+    cvd_safe: true
+    second_cue: direct label
+  text:
+    title: takeaway
+    axis_units: true
+    direct_labels: true
+    annotations:
+    - labels inside bands at the last period
+    source_line: true
+  interaction:
+    level: optional
+    default_state_answers_task: true
+    intents:
+    - abstract-elaborate
+  layout:
+    small_multiples: false
+    facet_by: null
+    aspect: wide
+  rejected_alternatives:
+  - idiom: stream_graph
+    reason: no baseline; exact shares unreadable
+    rule: EXP-06
+  - idiom: pie_chart
+    reason: one pie per period cannot be compared
+    rule: IDM-PIE
+  - idiom: small_multiples
+    reason: composition, not individual trends, is the question
+    rule: CMP-05
+  validation:
+    stage3_checks:
+    - IDM-STACK
+    - EXP-06
+    - EFF-06
+    - COL-04
+    critique_skill: optional
+  library_notes:
+    altair: mark_area with stack='normalize'
+    matplotlib: stackplot on shares
+    plotly: px.area groupnorm='fraction'
+rationale: With ≤6 additive categories the bottom and top bands read exactly and the middle ones read as trends;
+  normalising to 100% answers the share question directly.
+confidence: high
+provenance:
+  origin: seed
+  author: vis-design
+  created: '2026-11-07'
+  updated: '2026-11-07'
+  times_used: 0
+  last_used: null
+  supersedes: null
+  sources:
+  - Munzner 2014
+  - Wilke 2019

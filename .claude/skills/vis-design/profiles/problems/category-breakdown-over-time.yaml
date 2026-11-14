@@ -1,0 +1,66 @@
+# Problem archetype: Counts per category over time
+id: category-breakdown-over-time
+name: Counts per category over time
+question_templates:
+- How has the number of {events} by {category} evolved over {time}?
+- Is {category} replacing {category2} over {time}?
+catalog_functions:
+- data-over-time
+- proportions
+chart_types_md_sections:
+- Time series / Area / stacked area / streamgraph
+- Time series / Line chart
+- Time series / Small multiples
+default_tasks:
+  why:
+    goal: present
+    search: browse
+    query: compare
+  low_level:
+  - trend
+  - compare
+  - compute-derived
+  - gist
+  temporal:
+  - pattern
+  - rate-of-change
+expected_shape:
+  dataset_type: table
+  keys:
+  - type: temporal
+    cardinality:
+    - some
+    - many
+  - type: categorical
+    cardinality:
+    - few
+    - some
+  values:
+  - type: quantitative
+    semantics: count
+preferred_idioms:
+- line_graph
+- small_multiples
+- stacked_bar_graph
+- stacked_area_graph
+- heatmap
+discouraged_idioms:
+- idiom: stacked_area_graph
+  when: more than 5–6 categories
+  rule: IDM-STACK
+- idiom: multiset_barchart
+  when: time as groups
+  rule: EXP-04
+- idiom: pie_chart
+  when: always
+  rule: IDM-PIE
+related_archetypes:
+- trend-few-series
+- trend-many-series
+- part-to-whole-over-time
+disambiguation: 'This is a router: ≤7 categories and individual trends → trend-few-series; shares → part-to-whole-over-time;
+  many categories → trend-many-series.'
+domain_examples:
+- fires by cause per year
+- tickets by type per week
+- enrolments by programme per year

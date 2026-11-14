@@ -1,0 +1,125 @@
+# vis-design seed decision: Quantities moving between categories as a Sankey
+schema_version: 1
+id: flow-between-states--sankey
+status: declared
+title: Quantities moving between categories as a Sankey
+problem:
+  archetype: flow-between-states
+  catalog_functions:
+  - movement-or-flow
+  - how-things-work
+  statement: Where does {total} go from {source} to {target}?
+  mode: explanatory
+  domain_examples:
+  - energy balance
+  - customer journey stages
+  - budget allocation
+user:
+  profile: executive
+  modifiers: []
+tasks:
+  why:
+    goal: present
+    search: browse
+    query: compare
+  low_level:
+  - find-extremum
+  - compare
+  - gist
+  - compute-derived
+  temporal: []
+  shneiderman:
+  - overview
+  - details-on-demand
+data:
+  dataset_type: network
+  keys:
+  - role: source
+    type: categorical
+    cardinality: few
+  - role: target
+    type: categorical
+    cardinality: some
+  values:
+  - role: weight
+    type: quantitative
+    semantics: weight
+  items: tiny
+constraints: []
+solution:
+  idiom: sankey_diagram
+  family: flow
+  mark: area
+  encodings:
+  - attribute: source
+    channel: position-x
+    scale: ordinal
+    note: left column
+  - attribute: target
+    channel: position-x
+    scale: ordinal
+    note: right column
+  - attribute: weight
+    channel: size
+    scale: linear
+  - attribute: source
+    channel: color-hue
+    scale: nominal
+  derived_data:
+  - flows below 2% of the total grouped as 'other'
+  ordering: nodes by flow descending
+  color:
+    purpose: distinguish
+    palette_type: qualitative
+    suggested:
+    - okabe-ito
+    max_hues: 7
+    cvd_safe: true
+    second_cue: direct label
+  text:
+    title: takeaway
+    axis_units: true
+    direct_labels: true
+    annotations:
+    - largest flow labelled with value
+    source_line: true
+  interaction:
+    level: optional
+    default_state_answers_task: true
+    intents:
+    - abstract-elaborate
+  layout:
+    small_multiples: false
+    facet_by: null
+    aspect: wide
+  rejected_alternatives:
+  - idiom: chord_diagram
+    reason: more than ~12 nodes tangle
+    rule: EFF-16
+  - idiom: heatmap
+    reason: loses the flow metaphor for few nodes; use when source × target exceeds ~15 × 15
+    rule: IDM-HEATMAP
+  validation:
+    stage3_checks:
+    - EFF-02
+    - EFF-16
+    - CMP-01
+    critique_skill: optional
+  library_notes:
+    altair: 'no native Sankey: use plotly or precomputed paths'
+    matplotlib: matplotlib.sankey (single node) or precomputed polygons
+    plotly: go.Sankey
+rationale: Band width is read as proportion well enough for few nodes, and the flow metaphor matches the question;
+  labels carry exact values.
+confidence: high
+provenance:
+  origin: seed
+  author: vis-design
+  created: '2026-11-07'
+  updated: '2026-11-07'
+  times_used: 0
+  last_used: null
+  supersedes: null
+  sources:
+  - Munzner 2014
+  - Wilke 2019

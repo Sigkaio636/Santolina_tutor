@@ -1,0 +1,76 @@
+# User profile: Domain expert (not a visualization specialist)
+id: domain-expert
+name: Domain expert (not a visualization specialist)
+summary: Knows the entities, units and categories intimately and wants to confirm or challenge what they
+  already suspect. Tolerates dense charts if the labels are the ones they use daily; reads for minutes.
+capabilities:
+  vis_literacy: medium
+  domain_knowledge: high
+  statistical_literacy: medium
+  time_per_chart: minutes
+  interaction_tolerance: medium
+  working_memory_budget: 4
+  learned_idioms:
+  - bar
+  - line
+  - scatter
+  - heatmap
+  - map-choropleth
+  - distribution
+  - table
+  - grouped-bar
+  - stacked-bar
+  needs_explanation:
+  - parallel
+  - network
+  - stacked-area
+  - radial
+cognitive_tasks:
+  why:
+    goal: discover
+    search: browse
+    query: compare
+  low_level_primary:
+  - find-anomalies
+  - compare
+  - retrieve-value
+  - characterize-distribution
+  low_level_secondary:
+  - find-extremum
+  - sort
+  - determine-range
+  - trend
+  shneiderman:
+  - overview
+  - zoom
+  - filter
+  - details-on-demand
+text_needs:
+  title_style: descriptive
+  annotation_density: medium
+  needs_units_and_n: true
+confidence_needs:
+- source
+- n
+- aggregation-method
+- period
+- normalization
+default_mode: analysis
+default_modifiers: []
+avoid:
+- pie-over-5
+- gauge
+- word-cloud
+- radial
+prefer_families:
+- heatmap
+- small-multiples
+- dot-plot
+- line
+- distribution
+- map-choropleth
+typical_readers:
+- epidemiologist
+- forest engineer
+- sales operations lead
+- clinician

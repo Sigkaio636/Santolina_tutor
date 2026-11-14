@@ -1,0 +1,121 @@
+# vis-design seed decision: A few series with different units as small multiples
+schema_version: 1
+id: trend-few-series--small-multiples-different-units
+status: declared
+title: A few series with different units as small multiples
+problem:
+  archetype: trend-few-series
+  catalog_functions:
+  - data-over-time
+  - comparisons
+  statement: How do {measures} with different units evolve over {time}?
+  mode: analysis
+  domain_examples:
+  - consumption (kWh) and price (€/kWh) by month
+  - height, weight and income over age
+  - temperature and rainfall by day
+user:
+  profile: domain-expert
+  modifiers: []
+tasks:
+  why:
+    goal: discover
+    search: browse
+    query: compare
+  low_level:
+  - trend
+  - compare
+  - correlate
+  temporal:
+  - pattern
+  - synchronization
+  shneiderman:
+  - overview
+data:
+  dataset_type: table
+  keys:
+  - role: time
+    type: temporal
+    cardinality: many
+    grain: month
+  - role: category
+    type: categorical
+    cardinality: few
+  values:
+  - role: measure
+    type: quantitative
+    semantics: amount
+  items: small
+constraints: []
+solution:
+  idiom: small_multiples
+  family: small-multiples
+  mark: line
+  encodings:
+  - attribute: time
+    channel: position-x
+    scale: temporal
+    shared: true
+  - attribute: measure
+    channel: position-y
+    scale: linear
+  - attribute: category
+    channel: position-y
+    scale: ordinal
+    note: one panel per series, own y units
+  derived_data:
+  - one panel per series; aligned time axis
+  ordering: panels stacked vertically, shared x
+  color:
+    purpose: none
+    palette_type: neutral-accent
+    suggested:
+    - '#4d4d4d'
+    cvd_safe: true
+  text:
+    title: descriptive
+    axis_units: true
+    direct_labels: true
+    annotations:
+    - units per panel
+    source_line: true
+  interaction:
+    level: optional
+    default_state_answers_task: true
+    intents:
+    - abstract-elaborate
+  layout:
+    small_multiples: true
+    facet_by: category
+    aspect: wide
+  rejected_alternatives:
+  - idiom: line_graph
+    reason: dual y axes make crossings meaningless
+    rule: EXP-11
+  - idiom: connected_scatterplot
+    reason: only for two series and literate readers
+    rule: EFF-17
+  validation:
+    stage3_checks:
+    - EXP-11
+    - SCL-08
+    - CMP-05
+    critique_skill: optional
+  library_notes:
+    altair: vconcat of charts sharing x; resolve scale y independent
+    matplotlib: subplots sharex=True
+    plotly: make_subplots shared_xaxes
+rationale: Different units must not share one y axis; aligned panels keep temporal co-occurrence visible without
+  implying a common scale.
+confidence: high
+provenance:
+  origin: seed
+  author: vis-design
+  created: '2026-11-07'
+  updated: '2026-11-07'
+  times_used: 0
+  last_used: null
+  supersedes: null
+  sources:
+  - Few 2008 (dual-scaled axes)
+  - Munzner 2014

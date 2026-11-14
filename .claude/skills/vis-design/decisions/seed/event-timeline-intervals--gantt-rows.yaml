@@ -1,0 +1,126 @@
+# vis-design seed decision: Intervals per item as Gantt rows
+schema_version: 1
+id: event-timeline-intervals--gantt-rows
+status: declared
+title: Intervals per item as Gantt rows
+problem:
+  archetype: event-timeline-intervals
+  catalog_functions:
+  - data-over-time
+  - processes-and-methods
+  - range
+  statement: When did {events} happen and how long did they last?
+  mode: explanatory
+  domain_examples:
+  - project tasks
+  - reigns and governments
+  - outages per service
+user:
+  profile: executive
+  modifiers: []
+tasks:
+  why:
+    goal: present
+    search: lookup
+    query: identify
+  low_level:
+  - determine-range
+  - sort
+  - retrieve-value
+  temporal:
+  - existence
+  - temporal-location
+  - interval
+  - sequence
+  - synchronization
+  shneiderman:
+  - overview
+  - details-on-demand
+data:
+  dataset_type: table
+  keys:
+  - role: category
+    type: categorical
+    cardinality: some
+  values:
+  - role: lower
+    type: temporal
+    semantics: position
+  - role: upper
+    type: temporal
+    semantics: position
+  items: tiny
+constraints: []
+solution:
+  idiom: gantt_chart
+  family: timeline
+  mark: line
+  encodings:
+  - attribute: category
+    channel: position-y
+    scale: ordinal
+    sort: lower asc
+  - attribute: lower
+    channel: position-x
+    scale: temporal
+  - attribute: upper
+    channel: position-x
+    scale: temporal
+    note: x2
+  derived_data:
+  - duration = upper - lower
+  ordering: rows by start ascending
+  color:
+    purpose: highlight
+    palette_type: neutral-accent
+    suggested:
+    - '#8c8c8c'
+    - '#0072b2'
+    cvd_safe: true
+    second_cue: direct label
+  text:
+    title: descriptive
+    axis_units: true
+    direct_labels: true
+    annotations:
+    - today line if relevant
+    source_line: true
+  interaction:
+    level: optional
+    default_state_answers_task: true
+    intents:
+    - abstract-elaborate
+  layout:
+    small_multiples: false
+    facet_by: null
+    aspect: wide
+  rejected_alternatives:
+  - idiom: line_graph
+    reason: intervals are not a continuous measure
+    rule: EXP-03
+  - idiom: timeline
+    reason: durations would be lost
+    rule: PUR-01
+  validation:
+    stage3_checks:
+    - CMP-01
+    - TXT-03
+    critique_skill: optional
+  library_notes:
+    altair: mark_bar with x and x2 on temporal scale
+    matplotlib: broken_barh per row
+    plotly: px.timeline
+rationale: Length on a time axis shows start, end and duration at once, and sorted rows make overlap and sequence
+  readable.
+confidence: high
+provenance:
+  origin: seed
+  author: vis-design
+  created: '2026-11-07'
+  updated: '2026-11-07'
+  times_used: 0
+  last_used: null
+  supersedes: null
+  sources:
+  - Munzner 2014
+  - Wilke 2019

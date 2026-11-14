@@ -1,0 +1,64 @@
+# Problem archetype: Two to seven series over time
+id: trend-few-series
+name: Two to seven series over time
+question_templates:
+- How do {category} compare over {time}?
+- Which {category} grows fastest?
+catalog_functions:
+- data-over-time
+- comparisons
+chart_types_md_sections:
+- Time series / Line chart
+default_tasks:
+  why:
+    goal: present
+    search: browse
+    query: compare
+  low_level:
+  - trend
+  - compare
+  - find-extremum
+  - find-anomalies
+  temporal:
+  - pattern
+  - rate-of-change
+  - synchronization
+expected_shape:
+  dataset_type: table
+  keys:
+  - type: temporal
+    cardinality:
+    - some
+    - many
+    - huge
+  - type: categorical
+    cardinality:
+    - few
+  values:
+  - type: quantitative
+    semantics: amount
+preferred_idioms:
+- line_graph
+- small_multiples
+- slope_chart
+- connected_scatterplot
+discouraged_idioms:
+- idiom: multiset_barchart
+  when: one key is time
+  rule: EXP-04
+- idiom: stacked_area_graph
+  when: comparison of individual series
+  rule: IDM-STACK
+- idiom: line_graph
+  when: dual y axes for different units
+  rule: EXP-11
+related_archetypes:
+- trend-single-series
+- trend-many-series
+- part-to-whole-over-time
+disambiguation: Different units → small multiples with their own y, never dual axes; same units → one panel with
+  direct labels.
+domain_examples:
+- sales of three products per month
+- temperature in two cities
+- cases per age group per week

@@ -1,0 +1,121 @@
+# vis-design seed decision: Two measures per item as a scatterplot with a fitted line
+schema_version: 1
+id: correlation-two-quantities--scatter-with-trend
+status: declared
+title: Two measures per item as a scatterplot with a fitted line
+problem:
+  archetype: correlation-two-quantities
+  catalog_functions:
+  - relationships
+  statement: Is {measure} related to {measure2}?
+  mode: analysis
+  domain_examples:
+  - area vs count of events
+  - income vs life expectancy
+  - price vs rating
+user:
+  profile: data-analyst
+  modifiers: []
+tasks:
+  why:
+    goal: discover
+    search: explore
+    query: compare
+  low_level:
+  - correlate
+  - find-anomalies
+  - cluster
+  - characterize-distribution
+  temporal: []
+  shneiderman:
+  - overview
+  - zoom
+  - details-on-demand
+data:
+  dataset_type: table
+  keys: []
+  values:
+  - role: measure
+    type: quantitative
+    semantics: amount
+  - role: measure2
+    type: quantitative
+    semantics: amount
+  items: medium
+constraints: []
+solution:
+  idiom: scatterplot
+  family: scatter
+  mark: point
+  encodings:
+  - attribute: measure
+    channel: position-x
+    scale: linear
+    zero: false
+  - attribute: measure2
+    channel: position-y
+    scale: linear
+    zero: false
+  - attribute: derived
+    channel: connection
+    note: regression line
+  derived_data:
+  - regression line with r stated; log axes if skewed
+  ordering: n/a
+  color:
+    purpose: none
+    palette_type: neutral-accent
+    suggested:
+    - '#4d4d4d'
+    cvd_safe: true
+  text:
+    title: descriptive
+    axis_units: true
+    direct_labels: false
+    annotations:
+    - r and n in subtitle
+    - outliers labelled
+    source_line: true
+  interaction:
+    level: optional
+    default_state_answers_task: true
+    intents:
+    - abstract-elaborate
+  layout:
+    small_multiples: false
+    facet_by: null
+    aspect: square
+  rejected_alternatives:
+  - idiom: line_graph
+    reason: x is not ordered
+    rule: EXP-03
+  - idiom: bar_chart
+    reason: two measures per item is not a ranking
+    rule: EFF-01
+  - idiom: heatmap
+    reason: binned version only when points exceed ~5k
+    rule: EFF-16
+  validation:
+    stage3_checks:
+    - EFF-16
+    - SCL-05
+    - IDM-SCATTER
+    critique_skill: optional
+  library_notes:
+    altair: mark_circle + transform_regression
+    matplotlib: scatter + polyfit line; alpha for density
+    plotly: px.scatter trendline='ols'
+rationale: Position on two axes is the only encoding that shows the shape of a relation; opacity and a fitted line
+  keep large n readable.
+confidence: high
+provenance:
+  origin: seed
+  author: vis-design
+  created: '2026-11-07'
+  updated: '2026-11-07'
+  times_used: 0
+  last_used: null
+  supersedes: null
+  sources:
+  - Munzner 2014
+  - Wilke 2019

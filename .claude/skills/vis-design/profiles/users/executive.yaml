@@ -1,0 +1,71 @@
+# User profile: Executive or manager
+id: executive
+name: Executive or manager
+summary: Decides with the chart in under a minute. Wants the number, the comparison to a target or to
+  last period, and the direction of change; will not decode encodings or scan a legend.
+capabilities:
+  vis_literacy: medium
+  domain_knowledge: medium
+  statistical_literacy: low
+  time_per_chart: a-minute
+  interaction_tolerance: low
+  working_memory_budget: 3
+  learned_idioms:
+  - bar
+  - line
+  - bullet
+  - slope
+  - table
+  - pie
+  needs_explanation:
+  - heatmap
+  - distribution
+  - parallel
+  - network
+  - stacked-area
+cognitive_tasks:
+  why:
+    goal: present
+    search: lookup
+    query: compare
+  low_level_primary:
+  - find-extremum
+  - compute-derived
+  - trend
+  - compare
+  low_level_secondary:
+  - retrieve-value
+  - sort
+  shneiderman:
+  - overview
+  - details-on-demand
+text_needs:
+  title_style: takeaway
+  annotation_density: medium
+  needs_units_and_n: true
+confidence_needs:
+- source
+- period
+- definition-of-the-metric
+- target
+default_mode: explanatory
+default_modifiers: []
+avoid:
+- pie-over-5
+- radar
+- gauge
+- word-cloud
+- dual-axes
+- parallel
+- network
+prefer_families:
+- bar
+- bullet
+- slope
+- line
+- small-multiples
+- table
+typical_readers:
+- department head reading a KPI page
+- board member
+- product manager

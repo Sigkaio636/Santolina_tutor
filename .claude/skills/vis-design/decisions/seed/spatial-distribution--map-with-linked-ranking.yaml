@@ -1,0 +1,168 @@
+# vis-design seed decision: Choropleth of a rate linked to a sorted bar ranking of the same regions
+schema_version: 1
+id: spatial-distribution--map-with-linked-ranking
+status: declared
+title: Choropleth of a rate linked to a sorted bar ranking of the same regions
+problem:
+  archetype: spatial-distribution
+  catalog_functions:
+  - location
+  - comparisons
+  statement: Where is {measure} high or low, and how do the {regions} rank?
+  mode: analysis
+  domain_examples:
+  - unemployment rate by province
+  - cases per 100k by district
+  - share of renewable energy by region
+user:
+  profile: domain-expert
+  modifiers: []
+tasks:
+  why:
+    goal: discover
+    search: locate
+    query: compare
+  low_level:
+  - cluster
+  - find-extremum
+  - sort
+  - compare
+  - retrieve-value
+  temporal: []
+  shneiderman:
+  - overview
+  - relate
+  - details-on-demand
+data:
+  dataset_type: geometry
+  keys:
+  - role: location
+    type: geo-code
+    cardinality: many
+  values:
+  - role: measure
+    type: quantitative
+    semantics: rate
+  items: small
+constraints:
+- interactive-required
+solution:
+  idiom: choropleth
+  family: map-choropleth
+  mark: geoshape
+  encodings:
+  - attribute: location
+    channel: position-x
+    scale: nominal
+    note: 'map view: geometry'
+  - attribute: measure
+    channel: color-luminance
+    scale: sequential
+    classes: 5
+    note: map view; the bars reuse the same classed colours
+  - attribute: location
+    channel: position-y
+    scale: nominal
+    sort: measure desc
+    note: 'ranking view: one horizontal bar per region'
+  - attribute: measure
+    channel: length
+    scale: linear
+    zero: true
+    note: ranking view
+  - attribute: highlight
+    channel: color-hue
+    scale: nominal
+    note: the same accent outline on the hovered or selected region in both views
+  derived_data:
+  - rate per region (normalised by population or area); class breaks stated and shared by both views
+  ordering: bars by rate descending; map beside the ranking
+  color:
+    purpose: encode-value
+    palette_type: sequential
+    suggested:
+    - viridis
+    - blues
+    cvd_safe: true
+    second_cue: accent outline (#d55e00) for the linked highlight
+  text:
+    title: descriptive
+    axis_units: true
+    direct_labels: true
+    annotations:
+    - class breaks in the legend
+    - region names and values on the bars
+    - 'hint: point at a region or a bar to find it in the other view'
+    source_line: true
+  interaction:
+    level: required
+    default_state_answers_task: true
+    intents:
+    - select
+    - connect
+  layout:
+    small_multiples: false
+    facet_by: null
+    aspect: wide
+  composition:
+    type: juxtapose
+    relation: multiform
+    data_sharing: all
+    encoding_sharing: different
+    views:
+    - id: map
+      idiom: choropleth
+      role: focus
+    - id: ranking
+      idiom: bar_chart
+      role: alternative
+    links:
+    - from: map
+      to: ranking
+      type: highlight
+    - from: ranking
+      to: map
+      type: highlight
+  rejected_alternatives:
+  - idiom: bubble_map
+    reason: overlap in dense regions; a rate is not a total
+    rule: EFF-16
+  - idiom: data_table
+    reason: exact values without the spatial pattern or a visual ranking
+    rule: PUR-02
+  - idiom: tile_cartogram
+    reason: kept for when small regions vanish; experts here know the true geography
+    rule: EFF-17
+  validation:
+    stage3_checks:
+    - CMP-09
+    - INT-10
+    - EXP-12
+    - COL-02
+    - EXP-17
+    - INT-04
+    critique_skill: optional
+  library_notes:
+    altair: pick = alt.selection_point(fields=[region id], on='pointerover', empty=False) added to both charts;
+      mark_geoshape and mark_bar share one alt.Color scale (resolve_scale(color='shared')) and both set stroke =
+      alt.condition(pick, alt.value(accent), alt.value(None)); map | bars
+    matplotlib: 'static only: geopandas plot beside barh with the same classed colormap; label the top and bottom
+      regions in both'
+    plotly: px.choropleth and go.Bar in separate figures linked by Dash callbacks on hoverData; without Dash only
+      shared colours and labels
+rationale: The map shows where high and low rates cluster; the sorted bars give the ranking and exact values that
+  colour classes cannot. They show the same regions in two idioms, so each selection is highlighted in the other
+  view with the same accent, and the bars reuse the map's colours so a colour means one thing.
+confidence: high
+provenance:
+  origin: seed
+  author: vis-design
+  created: '2026-11-13'
+  updated: '2026-11-13'
+  times_used: 0
+  last_used: null
+  supersedes: null
+  sources:
+  - Munzner 2014
+  - Roberts 2007
+  - Wilke 2019

@@ -1,0 +1,112 @@
+# vis-design seed decision: Distributions by group with large n as violins
+schema_version: 1
+id: distribution-compare-groups--violins-large-n
+status: declared
+title: Distributions by group with large n as violins
+problem:
+  archetype: distribution-compare-groups
+  catalog_functions:
+  - distribution
+  - comparisons
+  statement: How does the distribution of {measure} differ between {category} when n is large?
+  mode: analysis
+  domain_examples:
+  - latency by server
+  - income by region
+  - trip duration by weekday
+user:
+  profile: data-analyst
+  modifiers: []
+tasks:
+  why:
+    goal: discover
+    search: browse
+    query: compare
+  low_level:
+  - characterize-distribution
+  - compare
+  - find-anomalies
+  temporal: []
+  shneiderman:
+  - overview
+data:
+  dataset_type: table
+  keys:
+  - role: category
+    type: categorical
+    cardinality: some
+  values:
+  - role: measure
+    type: quantitative
+    semantics: amount
+  items: medium
+constraints: []
+solution:
+  idiom: violin_plot
+  family: distribution
+  mark: area
+  encodings:
+  - attribute: category
+    channel: position-x
+    scale: nominal
+  - attribute: measure
+    channel: position-y
+    scale: linear
+    zero: false
+  - attribute: derived
+    channel: length
+    scale: linear
+  derived_data:
+  - density per group; median and IQR; n per group
+  ordering: groups by median descending
+  color:
+    purpose: none
+    palette_type: neutral-accent
+    suggested:
+    - '#4d4d4d'
+    cvd_safe: true
+  text:
+    title: descriptive
+    axis_units: true
+    direct_labels: false
+    annotations:
+    - n per group
+    source_line: true
+  interaction:
+    level: optional
+    default_state_answers_task: true
+    intents:
+    - abstract-elaborate
+  layout:
+    small_multiples: false
+    facet_by: null
+    aspect: wide
+  rejected_alternatives:
+  - idiom: strip_plot
+    reason: thousands of points overplot
+    rule: EFF-16
+  - idiom: bar_chart
+    reason: bars of means
+    rule: EXP-16
+  validation:
+    stage3_checks:
+    - EXP-16
+    - DAT-03
+    critique_skill: optional
+  library_notes:
+    altair: mark_area with transform_density per group
+    matplotlib: ax.violinplot showmedians
+    plotly: px.violin box=True
+rationale: Densities summarise large groups without hiding shape; medians and n keep the comparison honest.
+confidence: medium
+provenance:
+  origin: seed
+  author: vis-design
+  created: '2026-11-07'
+  updated: '2026-11-07'
+  times_used: 0
+  last_used: null
+  supersedes: null
+  sources:
+  - Munzner 2014
+  - Wilke 2019

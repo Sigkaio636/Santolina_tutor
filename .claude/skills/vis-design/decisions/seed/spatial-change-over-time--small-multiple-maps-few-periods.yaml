@@ -1,0 +1,120 @@
+# vis-design seed decision: A rate per region for a few periods as small multiple maps
+schema_version: 1
+id: spatial-change-over-time--small-multiple-maps-few-periods
+status: declared
+title: A rate per region for a few periods as small multiple maps
+problem:
+  archetype: spatial-change-over-time
+  catalog_functions:
+  - location
+  - data-over-time
+  statement: How has {measure} per {region} changed across a few {periods}?
+  mode: explanatory
+  domain_examples:
+  - rate per province in three censuses
+  - share per district in two elections
+  - coverage per county in four years
+user:
+  profile: communicator-journalist
+  modifiers: []
+tasks:
+  why:
+    goal: present
+    search: browse
+    query: compare
+  low_level:
+  - compare
+  - find-extremum
+  - gist
+  temporal:
+  - pattern
+  - rate-of-change
+  shneiderman:
+  - overview
+data:
+  dataset_type: geometry
+  keys:
+  - role: time
+    type: temporal
+    cardinality: few
+    grain: year
+  - role: location
+    type: geo-code
+    cardinality: many
+  values:
+  - role: measure
+    type: quantitative
+    semantics: rate
+  items: small
+constraints: []
+solution:
+  idiom: small_multiples
+  family: small-multiples
+  mark: geoshape
+  encodings:
+  - attribute: time
+    channel: position-x
+    scale: ordinal
+    note: facet
+  - attribute: location
+    channel: position-y
+    scale: nominal
+    note: geometry
+  - attribute: measure
+    channel: color-luminance
+    scale: sequential
+  derived_data:
+  - rate per (period, region); one shared color scale
+  ordering: periods left to right
+  color:
+    purpose: encode-value
+    palette_type: sequential
+    suggested:
+    - viridis
+    - blues
+    cvd_safe: true
+  text:
+    title: takeaway
+    axis_units: true
+    direct_labels: false
+    annotations:
+    - shared legend
+    source_line: true
+  interaction:
+    level: none
+    default_state_answers_task: true
+    intents: []
+  layout:
+    small_multiples: true
+    facet_by: time
+    aspect: wide
+  rejected_alternatives:
+  - idiom: choropleth
+    reason: a single map cannot show change
+    rule: CMP-08
+  - idiom: heatmap
+    reason: loses geography when periods are few
+    rule: PUR-01
+  validation:
+    stage3_checks:
+    - SCL-08
+    - CMP-05
+    - EXP-12
+    critique_skill: optional
+  library_notes:
+    altair: facet over mark_geoshape with shared scale
+    matplotlib: subplots with one geopandas plot each
+    plotly: px.choropleth facet_col
+rationale: A few periods side by side with one shared scale let the eye compare maps directly (eyes beat memory).
+confidence: high
+provenance:
+  origin: seed
+  author: vis-design
+  created: '2026-11-07'
+  updated: '2026-11-07'
+  times_used: 0
+  last_used: null
+  supersedes: null
+  sources:
+  - Munzner 2014
+  - Wilke 2019

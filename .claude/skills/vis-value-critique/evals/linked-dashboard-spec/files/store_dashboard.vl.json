@@ -1,0 +1,845 @@
+{
+ "config": {
+  "view": {
+   "continuousWidth": 300,
+   "continuousHeight": 300
+  }
+ },
+ "vconcat": [
+  {
+   "hconcat": [
+    {
+     "mark": {
+      "type": "point"
+     },
+     "encoding": {
+      "x": {
+       "field": "visits",
+       "type": "quantitative"
+      },
+      "y": {
+       "field": "sales_eur",
+       "type": "quantitative"
+      }
+     },
+     "name": "view_12175f8b5bba2986_0"
+    },
+    {
+     "mark": {
+      "type": "bar"
+     },
+     "encoding": {
+      "x": {
+       "field": "store",
+       "type": "nominal"
+      },
+      "y": {
+       "aggregate": "sum",
+       "field": "sales_eur",
+       "type": "quantitative"
+      }
+     }
+    }
+   ]
+  },
+  {
+   "hconcat": [
+    {
+     "mark": {
+      "type": "point"
+     },
+     "encoding": {
+      "x": {
+       "field": "store",
+       "type": "nominal"
+      },
+      "xOffset": {
+       "field": "j",
+       "type": "quantitative"
+      },
+      "y": {
+       "field": "sales_eur",
+       "type": "quantitative"
+      }
+     },
+     "transform": [
+      {
+       "calculate": "random()",
+       "as": "j"
+      }
+     ]
+    },
+    {
+     "mark": {
+      "type": "boxplot"
+     },
+     "encoding": {
+      "x": {
+       "field": "store",
+       "type": "nominal"
+      },
+      "y": {
+       "field": "sales_eur",
+       "type": "quantitative"
+      }
+     }
+    },
+    {
+     "mark": {
+      "type": "bar"
+     },
+     "encoding": {
+      "x": {
+       "bin": true,
+       "field": "visits",
+       "type": "quantitative"
+      },
+      "y": {
+       "aggregate": "count",
+       "type": "quantitative"
+      }
+     }
+    }
+   ]
+  }
+ ],
+ "data": {
+  "name": "data-2f6fc21b5803e73d28f6861021f02678"
+ },
+ "params": [
+  {
+   "name": "brush",
+   "select": {
+    "type": "interval"
+   },
+   "views": [
+    "view_12175f8b5bba2986_0"
+   ]
+  }
+ ],
+ "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
+ "datasets": {
+  "data-2f6fc21b5803e73d28f6861021f02678": [
+   {
+    "store": "C",
+    "visits": 462.0,
+    "sales_eur": 12293.0,
+    "week": 10
+   },
+   {
+    "store": "D",
+    "visits": 506.0,
+    "sales_eur": 10233.0,
+    "week": 13
+   },
+   {
+    "store": "E",
+    "visits": 533.0,
+    "sales_eur": 9403.0,
+    "week": 24
+   },
+   {
+    "store": "F",
+    "visits": 382.0,
+    "sales_eur": 6669.0,
+    "week": 17
+   },
+   {
+    "store": "A",
+    "visits": 367.0,
+    "sales_eur": 16179.0,
+    "week": 14
+   },
+   {
+    "store": "A",
+    "visits": 524.0,
+    "sales_eur": 11201.0,
+    "week": 29
+   },
+   {
+    "store": "E",
+    "visits": 444.0,
+    "sales_eur": 6152.0,
+    "week": 8
+   },
+   {
+    "store": "F",
+    "visits": 528.0,
+    "sales_eur": 7051.0,
+    "week": 14
+   },
+   {
+    "store": "B",
+    "visits": 591.0,
+    "sales_eur": 9217.0,
+    "week": 28
+   },
+   {
+    "store": "B",
+    "visits": 302.0,
+    "sales_eur": 5113.0,
+    "week": 25
+   },
+   {
+    "store": "F",
+    "visits": 531.0,
+    "sales_eur": 9422.0,
+    "week": 17
+   },
+   {
+    "store": "C",
+    "visits": 647.0,
+    "sales_eur": 7852.0,
+    "week": 2
+   },
+   {
+    "store": "B",
+    "visits": 464.0,
+    "sales_eur": 12066.0,
+    "week": 17
+   },
+   {
+    "store": "E",
+    "visits": 403.0,
+    "sales_eur": 11405.0,
+    "week": 12
+   },
+   {
+    "store": "B",
+    "visits": 590.0,
+    "sales_eur": 2222.0,
+    "week": 29
+   },
+   {
+    "store": "C",
+    "visits": 530.0,
+    "sales_eur": 9104.0,
+    "week": 17
+   },
+   {
+    "store": "D",
+    "visits": 608.0,
+    "sales_eur": 4956.0,
+    "week": 17
+   },
+   {
+    "store": "D",
+    "visits": 459.0,
+    "sales_eur": 11774.0,
+    "week": 18
+   },
+   {
+    "store": "A",
+    "visits": 322.0,
+    "sales_eur": 9420.0,
+    "week": 12
+   },
+   {
+    "store": "A",
+    "visits": 487.0,
+    "sales_eur": 10371.0,
+    "week": 8
+   },
+   {
+    "store": "F",
+    "visits": 447.0,
+    "sales_eur": 6337.0,
+    "week": 15
+   },
+   {
+    "store": "E",
+    "visits": 593.0,
+    "sales_eur": 13571.0,
+    "week": 12
+   },
+   {
+    "store": "F",
+    "visits": 523.0,
+    "sales_eur": 14050.0,
+    "week": 25
+   },
+   {
+    "store": "D",
+    "visits": 304.0,
+    "sales_eur": 6338.0,
+    "week": 28
+   },
+   {
+    "store": "E",
+    "visits": 357.0,
+    "sales_eur": 9932.0,
+    "week": 14
+   },
+   {
+    "store": "B",
+    "visits": 606.0,
+    "sales_eur": 7317.0,
+    "week": 19
+   },
+   {
+    "store": "C",
+    "visits": 582.0,
+    "sales_eur": 8941.0,
+    "week": 6
+   },
+   {
+    "store": "E",
+    "visits": 423.0,
+    "sales_eur": 5836.0,
+    "week": 17
+   },
+   {
+    "store": "A",
+    "visits": 500.0,
+    "sales_eur": 13668.0,
+    "week": 5
+   },
+   {
+    "store": "B",
+    "visits": 553.0,
+    "sales_eur": 6577.0,
+    "week": 2
+   },
+   {
+    "store": "A",
+    "visits": 556.0,
+    "sales_eur": 8260.0,
+    "week": 6
+   },
+   {
+    "store": "C",
+    "visits": 605.0,
+    "sales_eur": 10254.0,
+    "week": 2
+   },
+   {
+    "store": "F",
+    "visits": 531.0,
+    "sales_eur": 7381.0,
+    "week": 26
+   },
+   {
+    "store": "A",
+    "visits": 489.0,
+    "sales_eur": 8402.0,
+    "week": 7
+   },
+   {
+    "store": "C",
+    "visits": 469.0,
+    "sales_eur": 7591.0,
+    "week": 27
+   },
+   {
+    "store": "C",
+    "visits": 627.0,
+    "sales_eur": 8666.0,
+    "week": 4
+   },
+   {
+    "store": "F",
+    "visits": 230.0,
+    "sales_eur": 6074.0,
+    "week": 20
+   },
+   {
+    "store": "B",
+    "visits": 483.0,
+    "sales_eur": 7905.0,
+    "week": 29
+   },
+   {
+    "store": "D",
+    "visits": 504.0,
+    "sales_eur": 8483.0,
+    "week": 4
+   },
+   {
+    "store": "B",
+    "visits": 329.0,
+    "sales_eur": 8166.0,
+    "week": 1
+   },
+   {
+    "store": "A",
+    "visits": 540.0,
+    "sales_eur": 9142.0,
+    "week": 9
+   },
+   {
+    "store": "E",
+    "visits": 422.0,
+    "sales_eur": 8267.0,
+    "week": 11
+   },
+   {
+    "store": "A",
+    "visits": 603.0,
+    "sales_eur": 10883.0,
+    "week": 15
+   },
+   {
+    "store": "B",
+    "visits": 485.0,
+    "sales_eur": 8192.0,
+    "week": 2
+   },
+   {
+    "store": "C",
+    "visits": 580.0,
+    "sales_eur": 8658.0,
+    "week": 3
+   },
+   {
+    "store": "C",
+    "visits": 646.0,
+    "sales_eur": 7338.0,
+    "week": 19
+   },
+   {
+    "store": "A",
+    "visits": 546.0,
+    "sales_eur": 7684.0,
+    "week": 3
+   },
+   {
+    "store": "F",
+    "visits": 395.0,
+    "sales_eur": 5839.0,
+    "week": 2
+   },
+   {
+    "store": "E",
+    "visits": 318.0,
+    "sales_eur": 10297.0,
+    "week": 12
+   },
+   {
+    "store": "F",
+    "visits": 710.0,
+    "sales_eur": 6144.0,
+    "week": 2
+   },
+   {
+    "store": "A",
+    "visits": 487.0,
+    "sales_eur": 7135.0,
+    "week": 5
+   },
+   {
+    "store": "E",
+    "visits": 417.0,
+    "sales_eur": 9898.0,
+    "week": 3
+   },
+   {
+    "store": "B",
+    "visits": 517.0,
+    "sales_eur": 10006.0,
+    "week": 15
+   },
+   {
+    "store": "D",
+    "visits": 477.0,
+    "sales_eur": 8000.0,
+    "week": 8
+   },
+   {
+    "store": "F",
+    "visits": 602.0,
+    "sales_eur": 3952.0,
+    "week": 25
+   },
+   {
+    "store": "B",
+    "visits": 504.0,
+    "sales_eur": 10051.0,
+    "week": 17
+   },
+   {
+    "store": "E",
+    "visits": 502.0,
+    "sales_eur": 9649.0,
+    "week": 10
+   },
+   {
+    "store": "A",
+    "visits": 414.0,
+    "sales_eur": 5469.0,
+    "week": 24
+   },
+   {
+    "store": "B",
+    "visits": 556.0,
+    "sales_eur": 10926.0,
+    "week": 6
+   },
+   {
+    "store": "F",
+    "visits": 376.0,
+    "sales_eur": 7247.0,
+    "week": 8
+   },
+   {
+    "store": "C",
+    "visits": 580.0,
+    "sales_eur": 6185.0,
+    "week": 5
+   },
+   {
+    "store": "D",
+    "visits": 683.0,
+    "sales_eur": 9239.0,
+    "week": 9
+   },
+   {
+    "store": "B",
+    "visits": 317.0,
+    "sales_eur": 8554.0,
+    "week": 12
+   },
+   {
+    "store": "A",
+    "visits": 204.0,
+    "sales_eur": 9507.0,
+    "week": 24
+   },
+   {
+    "store": "C",
+    "visits": 574.0,
+    "sales_eur": 4986.0,
+    "week": 11
+   },
+   {
+    "store": "D",
+    "visits": 806.0,
+    "sales_eur": 13531.0,
+    "week": 22
+   },
+   {
+    "store": "C",
+    "visits": 380.0,
+    "sales_eur": 7493.0,
+    "week": 25
+   },
+   {
+    "store": "E",
+    "visits": 350.0,
+    "sales_eur": 5151.0,
+    "week": 4
+   },
+   {
+    "store": "C",
+    "visits": 571.0,
+    "sales_eur": 10547.0,
+    "week": 22
+   },
+   {
+    "store": "D",
+    "visits": 399.0,
+    "sales_eur": 8113.0,
+    "week": 24
+   },
+   {
+    "store": "E",
+    "visits": 439.0,
+    "sales_eur": 9812.0,
+    "week": 11
+   },
+   {
+    "store": "F",
+    "visits": 458.0,
+    "sales_eur": 8151.0,
+    "week": 25
+   },
+   {
+    "store": "C",
+    "visits": 564.0,
+    "sales_eur": 8851.0,
+    "week": 24
+   },
+   {
+    "store": "A",
+    "visits": 451.0,
+    "sales_eur": 9614.0,
+    "week": 6
+   },
+   {
+    "store": "E",
+    "visits": 533.0,
+    "sales_eur": 7133.0,
+    "week": 5
+   },
+   {
+    "store": "D",
+    "visits": 479.0,
+    "sales_eur": 10697.0,
+    "week": 19
+   },
+   {
+    "store": "F",
+    "visits": 399.0,
+    "sales_eur": 7825.0,
+    "week": 13
+   },
+   {
+    "store": "C",
+    "visits": 462.0,
+    "sales_eur": 6826.0,
+    "week": 6
+   },
+   {
+    "store": "C",
+    "visits": 386.0,
+    "sales_eur": 9193.0,
+    "week": 29
+   },
+   {
+    "store": "A",
+    "visits": 501.0,
+    "sales_eur": 10113.0,
+    "week": 8
+   },
+   {
+    "store": "C",
+    "visits": 365.0,
+    "sales_eur": 8427.0,
+    "week": 5
+   },
+   {
+    "store": "D",
+    "visits": 369.0,
+    "sales_eur": 6844.0,
+    "week": 15
+   },
+   {
+    "store": "E",
+    "visits": 675.0,
+    "sales_eur": 10549.0,
+    "week": 11
+   },
+   {
+    "store": "F",
+    "visits": 494.0,
+    "sales_eur": 4599.0,
+    "week": 16
+   },
+   {
+    "store": "B",
+    "visits": 494.0,
+    "sales_eur": 6423.0,
+    "week": 10
+   },
+   {
+    "store": "D",
+    "visits": 561.0,
+    "sales_eur": 9099.0,
+    "week": 14
+   },
+   {
+    "store": "E",
+    "visits": 449.0,
+    "sales_eur": 5597.0,
+    "week": 14
+   },
+   {
+    "store": "B",
+    "visits": 473.0,
+    "sales_eur": 9070.0,
+    "week": 16
+   },
+   {
+    "store": "C",
+    "visits": 551.0,
+    "sales_eur": 8863.0,
+    "week": 27
+   },
+   {
+    "store": "F",
+    "visits": 534.0,
+    "sales_eur": 11247.0,
+    "week": 7
+   },
+   {
+    "store": "D",
+    "visits": 361.0,
+    "sales_eur": 6713.0,
+    "week": 13
+   },
+   {
+    "store": "D",
+    "visits": 600.0,
+    "sales_eur": 7435.0,
+    "week": 23
+   },
+   {
+    "store": "E",
+    "visits": 429.0,
+    "sales_eur": 9833.0,
+    "week": 27
+   },
+   {
+    "store": "D",
+    "visits": 373.0,
+    "sales_eur": 2856.0,
+    "week": 9
+   },
+   {
+    "store": "F",
+    "visits": 392.0,
+    "sales_eur": 16750.0,
+    "week": 28
+   },
+   {
+    "store": "E",
+    "visits": 453.0,
+    "sales_eur": 7253.0,
+    "week": 27
+   },
+   {
+    "store": "A",
+    "visits": 695.0,
+    "sales_eur": 7175.0,
+    "week": 9
+   },
+   {
+    "store": "A",
+    "visits": 359.0,
+    "sales_eur": 11153.0,
+    "week": 15
+   },
+   {
+    "store": "D",
+    "visits": 519.0,
+    "sales_eur": 8900.0,
+    "week": 21
+   },
+   {
+    "store": "E",
+    "visits": 243.0,
+    "sales_eur": 4551.0,
+    "week": 9
+   },
+   {
+    "store": "A",
+    "visits": 500.0,
+    "sales_eur": 10567.0,
+    "week": 7
+   },
+   {
+    "store": "E",
+    "visits": 608.0,
+    "sales_eur": 11138.0,
+    "week": 6
+   },
+   {
+    "store": "E",
+    "visits": 472.0,
+    "sales_eur": 7875.0,
+    "week": 14
+   },
+   {
+    "store": "E",
+    "visits": 424.0,
+    "sales_eur": 8296.0,
+    "week": 15
+   },
+   {
+    "store": "F",
+    "visits": 528.0,
+    "sales_eur": 10215.0,
+    "week": 21
+   },
+   {
+    "store": "B",
+    "visits": 584.0,
+    "sales_eur": 6728.0,
+    "week": 11
+   },
+   {
+    "store": "D",
+    "visits": 580.0,
+    "sales_eur": 10096.0,
+    "week": 15
+   },
+   {
+    "store": "E",
+    "visits": 737.0,
+    "sales_eur": 9498.0,
+    "week": 19
+   },
+   {
+    "store": "C",
+    "visits": 525.0,
+    "sales_eur": 7313.0,
+    "week": 22
+   },
+   {
+    "store": "B",
+    "visits": 429.0,
+    "sales_eur": 5520.0,
+    "week": 15
+   },
+   {
+    "store": "C",
+    "visits": 485.0,
+    "sales_eur": 8436.0,
+    "week": 6
+   },
+   {
+    "store": "A",
+    "visits": 491.0,
+    "sales_eur": 6811.0,
+    "week": 2
+   },
+   {
+    "store": "B",
+    "visits": 513.0,
+    "sales_eur": 11504.0,
+    "week": 15
+   },
+   {
+    "store": "F",
+    "visits": 496.0,
+    "sales_eur": 9360.0,
+    "week": 25
+   },
+   {
+    "store": "E",
+    "visits": 521.0,
+    "sales_eur": 10955.0,
+    "week": 17
+   },
+   {
+    "store": "F",
+    "visits": 299.0,
+    "sales_eur": 9337.0,
+    "week": 2
+   },
+   {
+    "store": "F",
+    "visits": 600.0,
+    "sales_eur": 9657.0,
+    "week": 3
+   },
+   {
+    "store": "F",
+    "visits": 431.0,
+    "sales_eur": 7043.0,
+    "week": 25
+   },
+   {
+    "store": "B",
+    "visits": 359.0,
+    "sales_eur": 10670.0,
+    "week": 10
+   },
+   {
+    "store": "C",
+    "visits": 577.0,
+    "sales_eur": 13462.0,
+    "week": 24
+   }
+  ]
+ }
+}

@@ -1,0 +1,148 @@
+# vis-design seed decision: Forecast with nested interval bands fading outward
+schema_version: 1
+id: uncertainty-of-estimate-or-forecast--gradient-interval-expert
+status: declared
+title: Forecast with nested interval bands fading outward
+problem:
+  archetype: uncertainty-of-estimate-or-forecast
+  catalog_functions:
+  - range
+  - data-over-time
+  statement: What range of outcomes should we expect for {measure} over {time}?
+  mode: analysis
+  domain_examples:
+  - forecast demand per week with a prediction interval
+  - projected river level per day with model uncertainty
+  - estimated growth curve with a credible band
+user:
+  profile: scientist-reviewer
+  modifiers: []
+tasks:
+  why:
+    goal: discover
+    search: lookup
+    query: compare
+  low_level:
+  - determine-range
+  - trend
+  - compare
+  - retrieve-value
+  temporal:
+  - rate-of-change
+  - pattern
+  shneiderman:
+  - overview
+  - details-on-demand
+data:
+  dataset_type: table
+  keys:
+  - role: time
+    type: temporal
+    cardinality: many
+    grain: week
+  values:
+  - role: measure
+    type: quantitative
+    semantics: amount
+  - role: lower
+    type: quantitative
+    semantics: amount
+  - role: upper
+    type: quantitative
+    semantics: amount
+  items: small
+constraints:
+- uncertainty
+solution:
+  idiom: gradient_interval
+  family: uncertainty
+  mark: area
+  encodings:
+  - attribute: time
+    channel: position-x
+    scale: temporal
+  - attribute: measure
+    channel: position-y
+    scale: linear
+    zero: false
+    note: central estimate as a line; observed history in a darker solid stroke
+  - attribute: lower
+    channel: position-y
+    scale: linear
+    note: lower edge of each band
+  - attribute: upper
+    channel: position-y
+    scale: linear
+    note: upper edge of each band
+  - attribute: derived
+    channel: color-luminance
+    scale: ordinal
+    note: 'probability level of the band (e.g. 50 %, 80 %, 95 %): lighter outward, no hard outer edge'
+  derived_data:
+  - lower and upper bound per period for two or three stated probability levels
+  - the kind of interval (confidence, credible or prediction) taken from the analysis itself
+  ordering: chronological; widest band drawn first
+  color:
+    purpose: encode-value
+    palette_type: sequential
+    suggested:
+    - single-hue blues
+    cvd_safe: true
+  text:
+    title: descriptive
+    axis_units: true
+    direct_labels: true
+    annotations:
+    - each band labelled with its level at the right edge
+    - caption naming the interval type, the model and the date of the run
+    - start of the forecast marked with a vertical rule
+    source_line: true
+  interaction:
+    level: optional
+    default_state_answers_task: true
+    intents:
+    - abstract-elaborate
+  layout:
+    small_multiples: false
+    facet_by: null
+    aspect: wide
+  rejected_alternatives:
+  - idiom: line_graph
+    reason: a point forecast alone hides how wide the plausible range is
+    rule: DAT-03
+  - idiom: error_bars
+    reason: one bar per period clutters and its hard ends read as limits
+    rule: DAT-11
+  - idiom: ensemble_plot
+    reason: kept for when the individual model runs exist and are comparable
+    rule: DAT-12
+  validation:
+    stage3_checks:
+    - DAT-03
+    - DAT-11
+    - DAT-13
+    - TXT-07
+    - SCL-02
+    critique_skill: optional
+  library_notes:
+    altair: one mark_area(y, y2) layer per level with falling opacity (or mark_errorband) + mark_line for the estimate;
+      mark_text labels at the last period
+    matplotlib: fill_between per level with decreasing alpha, linewidth=0 + plot for the estimate; annotate the
+      levels
+    plotly: per level two go.Scatter traces (upper, lower) with fill='tonexty' and line width 0 + a line trace
+rationale: Nested bands that fade outward show that values near the centre are more likely and that the outer edge
+  is not a wall, which a single hard-edged interval suggests (Padilla, Kay & Hullman 2021). The reviewer needs the
+  interval type and level stated to judge the claim, so both are labelled on the chart.
+confidence: high
+provenance:
+  origin: seed
+  author: vis-design
+  created: '2026-11-13'
+  updated: '2026-11-13'
+  times_used: 0
+  last_used: null
+  supersedes: null
+  sources:
+  - Padilla, Kay & Hullman 2021
+  - Correll & Gleicher 2014
+  - Munzner 2014

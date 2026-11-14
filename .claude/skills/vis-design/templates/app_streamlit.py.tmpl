@@ -1,0 +1,31 @@
+"""Streamlit host for {{SLUG}} (decision {{DECISION_ID}}).
+
+Widgets map one-to-one to the interaction plan of the design document; their default
+values are the state that answers the main question.
+"""
+import os
+import sys
+
+import streamlit as st
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import {{SLUG}} as chart_module  # noqa: E402
+
+st.set_page_config(page_title="{{TITLE}}", layout="wide")
+st.title("{{TITLE}}")
+
+
+@st.cache_data
+def _load(path: str):
+    return chart_module.derive(chart_module.load(path))
+
+
+df = _load(chart_module.DATA_PATH)
+
+# ---- widgets (one per interaction intent) --------------------------------
+{{WIDGETS}}
+
+# ---- chart ---------------------------------------------------------------
+{{RENDER}}
+
+st.caption("{{SOURCE_LINE}}")

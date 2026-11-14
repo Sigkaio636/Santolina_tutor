@@ -1,0 +1,58 @@
+# Problem archetype: A measure per region on a map
+id: spatial-distribution
+name: A measure per region on a map
+question_templates:
+- Where is {measure} highest?
+- How does {measure} vary across {region}?
+catalog_functions:
+- location
+chart_types_md_sections:
+- Geospatial / Choropleth
+- Geospatial / Graduated / proportional symbol map
+default_tasks:
+  why:
+    goal: present
+    search: locate
+    query: identify
+  low_level:
+  - find-extremum
+  - cluster
+  - compare
+  - gist
+  temporal: []
+expected_shape:
+  dataset_type: geometry
+  keys:
+  - type: geo-code
+    cardinality:
+    - some
+    - many
+    - huge
+  values:
+  - type: quantitative
+    semantics: rate
+preferred_idioms:
+- choropleth
+- bubble_map
+- bar_chart
+- tile_cartogram
+- spike_map
+discouraged_idioms:
+- idiom: choropleth
+  when: raw counts without normalisation
+  rule: EXP-12
+- idiom: bubble_map
+  when: overlapping dense regions
+  rule: EFF-16
+related_archetypes:
+- spatial-change-over-time
+- point-events-on-map
+- compare-values-across-categories
+disambiguation: A map needs a geometry file for the regions; without one, a sorted bar chart of regions answers
+  the comparison task better. Choropleths need rates, symbol maps can show totals. When regions count equally
+  and small ones vanish at true scale → tile cartogram (equal tiles, needs only a layout table). Totals in dense
+  areas where bubbles overlap → spike map (height instead of area).
+domain_examples:
+- unemployment rate by province
+- burned hectares per county
+- cases per 100k by district

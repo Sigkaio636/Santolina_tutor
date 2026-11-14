@@ -1,0 +1,47 @@
+# Problem archetype: Steps of a process or how something works
+id: process-sequence
+name: Steps of a process or how something works
+question_templates:
+- What are the steps of {process}?
+- Where are the decision points?
+catalog_functions:
+- processes-and-methods
+- how-things-work
+- concepts
+chart_types_md_sections: []
+default_tasks:
+  why:
+    goal: present
+    search: lookup
+    query: identify
+  low_level:
+  - gist
+  - retrieve-value
+  temporal:
+  - sequence
+expected_shape:
+  dataset_type: network
+  keys:
+  - type: categorical
+    cardinality:
+    - few
+    - some
+  values: []
+preferred_idioms:
+- flow_chart
+- illustration_diagram
+- timeline
+- data_table
+discouraged_idioms:
+- idiom: sankey_diagram
+  when: no quantities flow
+  rule: EXP-10
+related_archetypes:
+- event-timeline-intervals
+- flow-between-states
+disambiguation: 'Not a data visualization: no measured attribute. The skill produces a diagram plan, not a chart;
+  if quantities per step exist, use flow-between-states.'
+domain_examples:
+- onboarding workflow
+- how a bill becomes law
+- data pipeline

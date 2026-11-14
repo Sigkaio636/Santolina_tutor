@@ -1,0 +1,167 @@
+{
+ "by_key": {
+  "categorical-state-over-time|analysis|domain-expert|table|k:categorical:some+k:temporal:huge|v:quantitative:share": "categorical-state-over-time--binned-state-heatmap",
+  "category-breakdown-over-time|explanatory|domain-expert|table|k:categorical:few+k:temporal:some|v:quantitative:count": "category-breakdown-over-time--lines-few-categories",
+  "compare-against-target|explanatory|executive|table|k:categorical:few|v:quantitative:amount+v:quantitative:amount": "compare-against-target--bullet-per-kpi",
+  "compare-two-keys|explanatory|executive|table|k:categorical:few+k:categorical:few|v:quantitative:amount": "compare-two-keys--grouped-bars-few-few",
+  "compare-two-keys|analysis|domain-expert|table|k:categorical:few+k:categorical:many|v:quantitative:amount": "compare-two-keys--heatmap-one-key-many",
+  "compare-values-across-categories|analysis|domain-expert|table|k:categorical:many|v:quantitative:rate": "compare-values-across-categories--dot-plot-small-differences",
+  "compare-values-across-categories|explanatory|general-public|table|k:categorical:some|v:quantitative:amount": "compare-values-across-categories--sorted-horizontal-bar",
+  "correlation-two-quantities|exploration|data-analyst|table|k:categorical:few|v:quantitative:amount+v:quantitative:amount": "correlation-two-quantities--linked-scatter-and-bars",
+  "correlation-two-quantities|analysis|data-analyst|table||v:quantitative:amount+v:quantitative:amount": "correlation-two-quantities--scatter-with-trend",
+  "distribution-change-over-time|analysis|scientist-reviewer|table|k:temporal:some|v:quantitative:amount": "distribution-change-over-time--ridge-by-period",
+  "distribution-compare-groups|analysis|scientist-reviewer|table|k:categorical:few|v:quantitative:amount": "distribution-compare-groups--strip-with-summary",
+  "distribution-compare-groups|analysis|data-analyst|table|k:categorical:some|v:quantitative:amount": "distribution-compare-groups--violins-large-n",
+  "distribution-single|analysis|data-analyst|table||v:quantitative:amount": "distribution-single--histogram",
+  "event-timeline-intervals|explanatory|executive|table|k:categorical:some|v:temporal:position+v:temporal:position": "event-timeline-intervals--gantt-rows",
+  "exact-values-lookup|explanatory|executive|table|k:categorical:few|v:quantitative:amount": "exact-values-lookup--formatted-table",
+  "flow-between-states|explanatory|executive|network|k:categorical:few+k:categorical:some|v:quantitative:weight": "flow-between-states--sankey",
+  "hierarchy-structure|explanatory|general-public|tree|k:categorical:some|": "hierarchy-structure--node-link-tree",
+  "matrix-pattern-two-keys|analysis|data-analyst|table|k:categorical:many+k:categorical:many|v:quantitative:amount": "matrix-pattern-two-keys--reordered-heatmap",
+  "multivariate-relationships|explanatory|executive|table|k:categorical:some|v:quantitative:score+v:quantitative:score+v:quantitative:score": "multivariate-relationships--heatmap-items-by-measures",
+  "multivariate-relationships|exploration|data-analyst|table|k:categorical:many|v:quantitative:amount+v:quantitative:amount+v:quantitative:amount": "multivariate-relationships--parallel-coordinates-analyst",
+  "network-relationships|exploration|data-analyst|network|k:categorical:many|v:quantitative:weight": "network-relationships--node-link-sparse",
+  "part-to-whole-hierarchy|explanatory|executive|tree|k:categorical:many|v:quantitative:amount": "part-to-whole-hierarchy--treemap-two-levels",
+  "part-to-whole-over-time|explanatory|communicator-journalist|table|k:categorical:few+k:temporal:some|v:quantitative:share": "part-to-whole-over-time--stacked-area-few",
+  "part-to-whole-single|explanatory|communicator-journalist|table|k:categorical:few|v:quantitative:share": "part-to-whole-single--pie-three-parts",
+  "part-to-whole-single|explanatory|general-public|table|k:categorical:few|v:quantitative:share": "part-to-whole-single--sorted-bars-with-percent",
+  "point-events-on-map|analysis|domain-expert|geometry|k:geo-code:huge|": "point-events-on-map--dot-map",
+  "process-sequence|explanatory|student-learner|network|k:categorical:few|": "process-sequence--flow-chart-plan",
+  "range-per-item|explanatory|domain-expert|table|k:categorical:some|v:quantitative:amount+v:quantitative:amount": "range-per-item--dumbbell-sorted",
+  "rank-change-two-points|explanatory|executive|table|k:categorical:some+k:temporal:few|v:quantitative:share": "rank-change-two-points--share-shift-slope",
+  "rank-change-two-points|explanatory|communicator-journalist|table|k:categorical:some+k:temporal:few|v:quantitative:amount": "rank-change-two-points--slope-chart",
+  "seasonality-cycles|analysis|domain-expert|table|k:ordinal:some+k:temporal:some|v:quantitative:count": "seasonality-cycles--month-by-year-heatmap",
+  "set-overlap|analysis|domain-expert|table|k:categorical:some|v:quantitative:count": "set-overlap--intersection-bars",
+  "set-overlap|explanatory|general-public|table|k:categorical:few|v:quantitative:count": "set-overlap--venn-two-or-three",
+  "spatial-change-over-time|analysis|domain-expert|geometry|k:geo-code:many+k:temporal:some|v:quantitative:count": "spatial-change-over-time--heatmap-region-by-year",
+  "spatial-change-over-time|explanatory|communicator-journalist|geometry|k:geo-code:many+k:temporal:few|v:quantitative:rate": "spatial-change-over-time--small-multiple-maps-few-periods",
+  "spatial-distribution|explanatory|general-public|geometry|k:geo-code:many|v:quantitative:rate": "spatial-distribution--choropleth-rate",
+  "spatial-distribution|analysis|domain-expert|geometry|k:geo-code:many|v:quantitative:rate": "spatial-distribution--map-with-linked-ranking",
+  "spatial-distribution|explanatory|general-public|geometry|k:geo-code:many|v:quantitative:amount": "spatial-distribution--sorted-bars-no-geometry",
+  "text-frequency|analysis|domain-expert|text|k:categorical:huge|v:quantitative:count": "text-frequency--top-terms-bars",
+  "trend-few-series|explanatory|domain-expert|table|k:categorical:few+k:temporal:many|v:quantitative:amount": "trend-few-series--lines-direct-labels",
+  "trend-few-series|analysis|domain-expert|table|k:categorical:few+k:temporal:many|v:quantitative:amount": "trend-few-series--small-multiples-different-units",
+  "trend-many-series|analysis|domain-expert|table|k:categorical:many+k:temporal:some|v:quantitative:count": "trend-many-series--heatmap-key-x-time",
+  "trend-many-series|explanatory|general-public|table|k:categorical:some+k:temporal:many|v:quantitative:amount": "trend-many-series--small-multiples-public",
+  "trend-single-series|explanatory|general-public|table|k:temporal:many|v:quantitative:amount": "trend-single-series--line",
+  "trend-single-series|exploration|data-analyst|table|k:temporal:huge|v:quantitative:amount": "trend-single-series--overview-detail-brush",
+  "trend-single-series|explanatory|executive|table|k:temporal:some|v:quantitative:count": "trend-single-series--yearly-bars-from-zero",
+  "uncertainty-of-estimate-or-forecast|analysis|scientist-reviewer|table|k:temporal:many|v:quantitative:amount+v:quantitative:amount+v:quantitative:amount": "uncertainty-of-estimate-or-forecast--gradient-interval-expert",
+  "uncertainty-of-estimate-or-forecast|explanatory|general-public|table||v:quantitative:amount": "uncertainty-of-estimate-or-forecast--quantile-dotplot-public"
+ },
+ "by_archetype": {
+  "categorical-state-over-time": [
+   "categorical-state-over-time--binned-state-heatmap"
+  ],
+  "category-breakdown-over-time": [
+   "category-breakdown-over-time--lines-few-categories"
+  ],
+  "compare-against-target": [
+   "compare-against-target--bullet-per-kpi"
+  ],
+  "compare-two-keys": [
+   "compare-two-keys--grouped-bars-few-few",
+   "compare-two-keys--heatmap-one-key-many"
+  ],
+  "compare-values-across-categories": [
+   "compare-values-across-categories--dot-plot-small-differences",
+   "compare-values-across-categories--sorted-horizontal-bar"
+  ],
+  "correlation-two-quantities": [
+   "correlation-two-quantities--linked-scatter-and-bars",
+   "correlation-two-quantities--scatter-with-trend"
+  ],
+  "distribution-change-over-time": [
+   "distribution-change-over-time--ridge-by-period"
+  ],
+  "distribution-compare-groups": [
+   "distribution-compare-groups--strip-with-summary",
+   "distribution-compare-groups--violins-large-n"
+  ],
+  "distribution-single": [
+   "distribution-single--histogram"
+  ],
+  "event-timeline-intervals": [
+   "event-timeline-intervals--gantt-rows"
+  ],
+  "exact-values-lookup": [
+   "exact-values-lookup--formatted-table"
+  ],
+  "flow-between-states": [
+   "flow-between-states--sankey"
+  ],
+  "hierarchy-structure": [
+   "hierarchy-structure--node-link-tree"
+  ],
+  "matrix-pattern-two-keys": [
+   "matrix-pattern-two-keys--reordered-heatmap"
+  ],
+  "multivariate-relationships": [
+   "multivariate-relationships--heatmap-items-by-measures",
+   "multivariate-relationships--parallel-coordinates-analyst"
+  ],
+  "network-relationships": [
+   "network-relationships--node-link-sparse"
+  ],
+  "part-to-whole-hierarchy": [
+   "part-to-whole-hierarchy--treemap-two-levels"
+  ],
+  "part-to-whole-over-time": [
+   "part-to-whole-over-time--stacked-area-few"
+  ],
+  "part-to-whole-single": [
+   "part-to-whole-single--pie-three-parts",
+   "part-to-whole-single--sorted-bars-with-percent"
+  ],
+  "point-events-on-map": [
+   "point-events-on-map--dot-map"
+  ],
+  "process-sequence": [
+   "process-sequence--flow-chart-plan"
+  ],
+  "range-per-item": [
+   "range-per-item--dumbbell-sorted"
+  ],
+  "rank-change-two-points": [
+   "rank-change-two-points--share-shift-slope",
+   "rank-change-two-points--slope-chart"
+  ],
+  "seasonality-cycles": [
+   "seasonality-cycles--month-by-year-heatmap"
+  ],
+  "set-overlap": [
+   "set-overlap--intersection-bars",
+   "set-overlap--venn-two-or-three"
+  ],
+  "spatial-change-over-time": [
+   "spatial-change-over-time--heatmap-region-by-year",
+   "spatial-change-over-time--small-multiple-maps-few-periods"
+  ],
+  "spatial-distribution": [
+   "spatial-distribution--choropleth-rate",
+   "spatial-distribution--map-with-linked-ranking",
+   "spatial-distribution--sorted-bars-no-geometry"
+  ],
+  "text-frequency": [
+   "text-frequency--top-terms-bars"
+  ],
+  "trend-few-series": [
+   "trend-few-series--lines-direct-labels",
+   "trend-few-series--small-multiples-different-units"
+  ],
+  "trend-many-series": [
+   "trend-many-series--heatmap-key-x-time",
+   "trend-many-series--small-multiples-public"
+  ],
+  "trend-single-series": [
+   "trend-single-series--line",
+   "trend-single-series--overview-detail-brush",
+   "trend-single-series--yearly-bars-from-zero"
+  ],
+  "uncertainty-of-estimate-or-forecast": [
+   "uncertainty-of-estimate-or-forecast--gradient-interval-expert",
+   "uncertainty-of-estimate-or-forecast--quantile-dotplot-public"
+  ]
+ },
+ "count": 48
+}

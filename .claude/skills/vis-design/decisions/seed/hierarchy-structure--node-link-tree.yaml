@@ -1,0 +1,108 @@
+# vis-design seed decision: Structure of a tree as a node-link diagram
+schema_version: 1
+id: hierarchy-structure--node-link-tree
+status: declared
+title: Structure of a tree as a node-link diagram
+problem:
+  archetype: hierarchy-structure
+  catalog_functions:
+  - hierarchy
+  - reference-tool
+  statement: How is {organisation} structured?
+  mode: explanatory
+  domain_examples:
+  - org chart
+  - file system
+  - taxonomy
+user:
+  profile: general-public
+  modifiers: []
+tasks:
+  why:
+    goal: present
+    search: lookup
+    query: identify
+  low_level:
+  - retrieve-value
+  - cluster
+  - gist
+  temporal: []
+  shneiderman:
+  - overview
+  - zoom
+data:
+  dataset_type: tree
+  keys:
+  - role: hierarchy-level
+    type: categorical
+    cardinality: some
+  values: []
+  items: tiny
+constraints: []
+solution:
+  idiom: tree_diagram
+  family: tree
+  mark: point
+  encodings:
+  - attribute: hierarchy-level
+    channel: position-y
+    scale: ordinal
+    note: depth
+  - attribute: hierarchy-level
+    channel: connection
+  - attribute: none
+    channel: color-hue
+    scale: nominal
+  derived_data:
+  - depth per node; collapsed branches beyond depth 4
+  ordering: children ordered alphabetically or by size
+  color:
+    purpose: none
+    palette_type: neutral-accent
+    suggested:
+    - '#4d4d4d'
+    cvd_safe: true
+  text:
+    title: descriptive
+    axis_units: true
+    direct_labels: true
+    annotations: []
+    source_line: true
+  interaction:
+    level: optional
+    default_state_answers_task: true
+    intents:
+    - abstract-elaborate
+  layout:
+    small_multiples: false
+    facet_by: null
+    aspect: wide
+  rejected_alternatives:
+  - idiom: treemap
+    reason: structure matters more than size
+    rule: EFF-02
+  - idiom: sunburst_diagram
+    reason: labels unreadable
+    rule: TXT-10
+  validation:
+    stage3_checks:
+    - EFF-16
+    - CLT-03
+    critique_skill: optional
+  library_notes:
+    altair: 'no native tree layout: precompute positions (networkx) and draw mark_line + mark_text'
+    matplotlib: networkx + matplotlib
+    plotly: plotly go.Scatter with computed layout or igraph
+rationale: Connection is the strongest grouping cue for parent–child relations; depth on one axis keeps levels readable.
+confidence: medium
+provenance:
+  origin: seed
+  author: vis-design
+  created: '2026-11-07'
+  updated: '2026-11-07'
+  times_used: 0
+  last_used: null
+  supersedes: null
+  sources:
+  - Munzner 2014
+  - Wilke 2019

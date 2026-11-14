@@ -1,0 +1,109 @@
+# vis-design seed decision: Two or three parts of a whole with simple fractions as a pie
+schema_version: 1
+id: part-to-whole-single--pie-three-parts
+status: declared
+title: Two or three parts of a whole with simple fractions as a pie
+problem:
+  archetype: part-to-whole-single
+  catalog_functions:
+  - proportions
+  - part-to-a-whole
+  statement: What share of {total} do the two or three {category} take?
+  mode: explanatory
+  domain_examples:
+  - yes/no/undecided in a poll
+  - domestic vs export sales
+  - on-time vs late
+user:
+  profile: communicator-journalist
+  modifiers: []
+tasks:
+  why:
+    goal: present
+    search: lookup
+    query: identify
+  low_level:
+  - gist
+  - retrieve-value
+  temporal: []
+  shneiderman:
+  - overview
+data:
+  dataset_type: table
+  keys:
+  - role: category
+    type: categorical
+    cardinality: few
+  values:
+  - role: measure
+    type: quantitative
+    semantics: share
+    derived: true
+    derivation: share = part / total
+  items: tiny
+constraints:
+- few-categories-only
+solution:
+  idiom: pie_chart
+  family: pie
+  mark: arc
+  encodings:
+  - attribute: measure
+    channel: angle
+    scale: linear
+  - attribute: category
+    channel: color-hue
+    scale: nominal
+  derived_data:
+  - share per category
+  ordering: largest first clockwise from 12 o'clock
+  color:
+    purpose: distinguish
+    palette_type: qualitative
+    suggested:
+    - okabe-ito
+    max_hues: 3
+    cvd_safe: true
+    second_cue: direct label
+  text:
+    title: takeaway
+    axis_units: true
+    direct_labels: true
+    annotations:
+    - percent inside slices
+    source_line: true
+  interaction:
+    level: none
+    default_state_answers_task: true
+    intents: []
+  layout:
+    small_multiples: false
+    facet_by: null
+    aspect: square
+  rejected_alternatives:
+  - idiom: bar_chart
+    reason: for 2–3 parts a pie reads the fraction (half, quarter) faster
+    rule: IDM-PIE
+  validation:
+    stage3_checks:
+    - IDM-PIE
+    - EXP-05
+    - CMP-01
+    critique_skill: optional
+  library_notes:
+    altair: mark_arc with theta, order by value
+    matplotlib: ax.pie startangle=90 counterclock=False autopct
+    plotly: px.pie sort=True
+rationale: 'Pies work only here: ≤3 parts, distinct sizes, simple fractions, a single whole (Kosara & Skau 2016).'
+confidence: medium
+provenance:
+  origin: seed
+  author: vis-design
+  created: '2026-11-07'
+  updated: '2026-11-07'
+  times_used: 0
+  last_used: null
+  supersedes: null
+  sources:
+  - Kosara & Skau 2016
+  - Few 2004

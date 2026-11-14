@@ -1,0 +1,75 @@
+# Problem archetype: A categorical state sampled over time
+id: categorical-state-over-time
+name: A categorical state sampled over time
+question_templates:
+- Which {category} state occurs when, and for how long?
+- At what times of {time} does each {category} state dominate?
+catalog_functions:
+- data-over-time
+- patterns
+chart_types_md_sections:
+- Relationships / Heat map
+- Time series / Calendar heatmap, punch card
+default_tasks:
+  why:
+    goal: discover
+    search: browse
+    query: identify
+  low_level:
+  - characterize-distribution
+  - find-anomalies
+  - compare
+  - cluster
+  temporal:
+  - existence
+  - temporal-location
+  - interval
+  - pattern
+  - sequence
+expected_shape:
+  dataset_type: table
+  keys:
+  - type: temporal
+    cardinality:
+    - many
+    - huge
+  - type: categorical
+    cardinality:
+    - few
+    - some
+  values:
+  - type: quantitative
+    semantics: share
+preferred_idioms:
+- heatmap
+- gantt_chart
+- timeline
+- small_multiples
+- stacked_bar_graph
+discouraged_idioms:
+- idiom: line_graph
+  when: the state is nominal, so a line through it implies an order and in-between values
+  rule: EXP-03
+- idiom: scatterplot
+  when: raw samples are coloured by a dozen hues
+  rule: COL-04
+- idiom: stacked_area_graph
+  when: more than ~5 states, or individual states must be compared
+  rule: IDM-STACK
+- idiom: pie_chart
+  when: the timing matters, not only the total share
+  rule: IDM-PIE
+related_archetypes:
+- event-timeline-intervals
+- seasonality-cycles
+- part-to-whole-over-time
+disambiguation: 'The raw record is one nominal label per instant, sampled densely; states are mutually exclusive.
+  Derive before drawing: either bin time and compute the share (or count) of each state per bin → heatmap of time
+  bin × state, or stacked bars per bin when shares must sum visibly; or merge consecutive equal samples into intervals
+  (run-length merging) → gantt/timeline rows, which is event-timeline-intervals once the intervals exist. A repeating
+  daily or weekly rhythm → seasonality-cycles; a few states whose shares over long periods are the point → part-to-whole-over-time.'
+domain_examples:
+- dominant sound class per second over a day
+- machine status per minute over a shift
+- sleep stage per 30-second epoch over a night
+- activity label per sample from a wearable sensor

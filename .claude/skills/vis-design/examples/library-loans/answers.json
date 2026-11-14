@@ -1,0 +1,32 @@
+{
+  "title": "Loans per branch, 2019-2024",
+  "language": "en",
+  "problem": {
+    "archetype": "compare-values-across-categories",
+    "catalog_functions": ["comparisons"],
+    "statement": "Which branches lend the most books over the whole period?",
+    "mode": "explanatory"
+  },
+  "user": {"profile": "executive", "modifiers": []},
+  "tasks": {
+    "why": {"goal": "present", "search": "lookup", "query": "compare"},
+    "low_level": ["compare", "find-extremum", "sort", "retrieve-value"],
+    "temporal": [],
+    "shneiderman": ["overview"]
+  },
+  "data": {
+    "dataset_type": "table",
+    "source_file": "loans.csv",
+    "keys": [{"role": "category", "type": "categorical", "cardinality": 12, "source_column": "branch"}],
+    "values": [{"role": "measure", "type": "quantitative", "semantics": "count", "derived": true,
+                "derivation": "count of rows per branch", "unit": "loans"}],
+    "items": "tiny",
+    "filters": [],
+    "normalization": null,
+    "parse": {"delimiter": ",", "decimal": ".", "date_format": "%d/%m/%Y", "code_columns": ["branch_code"]}
+  },
+  "constraints": ["static-only"],
+  "library": "matplotlib",
+  "host": "script",
+  "stage_validation": {"stage1": "confirmed", "stage2": "confirmed"}
+}

@@ -1,0 +1,112 @@
+# vis-design seed decision: Shape of one numeric variable as a histogram
+schema_version: 1
+id: distribution-single--histogram
+status: declared
+title: Shape of one numeric variable as a histogram
+problem:
+  archetype: distribution-single
+  catalog_functions:
+  - distribution
+  statement: How are the values of {measure} distributed?
+  mode: analysis
+  domain_examples:
+  - size of individual events
+  - response times
+  - exam scores
+user:
+  profile: data-analyst
+  modifiers: []
+tasks:
+  why:
+    goal: discover
+    search: browse
+    query: summarize
+  low_level:
+  - characterize-distribution
+  - find-anomalies
+  - determine-range
+  temporal: []
+  shneiderman:
+  - overview
+  - zoom
+data:
+  dataset_type: table
+  keys: []
+  values:
+  - role: measure
+    type: quantitative
+    semantics: amount
+  items: medium
+constraints: []
+solution:
+  idiom: histogram
+  family: histogram
+  mark: line
+  encodings:
+  - attribute: measure
+    channel: position-x
+    scale: linear
+    bin: true
+  - attribute: derived
+    channel: length
+    scale: linear
+    zero: true
+  derived_data:
+  - count per bin; bin width chosen after trying 3 widths; log x if the variable spans orders of magnitude
+  ordering: bins contiguous, ascending
+  color:
+    purpose: none
+    palette_type: neutral-accent
+    suggested:
+    - '#4d4d4d'
+    cvd_safe: true
+  text:
+    title: descriptive
+    axis_units: true
+    direct_labels: false
+    annotations:
+    - median and n annotated
+    source_line: true
+  interaction:
+    level: optional
+    default_state_answers_task: true
+    intents:
+    - abstract-elaborate
+  layout:
+    small_multiples: false
+    facet_by: null
+    aspect: wide
+  rejected_alternatives:
+  - idiom: box_plot
+    reason: hides multimodality
+    rule: EXP-16
+  - idiom: pie_chart
+    reason: always
+    rule: IDM-PIE
+  - idiom: density_plot
+    reason: lay readers misread densities; keep as a second layer
+    rule: EXP-15
+  validation:
+    stage3_checks:
+    - EXP-15
+    - EXP-08
+    - TXT-08
+    critique_skill: optional
+  library_notes:
+    altair: mark_bar with alt.X(bin=alt.Bin(maxbins=30))
+    matplotlib: ax.hist bins=…; annotate median
+    plotly: px.histogram nbins
+rationale: Binned counts on length from zero show shape, tails and gaps with a familiar idiom; the bin width is
+  a declared, explored choice.
+confidence: high
+provenance:
+  origin: seed
+  author: vis-design
+  created: '2026-11-07'
+  updated: '2026-11-07'
+  times_used: 0
+  last_used: null
+  supersedes: null
+  sources:
+  - Munzner 2014
+  - Wilke 2019

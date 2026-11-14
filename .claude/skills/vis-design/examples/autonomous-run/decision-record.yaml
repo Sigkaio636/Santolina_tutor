@@ -1,0 +1,179 @@
+# vis-design decision record (project)
+schema_version: 1
+status: candidate
+title: Area share shift by region
+language: es
+problem:
+  archetype: rank-change-two-points
+  catalog_functions:
+  - comparisons
+  - data-over-time
+  statement: ¿Ha cambiado el reparto de la superficie (AREA_HA) entre regiones entre el inicio (2015-2017)
+    y el final (2022-2024) del periodo?
+  mode: analysis
+  domain_examples:
+  - share of burnt area per region at the start vs the end of a decade of events
+user:
+  profile: domain-expert
+  modifiers: []
+tasks:
+  why:
+    goal: present
+    search: locate
+    query: compare
+  low_level:
+  - compare
+  - compute-derived
+  - sort
+  - find-extremum
+  - gist
+  temporal:
+  - rate-of-change
+  shneiderman:
+  - overview
+data:
+  dataset_type: table
+  keys:
+  - role: time
+    type: temporal
+    cardinality: few
+    grain: year
+    n_levels: 2
+  - role: category
+    type: categorical
+    cardinality: many
+    n_levels: 40
+  values:
+  - role: measure
+    type: quantitative
+    semantics: share
+    derived: true
+    derivation: share_pct = 100 * sum(AREA_HA) per (period, REGION) / sum(AREA_HA) per period
+  items: tiny
+  signature: table|k:categorical:many+k:temporal:few|v:quantitative:share
+constraints:
+- static-only
+solution:
+  idiom: dumbbell_plot
+  family: slope
+  mark: point
+  encodings:
+  - attribute: category
+    channel: position-y
+    scale: ordinal
+    sort: delta_pp descending (gains on top, losses at the bottom)
+  - attribute: measure
+    channel: position-x
+    scale: linear
+    zero: true
+    note: share of the period total, %
+  - attribute: time
+    channel: shape
+    scale: nominal
+    note: open circle = first period, filled circle = last period
+  - attribute: time
+    channel: color-luminance
+    scale: ordinal
+    note: light grey = first period, dark = last period
+  - attribute: category
+    channel: connection
+    note: segment joining the two dots of a region; its length is |delta_pp|
+  - attribute: highlight
+    channel: color-hue
+    scale: nominal
+    note: 'accent only on regions with |delta_pp| >= 2: blue gain, vermillion loss; the rest grey'
+  - attribute: derived
+    channel: text
+    note: delta_pp printed at the row end with its sign
+  derived_data:
+  - period = 'inicio' if year(EVENT_DATE) in 2015..2017, 'final' if year in 2022..2024, else excluded
+  - area_period = sum(AREA_HA) per (period, REGION)
+  - share_pct = 100 * area_period / sum(AREA_HA) per period
+  - delta_pp = share_pct(final) - share_pct(inicio)
+  - top10_share(period) = sum of the 10 largest share_pct in that period
+  - n_events per (period, REGION) for the footer
+  ordering: rows sorted by delta_pp descending; the two period dots labelled once on the top row instead
+    of a legend
+  color:
+    purpose: highlight
+    palette_type: neutral-accent
+    suggested:
+    - '#8c8c8c'
+    - '#0072b2'
+    - '#d55e00'
+    cvd_safe: true
+    second_cue: sign printed in the delta label, sorted order, open vs filled dot for the period
+  text:
+    title: takeaway
+    axis_units: true
+    direct_labels: true
+    annotations:
+    - period definition and measure definition in the subtitle
+    - delta in percentage points at each row end
+    - events per period and median events per region in the footer
+    source_line: true
+  interaction:
+    level: none
+    default_state_answers_task: true
+    intents: []
+  layout:
+    small_multiples: false
+    facet_by: null
+    aspect: tall
+  rejected_alternatives:
+  - idiom: slope_chart
+    reason: 'stored default, but 40 regions whose shares cluster in a 0.5-6.7 % band need 40 direct labels
+      at each end: they collide and the lines become spaghetti; the dumbbell gives each region its own
+      row'
+    rule: EFF-16
+  - idiom: bar_chart
+    reason: a single bar of delta_pp hides the levels the delta comes from; paired bars per region double
+      the marks and hide direction
+    rule: EFF-19
+  - idiom: bump_chart
+    reason: ranks only; the magnitude of the share matters
+    rule: EXP-18
+  - idiom: heatmap
+    reason: two columns of colour cells make a 1-2 pp change invisible; luminance is a weak channel for
+      the main task
+    rule: EFF-01
+  - idiom: pie_chart
+    reason: two pies of 40 slices cannot be compared
+    rule: IDM-PIE
+  - idiom: stacked_bar_graph
+    reason: 'two 100 % stacked bars with 40 segments: middle segments have no baseline'
+    rule: IDM-STACK
+  validation:
+    stage3_checks:
+    - CMP-01
+    - TXT-04
+    - EFF-09
+    - EXP-13
+    - COL-05
+    - SCL-06
+    - TXT-08
+    - DAT-03
+    critique_skill: optional
+  library_notes:
+    altair: mark_rule between the two shares + two mark_point layers; sort y by delta; mark_text for delta
+    matplotlib: ax.hlines per row + two scatter calls (open/filled); ax.text for delta; tall figsize
+    plotly: go.Scatter lines per row (mode lines) + two marker traces; annotations for delta
+rationale: Two periods and forty regions is the shape of rank-change-two-points; the stored slope chart
+  (seed rank-change-two-points--slope-chart, REUSE 0.83) was rejected by the stage-3 rule checklist because
+  40 end labels in a 6-point band collide (EFF-16). A dumbbell sorted by change gives every region its
+  own row, puts the shares on a common zero-based x axis (position, the top channel) and the change on
+  segment length and sorted order, so gist, find-extremum and compare are immediate; the concentration
+  summary (top-10 share) in the computed title answers whether the overall split changed.
+confidence: medium
+provenance:
+  origin: project
+  author: vis-design (autonomous run, assumptions not confirmed)
+  sources:
+  - seed rank-change-two-points--slope-chart
+  - seed distribution-change-over-time--share-shift-slope
+  - chart-catalog dumbbell_plot
+  created: '2026-11-07'
+  updated: '2026-11-07'
+  times_used: 1
+  last_used: '2026-11-07'
+id: p-rank-change-two-points--area-share-shift-by-region-20261107

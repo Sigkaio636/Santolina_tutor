@@ -1,0 +1,119 @@
+# vis-design seed decision: Actual vs target per item as bullet graphs
+schema_version: 1
+id: compare-against-target--bullet-per-kpi
+status: declared
+title: Actual vs target per item as bullet graphs
+problem:
+  archetype: compare-against-target
+  catalog_functions:
+  - comparisons
+  - range
+  statement: Is {measure} on target for each {category}?
+  mode: explanatory
+  domain_examples:
+  - KPI vs plan per department
+  - vaccination vs goal per district
+  - response time vs SLA per service
+user:
+  profile: executive
+  modifiers: []
+tasks:
+  why:
+    goal: present
+    search: lookup
+    query: compare
+  low_level:
+  - compare
+  - retrieve-value
+  - compute-derived
+  temporal: []
+  shneiderman:
+  - overview
+data:
+  dataset_type: table
+  keys:
+  - role: category
+    type: categorical
+    cardinality: few
+  values:
+  - role: measure
+    type: quantitative
+    semantics: amount
+  - role: measure2
+    type: quantitative
+    semantics: amount
+  items: tiny
+constraints: []
+solution:
+  idiom: bullet_graph
+  family: bullet
+  mark: line
+  encodings:
+  - attribute: category
+    channel: position-y
+    scale: ordinal
+  - attribute: measure
+    channel: length
+    scale: linear
+    zero: true
+  - attribute: measure2
+    channel: position-x
+    scale: linear
+    marker: target tick
+  derived_data:
+  - gap = measure - target
+  ordering: by gap ascending (worst first)
+  color:
+    purpose: highlight
+    palette_type: neutral-accent
+    suggested:
+    - '#8c8c8c'
+    - '#0072b2'
+    cvd_safe: true
+    second_cue: direct label
+  text:
+    title: takeaway
+    axis_units: true
+    direct_labels: true
+    annotations:
+    - gap printed per row
+    source_line: true
+  interaction:
+    level: none
+    default_state_answers_task: true
+    intents: []
+  layout:
+    small_multiples: false
+    facet_by: null
+    aspect: tall
+  rejected_alternatives:
+  - idiom: radar_chart
+    reason: axis order arbitrary; polygon area misleads
+    rule: IDM-RADAR/GAUGE
+  - idiom: pie_chart
+    reason: not a part-to-whole
+    rule: IDM-PIE
+  validation:
+    stage3_checks:
+    - EXP-08
+    - IDM-RADAR/GAUGE
+    - TXT-08
+    critique_skill: optional
+  library_notes:
+    altair: layer mark_bar + mark_tick for the target
+    matplotlib: barh + axvline/scatter ticks per row
+    plotly: go.Indicator bullet mode or bar + scatter markers
+rationale: Length against a target tick reads in a second; bands for qualitative ranges are optional and must stay
+  light.
+confidence: high
+provenance:
+  origin: seed
+  author: vis-design
+  created: '2026-11-07'
+  updated: '2026-11-07'
+  times_used: 0
+  last_used: null
+  supersedes: null
+  sources:
+  - Munzner 2014
+  - Wilke 2019

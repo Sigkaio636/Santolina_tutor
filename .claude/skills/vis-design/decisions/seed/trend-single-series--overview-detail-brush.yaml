@@ -1,0 +1,162 @@
+# vis-design seed decision: Long time series as an overview with a brushed detail view
+schema_version: 1
+id: trend-single-series--overview-detail-brush
+status: declared
+title: Long time series as an overview with a brushed detail view
+problem:
+  archetype: trend-single-series
+  catalog_functions:
+  - data-over-time
+  statement: How has {measure} changed over {time}, and what happens inside a chosen period?
+  mode: exploration
+  domain_examples:
+  - hourly energy load over several years
+  - server latency per minute over a month
+  - daily closing price over decades
+user:
+  profile: data-analyst
+  modifiers: []
+tasks:
+  why:
+    goal: discover
+    search: explore
+    query: identify
+  low_level:
+  - trend
+  - find-anomalies
+  - find-extremum
+  - filter
+  - retrieve-value
+  temporal:
+  - pattern
+  - rate-of-change
+  - temporal-location
+  shneiderman:
+  - overview
+  - zoom
+  - filter
+  - details-on-demand
+data:
+  dataset_type: table
+  keys:
+  - role: time
+    type: temporal
+    cardinality: huge
+    grain: hour
+  values:
+  - role: measure
+    type: quantitative
+    semantics: amount
+  items: medium
+constraints:
+- interactive-required
+solution:
+  idiom: overview_detail
+  family: composite
+  mark: line
+  encodings:
+  - attribute: time
+    channel: position-x
+    scale: temporal
+    note: 'overview: full extent; detail: the brushed extent'
+  - attribute: measure
+    channel: position-y
+    scale: linear
+    zero: false
+    note: same unit in both views; the detail axis may rescale to the window, and says so
+  - attribute: highlight
+    channel: color-luminance
+    scale: nominal
+    note: brushed range shaded in the overview
+  derived_data:
+  - overview drawn from a per-day (or coarser) aggregate with a min–max envelope so spikes survive
+  - detail drawn from the raw grain inside the brushed range
+  ordering: chronological; detail above, short overview strip below
+  color:
+    purpose: highlight
+    palette_type: neutral-accent
+    suggested:
+    - '#8c8c8c'
+    - '#0072b2'
+    cvd_safe: true
+    second_cue: brush rectangle outline
+  text:
+    title: descriptive
+    axis_units: true
+    direct_labels: false
+    annotations:
+    - selected date range printed in the detail title
+    - 'hint under the overview: drag to select a period'
+    - note when the detail y axis is rescaled to the window
+    source_line: true
+  interaction:
+    level: required
+    default_state_answers_task: true
+    intents:
+    - select
+    - filter
+    - abstract-elaborate
+    - connect
+  layout:
+    small_multiples: false
+    facet_by: null
+    aspect: wide
+  composition:
+    type: overview-detail
+    relation: overview-detail
+    data_sharing: subset
+    encoding_sharing: same
+    views:
+    - id: overview
+      idiom: line_graph
+      role: overview
+    - id: detail
+      idiom: line_graph
+      role: detail
+    links:
+    - from: overview
+      to: detail
+      type: navigation
+  rejected_alternatives:
+  - idiom: line_graph
+    reason: one static line squeezes tens of thousands of points; local shape is lost
+    rule: EFF-19
+  - idiom: small_multiples
+    reason: one panel per period cuts events at panel borders and fixes the window
+    rule: CMP-13
+  - idiom: horizon_graph
+    reason: meant for many series in little space, not for zooming into one
+    rule: EFF-17
+  validation:
+    stage3_checks:
+    - INT-04
+    - INT-09
+    - INT-02
+    - CMP-13
+    - DAT-14
+    - IDM-LINE
+    critique_skill: optional
+  library_notes:
+    altair: brush = alt.selection_interval(encodings=['x']) added to the overview with add_params, initial value
+      set to the most recent period; detail uses alt.X(..., scale=alt.Scale(domain=brush)); combine with detail
+      & overview (vconcat), overview height ~60 px
+    matplotlib: static figures cannot brush; in an interactive backend use matplotlib.widgets.SpanSelector on the
+      overview axis to set_xlim on the detail axis
+    plotly: fig.update_xaxes(rangeslider_visible=True) gives a built-in overview strip; add rangeselector buttons
+      for common windows
+rationale: A series this long cannot show its overall course and its local shape in one static view. The overview
+  keeps the analyst oriented while the brush chooses what the detail shows, so zooming never loses context (Cockburn
+  et al. 2009). The brush starts on the most recent period, so the default state already answers a sensible question.
+confidence: high
+provenance:
+  origin: seed
+  author: vis-design
+  created: '2026-11-13'
+  updated: '2026-11-13'
+  times_used: 0
+  last_used: null
+  supersedes: null
+  sources:
+  - Cockburn, Karlson & Bederson 2009
+  - Munzner 2014
+  - Shneiderman 1996
