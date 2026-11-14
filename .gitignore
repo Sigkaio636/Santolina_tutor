@@ -205,3 +205,8 @@ docs/vault/.obsidian/workspace*.json
 docs/vault/.obsidian/cache
 docs/vault/.trash/
 docs/vault/**/*.pdf
+# MinerU output of the paper-summarizer skill (derived, large)
+docs/vault/**/parsed/
+
+# MinerU config + weights (machine-specific, ~1.6 GB)
+/models/mineru-home/
