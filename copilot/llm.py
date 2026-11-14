@@ -3,6 +3,8 @@ from .config import CONFIG
 from .client import post
 
 URL = f"http://127.0.0.1:{CONFIG['LLM_PORT']}/v1/chat/completions"
+# "decider": plain-text prompt for Mapika/decider-* models, sent to /completion
+PROMPT = CONFIG.get("LLM_PROMPT", "chat")
 
 # Keep the system prompt stable: llama-server caches the start of the prompt,
 # so text that never changes is only read once.
@@ -38,8 +40,28 @@ def build_messages(problem, examples=(), image_b64=None):
     return messages
 
 
+def build_decider_prompt(problem):
+    """The 'plain' layout of Mapika/decider: the letter is read right after 'Answer: ('."""
+    options = problem.get("options") or {}
+    lines = ["Context:\n" + problem["text"].strip(), "",
+             "Question: Which option is the correct answer?", "Options:"]
+    for letter in "ABCDE":
+        lines.append(f"({letter}) {options.get(letter, 'option ' + letter)}")
+    return "\n".join(lines) + "\nAnswer: ("
+
+
 def answer_letter(problem, examples=(), timeout=60, image_b64=None, url=URL):
     """Return (letter, timings). The grammar makes any other output impossible."""
+    if PROMPT == "decider" and not image_b64:  # no RAG examples in this layout
+        response = post(url.replace("/v1/chat/completions", "/completion"), {
+            "prompt": build_decider_prompt(problem),
+            "grammar": "root ::= [A-E]",
+            "n_predict": 1,
+            "temperature": 0,
+            "seed": int(CONFIG["SEED"]),
+            "cache_prompt": True,
+        }, timeout=timeout)
+        return response["content"].strip(), response.get("timings", {})
     response = post(url, {
         "messages": build_messages(problem, examples, image_b64),
         "grammar": "root ::= [A-E]",

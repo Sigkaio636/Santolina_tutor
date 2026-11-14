@@ -15,7 +15,12 @@ Vendored-in skill. Not authored here; fixes go upstream and return as a re-sync.
 Exhaustive. A new one is added here in the same commit that introduces it,
 otherwise the next re-sync reverts it silently.
 
-None. `SKILL.md` is byte-identical to the commit above.
+`SKILL.md` is byte-identical to the commit above. The board code differs in:
+
+- `config.env`: new key `LLM_PROMPT=chat` (prompt layout; `decider` is opt-in).
+- `copilot/llm.py`: `build_decider_prompt()` and a `/completion` branch in
+  `answer_letter()` used only when `LLM_PROMPT=decider`, for Mapika/decider-*
+  models. The default `chat` path is unchanged.
 
 `.skills/README.md` upstream is not vendored: its symlink setup doesn't apply,
 because skills here live directly in `.claude/skills/`. Its skills table is in
