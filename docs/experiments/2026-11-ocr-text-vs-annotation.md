@@ -3,10 +3,10 @@
 This report measures how close the text that two OCR engines read from the problem
 images is to the question text that the dataset gives us as data. The engines are
 PP-OCRv4 and PP-OCRv5. It is for the team and the datathon judges, to help them
-choose the engine. Laptop run, 2026-11-14, branch `exp/decider-0.8b`.
+choose the engine. Laptop run, 2026-11-14.
 
 [M3Kang](https://huggingface.co/datasets/qualcomm/M3Kang) is the dataset of Kangaroo
-maths problems that the copilot answers. Each problem has the question as text and as
+maths problems that the copilot (our tutoring app on the Arduino UNO Q) answers. Each problem has the question as text and as
 an image. The five answer options, A to E, are only in the image. The
 [OCR failure modes page](../OCR_FAILURE_MODES.md) measures how many options the OCR
 reads, and it has no annotated text to compare against. This report adds that
@@ -18,6 +18,8 @@ The [OCR failure modes page](../OCR_FAILURE_MODES.md#background-how-the-options-
 defines the terms for the options. The terms for this report:
 
 - **OCR** (optical character recognition) reads the text in an image.
+- **PP-OCRv4 and PP-OCRv5**: two generations of the PaddleOCR text models. The RapidOCR
+  packages run them.
 - **Box**: a region of the image that the OCR returns, with the text it read.
 - **Reference** (also called the annotation): the question text in the `text` column of
   M3Kang.
@@ -32,10 +34,11 @@ defines the terms for the options. The terms for this report:
 ## Summary
 
 - **Use PP-OCRv5 (`rapidocr` 3.10) for the question text.** Keep PP-OCRv4 only as a
-  fallback, but we did not define or test the fallback. The 70 % rule below needs the
-  reference, so it cannot run on a new problem. PP-OCRv5 reaches 70 % of the reference
-  length in 587 clean rows where PP-OCRv4 does not. PP-OCRv4 does so in 203 rows where
-  PP-OCRv5 does not. We did not test the combination of the two for the question.
+  fallback, but we did not define or test the fallback. No switch condition exists: the
+  70 % check below needs the reference, so it cannot run on a new problem. A row is
+  short when the OCR text has under 70 % of the reference characters. PP-OCRv5 is not
+  short in 587 clean rows where PP-OCRv4 is. PP-OCRv4 is not short in 203 rows where
+  PP-OCRv5 is. We did not test the combination of the two for the question.
 - **PP-OCRv5 reads the question better in all three languages.** On 2,236 clean rows
   (of 2,277 text-only rows in English, Catalan and Spanish), the mean CER with spaces
   ignored is 9.5 % for PP-OCRv5 and 21.6 % for PP-OCRv4. With spaces counted, it is
@@ -44,17 +47,18 @@ defines the terms for the options. The terms for this report:
   PP-OCRv4. We did not measure whether lost spaces matter for the copilot. The two
   runs also differ in package (`rapidocr` 3.10 against `rapidocr_onnxruntime` 1.4.4),
   so the gap is between two setups, not only two model versions.
-- **The OCR reads the typical row well, but the mean is mostly missing text.** The
-  median CER is 0.4 % for PP-OCRv5 and 4.5 % for PP-OCRv4. A row is short when the OCR
-  text is under 70 % of the reference length. That is 330 of 2,236 rows for PP-OCRv5
-  and 714 for PP-OCRv4. They give 89 % and 84 % of the summed CER. On the other rows
+- **The OCR reads the typical row well, but the mean comes mostly from short rows.** The
+  median CER is 0.4 % for PP-OCRv5 and 4.5 % for PP-OCRv4. There are 330 short rows of
+  2,236 for PP-OCRv5 and 714 for PP-OCRv4. They give 89 % and 84 % of the summed CER. On the other rows
   the mean CER is 1.2 % and 5.3 %. We do not know why the texts are short (see
   [Rows where the OCR text is much shorter](#rows-where-the-ocr-text-is-much-shorter)).
-- **How sure we are.** The result is strong for the question text of text-only rows,
-  from one file. It says nothing yet about the options, which matter more because only
-  the image has them. The cause of the short texts is unknown. We checked 4 lists of
-  boxes and 2 images by hand, and no person looked at them. If the hidden test gives
-  the question as text, the pipeline does not need OCR for the question.
+- **How sure we are.** The gap is large and consistent for the question text of
+  text-only rows, from one file of the dataset. It says nothing yet about the options,
+  which matter more because only the image has them. The cause of the short texts is
+  unknown. We checked 4 lists of boxes and 2 images. An AI coding agent did the checks,
+  and no team member looked at them. If the hidden test (the organizers' unseen set of
+  problems) gives the question as text, the pipeline (the copilot's code that answers a
+  problem) does not need OCR for the question.
 
 ## Why we ran it
 
@@ -175,8 +179,8 @@ The short rows give 89 % of the summed CER for PP-OCRv5 and 84 % for PP-OCRv4. O
 other rows the mean CER is 1.2 % for PP-OCRv5 (1,906 rows) and 5.3 % for PP-OCRv4
 (1,522 rows). The script prints these figures.
 
-A short OCR text is a sign of missing lines, not proof. A wrong read, or option text
-left in the OCR text, also changes the length.
+A short OCR text is a sign of missing lines, not proof. A wrong read, or lines that the
+cut at `A` or the reading order moved out of the text, also change the length.
 
 **What we know.** Two manual checks, on different rows, by Claude, the coding agent of
 this project. No person looked at the images. They are anecdotes: the choice of rows is
@@ -188,9 +192,9 @@ not saved in the repository.
 - We drew 3 rows at random (seed 1) from the 203 rows where only PP-OCRv4 reaches 70 %,
   and opened the images of 2 of them. The full question is in both images.
 
-So for 2 rows we know that the engine skipped lines of a question that is in the image.
-We did not run an engine again to see whether the text detector loses the lines. Two
-images show that this happens, not how often or why.
+So for 2 rows the image holds the full question and the PP-OCRv5 text is short. We did
+not run an engine again to see whether the text detector loses the lines. Two images
+show that a short text can come from a full question, not how often or why.
 
 **A figure we do not use.** If we score only the rows where an engine's own text reaches
 70 % of the reference length, that engine looks much better. The filter depends on the
