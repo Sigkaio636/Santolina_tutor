@@ -26,6 +26,12 @@ clean:
 	find . -type d -name "__pycache__" -delete
 
 
+## Run the copilot tests (standard library only, no model or M3Kang data needed)
+.PHONY: test
+test:
+	python3 -m unittest discover -s tests -v
+
+
 ## Lint using ruff (use `make format` to do formatting)
 .PHONY: lint
 lint:

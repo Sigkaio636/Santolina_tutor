@@ -128,7 +128,7 @@ The script checks both servers, makes one embedding, and answers the five sample
 
 ==> Baseline on the 5 sample problems
   0/5 correct, worst latency 7.0 s
-  OK    the minimum pipeline works.
+  OK    the minimum pipeline works. Next: answer problems with the copilot (docs/how-to/use-copilot-on-board.md)
 ```
 
 Your times can differ by a second or two. Check these points:
