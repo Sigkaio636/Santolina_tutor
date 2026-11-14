@@ -1,0 +1,630 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Claude skills guide</title>
+<style>
+:root{
+  --bg:#f7f7f5; --surface:#ffffff; --surface-2:#f0f0ec; --text:#1d1d1b; --muted:#5f5f5a; --border:#deded8;
+  --accent:#0b6e6e; --accent-soft:#e1f1f0;
+  --warn:#a15c00; --warn-soft:#fbf0dd; --bad:#b3261e; --bad-soft:#fbe6e4;
+  --info:#3b5bab; --info-soft:#e7ecf8;
+  --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --bg:#151615; --surface:#1e201f; --surface-2:#262827; --text:#ececea; --muted:#a3a39e; --border:#353735;
+    --accent:#5cc2bd; --accent-soft:#1d3433;
+    --warn:#e3a54a; --warn-soft:#3a2d17; --bad:#f08a80; --bad-soft:#3b1f1c;
+    --info:#93aef0; --info-soft:#1f2740;
+  }
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--text);font:16px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+.wrap{max-width:1000px;margin:0 auto;padding:24px 16px 64px}
+header.top{padding:8px 0 16px;border-bottom:1px solid var(--border);margin-bottom:24px}
+h1{font-size:1.75rem;line-height:1.2;margin:0 0 6px}
+h2{font-size:1.3rem;margin:44px 0 12px;padding-top:8px;border-top:1px solid var(--border)}
+h3{font-size:1.05rem;margin:22px 0 8px}
+p{margin:8px 0}
+.lead{color:var(--muted);margin:0}
+a{color:var(--accent)}
+code{font-family:var(--mono);font-size:.86em;background:var(--surface-2);padding:1px 5px;border-radius:4px;overflow-wrap:anywhere}
+nav.toc{display:flex;flex-wrap:wrap;gap:6px;margin:14px 0 0}
+nav.toc a{font-size:.85rem;text-decoration:none;border:1px solid var(--border);background:var(--surface);padding:4px 10px;border-radius:999px;color:var(--text)}
+nav.toc a:hover{border-color:var(--accent)}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:14px 18px;margin:12px 0}
+.tbl{width:100%;overflow-x:auto;margin:10px 0}
+table{border-collapse:collapse;width:100%;font-size:.9rem;background:var(--surface);border:1px solid var(--border)}
+th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--border);vertical-align:top}
+th{background:var(--surface-2);font-weight:600;font-size:.84rem}
+tr:last-child td{border-bottom:0}
+td:first-child{white-space:nowrap}
+td ul{margin:4px 0;padding-left:1.2em}
+.tag{display:inline-block;font-size:.72rem;font-weight:600;padding:1px 7px;border-radius:999px;white-space:nowrap;vertical-align:1px}
+.t-ro{background:var(--info-soft);color:var(--info)}
+.t-w{background:var(--warn-soft);color:var(--warn)}
+.t-auto{background:var(--accent-soft);color:var(--accent)}
+.note{font-size:.92rem;padding:10px 14px;border-radius:8px;margin:10px 0}
+.note.warn{background:var(--warn-soft);border-left:3px solid var(--warn)}
+.note.bad{background:var(--bad-soft);border-left:3px solid var(--bad)}
+details{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:8px 12px;margin:8px 0}
+details summary{cursor:pointer;font-weight:600}
+details[open] summary{margin-bottom:6px}
+details .ans{border-left:3px solid var(--accent);padding-left:10px}
+td details{margin:6px 0 0;padding:4px 8px}
+ol.q{padding-left:1.3em}
+ol.q > li{margin:10px 0}
+.trap{border-left:4px solid var(--bad)}
+.review{border-left:4px solid var(--info)}
+.chain{font-family:var(--mono);font-size:.85rem;background:var(--surface-2);padding:8px 12px;border-radius:8px;overflow-x:auto;white-space:pre-wrap}
+footer{margin-top:48px;color:var(--muted);font-size:.85rem}
+@media (max-width:600px){ td:first-child{white-space:normal} }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="top">
+<h1>Claude skills guide</h1>
+<p class="lead">Which skill, agent, hook or plugin to use in Santolina_tutor, and when. For the team. Checked on 2026-11-14.</p>
+<nav class="toc">
+<a href="#use">How to use this guide</a>
+<a href="#setup">What you get</a>
+<a href="#diagnostic">Diagnostic</a>
+<a href="#map">Skill map</a>
+<a href="#m1">1 Guards</a>
+<a href="#m2">2 Board</a>
+<a href="#m3">3 Planning</a>
+<a href="#r1">Review A</a>
+<a href="#m4">4 Code style</a>
+<a href="#m5">5 Review</a>
+<a href="#m6">6 Git and PR</a>
+<a href="#r2">Review B</a>
+<a href="#m7">7 Docs</a>
+<a href="#m8">8 Charts</a>
+<a href="#m9">9 Papers</a>
+<a href="#r3">Review C</a>
+<a href="#m10">10 SVG and files</a>
+<a href="#m11">11 Built-ins</a>
+<a href="#final">Final test</a>
+<a href="#az">A to Z</a>
+</nav>
+</header>
+
+<section id="use">
+<h2>How to use this guide</h2>
+<p>This guide is based on the method of the <code>socratic-tutor</code> skill. You answer a question first. You read the explanation after you commit to an answer.</p>
+<ol>
+<li>Write each answer down before you open it. Count only written answers.</li>
+<li>Do the diagnostic. It places you in modules 1, 2, 5 and 7.</li>
+<li>For the other modules, do the "Level 4 test" on the skill map. Read every module where you fail the test or the diagnostic.</li>
+<li>In each module, answer the "Predict" questions first. The reference table comes after them.</li>
+<li>Do each review block on a later day if you can. If you miss a review question, lower that module by one level and read it again.</li>
+<li>Do the final test without scrolling up. The pass rule is at the end of the test.</li>
+</ol>
+<p>A "skill" is a set of instructions that Claude loads for one type of task. You start a skill in two ways. Type <code>/name</code>, or write a request that matches its trigger words. Plugin skills have the form <code>plugin:skill</code>, for example <code>/devils-advocate:adversarial-review</code>. In this guide, "tool" means any skill, agent, hook or plugin command.</p>
+<p>Tags in the tables: <span class="tag t-ro">read-only</span> does not change files. <span class="tag t-w">writes</span> changes files. <span class="tag t-auto">automatic</span> runs without a request.</p>
+</section>
+
+<section id="setup">
+<h2>What you get, and from where</h2>
+<div class="tbl"><table>
+<tr><th>Source</th><th>What</th><th>How you get it</th></tr>
+<tr><td>The repository</td><td>26 project skills in <code>.claude/skills/</code>, the agent <code>docs-auditor</code>, 2 hooks, the CI job <code>m3kang-guard.yml</code></td><td><code>git clone</code>. Nothing else to do.</td></tr>
+<tr><td>Project plugins</td><td><code>devils-advocate</code>, <code>svg-infographics</code>, <code>document-processing</code> from the stellarshenson marketplace</td><td><code>.claude/settings.json</code> turns them on. Claude Code asks you to trust the marketplace and install them at the first start. This guide was checked against v1.8.14. The settings do not pin a version.</td></tr>
+<tr><td>Your Claude account</td><td><code>anthropic-skills:*</code>, for example <code>pdf</code>, <code>docx</code>, <code>pptx</code>, <code>xlsx</code>, <code>skill-creator</code></td><td>Only if your own account has them. Do not expect a teammate to have them.</td></tr>
+<tr><td>Claude Code itself</td><td>Built-in skills such as <code>code-review</code>, <code>simplify</code>, <code>security-review</code>, <code>init</code></td><td>They come with Claude Code. The list changes with the version and the app.</td></tr>
+</table></div>
+<div class="note warn">
+<p><strong>Known problems on one team laptop (2026-11-14).</strong></p>
+<ul>
+<li>The setup step of <code>devils-advocate:adversarial-review</code> uses the system <code>python3</code>. If you installed the package with <code>uv tool</code>, that step can fail or install a second copy.</li>
+<li>The <code>ponytail</code> skills here are copies of the skill files only. The features that <code>ponytail-help</code> lists for the plugin (auto start, config file, status band) do not exist in this repository.</li>
+</ul>
+</div>
+</section>
+
+<section id="diagnostic">
+<h2>Diagnostic</h2>
+<p>Write your answer to each question before you open it. The questions go from easy to hard.</p>
+<ol class="q">
+<li>The model server on the board does not answer. Which skill do you ask for?
+<details><summary>Answer</summary><div class="ans"><p><code>unoq-board</code>. It knows the two services <code>math-llm</code> (port 8081) and <code>math-embed</code> (port 8082), and it has a table of symptoms and fixes. Module 2.</p></div></details></li>
+<li>You want to add a hint feature to the copilot and know if accuracy goes down. Which skill?
+<details><summary>Answer</summary><div class="ans"><p><code>m3kang-copilot</code>. It keeps the <code>predict.py</code> contract and runs <code>eval.py</code>, which adds one row to <code>results/ablations.csv</code> per run. Module 2.</p></div></details></li>
+<li>Claude runs <code>git add -f data/train.jsonl</code> for you. What happens? What happens if you type the same command in your own terminal?
+<details><summary>Answer</summary><div class="ans"><p>When Claude runs it, the <code>m3kang-guard</code> hook stops the command before Git runs. The <code>-f</code> flag does not help. When you type it in your own terminal, nothing stops it. Git stages the file. The hook guards only the commands that Claude runs. Module 1.</p></div></details></li>
+<li>The README is out of date after a week of code changes. You do not want any edits yet, only a list of problems. Which skill?
+<details><summary>Answer</summary><div class="ans"><p><code>docsauditor</code>. It is read-only and lists each drift with a status. <code>docsjanitor</code> is the skill that makes the edits. Module 7.</p></div></details></li>
+<li>Your ablation table shows +4 points for a new prompt. A teammate says the test set leaked into the prompt examples. Which tool attacks that claim, with which lens?
+<details><summary>Answer</summary><div class="ans"><p><code>/devils-advocate:adversarial-review</code> with the <code>data-scientist</code> lens (leakage, metric validity) or the <code>methodologist</code> lens (can the test fail, controls). Either lens counts. Module 5.</p></div></details></li>
+</ol>
+<p>A wrong answer sends you to its module. The diagnostic does not place you in modules 3, 4, 6 and 8 to 11. For those, use the Level 4 test below.</p>
+</section>
+
+<section id="map">
+<h2>Skill map</h2>
+<p>The scale is based on the levels of <code>socratic-tutor</code>. You rate yourself, so the rules below make each level depend on a result, not on a feeling.</p>
+<div class="tbl"><table>
+<tr><th>Level</th><th>Meaning</th></tr>
+<tr><td>0</td><td>You do not know that the module exists.</td></tr>
+<tr><td>1</td><td>You know the names of its tools.</td></tr>
+<tr><td>2</td><td>You can follow a teammate who uses them.</td></tr>
+<tr><td>3</td><td>You can use them with this guide open.</td></tr>
+<tr><td>4</td><td>You pass the Level 4 test of the module. You also got its question right in a later review block or in the final test.</td></tr>
+<tr><td>5</td><td>You wrote the right answer to the module's Trap before you opened it, and you can explain where its tools stop.</td></tr>
+</table></div>
+<p>Each Level 4 test is a situation. It does not name the tool. Write your answer, then open the key.</p>
+<div class="tbl"><table>
+<tr><th>Module</th><th>Level 4 test</th></tr>
+<tr><td><a href="#m1">1 Guards</a></td><td>Name the 2 hooks, the commands that each one checks, and whose commands they check.
+<details><summary>Key</summary><div class="ans"><p><code>m3kang-guard</code>: <code>git add</code>, <code>git commit</code>, <code>git push</code>, <code>gh pr create|new|ready|merge</code>. <code>pr-gate</code>: <code>gh pr create|new|ready</code>. Both check only the commands that Claude runs.</p></div></details></td></tr>
+<tr><td><a href="#m2">2 Board and copilot</a></td><td>Pick one copilot setting to change. Before you run anything, write down if accuracy and time per problem go up or down. Then run the evaluation.
+<details><summary>Key</summary><div class="ans"><p>You pass when you named <code>m3kang-copilot</code> and the new row in <code>results/ablations.csv</code> matches the prediction that you wrote before the run. A wrong prediction counts as a miss.</p></div></details></td></tr>
+<tr><td><a href="#m3">3 Planning</a></td><td>The team cannot agree on fine-tuning or RAG. Which tool helps you decide? Which tool records the decision?
+<details><summary>Key</summary><div class="ans"><p><code>grilling</code> to stress-test the choice. <code>domain-modeling</code> writes it as an ADR in <code>docs/adr/</code>.</p></div></details></td></tr>
+<tr><td><a href="#m4">4 Code style</a></td><td>Claude wrote 300 lines for a task that needs 30. What do you type, and what changes in the next answer?
+<details><summary>Key</summary><div class="ans"><p>Turn on <code>ponytail</code> (<code>full</code>, or <code>ultra</code> to question the request first). The next answer is the smallest full change, with <code>shortcut:</code> comments where it cut a corner.</p></div></details></td></tr>
+<tr><td><a href="#m5">5 Review</a></td><td>Pick the tool for each case. Add the lens if there is one. (a) Your branch before a PR. (b) The whole repository. (c) An accuracy gain that you do not trust.
+<details><summary>Key</summary><div class="ans"><p>(a) <code>ponytail-review</code>. (b) <code>ponytail-audit</code>. (c) <code>adversarial-review</code> with <code>methodologist</code> or <code>data-scientist</code>.</p></div></details></td></tr>
+<tr><td><a href="#m6">6 Git and PR</a></td><td>Claude runs <code>gh pr create --draft --title "RAG k=3"</code>. The change edits <code>copilot/rag.py</code> only. Predict what <code>pr-gate</code> does. Do not open a real PR to find out.
+<details><summary>Key</summary><div class="ans"><p>It stops the command once: the change touches code but no documentation. Claude must update a document or end the command with <code># pr-gate: no-docs &lt;reason&gt;</code>. The draft flag is present, so that rule passes.</p></div></details></td></tr>
+<tr><td><a href="#m7">7 Documentation</a></td><td>The README lists a command that no longer exists. You want a list of all such problems first, then the fixes, then the page on the docs site. Name the three tools in order.
+<details><summary>Key</summary><div class="ans"><p><code>docsauditor</code>, <code>docsjanitor</code>, <code>docs-site</code>.</p></div></details></td></tr>
+<tr><td><a href="#m8">8 Charts</a></td><td>You have accuracy by language for 3 prompts. Which tool makes the chart, and which tool attacks it?
+<details><summary>Key</summary><div class="ans"><p><code>vis-design</code> makes it. <code>vis-value-critique</code> attacks it.</p></div></details></td></tr>
+<tr><td><a href="#m9">9 Papers and learning</a></td><td>You must understand the quantization papers in the vault well enough to teach them to the team. Which two tools?
+<details><summary>Key</summary><div class="ans"><p><code>academic-paper-summarizer</code> for the summaries, then <code>socratic-tutor</code> to test yourself on them.</p></div></details></td></tr>
+<tr><td><a href="#m10">10 SVG and files</a></td><td>You need (a) a timeline graphic for the Project Hub page and (b) a check that your final report matches its sources. Which commands?
+<details><summary>Key</summary><div class="ans"><p>(a) <code>/svg-infographics:create</code>, then <code>/svg-infographics:validate</code>. (b) <code>/document-processing:validate</code>, or <code>/document-processing:grounding</code> for the claims only.</p></div></details></td></tr>
+<tr><td><a href="#m11">11 Built-ins</a></td><td>Which built-in tool for each case? (a) Claude must run the same prompt every morning. (b) You write code that calls the Claude API. (c) A new repository has no <code>CLAUDE.md</code>.
+<details><summary>Key</summary><div class="ans"><p>(a) <code>schedule</code>, or <code>loop</code> for a repeat inside the session. (b) <code>claude-api</code>. (c) <code>init</code>.</p></div></details></td></tr>
+</table></div>
+</section>
+
+<!-- ================= MODULE 1 ================= -->
+<section id="m1">
+<h2>Module 1. Guards that run on their own</h2>
+<p>Two hooks in <code>.claude/hooks/</code> run before Claude runs a shell command. You do not start them. They do not see the commands that you type in your own terminal.</p>
+<h3>Predict</h3>
+<ol class="q">
+<li>Claude runs <code>git commit -am "results"</code>. One of the changed files is <code>results/val_scores.csv</code>. What does the guard do?
+<details><summary>Answer</summary><div class="ans"><p>The commit goes through. The split rule matches only the exact names <code>train</code>, <code>val</code> or <code>test</code> with <code>.json</code>, <code>.csv</code> or <code>.tsv</code>. A file called <code>val.csv</code> matches. <code>val_scores.csv</code> does not.</p></div></details></li>
+<li>A teammate pushes a branch with M3Kang data and opens a PR on the GitHub website. No Claude hook runs. Is the data safe?
+<details><summary>Answer</summary><div class="ans"><p>No. The CI job <code>m3kang-guard.yml</code> runs the same rules and fails the check. But the commits are already on GitHub when CI runs. On 2026-11-14, <code>main</code> had no branch protection, so a red check did not block a merge. The history needs a rewrite.</p></div></details></li>
+</ol>
+<h3>Reference</h3>
+<div class="tbl"><table>
+<tr><th>Name</th><th>What it does</th><th>When it acts</th><th>Tag</th></tr>
+<tr><td><code>m3kang-guard.py</code></td><td>Stops the command if a file that would go into Git is M3Kang data. Blocked: <code>data/**</code>, <code>*.jsonl</code>, <code>*.parquet</code>, <code>*.db</code>, <code>*.sqlite</code>, the OCR cache, and the exact names <code>train</code>, <code>val</code> or <code>test</code> with <code>.json</code>, <code>.csv</code> or <code>.tsv</code>. Allowed: <code>data/sample_problems.jsonl</code>, <code>data/README.md</code> and any <code>.gitkeep</code>.</td><td>Commands that Claude runs: <code>git add</code>, <code>git commit</code>, <code>git push</code>, <code>gh pr create|new|ready|merge</code>.</td><td><span class="tag t-auto">automatic</span></td></tr>
+<tr><td><code>m3kang-guard.yml</code> (CI)</td><td>Runs the same rules on every commit of a PR and of a push to <code>main</code>. It reports a problem. It does not stop a push, because the data is already on GitHub when it runs.</td><td>Each PR and each push to <code>main</code>.</td><td><span class="tag t-auto">automatic</span></td></tr>
+<tr><td><code>pr-gate.sh</code></td><td>Needs <code>--draft</code> (or <code>--web</code>) on a new PR. If the change touches code but no documentation, it needs the comment <code># pr-gate: no-docs &lt;reason&gt;</code> at the end of the command.</td><td>Commands that Claude runs: <code>gh pr create</code>, <code>gh pr new</code>, <code>gh pr ready</code>.</td><td><span class="tag t-auto">automatic</span></td></tr>
+</table></div>
+<div class="note bad"><p><strong>Red line.</strong> M3Kang data never goes into Git. That includes every commit in the history. The license allows research use only. When the guard stops a command, unstage the file. Do not use <code>-f</code>, a new file name, <code>--no-verify</code>, or an edit to <code>.gitignore</code> or to the hook. If the file is already in a commit, stop and tell the team before any push. Rules: <code>CLAUDE.md</code>. Dataset license: <a href="https://huggingface.co/datasets/qualcomm/M3Kang">M3Kang dataset card</a>.</p></div>
+<div class="card trap"><p><strong>Trap.</strong> "The hook stopped my commit, so I rename <code>train.jsonl</code> to <code>train.txt</code>."</p>
+<details><summary>What is wrong?</summary><div class="ans"><p>That is a work-around of a red line. The data is the problem, not the file name.</p></div></details></div>
+</section>
+
+<!-- ================= MODULE 2 ================= -->
+<section id="m2">
+<h2>Module 2. Board and copilot</h2>
+<p>These skills come from the organizers' repository (mpous/datathon-UPC-maths-qualcomm-arduino-unoq). They know the Arduino UNO Q and the <code>predict.py</code> contract: one letter from A to E per problem, at most 60 s each, no network.</p>
+<h3>Predict</h3>
+<ol class="q">
+<li>You want the model to write one line of reasoning before the letter. Predict the effect on time and accuracy on the board.
+<details><summary>Answer</summary><div class="ans"><p>The <code>m3kang-copilot</code> skill has the measurement. One line of reasoning took 26 s per problem, against 9 s for the baseline. Accuracy went from 22.5 % to 17.5 % on 40 English problems. More text from the model is not free on this board.</p></div></details></li>
+<li>Which file does the jury run: <code>predict.py</code> in the root or <code>santolina_tutor/modeling/predict.py</code>?
+<details><summary>Answer</summary><div class="ans"><p>The root <code>predict.py</code>. It is the organizers' contract. The other file is a cookiecutter template. Do not merge them.</p></div></details></li>
+</ol>
+<h3>Reference</h3>
+<div class="tbl"><table>
+<tr><th>Skill</th><th>What it does</th><th>Use it when</th><th>Tag</th></tr>
+<tr><td><code>unoq-board</code></td><td>Connects with SSH or adb. Checks and restarts the llama.cpp services <code>math-llm</code> (8081) and <code>math-embed</code> (8082). Watches RAM and disk. Has a table of symptoms and fixes.</td><td>A command must run on the board. A server does not answer. The board runs out of memory. The connection drops.</td><td><span class="tag t-w">writes</span> (board state)</td></tr>
+<tr><td><code>m3kang-copilot</code></td><td>Changes and measures the copilot in <code>copilot/</code>: prompt, pipeline, retrieval, teaching features (hints, adaptive practice). Runs <code>eval.py</code>, which adds one row with accuracy and time to <code>results/ablations.csv</code> per run. Does error analysis by topic, language and level.</td><td>Any change to the prompt, the pipeline, retrieval or a teaching feature. Any question about accuracy or latency.</td><td><span class="tag t-w">writes</span></td></tr>
+<tr><td><code>unoq-hardware-ui</code></td><td>Builds an Arduino App Lab app: <code>app.yaml</code>, <code>python/main.py</code>, a web page, and the 8x13 LED matrix. No external modules.</td><td>You want a web page or LED output around the copilot.</td><td><span class="tag t-w">writes</span></td></tr>
+<tr><td><code>publish-project</code></td><td>Prepares the public GitHub repository and the Arduino Project Hub write-up. Checks for M3Kang data in the files and in the history.</td><td>You write the final README, results and error analysis, or before the repository goes public.</td><td><span class="tag t-w">writes</span></td></tr>
+</table></div>
+<div class="card trap"><p><strong>Trap.</strong> "The prompt got 4 more points on <code>val.jsonl</code>. So it is better."</p>
+<details><summary>What is wrong?</summary><div class="ans"><p>If you tuned the prompt on <code>val.jsonl</code>, the score is not a fair test any more. Keep a hold-out set. For a review with the <code>methodologist</code> lens, see <a href="#m5">module 5</a>.</p></div></details></div>
+</section>
+
+<!-- ================= MODULE 3 ================= -->
+<section id="m3">
+<h2>Module 3. Planning and decisions</h2>
+<h3>Predict</h3>
+<ol class="q">
+<li>You write "grill me with docs on the RAG design". Does the skill <code>grill-with-docs</code> start?
+<details><summary>Answer</summary><div class="ans"><p>No. That skill starts only from the slash command <code>/grill-with-docs</code>. Your text starts <code>grilling</code>, which does not write the glossary.</p></div></details></li>
+<li>The team says "problem", "item" and "question" for the same M3Kang row. What should the fix produce, and in which file?
+<details><summary>Answer</summary><div class="ans"><p>One term in <code>GLOSSARY.md</code>, with the other names listed under "Avoid". The skill is <code>domain-modeling</code>.</p></div></details></li>
+</ol>
+<h3>Reference</h3>
+<div class="tbl"><table>
+<tr><th>Skill</th><th>What it does</th><th>Use it when</th><th>Tag</th></tr>
+<tr><td><code>structured-planning</code></td><td>Writes a plan: goal, constraints, approach, steps, risks, open questions. Each step has a check and a "done when".</td><td>"Make a plan", "how should we approach this". Not for a small change with an obvious path.</td><td><span class="tag t-w">writes</span> (plan file, for long work)</td></tr>
+<tr><td><code>grilling</code></td><td>Asks you about each open decision in numbered rounds. Gives a recommended answer for each.</td><td>"Grill me". You want to stress-test a plan or an idea.</td><td><span class="tag t-ro">read-only</span></td></tr>
+<tr><td><code>grill-with-docs</code></td><td>Runs <code>grilling</code> and writes the results into the glossary and decision records.</td><td>Only when you type <code>/grill-with-docs</code>. It never starts on its own.</td><td><span class="tag t-w">writes</span></td></tr>
+<tr><td><code>domain-modeling</code></td><td>Keeps <code>GLOSSARY.md</code> and the decision records (ADR) in <code>docs/adr/</code>.</td><td>The team uses two names for one thing, or you made a decision that is hard to undo.</td><td><span class="tag t-w">writes</span></td></tr>
+</table></div>
+<div class="card trap"><p><strong>Trap.</strong> "I ask for a plan for every edit."</p>
+<details><summary>What is wrong?</summary><div class="ans"><p>A plan for a one-line fix costs more than the fix. The skill itself says: not for trivial changes.</p></div></details></div>
+</section>
+
+<section id="r1" class="card review">
+<h3>Review A (modules 1 and 2)</h3>
+<ol class="q">
+<li>Which files under <code>data/</code> does the guard allow?
+<details><summary>Answer</summary><div class="ans"><p><code>data/sample_problems.jsonl</code>, <code>data/README.md</code> and any <code>.gitkeep</code>. Module 1.</p></div></details></li>
+<li>The board is slow and its memory is almost full. Which skill?
+<details><summary>Answer</summary><div class="ans"><p><code>unoq-board</code>. It watches RAM and disk. Module 2.</p></div></details></li>
+<li>Which skill checks the files and the Git history for M3Kang data before the repository goes public?
+<details><summary>Answer</summary><div class="ans"><p><code>publish-project</code>. Module 2.</p></div></details></li>
+</ol>
+</section>
+
+<!-- ================= MODULE 4 ================= -->
+<section id="m4">
+<h2>Module 4. Code style: ponytail</h2>
+<p><code>ponytail</code> makes Claude write the smallest change that solves the task. It never cuts validation, data-loss handling, security or accessibility.</p>
+<h3>Predict</h3>
+<ol class="q">
+<li>In <code>full</code> mode, Claude skips a cache for the RAG index. How do you find that shortcut a month later?
+<details><summary>Answer</summary><div class="ans"><p>Claude leaves a comment of the form <code>shortcut: &lt;limit&gt;, &lt;upgrade path&gt;</code>. <code>ponytail-debt</code> lists these comments.</p></div></details></li>
+<li>Does <code>ponytail-gain</code> tell you how many lines ponytail saved in Santolina_tutor?
+<details><summary>Answer</summary><div class="ans"><p>No. It shows the authors' benchmark only. Measure your own diff with <code>git diff --stat</code>.</p></div></details></li>
+</ol>
+<h3>Reference</h3>
+<div class="tbl"><table>
+<tr><th>Skill</th><th>What it does</th><th>Tag</th></tr>
+<tr><td><code>ponytail</code></td><td>The mode. It has three levels.
+<ul>
+<li><code>lite</code> builds what you asked and names a smaller option.</li>
+<li><code>full</code> is the default. It makes the smallest full change, with a test for logic that is not trivial.</li>
+<li><code>ultra</code> also questions the request before it builds.</li>
+</ul>
+"stop ponytail" turns it off. The level stays for the session.</td><td><span class="tag t-w">writes</span></td></tr>
+<tr><td><code>ponytail-debt</code></td><td>Lists every <code>shortcut:</code> comment in the code as a debt ledger.</td><td><span class="tag t-ro">read-only</span></td></tr>
+<tr><td><code>ponytail-help</code></td><td>Shows a reference card of levels and commands.</td><td><span class="tag t-ro">read-only</span></td></tr>
+<tr><td><code>ponytail-gain</code></td><td>Shows a fixed benchmark table from the ponytail authors. It does not measure this repository.</td><td><span class="tag t-ro">read-only</span></td></tr>
+</table></div>
+<p><code>ponytail-review</code> and <code>ponytail-audit</code> are in <a href="#m5">module 5</a>.</p>
+<div class="card trap"><p><strong>Trap.</strong> "ponytail skipped input checks to keep the code small. That is the point of ponytail."</p>
+<details><summary>What is wrong?</summary><div class="ans"><p>Validation and security are on its never-cut list. If it skips them, ask for them.</p></div></details></div>
+</section>
+
+<!-- ================= MODULE 5 ================= -->
+<section id="m5">
+<h2>Module 5. Review and quality</h2>
+<h3>Predict</h3>
+<ol class="q">
+<li>You want a review of your branch before the PR, not of the whole repository. Which ponytail skill?
+<details><summary>Answer</summary><div class="ans"><p><code>ponytail-review</code>. It reads the change and the code it connects to. <code>ponytail-audit</code> reads the whole repository.</p></div></details></li>
+<li>You give the reviewer agent your own summary of the change together with the code. What goes wrong?
+<details><summary>Answer</summary><div class="ans"><p>The reviewer tends to agree with your summary. Give it the code or the document, not your conclusion. That is why the skill starts fresh agents with no context.</p></div></details></li>
+</ol>
+<h3>Reference</h3>
+<div class="tbl"><table>
+<tr><th>Tool</th><th>What it reviews</th><th>Use it when</th><th>Tag</th></tr>
+<tr><td><code>ponytail-review</code></td><td>One change: a diff, a commit, a branch or a PR. Findings in groups Must, Should and Nice, each with a fix.</td><td>"Review this", "review my PR".</td><td><span class="tag t-ro">read-only</span></td></tr>
+<tr><td><code>ponytail-audit</code></td><td>The whole repository. At most 20 findings, ranked.</td><td>"Audit this codebase", "what can I delete".</td><td><span class="tag t-ro">read-only</span></td></tr>
+<tr><td><code>/devils-advocate:adversarial-review</code></td><td>Code or a document. Fresh <code>adversarial-reviewer</code> agents try to break it from one lens each. It loops: find, fix, check again. It stops when a round is clean, or when the <code>adjudicator</code> says stop.</td><td>Before a risky merge, before you trust a result, before the final write-up.</td><td><span class="tag t-w">writes</span> (fixes)</td></tr>
+<tr><td><code>/devils-advocate:run</code> (with <code>setup</code>, <code>evaluate</code>, <code>iterate</code>)</td><td>One document. Builds the persona of its hardest reader, scores the risks from 0 to 100 %, and makes new versions until the risk is low.</td><td>A proposal or a write-up must survive a hostile reader.</td><td><span class="tag t-w">writes</span> (new versions)</td></tr>
+<tr><td>agent <code>adjudicator</code></td><td>Turns the findings of many lenses into one change plan. Does not edit.</td><td>A panel of lenses gives many findings, or new findings come from the last round's fixes.</td><td><span class="tag t-ro">read-only</span></td></tr>
+</table></div>
+<p>The lenses of <code>adversarial-review</code> that matter most for this team:</p>
+<div class="tbl"><table>
+<tr><th>Lens</th><th>What it attacks</th></tr>
+<tr><td><code>methodologist</code></td><td>Can the test fail? Is there a control? Was the hypothesis written before the result?</td></tr>
+<tr><td><code>data-scientist</code></td><td>Leakage, metric validity, reproducibility, rules tuned on test data.</td></tr>
+<tr><td><code>slop-hunter</code></td><td>Dead code, duplicates, features nobody asked for, padded text, claims with no source.</td></tr>
+<tr><td><code>popular-science</code></td><td>Text that a general reader cannot follow: jargon, no worked example.</td></tr>
+<tr><td><code>bug-hunter</code></td><td>Shell quoting, error handling, secrets in code.</td></tr>
+</table></div>
+<p>The plugin has 8 more lenses: <code>architect</code>, <code>qa-engineer</code>, <code>analyst</code>, <code>ux-designer</code>, <code>ai-engineer</code>, <code>devops</code>, <code>digital-marketer</code>, <code>tui</code>. Each one has a file in the plugin folder <code>skills/adversarial-review/adversaries/</code>.</p>
+<div class="card trap"><p><strong>Trap.</strong> "Round 3 still has findings, so I run round 4."</p>
+<details><summary>What is wrong?</summary><div class="ans"><p>When new findings come from the last fixes, the loop feeds itself. Use the <code>adjudicator</code> agent and stop.</p></div></details></div>
+</section>
+
+<!-- ================= MODULE 6 ================= -->
+<section id="m6">
+<h2>Module 6. Git and pull requests</h2>
+<h3>Predict</h3>
+<ol class="q">
+<li>Claude runs <code>gh pr create --title "Add hints"</code>. The change edits <code>copilot/llm.py</code> only. How many reasons does <code>pr-gate</code> have to stop it?
+<details><summary>Answer</summary><div class="ans"><p>Two. There is no <code>--draft</code>, and the change touches code with no documentation. Add <code>--draft</code>. Then update a document, or end the command with <code># pr-gate: no-docs &lt;reason&gt;</code>.</p></div></details></li>
+<li>An example from the RAG index is the same problem as the question, in another language. You run a clean-up tool on the change. Will it find this bug?
+<details><summary>Answer</summary><div class="ans"><p>No. <code>simplify</code> looks at quality only. Use <code>code-review</code>, or <code>adversarial-review</code> with the <code>data-scientist</code> lens. The copilot already passes <code>exclude_id</code> to the search for this reason.</p></div></details></li>
+</ol>
+<h3>Reference</h3>
+<div class="tbl"><table>
+<tr><th>Tool</th><th>What it does</th><th>Use it when</th><th>Tag</th></tr>
+<tr><td><code>pre-pr</code></td><td>Runs <code>/simplify</code> and shows you the result. Updates the documentation that the change affects. Opens a draft PR with "What" and "Why" after you say yes.</td><td>"Open a PR", "send this for review", before <code>gh pr create</code>. Needs <code>gh</code>.</td><td><span class="tag t-w">writes</span></td></tr>
+<tr><td><code>simplify</code> (built-in)</td><td>Cleans up the changed code: reuse, simpler code, speed. It does not look for bugs.</td><td>Called by <code>pre-pr</code>, or alone after a change.</td><td><span class="tag t-w">writes</span></td></tr>
+<tr><td><code>code-review</code> (built-in)</td><td>Looks for bugs in the diff at a level you choose, from <code>low</code> to <code>max</code>. <code>max</code> starts many agents and costs the most.</td><td>You want bugs, not style.</td><td><span class="tag t-ro">read-only</span></td></tr>
+<tr><td><code>security-review</code> (built-in)</td><td>Checks the changes on the branch for security problems.</td><td>The change touches keys, network, or user input.</td><td><span class="tag t-ro">read-only</span></td></tr>
+<tr><td><code>pr-gate.sh</code></td><td>See <a href="#m1">module 1</a>.</td><td>Every <code>gh pr create</code> that Claude runs.</td><td><span class="tag t-auto">automatic</span></td></tr>
+</table></div>
+<div class="card trap"><p><strong>Trap.</strong> "pre-pr will push and merge for me."</p>
+<details><summary>What is wrong?</summary><div class="ans"><p>It opens a draft PR after you say yes. It does not merge.</p></div></details></div>
+</section>
+
+<section id="r2" class="card review">
+<h3>Review B (modules 1 to 5)</h3>
+<ol class="q">
+<li>A teammate commits M3Kang data in a terminal with no Claude session and pushes to <code>main</code>. What stops it?
+<details><summary>Answer</summary><div class="ans"><p>Nothing. The CI job reports it after the push. The history then needs a rewrite. Module 1.</p></div></details></li>
+<li>Which planning skill starts only from its slash command?
+<details><summary>Answer</summary><div class="ans"><p><code>grill-with-docs</code>. Module 3.</p></div></details></li>
+<li>Name two lenses for an experiment result.
+<details><summary>Answer</summary><div class="ans"><p><code>methodologist</code> and <code>data-scientist</code>. Module 5.</p></div></details></li>
+<li>Where do you find the shortcuts that ponytail left?
+<details><summary>Answer</summary><div class="ans"><p><code>ponytail-debt</code> lists the <code>shortcut:</code> comments. Module 4.</p></div></details></li>
+</ol>
+</section>
+
+<!-- ================= MODULE 7 ================= -->
+<section id="m7">
+<h2>Module 7. Documentation</h2>
+<h3>Predict</h3>
+<ol class="q">
+<li>You ask the docs fixer to update the README. It finds a command that it cannot check against the code. What does it do?
+<details><summary>Answer</summary><div class="ans"><p><code>docsjanitor</code> does not guess. It marks the finding as a <code>decision</code> and asks you in a <code>grilling</code> round. It never invents a fact.</p></div></details></li>
+<li><code>asd-ste100</code> rewrites "the model may fail on long problems". Can the result say "the model fails on long problems"?
+<details><summary>Answer</summary><div class="ans"><p>No. "May" is part of the claim. The skill keeps hedges, and its linter never flags them.</p></div></details></li>
+</ol>
+<h3>Reference</h3>
+<p><code>doc-authoring</code> is the entry point. It sends each part of the work to the other skills in this module.</p>
+<div class="tbl"><table>
+<tr><th>Skill</th><th>What it does</th><th>Use it when</th><th>Tag</th></tr>
+<tr><td><code>doc-authoring</code></td><td>Two routes. "author" writes a large document: type, interview, outline, text, STE pass, adversarial review. "maintain" audits and fixes existing documents. It never commits.</td><td>"Write a guide", "rewrite the README", "bring the docs up to date".</td><td><span class="tag t-w">writes</span></td></tr>
+<tr><td><code>diataxis</code></td><td>Gives each document one type: tutorial, how-to, reference or explanation.</td><td>A document mixes types, or you write a reference page.</td><td><span class="tag t-w">writes</span></td></tr>
+<tr><td><code>docsauditor</code> (agent <code>docs-auditor</code>)</td><td>Lists where the documents no longer match the code: old commands, renamed functions, dead links.</td><td>"Audit the docs", "do not change anything yet".</td><td><span class="tag t-ro">read-only</span></td></tr>
+<tr><td><code>docsjanitor</code></td><td>Makes the smallest edit that fixes each finding. Never adds a fact that it cannot check.</td><td>"Fix the docs after the code change".</td><td><span class="tag t-w">writes</span></td></tr>
+<tr><td><code>docs-site</code></td><td>Serves or builds the MkDocs site from <code>docs/</code>, and adds pages to it. Needs <code>uv sync --group docs</code>.</td><td>Show the docs site, add a page, check that the site builds.</td><td><span class="tag t-w">writes</span></td></tr>
+<tr><td><code>mermaid-artist</code></td><td>Draws Mermaid diagrams inside Markdown: flows, sequences, architecture.</td><td>"Diagram the request flow", "show the architecture".</td><td><span class="tag t-w">writes</span></td></tr>
+<tr><td><code>asd-ste100</code></td><td>Rewrites English text in Simplified Technical English. <code>scripts/ste-lint.py</code> checks the structure rules.</td><td>Text that an agent or a non-native reader must not misread.</td><td><span class="tag t-w">writes</span></td></tr>
+</table></div>
+<div class="card trap"><p><strong>Trap.</strong> "docsauditor found 12 problems, so the docs are up to date now."</p>
+<details><summary>What is wrong?</summary><div class="ans"><p>It is read-only. Run <code>docsjanitor</code> for the fixes.</p></div></details></div>
+</section>
+
+<!-- ================= MODULE 8 ================= -->
+<section id="m8">
+<h2>Module 8. Charts and results</h2>
+<h3>Predict</h3>
+<ol class="q">
+<li>You have a bar chart of accuracy where the y axis starts at 60 %. Is that a problem? Which skill would tell you?
+<details><summary>Answer</summary><div class="ans"><p>Yes. For bars, a cut axis makes small differences look large. <code>vis-value-critique</code> checks axis truncation.</p></div></details></li>
+<li>You ask <code>vis-design</code> for a chart and give no other information. What comes first, the chart or questions?
+<details><summary>Answer</summary><div class="ans"><p>Questions. It asks about the reader, the task and the data, stage by stage. If you tell it not to ask, it takes the defaults and lists them under "Assumptions" in the design document.</p></div></details></li>
+</ol>
+<h3>Reference</h3>
+<div class="tbl"><table>
+<tr><th>Skill</th><th>What it does</th><th>Use it when</th><th>Tag</th></tr>
+<tr><td><code>vis-design</code></td><td>Designs a chart in 4 stages: the problem, the data and task, the visual encoding, the code. Gives a design document and code in Altair, matplotlib or Plotly. Remembers decisions for the next chart.</td><td>"Which chart should I use", "make a chart of accuracy by language". Needs Python and PyYAML.</td><td><span class="tag t-w">writes</span></td></tr>
+<tr><td><code>vis-value-critique</code></td><td>Gives a hard critique of a chart: chart type, truncated axes, color-blind safety, lie factor. Works on code, a spec or an image.</td><td>"Critique this chart", "is this chart misleading". Needs numpy and Pillow.</td><td><span class="tag t-ro">read-only</span></td></tr>
+<tr><td><code>dataviz</code> (built-in)</td><td>Rules for color, marks and layout in any chart code.</td><td>Claude loads it on its own when it writes a chart.</td><td><span class="tag t-ro">read-only</span></td></tr>
+</table></div>
+<div class="card trap"><p><strong>Trap.</strong> "I use vis-value-critique to make the chart."</p>
+<details><summary>What is wrong?</summary><div class="ans"><p>It only critiques. Make the chart with <code>vis-design</code>.</p></div></details></div>
+</section>
+
+<!-- ================= MODULE 9 ================= -->
+<section id="m9">
+<h2>Module 9. Papers and learning</h2>
+<h3>Predict</h3>
+<ol class="q">
+<li>You write "what is quantization?". Does <code>socratic-tutor</code> start a quiz?
+<details><summary>Answer</summary><div class="ans"><p>No. A one-off question gets a normal answer. If the request is not clear, the skill first asks if you want a quick answer or a full lesson.</p></div></details></li>
+<li>You summarized the M3Kang paper from <code>docs/vault/</code>. What can you commit?
+<details><summary>Answer</summary><div class="ans"><p>The summary. The PDFs and the <code>parsed/</code> folders in the vault are in <code>.gitignore</code>. Never copy problem text from the dataset into a summary.</p></div></details></li>
+</ol>
+<h3>Reference</h3>
+<div class="tbl"><table>
+<tr><th>Tool</th><th>What it does</th><th>Use it when</th><th>Tag</th></tr>
+<tr><td><code>academic-paper-summarizer</code></td><td>Writes a structured summary of a paper: context, method, findings, critique. For long PDFs it can use MinerU on your laptop to turn the PDF into Markdown.</td><td>"Summarize this paper", a literature review. The papers are in <code>docs/vault/papers/</code>. MinerU needs <code>uv sync --group ocr</code> (several GB).</td><td><span class="tag t-w">writes</span></td></tr>
+<tr><td><code>socratic-tutor</code></td><td>Teaches a topic by questions: a diagnostic, a skill map from 0 to 5, spaced review and a final test. "save state" gives a block that you paste into a new session.</td><td>"Teach me", "quiz me", "drill me". Not for one quick question.</td><td><span class="tag t-ro">read-only</span></td></tr>
+<tr><td><code>/document-processing:grounding</code></td><td>Checks each claim in a text against source documents and writes a report.</td><td>A write-up cites papers and you want to know that each claim has a source. Needs Python 3.12.</td><td><span class="tag t-w">writes</span> (report)</td></tr>
+</table></div>
+<div class="card trap"><p><strong>Trap.</strong> "I say 'just tell me', so the tutor stops the lesson."</p>
+<details><summary>What is wrong?</summary><div class="ans"><p>It answers that one question directly, then the lesson goes on.</p></div></details></div>
+</section>
+
+<section id="r3" class="card review">
+<h3>Review C (modules 3 to 8)</h3>
+<ol class="q">
+<li>Which skill fixes the docs, and which only lists the problems?
+<details><summary>Answer</summary><div class="ans"><p><code>docsjanitor</code> fixes. <code>docsauditor</code> lists. Module 7.</p></div></details></li>
+<li>Your PR changes only <code>docs/BOARD_SETUP.md</code>. Does <code>pr-gate</code> need the no-docs comment?
+<details><summary>Answer</summary><div class="ans"><p>No. The change has documentation and no code. It still needs <code>--draft</code>. Module 6.</p></div></details></li>
+<li>New findings in round 3 come from the round 2 fixes. What do you do?
+<details><summary>Answer</summary><div class="ans"><p>Use the <code>adjudicator</code> agent and stop the loop. Module 5.</p></div></details></li>
+<li>Which tool tells you that a chart misleads, and which makes a better one?
+<details><summary>Answer</summary><div class="ans"><p><code>vis-value-critique</code> tells you. <code>vis-design</code> makes the new chart. Module 8.</p></div></details></li>
+<li>You want a decision that is hard to undo on record. Which skill?
+<details><summary>Answer</summary><div class="ans"><p><code>domain-modeling</code>, as an ADR. Module 3.</p></div></details></li>
+</ol>
+</section>
+
+<!-- ================= MODULE 10 ================= -->
+<section id="m10">
+<h2>Module 10. SVG graphics and office files</h2>
+<h3>Predict</h3>
+<ol class="q">
+<li>You need an architecture diagram inside <code>docs/BOARD_SETUP.md</code>. A Mermaid diagram or a standalone SVG? Why?
+<details><summary>Answer</summary><div class="ans"><p>Mermaid, with <code>mermaid-artist</code>. The diagram lives as text in the Markdown file, and MkDocs shows it. Use <code>svg-infographics</code> for a standalone graphic, for example for the Project Hub page.</p></div></details></li>
+<li>Two commands in two plugins have the name <code>validate</code>. Can one check your final report against its sources?
+<details><summary>Answer</summary><div class="ans"><p>Only <code>/document-processing:validate</code>. <code>/svg-infographics:validate</code> checks SVG files only.</p></div></details></li>
+</ol>
+<h3>Reference</h3>
+<div class="tbl"><table>
+<tr><th>Tool</th><th>What it does</th><th>Tag</th></tr>
+<tr><td><code>/svg-infographics:create</code></td><td>Makes an SVG infographic: card grid, timeline, flowchart, banner. A command-line tool computes every coordinate. The file ships only after a clean check.</td><td><span class="tag t-w">writes</span></td></tr>
+<tr><td><code>/svg-infographics:validate</code></td><td>Runs all checks on an SVG file: layout, contrast, connectors.</td><td><span class="tag t-ro">read-only</span></td></tr>
+<tr><td><code>/svg-infographics:fix</code></td><td>Fixes layout, style, contrast or connectors in an SVG.</td><td><span class="tag t-w">writes</span></td></tr>
+<tr><td><code>/svg-infographics:theme</code></td><td>Makes a color swatch for you to approve before the real graphic.</td><td><span class="tag t-w">writes</span></td></tr>
+<tr><td><code>/svg-infographics:beautify</code></td><td>Adds icons, glow and decoration at low, medium or high intensity.</td><td><span class="tag t-w">writes</span></td></tr>
+<tr><td><code>/svg-infographics:export-png</code></td><td>Exports light and dark PNG files. Needs Playwright.</td><td><span class="tag t-w">writes</span></td></tr>
+<tr><td><code>/document-processing:process</code></td><td>Builds a new document from source files, in the folders <code>1-input/</code>, <code>2-wip/</code> and <code>3-output/</code>.</td><td><span class="tag t-w">writes</span></td></tr>
+<tr><td><code>/document-processing:validate</code></td><td>Checks a document against its sources, then tone, length and format.</td><td><span class="tag t-w">writes</span> (report)</td></tr>
+<tr><td><code>/document-processing:update</code></td><td>Checks an earlier output again and adds new sources.</td><td><span class="tag t-w">writes</span></td></tr>
+<tr><td><code>/document-processing:pdf</code></td><td>Extracts text and tables, merges, splits, fills forms, runs OCR.</td><td><span class="tag t-w">writes</span></td></tr>
+</table></div>
+<p>The <code>grounding</code>, <code>validate</code>, <code>update</code> and <code>process</code> commands, and the OCR of <code>pdf</code>, need Python 3.12 exactly. They fail on Python 3.13 and 3.14.</p>
+<div class="card trap"><p><strong>Trap.</strong> "beautify at high will make the poster clearer."</p>
+<details><summary>What is wrong?</summary><div class="ans"><p>Decoration adds marks, not information. If the graphic shows data, get a critique of the result from <code>vis-value-critique</code>.</p></div></details></div>
+</section>
+
+<!-- ================= MODULE 11 ================= -->
+<section id="m11">
+<h2>Module 11. Built-in skills</h2>
+<p>These come with Claude Code or with your account. For <code>code-review</code>, <code>simplify</code> and <code>security-review</code>, see <a href="#m6">module 6</a>.</p>
+<h3>Predict</h3>
+<ol class="q">
+<li>You want Claude to stop asking before it runs <code>git status</code>. Which skill?
+<details><summary>Answer</summary><div class="ans"><p><code>fewer-permission-prompts</code>, or <code>update-config</code> for one rule.</p></div></details></li>
+<li>You want a new project skill "unoq-benchmark". Where does it go so that teammates get it?
+<details><summary>Answer</summary><div class="ans"><p>In <code>.claude/skills/unoq-benchmark/SKILL.md</code>, committed to the repository. A skill in your own <code>~/.claude/skills/</code> stays on your machine.</p></div></details></li>
+</ol>
+<h3>Reference</h3>
+<div class="tbl"><table>
+<tr><th>Skill</th><th>Use it when</th></tr>
+<tr><td><code>init</code></td><td>Write a first <code>CLAUDE.md</code>. This repository already has one, so edit it instead.</td></tr>
+<tr><td><code>update-config</code></td><td>Change <code>settings.json</code>: permissions, hooks, environment variables.</td></tr>
+<tr><td><code>fewer-permission-prompts</code></td><td>Add the read-only commands you run often to the allowlist.</td></tr>
+<tr><td><code>loop</code>, <code>schedule</code></td><td>Run a prompt again and again, or at a set time.</td></tr>
+<tr><td><code>claude-api</code></td><td>Write code that calls the Claude API.</td></tr>
+<tr><td><code>anthropic-skills:skill-creator</code></td><td>Make a new skill or improve one, with test cases. Account skill.</td></tr>
+</table></div>
+<div class="card trap"><p><strong>Trap.</strong> "My teammate has <code>anthropic-skills:pdf</code>, so I have it too."</p>
+<details><summary>What is wrong?</summary><div class="ans"><p>Account skills belong to one account. Project skills and project plugins belong to the repository. <code>/document-processing:pdf</code> comes with the repository.</p></div></details></div>
+</section>
+
+<!-- ================= FINAL ================= -->
+<section id="final">
+<h2>Final test</h2>
+<p>11 questions in mixed order, one per module, then one case. Write all answers before you open any of them. Do not scroll up.</p>
+<ol class="q">
+<li>Which two things does <code>pr-gate</code> check?
+<details><summary>Answer</summary><div class="ans"><p>The <code>--draft</code> flag, and documentation when the change touches code. Module 6.</p></div></details></li>
+<li>The embeddings server does not answer and <code>eval.py</code> fails. Which two skills, in which order?
+<details><summary>Answer</summary><div class="ans"><p><code>unoq-board</code> to get <code>math-embed</code> back. Then <code>m3kang-copilot</code> to run the evaluation again. Module 2.</p></div></details></li>
+<li>You must check an SVG file. Separately, you must check a report against its sources and against tone and length rules. Which two commands?
+<details><summary>Answer</summary><div class="ans"><p><code>/svg-infographics:validate</code> and <code>/document-processing:validate</code>. Module 10.</p></div></details></li>
+<li>Which ponytail level questions your request before it writes code?
+<details><summary>Answer</summary><div class="ans"><p><code>ultra</code>. Module 4.</p></div></details></li>
+<li>A write-up cites six papers. Which tool shows the claims that have no source?
+<details><summary>Answer</summary><div class="ans"><p><code>/document-processing:grounding</code>. Module 9.</p></div></details></li>
+<li>Claude tries to commit M3Kang data and the guard stops it. What do you do?
+<details><summary>Answer</summary><div class="ans"><p>Unstage the file. If the file is already in an earlier commit, stop and tell the team, because the history needs a rewrite before any push. Module 1.</p></div></details></li>
+<li>A reader with red-green color blindness cannot read your chart. Which skill would have warned you?
+<details><summary>Answer</summary><div class="ans"><p><code>vis-value-critique</code>. Module 8.</p></div></details></li>
+<li>The team cannot decide between fine-tuning and RAG. Which skill stress-tests the choice?
+<details><summary>Answer</summary><div class="ans"><p><code>grilling</code>. Module 3.</p></div></details></li>
+<li>You made a new skill. Where do you put it so that your teammates get it?
+<details><summary>Answer</summary><div class="ans"><p>In <code>.claude/skills/&lt;name&gt;/SKILL.md</code>, committed to the repository. Module 11.</p></div></details></li>
+<li>Which skill makes a page of <code>docs/</code> show in the MkDocs site?
+<details><summary>Answer</summary><div class="ans"><p><code>docs-site</code>. Module 7.</p></div></details></li>
+<li>Five lenses gave 30 findings, and some of them conflict. Which agent turns them into one plan?
+<details><summary>Answer</summary><div class="ans"><p><code>adjudicator</code>. Module 5.</p></div></details></li>
+</ol>
+<div class="card">
+<h3>Case: RAG examples, from idea to PR</h3>
+<p>You want to add 2 similar solved examples from the RAG index to the prompt. You must measure the effect on accuracy and time. You must show that no example is the same problem as the question. The PR needs a chart and updated documentation. Write the chain of tools in order before you open the answer.</p>
+<details><summary>Answer</summary><div class="ans">
+<div class="chain">structured-planning     plan with a check per step (optional)
+m3kang-copilot          build it, run eval.py, add rows to ablations.csv
+  unoq-board            only if a server fails during the run
+adversarial-review      lens data-scientist or methodologist on the result
+vis-design              chart of accuracy and time, with and without RAG
+vis-value-critique      critique of the chart
+docsjanitor             update README and BOARD_SETUP
+pre-pr                  simplify, docs check, draft PR
+  m3kang-guard, pr-gate run on their own when Claude runs git and gh</div>
+<p>The case passes if your chain has these 5 parts:</p>
+<ol>
+<li><code>m3kang-copilot</code> for the measurement.</li>
+<li>A review: <code>adversarial-review</code> with the <code>data-scientist</code> or <code>methodologist</code> lens, or <code>code-review</code>.</li>
+<li><code>vis-design</code> and then <code>vis-value-critique</code>.</li>
+<li>A docs step: <code>docsjanitor</code>, <code>doc-authoring</code>, or the docs step of <code>pre-pr</code>.</li>
+<li><code>pre-pr</code>.</li>
+</ol>
+<p>Order counts in three places only: the measurement comes first, <code>vis-design</code> comes before <code>vis-value-critique</code>, and <code>pre-pr</code> comes last.</p>
+</div></details>
+</div>
+<div class="card">
+<p><strong>Pass rule.</strong> You pass with 10 of the 11 questions right and the case right. For each miss, read its module again and answer its Predict questions again. For a miss in the case, read the module of each missing part: 2, 5, 8, 7 or 6. Your misses, listed by module, are your weakest areas.</p>
+</div>
+</section>
+
+<!-- ================= A TO Z ================= -->
+<section id="az">
+<h2>A to Z</h2>
+<p>Every tool in this guide. Use Ctrl+F.</p>
+<div class="tbl"><table>
+<tr><th>Name</th><th>Source</th><th>Module</th></tr>
+<tr><td><code>academic-paper-summarizer</code></td><td>project</td><td><a href="#m9">9</a></td></tr>
+<tr><td><code>adjudicator</code> (agent)</td><td>devils-advocate</td><td><a href="#m5">5</a></td></tr>
+<tr><td><code>adversarial-review</code></td><td>devils-advocate</td><td><a href="#m5">5</a></td></tr>
+<tr><td><code>adversarial-reviewer</code> (agent)</td><td>devils-advocate</td><td><a href="#m5">5</a></td></tr>
+<tr><td><code>anthropic-skills:*</code></td><td>account</td><td><a href="#m11">11</a></td></tr>
+<tr><td><code>asd-ste100</code></td><td>project</td><td><a href="#m7">7</a></td></tr>
+<tr><td><code>beautify</code></td><td>svg-infographics</td><td><a href="#m10">10</a></td></tr>
+<tr><td><code>claude-api</code></td><td>built-in</td><td><a href="#m11">11</a></td></tr>
+<tr><td><code>code-review</code></td><td>built-in</td><td><a href="#m6">6</a></td></tr>
+<tr><td><code>create</code></td><td>svg-infographics</td><td><a href="#m10">10</a></td></tr>
+<tr><td><code>dataviz</code></td><td>built-in</td><td><a href="#m8">8</a></td></tr>
+<tr><td><code>diataxis</code></td><td>project</td><td><a href="#m7">7</a></td></tr>
+<tr><td><code>doc-authoring</code></td><td>project</td><td><a href="#m7">7</a></td></tr>
+<tr><td><code>docs-auditor</code> (agent)</td><td>project</td><td><a href="#m7">7</a></td></tr>
+<tr><td><code>docs-site</code></td><td>project</td><td><a href="#m7">7</a></td></tr>
+<tr><td><code>docsauditor</code></td><td>project</td><td><a href="#m7">7</a></td></tr>
+<tr><td><code>docsjanitor</code></td><td>project</td><td><a href="#m7">7</a></td></tr>
+<tr><td><code>domain-modeling</code></td><td>project</td><td><a href="#m3">3</a></td></tr>
+<tr><td><code>evaluate</code>, <code>iterate</code>, <code>run</code>, <code>setup</code></td><td>devils-advocate</td><td><a href="#m5">5</a></td></tr>
+<tr><td><code>export-png</code></td><td>svg-infographics</td><td><a href="#m10">10</a></td></tr>
+<tr><td><code>fewer-permission-prompts</code></td><td>built-in</td><td><a href="#m11">11</a></td></tr>
+<tr><td><code>fix</code></td><td>svg-infographics</td><td><a href="#m10">10</a></td></tr>
+<tr><td><code>grill-with-docs</code></td><td>project</td><td><a href="#m3">3</a></td></tr>
+<tr><td><code>grilling</code></td><td>project</td><td><a href="#m3">3</a></td></tr>
+<tr><td><code>grounding</code></td><td>document-processing</td><td><a href="#m9">9</a></td></tr>
+<tr><td><code>init</code></td><td>built-in</td><td><a href="#m11">11</a></td></tr>
+<tr><td><code>loop</code>, <code>schedule</code></td><td>built-in</td><td><a href="#m11">11</a></td></tr>
+<tr><td><code>m3kang-copilot</code></td><td>project</td><td><a href="#m2">2</a></td></tr>
+<tr><td><code>m3kang-guard.py</code> (hook), <code>m3kang-guard.yml</code> (CI)</td><td>project</td><td><a href="#m1">1</a></td></tr>
+<tr><td><code>mermaid-artist</code></td><td>project</td><td><a href="#m7">7</a></td></tr>
+<tr><td><code>pdf</code></td><td>document-processing</td><td><a href="#m10">10</a></td></tr>
+<tr><td><code>ponytail</code></td><td>project</td><td><a href="#m4">4</a></td></tr>
+<tr><td><code>ponytail-audit</code></td><td>project</td><td><a href="#m5">5</a></td></tr>
+<tr><td><code>ponytail-debt</code></td><td>project</td><td><a href="#m4">4</a></td></tr>
+<tr><td><code>ponytail-gain</code></td><td>project</td><td><a href="#m4">4</a></td></tr>
+<tr><td><code>ponytail-help</code></td><td>project</td><td><a href="#m4">4</a></td></tr>
+<tr><td><code>ponytail-review</code></td><td>project</td><td><a href="#m5">5</a></td></tr>
+<tr><td><code>pr-gate.sh</code> (hook)</td><td>project</td><td><a href="#m1">1</a></td></tr>
+<tr><td><code>pre-pr</code></td><td>project</td><td><a href="#m6">6</a></td></tr>
+<tr><td><code>process</code>, <code>update</code>, <code>validate</code></td><td>document-processing</td><td><a href="#m10">10</a></td></tr>
+<tr><td><code>publish-project</code></td><td>project</td><td><a href="#m2">2</a></td></tr>
+<tr><td><code>security-review</code></td><td>built-in</td><td><a href="#m6">6</a></td></tr>
+<tr><td><code>simplify</code></td><td>built-in</td><td><a href="#m6">6</a></td></tr>
+<tr><td><code>skill-creator</code></td><td>account</td><td><a href="#m11">11</a></td></tr>
+<tr><td><code>socratic-tutor</code></td><td>project</td><td><a href="#m9">9</a></td></tr>
+<tr><td><code>structured-planning</code></td><td>project</td><td><a href="#m3">3</a></td></tr>
+<tr><td><code>theme</code>, <code>validate</code></td><td>svg-infographics</td><td><a href="#m10">10</a></td></tr>
+<tr><td><code>unoq-board</code></td><td>project</td><td><a href="#m2">2</a></td></tr>
+<tr><td><code>unoq-hardware-ui</code></td><td>project</td><td><a href="#m2">2</a></td></tr>
+<tr><td><code>update-config</code></td><td>built-in</td><td><a href="#m11">11</a></td></tr>
+<tr><td><code>vis-design</code></td><td>project</td><td><a href="#m8">8</a></td></tr>
+<tr><td><code>vis-value-critique</code></td><td>project</td><td><a href="#m8">8</a></td></tr>
+</table></div>
+</section>
+
+<footer>
+<p>Sources: the <code>SKILL.md</code> file of each skill, <code>.claude/settings.json</code>, <code>.claude/hooks/</code>, <code>.github/workflows/m3kang-guard.yml</code>, and the plugin files of the stellarshenson marketplace v1.8.14. If a skill changes, its <code>SKILL.md</code> is right and this page is wrong.</p>
+</footer>
+
+</div>
+</body>
+</html>
