@@ -7,7 +7,11 @@ The PDFs are not in git. After cloning, run `./download.sh` in this folder to fe
 
 Relevance notes refer to our target: a small math-tutor LLM served with llama.cpp on the Arduino UNO Q (4× Cortex-A53, 2–4 GB RAM). See `CHALLENGE_CONTEXT.md`.
 
+Each folder has a `_synthesis.md` that reads its papers together, one section per decision ("junction"). [[_junctions|Cross-folder junctions]] links them and says what to read first for each decision.
+
 ## pruning/
+
+Synthesis: [[pruning/_synthesis|pruning/_synthesis]].
 
 | Year | Paper | arXiv | PDF | Why it matters here |
 |---|---|---|---|---|
@@ -30,6 +34,8 @@ Relevance notes refer to our target: a small math-tutor LLM served with llama.cp
 | 2024 | LLM Pruning and Distillation in Practice: The Minitron Approach | [2408.11796](https://arxiv.org/abs/2408.11796) | [[sreenivas2024_llm_pruning_distillation_practice_2408.11796.pdf\|PDF]] | Practical follow-up of Minitron |
 
 ## quantization/
+
+Synthesis: [[quantization/_synthesis|quantization/_synthesis]].
 
 | Year | Paper | arXiv | PDF | Why it matters here |
 |---|---|---|---|---|
@@ -58,6 +64,8 @@ Relevance notes refer to our target: a small math-tutor LLM served with llama.cp
 
 ## inference/
 
+Synthesis: [[inference/_synthesis|inference/_synthesis]].
+
 | Year | Paper | arXiv | PDF | Why it matters here |
 |---|---|---|---|---|
 | 2020 | MCUNet (Lin et al.) | [2007.10319](https://arxiv.org/abs/2007.10319) | [[lin2020_mcunet_2007.10319.pdf\|PDF]] | Model/runtime co-design for microcontrollers (extreme constraints) |
@@ -81,6 +89,8 @@ Relevance notes refer to our target: a small math-tutor LLM served with llama.cp
 
 ## finetuning_distillation/
 
+Synthesis: [[finetuning_distillation/_synthesis|finetuning_distillation/_synthesis]].
+
 | Year | Paper | arXiv | PDF | Why it matters here |
 |---|---|---|---|---|
 | 2015 | Distilling the Knowledge in a Neural Network (Hinton et al.) | [1503.02531](https://arxiv.org/abs/1503.02531) | [[hinton2015_distillation_1503.02531.pdf\|PDF]] | Original knowledge distillation |
@@ -93,6 +103,8 @@ Relevance notes refer to our target: a small math-tutor LLM served with llama.cp
 
 ## surveys/
 
+Synthesis: [[surveys/_synthesis|surveys/_synthesis]].
+
 | Year | Paper | arXiv | PDF | Why it matters here |
 |---|---|---|---|---|
 | 2023 | A Survey on Model Compression for LLMs (Zhu et al.) | [2308.07633](https://arxiv.org/abs/2308.07633) | [[zhu2023_model_compression_llm_survey_2308.07633.pdf\|PDF]] | Compression overview |
@@ -104,12 +116,16 @@ Relevance notes refer to our target: a small math-tutor LLM served with llama.cp
 
 ## benchmarks/
 
+Synthesis: [[benchmarks/_synthesis|benchmarks/_synthesis]].
+
 | Year | Paper | arXiv | PDF | Why it matters here |
 |---|---|---|---|---|
 | 2025 | Evaluating Visual Mathematics in Multimodal LLMs: A Multilingual Benchmark Based on the Kangaroo Tests (Igualde-Sáez et al.) | [2506.07418](https://arxiv.org/abs/2506.07418) | [[igualde2025_kangaroo_multilingual_visual_math_2506.07418.pdf\|PDF]] | Kangaroo 2014–2024 in English, Spanish, French and Catalan; Catalan vs Spanish results depend on the model family |
 | 2026 | M3Kang: Evaluating Multilingual Multimodal Mathematical Reasoning in VLMs (Torres-Camps et al., Qualcomm) | [2601.16218](https://arxiv.org/abs/2601.16218) | [[torrescamps2026_m3kang_2601.16218.pdf\|PDF]] | The paper behind the challenge dataset: 1,747 Kangaroo problems in 108 languages, human baseline from 68k students |
 
 ## tutoring_pedagogy/
+
+Synthesis: [[tutoring_pedagogy/_synthesis|tutoring_pedagogy/_synthesis]].
 
 | Year | Paper | arXiv | PDF | Why it matters here |
 |---|---|---|---|---|
