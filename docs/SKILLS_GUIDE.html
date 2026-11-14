@@ -374,21 +374,26 @@ footer{margin-top:48px;color:var(--muted);font-size:.85rem}
 <details><summary>Answer</summary><div class="ans"><p><code>docsjanitor</code> does not guess. It marks the finding as a <code>decision</code> and asks you in a <code>grilling</code> round. It never invents a fact.</p></div></details></li>
 <li><code>asd-ste100</code> rewrites "the model may fail on long problems". Can the result say "the model fails on long problems"?
 <details><summary>Answer</summary><div class="ans"><p>No. "May" is part of the claim. The skill keeps hedges, and its linter never flags them.</p></div></details></li>
+<li>You edit <code>docs/BOARD_SETUP.md</code> by hand while <code>/docs-review</code> is at the <code>repair</code> stage of that file. What happens at the next <code>check</code>?
+<details><summary>Answer</summary><div class="ans"><p><code>check</code> fails with "changed outside the review". The skill shows you the diff and asks: start again from the audit, or accept your change.</p></div></details></li>
 </ol>
 <h3>Reference</h3>
-<p><code>doc-authoring</code> is the entry point. It sends each part of the work to the other skills in this module.</p>
+<p><code>doc-authoring</code> is the entry point. It sends each part of the work to the other skills in this module. <code>docs-review</code> runs the full review of one document. It calls the skills of this module, one for each stage.</p>
 <div class="tbl"><table>
 <tr><th>Skill</th><th>What it does</th><th>Use it when</th><th>Tag</th></tr>
 <tr><td><code>doc-authoring</code></td><td>Two routes. "author" writes a large document: type, interview, outline, text, STE pass, adversarial review. "maintain" audits and fixes existing documents. It never commits.</td><td>"Write a guide", "rewrite the README", "bring the docs up to date".</td><td><span class="tag t-w">writes</span></td></tr>
 <tr><td><code>diataxis</code></td><td>Gives each document one type: tutorial, how-to, reference or explanation.</td><td>A document mixes types, or you write a reference page.</td><td><span class="tag t-w">writes</span></td></tr>
 <tr><td><code>docsauditor</code> (agent <code>docs-auditor</code>)</td><td>Lists where the documents no longer match the code: old commands, renamed functions, dead links.</td><td>"Audit the docs", "do not change anything yet".</td><td><span class="tag t-ro">read-only</span></td></tr>
 <tr><td><code>docsjanitor</code></td><td>Makes the smallest edit that fixes each finding. Never adds a fact that it cannot check.</td><td>"Fix the docs after the code change".</td><td><span class="tag t-w">writes</span></td></tr>
+<tr><td><code>docs-review</code> (agent <code>docs-critic</code>)</td><td>Reviews one document in 7 stages: <code>audit</code>, <code>critique</code>, <code>decisions</code>, <code>repair</code>, <code>language</code>, <code>adversarial</code>, <code>signoff</code>. After each stage it asks you. It keeps the status in <code>docs/review/status.yml</code>, and <code>docs/review/index.md</code> shows it. Only you approve a stage.</td><td>"Review the docs", "what is the review status of the docs", before you publish the docs.</td><td><span class="tag t-w">writes</span></td></tr>
 <tr><td><code>docs-site</code></td><td>Serves or builds the MkDocs site from <code>docs/</code>, and adds pages to it. Needs <code>uv sync --group docs</code>.</td><td>Show the docs site, add a page, check that the site builds.</td><td><span class="tag t-w">writes</span></td></tr>
 <tr><td><code>mermaid-artist</code></td><td>Draws Mermaid diagrams inside Markdown: flows, sequences, architecture.</td><td>"Diagram the request flow", "show the architecture".</td><td><span class="tag t-w">writes</span></td></tr>
 <tr><td><code>asd-ste100</code></td><td>Rewrites English text in Simplified Technical English. <code>scripts/ste-lint.py</code> checks the structure rules.</td><td>Text that an agent or a non-native reader must not misread.</td><td><span class="tag t-w">writes</span></td></tr>
 </table></div>
 <div class="card trap"><p><strong>Trap.</strong> "docsauditor found 12 problems, so the docs are up to date now."</p>
 <details><summary>What is wrong?</summary><div class="ans"><p>It is read-only. Run <code>docsjanitor</code> for the fixes.</p></div></details></div>
+<div class="card trap"><p><strong>Trap.</strong> "The review page shows 🟡 for all stages of README.md, so the README review is complete."</p>
+<details><summary>What is wrong?</summary><div class="ans"><p>🟡 means that the agent finished the stage and waits for you. Only ✅ means that you approved it. The sign-off needs ✅ or – (does not apply) for all earlier stages.</p></div></details></div>
 </section>
 
 <!-- ================= MODULE 8 ================= -->
@@ -580,6 +585,8 @@ pre-pr                  simplify, docs check, draft PR
 <tr><td><code>diataxis</code></td><td>project</td><td><a href="#m7">7</a></td></tr>
 <tr><td><code>doc-authoring</code></td><td>project</td><td><a href="#m7">7</a></td></tr>
 <tr><td><code>docs-auditor</code> (agent)</td><td>project</td><td><a href="#m7">7</a></td></tr>
+<tr><td><code>docs-critic</code> (agent)</td><td>project</td><td><a href="#m7">7</a></td></tr>
+<tr><td><code>docs-review</code></td><td>project</td><td><a href="#m7">7</a></td></tr>
 <tr><td><code>docs-site</code></td><td>project</td><td><a href="#m7">7</a></td></tr>
 <tr><td><code>docsauditor</code></td><td>project</td><td><a href="#m7">7</a></td></tr>
 <tr><td><code>docsjanitor</code></td><td>project</td><td><a href="#m7">7</a></td></tr>
