@@ -11,8 +11,10 @@ from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
+from classroom.packs import read_pack
+
 from .. import config, db, links
-from ..services import boards, packs, setup, unload
+from ..services import assignments, boards, hotspot, packs, setup, unload
 from ..simulate import demo_pack
 from ..strings import S
 from ..widgets import render_all
@@ -173,6 +175,25 @@ def create_app(settings: config.Settings | None = None) -> FastAPI:
             widgets=render_all(conn, "student", student_id),
         )
 
+    @app.get("/sessions/{session_id}", response_class=HTMLResponse)
+    def session_page(request: Request, session_id: str, conn=Depends(get_conn)):
+        session = conn.execute(
+            "SELECT x.*, b.name board_name, s.display_name, s.id sid FROM sessions x "
+            "LEFT JOIN boards b ON b.board_id = x.board_id "
+            "LEFT JOIN students s ON s.id = x.student_id WHERE x.session_id = ?",
+            (session_id,),
+        ).fetchone()
+        if not session:
+            raise HTTPException(404)
+        rows = conn.execute(
+            "SELECT * FROM events WHERE session_id = ? ORDER BY seq", (session_id,)
+        ).fetchall()
+        timeline = [
+            {"ts": r["ts_corrected"], "type": r["type"], "p": json.loads(r["payload_json"])}
+            for r in rows
+        ]
+        return page(request, "session.html", session=session, timeline=timeline)
+
     @app.post("/students/{student_id}/group")
     def student_group(student_id: int, group_id: str = Form(""), conn=Depends(get_conn)):
         with conn:
@@ -296,6 +317,96 @@ def create_app(settings: config.Settings | None = None) -> FastAPI:
             lambda: packs.remove_from_board(conn, link, pack_id),
             f"Pack {pack_id} removed",
         )
+
+    @app.get("/boards/{serial}/sticker", response_class=HTMLResponse)
+    def board_sticker(request: Request, serial: str, conn=Depends(get_conn)):
+        board = boards.get_board(conn, serial)
+        if not board or not board["hotspot_ssid"]:
+            raise HTTPException(404, "Set up the board first")
+        qr = hotspot.qr_svg(
+            hotspot.wifi_qr_payload(board["hotspot_ssid"], board["hotspot_password"])
+        )
+        return page(request, "sticker.html", board=board, qr=qr, address=hotspot.ADDRESS)
+
+    # ---------------------------------------------------------------- assignments
+    def push_assignments(conn, group_id):
+        """Send the group's homework to its boards that are plugged in now."""
+        sent = 0
+        for c in links.connected(settings):
+            board = boards.get_board(conn, c.serial)
+            if c.link and board and board["group_id"] == group_id:
+                assignments.push(conn, c.link)
+                sent += 1
+        return sent
+
+    @app.get("/assignments", response_class=HTMLResponse)
+    def assignments_page(request: Request, conn=Depends(get_conn)):
+        rows = conn.execute(
+            "SELECT a.*, g.name group_name, p.title pack_title FROM assignments a "
+            "JOIN groups g ON g.id = a.group_id LEFT JOIN (SELECT pack_id, title FROM packs "
+            "GROUP BY pack_id) p ON p.pack_id = a.pack_id "
+            "ORDER BY g.name, COALESCE(a.due, '9999')"
+        ).fetchall()
+        items = [
+            dict(r)
+            | {"n": len(json.loads(r["exercise_ids_json"])) if r["exercise_ids_json"] else None}
+            for r in rows
+        ]
+        return page(
+            request,
+            "assignments.html",
+            assignments=items,
+            groups=groups_list(conn),
+            library=packs.latest(conn),
+            widgets=render_all(conn, "global", None, only=("homework_completion",)),
+        )
+
+    @app.get("/assignments/new", response_class=HTMLResponse)
+    def assignment_new(
+        request: Request,
+        pack_id: str,
+        group_id: int,
+        title: str = "",
+        due: str = "",
+        conn=Depends(get_conn),
+    ):
+        row = next((p for p in packs.latest(conn) if p["pack_id"] == pack_id), None)
+        if row is None:
+            raise HTTPException(404)
+        _, exercises = read_pack(Path(row["path"]))
+        return page(
+            request,
+            "assignment_new.html",
+            pack=row,
+            exercises=exercises,
+            group_id=group_id,
+            title=title,
+            due=due,
+        )
+
+    @app.post("/assignments")
+    async def assignment_create(request: Request, conn=Depends(get_conn)):
+        form = await request.form()
+        title = (form.get("title") or "").strip()
+        if not title or not form.get("group_id") or not form.get("pack_id"):
+            return back("/assignments", err=S.assignments_missing)
+        chosen = form.getlist("exercise_ids")
+        group_id = int(form["group_id"])
+        assignments.create(
+            conn, group_id, title, form["pack_id"], chosen or None, form.get("due") or None
+        )
+        n = push_assignments(conn, group_id)
+        return back("/assignments", msg=S.assignments_created.format(n=n))
+
+    @app.post("/assignments/{assignment_id}/delete")
+    def assignment_delete(assignment_id: str, conn=Depends(get_conn)):
+        row = conn.execute(
+            "SELECT group_id FROM assignments WHERE assignment_id = ?", (assignment_id,)
+        ).fetchone()
+        assignments.delete(conn, assignment_id)
+        if row:
+            push_assignments(conn, row["group_id"])
+        return back("/assignments")
 
     # ---------------------------------------------------------------- setup
     @app.get("/setup/{serial}", response_class=HTMLResponse)

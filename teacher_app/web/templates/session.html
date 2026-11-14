@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block content %}
+<p>{% if session.sid %}<a href="/students/{{ session.sid }}">← {{ session.display_name }}</a>{% else %}<a href="/unassigned">← {{ S.nav_unassigned }}</a>{% endif %}</p>
+<h1>{{ S.session_title }}: {{ session.started_at | when }}</h1>
+<p class="muted">{{ session.board_name or session.board_id }} · {{ session.student_code or S.unassigned_no_code }} · {% if session.time_quality == "phone" %}phone clock{% else %}estimated time{% endif %}</p>
+<section class="card">
+  <h3>{{ S.session_timeline }}</h3>
+  <table class="timeline">
+    <tbody>
+    {% for e in timeline %}
+      {% set p = e.p %}
+      <tr>
+        <td class="muted small" style="white-space:nowrap">{{ e.ts[11:19] }}</td>
+        <td class="small" style="white-space:nowrap">{{ p.mode or "" }}</td>
+        <td>
+        {% if e.type == "session_start" %}Started ({{ p.language or "" }})
+        {% elif e.type == "session_end" %}Ended: {{ p.reason }}
+        {% elif e.type == "view_opened" %}Opened {{ p.view }}
+        {% elif e.type == "exercise_shown" %}Exercise <code>{{ p.pack_id }}/{{ p.exercise_id }}</code>{% if p.path_reason %} ({{ p.path_reason }}){% endif %}
+        {% elif e.type == "answer_submitted" %}Answered <strong>{{ p.answer }}</strong>: {% if p.correct %}<span style="color:var(--ok)">correct</span>{% else %}<span style="color:var(--err)">wrong</span>{% endif %} · try {{ p.attempt }} · {{ p.seconds_since_shown }} s{% if p.with_help %} · after the solution{% endif %}
+        {% elif e.type == "hint_requested" %}Asked clue {{ p.hint_number }}
+        {% elif e.type == "solution_requested" %}Asked the solution (after {{ p.attempts_before }} tries)
+        {% elif e.type == "question_asked" %}🧑 “{{ p.text }}”{% if p.has_photo %} 📷{% endif %}
+        {% elif e.type == "copilot_reply" %}🤖 {{ p.text }} <span class="muted small">({{ p.kind }}, {{ p.seconds }} s)</span>
+        {% elif e.type == "exercise_left" %}Left without solving ({{ p.attempts }} tries, {{ p.seconds }} s)
+        {% elif e.type == "page_hidden" %}<span class="muted">Switched to another app</span>
+        {% elif e.type == "page_visible" %}<span class="muted">Came back{% if p.seconds_hidden %} after {{ p.seconds_hidden }} s{% endif %}</span>
+        {% else %}{{ e.type }} <span class="muted small">{{ p }}</span>{% endif %}
+        </td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</section>
+{% endblock %}

@@ -42,3 +42,6 @@ class BoardLink(Protocol):
 
     def status(self) -> dict:
         """The output of classroom.status on the board (needs lib/ pushed first)."""
+
+    def configure_hotspot(self, ssid: str, password: str) -> str:
+        """Create the board's own Wi-Fi for the students' phones. Returns a short message."""

@@ -2,7 +2,7 @@
 {% block content %}
 <p><a href="/boards">← {{ S.boards_title }}</a></p>
 <h1>{{ board.name }} <span class="badge {{ board.mode }}">{{ board.mode }}</span></h1>
-<p class="muted">{{ board.board_id }} · {{ board.group_name or S.no_group }}</p>
+<p class="muted">{{ board.board_id }} · {{ board.group_name or S.no_group }}{% if board.hotspot_ssid %} · Wi-Fi {{ board.hotspot_ssid }} · <a href="/boards/{{ board.board_id }}/sticker">{{ S.sticker }}</a>{% endif %}</p>
 
 {% if not connected %}
   <p class="flash info">{{ S.board_not_connected }}</p>

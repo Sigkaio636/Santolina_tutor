@@ -14,6 +14,7 @@ S = SimpleNamespace(
     nav_boards="Boards",
     nav_packs="Exercise packs",
     nav_unassigned="Unassigned",
+    nav_assignments="Homework",
     # Connected boards strip
     connected_title="Connected boards",
     connected_none="No board connected. Plug a board into this computer with its USB-C cable.",
@@ -106,6 +107,36 @@ S = SimpleNamespace(
     unassigned_none="Nothing to assign.",
     unassigned_assign="Assign",
     unassigned_no_code="(no code)",
+    # Assignments (homework)
+    assignments_title="Homework",
+    assignments_none="No homework yet.",
+    assignments_new="Assign homework",
+    assignments_help=(
+        "Pick a group and a pack, then choose the exercises. Plugged-in boards of the group get "
+        "it at once, the others the next time you plug them in."
+    ),
+    assignments_title_field="Title (e.g. Week 3)",
+    assignments_due="Due date (optional)",
+    assignments_choose="Choose exercises",
+    assignments_all="Leave everything unticked to assign the whole pack.",
+    assignments_create="Assign",
+    assignments_missing="Give a title, a group and a pack.",
+    assignments_created="Homework assigned and sent to {n} connected boards.",
+    assignments_delete="Delete",
+    assignments_delete_confirm="Delete this homework? Boards drop it the next time they're plugged in.",
+    whole_pack="whole pack",
+    # Sticker
+    sticker="Print the sticker",
+    sticker_title="Sticker for {name}",
+    sticker_help="Print it and stick it on the board's case. Students scan the QR code with the phone camera.",
+    sticker_scan="Scan to connect",
+    sticker_password="Wi-Fi password",
+    sticker_network="Network",
+    sticker_address="Then open",
+    sticker_print="Print",
+    # Session detail
+    session_title="Session",
+    session_timeline="What happened",
     # Common
     save="Save",
     add="Add",

@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block content %}
+<style>
+  .sticker { width: 9cm; border: 2px dashed #888; border-radius: 12px; padding: .6cm; background: #fff; color: #111;
+    font-family: system-ui, sans-serif; text-align: center; }
+  .sticker .qr svg { width: 5.5cm; height: auto; }
+  .sticker .name { font-size: 1.4rem; font-weight: 800; margin-bottom: .2cm; }
+  .sticker .pw { font: 700 1.3rem ui-monospace, monospace; letter-spacing: .08em; }
+  .sticker .small { font-size: .8rem; color: #444; }
+  @media print {
+    header.top, section.connected, .no-print, .flash { display: none !important; }
+    body, main { background: #fff !important; padding: 0 !important; }
+  }
+</style>
+<div class="no-print">
+  <p><a href="/boards/{{ board.board_id }}">← {{ board.name }}</a></p>
+  <h1>{{ S.sticker_title.format(name=board.name) }}</h1>
+  <p class="muted">{{ S.sticker_help }}</p>
+  <p><button class="primary" onclick="window.print()">{{ S.sticker_print }}</button></p>
+</div>
+<div class="sticker">
+  <div class="name">🎓 {{ board.name }}</div>
+  <div class="small">{{ S.sticker_scan }}</div>
+  <div class="qr">{{ qr | safe }}</div>
+  <div class="small">{{ S.sticker_network }}: <strong>{{ board.hotspot_ssid }}</strong></div>
+  <div class="small">{{ S.sticker_password }}</div>
+  <div class="pw">{{ board.hotspot_password }}</div>
+  <div class="small">{{ S.sticker_address }} <strong>{{ address }}</strong></div>
+</div>
+{% endblock %}

@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>{{ S.assignments_title }}</h1>
+{% if assignments %}
+<table>
+  <thead><tr><th>{{ S.assignments_title_field }}</th><th>{{ S.students_group }}</th><th>Pack</th><th>Exercises</th><th>{{ S.assignments_due }}</th><th></th></tr></thead>
+  <tbody>
+  {% for a in assignments %}
+    <tr>
+      <td>{{ a.title }}</td><td>{{ a.group_name }}</td><td>{{ a.pack_title or a.pack_id }}</td>
+      <td>{{ a.n if a.n is not none else S.whole_pack }}</td><td>{{ a.due or "–" }}</td>
+      <td><form method="post" action="/assignments/{{ a.assignment_id }}/delete" onsubmit="return confirm('{{ S.assignments_delete_confirm }}')"><button class="small danger">{{ S.assignments_delete }}</button></form></td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% else %}<p class="muted">{{ S.assignments_none }}</p>{% endif %}
+
+{% include "_widgets.html" %}
+
+<form class="card" method="get" action="/assignments/new">
+  <h3>{{ S.assignments_new }}</h3>
+  <p class="muted small">{{ S.assignments_help }}</p>
+  {% if not groups %}<p class="warn"><a href="/groups">{{ S.groups_add }}</a></p>{% endif %}
+  {% if not library %}<p class="warn"><a href="/packs">{{ S.packs_import }}</a></p>{% endif %}
+  <label>{{ S.assignments_title_field }}<input name="title" required></label>
+  <label>{{ S.students_group }}
+    <select name="group_id" required>{% for g in groups %}<option value="{{ g.id }}">{{ g.name }}</option>{% endfor %}</select>
+  </label>
+  <label>Pack
+    <select name="pack_id" required>{% for p in library %}<option value="{{ p.pack_id }}">{{ p.title }} ({{ p.count }})</option>{% endfor %}</select>
+  </label>
+  <label>{{ S.assignments_due }}<input type="date" name="due"></label>
+  <button class="primary" {% if not groups or not library %}disabled{% endif %}>{{ S.assignments_choose }} →</button>
+</form>
+{% endblock %}

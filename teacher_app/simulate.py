@@ -15,6 +15,14 @@ from classroom.events import EventWriter
 from classroom.packs import list_packs, read_pack, write_pack
 from classroom.schemas import Exercise, PackManifest, now_iso, read_json
 
+QUESTIONS = [
+    "I don't understand the question",
+    "What does this word mean?",
+    "Can you explain it with an example?",
+    "Why is my answer wrong?",
+    "Where do I start?",
+]
+
 
 def create_fake_boards(folder: Path, n: int = 3, start: int = 1) -> list:
     """Create n simulated boards, each with a small synthetic retrieval index."""
@@ -102,6 +110,7 @@ def simulate_sessions(
     writer = EventWriter.from_root(root)
     roster = read_json(root / paths.ROSTER) or {}
     codes = roster.get("codes") or []
+    assignments = (read_json(root / paths.ASSIGNMENTS) or {}).get("assignments", [])
     exercises = []
     for manifest in list_packs(root):
         _, items = read_pack(root / paths.EXERCISES / manifest.pack_id)
@@ -117,26 +126,54 @@ def simulate_sessions(
             code = "ZZ" + "".join(rng.choice("ABCDEFGH") for _ in range(2))
         client = datetime.now(UTC) - timedelta(days=rng.randint(0, 13)) - phone_skew
         session = writer.start_session(code, client_ts=client.isoformat(timespec="seconds"))
+        mode = rng.choice(["homework", "practice", "free"])
+        homework = [a for a in assignments if a.get("pack_id")]
+        assignment = rng.choice(homework) if mode == "homework" and homework else None
+        if mode == "homework" and not assignment:
+            mode = "practice"
         for pack_id, ex in rng.sample(exercises, min(len(exercises), rng.randint(2, 6))):
-            session.log(
-                "exercise_shown", pack_id=pack_id, exercise_id=ex.exercise_id, level=ex.level
-            )
-            for h in range(rng.choice([0, 0, 0, 1, 2])):
-                session.log(
-                    "hint_requested", pack_id=pack_id, exercise_id=ex.exercise_id, hint_level=h + 1
-                )
-            p = skill.get(code, 0.5) - 0.08 * (ex.level or 0)
-            correct = rng.random() < max(0.05, p)
+            ctx = {
+                "mode": mode,
+                "assignment_id": assignment["assignment_id"] if assignment else None,
+                "pack_id": pack_id,
+                "exercise_id": ex.exercise_id,
+                "level": ex.level,
+                "topic": (ex.meta or {}).get("topic"),
+            }
+            session.log("exercise_shown", **ctx)
+            p = max(0.05, skill.get(code, 0.5) - 0.08 * (ex.level or 0))
             options = sorted((ex.options or {"A": ""}).keys())
-            answer = ex.answer if correct and ex.answer else rng.choice(options)
-            session.log(
-                "answer_submitted",
-                pack_id=pack_id,
-                exercise_id=ex.exercise_id,
-                level=ex.level,
-                answer=answer,
-                correct=bool(correct),
-            )
+            wrong, hints, helped, seconds = [], 0, False, 0.0
+            for attempt in range(1, rng.randint(1, 4) + 1):
+                if rng.random() < 0.3:
+                    hints += 1
+                    session.log("hint_requested", **ctx, hint_number=hints)
+                    session.log("copilot_reply", **ctx, text="(clue)", seconds=1.2, kind="clue")
+                if rng.random() < 0.15:
+                    question = rng.choice(QUESTIONS)
+                    session.log("question_asked", **ctx, text=question, has_photo=False)
+                    session.log("copilot_reply", **ctx, text="(reply)", seconds=2.5, kind="chat")
+                if attempt > 1 and not helped and rng.random() < 0.25:
+                    helped = True
+                    session.log("solution_requested", **ctx, attempts_before=attempt - 1)
+                correct = helped or rng.random() < p
+                left = [o for o in options if o not in wrong and o != ex.answer] or options
+                answer = ex.answer if correct and ex.answer else rng.choice(left)
+                seconds += rng.uniform(15, 90)
+                session.log(
+                    "answer_submitted",
+                    **ctx,
+                    answer=answer,
+                    correct=bool(correct),
+                    attempt=attempt,
+                    seconds_since_shown=round(seconds, 1),
+                    with_help=helped,
+                )
+                if correct:
+                    break
+                wrong.append(answer)
+            else:
+                session.log("exercise_left", **ctx, seconds=round(seconds, 1), attempts=attempt)
         if k < sessions:
-            session.end(reason="student_finished")
+            session.end(reason="logout")
     return sessions + open_sessions

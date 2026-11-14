@@ -88,6 +88,19 @@ MIGRATIONS = [
     CREATE INDEX events_type ON events(type);
     CREATE INDEX sessions_code ON sessions(student_code) WHERE student_id IS NULL;
     """,
+    """
+    ALTER TABLE boards ADD COLUMN hotspot_ssid TEXT;
+    ALTER TABLE boards ADD COLUMN hotspot_password TEXT;
+    CREATE TABLE assignments (
+        assignment_id      TEXT PRIMARY KEY,
+        group_id           INTEGER NOT NULL REFERENCES groups(id) ON DELETE CASCADE,
+        title              TEXT NOT NULL,
+        pack_id            TEXT NOT NULL,
+        exercise_ids_json  TEXT,            -- null: the whole pack
+        due                TEXT,
+        created_at         TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))
+    );
+    """,
 ]
 
 # No 0/O or 1/I/L: codes are read aloud and typed on phones.

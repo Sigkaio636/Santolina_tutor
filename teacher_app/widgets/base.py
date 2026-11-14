@@ -47,10 +47,14 @@ def for_scope(scope: str) -> list:
     return sorted((w for w in REGISTRY.values() if scope in w.scopes), key=lambda w: w.order)
 
 
-def render_all(conn, scope: str, ref=None) -> list:
-    """[(widget, data)] for one page. A widget that fails shows its error, not a crash."""
+def render_all(conn, scope: str, ref=None, only=None) -> list:
+    """[(widget, data)] for one page. A widget that fails shows its error, not a crash.
+
+    `only` limits it to some widget ids (e.g. one widget embedded in another page).
+    """
     out = []
-    for w in for_scope(scope):
+    widgets = [REGISTRY[i] for i in only if i in REGISTRY] if only else for_scope(scope)
+    for w in widgets:
         try:
             data = w.compute(conn, scope, ref)
         except Exception as e:  # noqa: BLE001  (one broken widget must not break the page)

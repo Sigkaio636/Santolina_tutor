@@ -51,3 +51,72 @@ def test_full_flow_on_a_simulated_board(tmp_path):
 
     # An unknown board sends you to setup.
     assert client.get("/boards/FAKE0002", follow_redirects=False).status_code == 303
+
+
+def test_homework_sticker_and_session_pages(tmp_path):
+    import json
+
+    from classroom import paths
+
+    boards_dir = tmp_path / "boards"
+    create_fake_boards(boards_dir, n=1)
+    settings = config.Settings(
+        home=tmp_path / "home", port=0, fake_boards=boards_dir, adb="adb-not-installed"
+    )
+    client = TestClient(create_app(settings))
+    client.post("/groups", data={"name": "3B"})
+    client.post("/students", data={"display_name": "Ada", "group_id": "1"})
+    client.post("/packs/demo")
+    client.post("/setup/FAKE0001", data={"name": "Board 1", "group_id": "1"})
+
+    # Homework: choose two exercises; the plugged-in board gets it, and its pack.
+    r = client.get(
+        "/assignments/new",
+        params={
+            "pack_id": "demo-arithmetic",
+            "group_id": 1,
+            "title": "Week 1",
+            "due": "2026-12-01",
+        },
+    )
+    assert r.status_code == 200 and 'value="e01"' in r.text
+    r = client.post(
+        "/assignments",
+        data={
+            "title": "Week 1",
+            "group_id": "1",
+            "pack_id": "demo-arithmetic",
+            "due": "2026-12-01",
+            "exercise_ids": ["e01", "e02"],
+        },
+    )
+    assert "1 connected boards" in r.text
+    board_root = boards_dir / "FAKE0001" / "santolina"
+    sent = json.loads((board_root / paths.ASSIGNMENTS).read_text())["assignments"]
+    assert sent[0]["exercise_ids"] == ["e01", "e02"]
+    assert (board_root / paths.EXERCISES / "demo-arithmetic" / "manifest.json").exists()
+
+    # Sticker: QR code, network and password.
+    r = client.get("/boards/FAKE0001/sticker")
+    hotspot = json.loads((board_root / paths.HOTSPOT).read_text())
+    assert "<svg" in r.text and hotspot["password"] in r.text and "Santolina-Board-1" in r.text
+
+    # Simulated sessions, unloaded, then every page renders, including a session timeline.
+    simulate_sessions(board_root, sessions=5, seed=4)
+    client.post("/boards/FAKE0001/unload")
+    from teacher_app import db
+
+    conn = db.connect(settings.db_path)
+    session_id = conn.execute("SELECT session_id FROM sessions LIMIT 1").fetchone()[0]
+    conn.close()
+    for url in (
+        "/",
+        "/assignments",
+        "/students/1",
+        "/groups/1",
+        "/boards/FAKE0001",
+        f"/sessions/{session_id}",
+    ):
+        r = client.get(url)
+        assert r.status_code == 200, url
+        assert "Error:" not in r.text, url

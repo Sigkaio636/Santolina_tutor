@@ -12,7 +12,7 @@
     <tbody>
     {% for x in sessions %}
       <tr>
-        <td>{{ x.started_at | when }}</td><td>{{ x.ended_at | when }}</td>
+        <td><a href="/sessions/{{ x.session_id }}">{{ x.started_at | when }}</a></td><td>{{ x.ended_at | when }}</td>
         <td><a href="/boards/{{ x.board_id }}">{{ x.board_name or x.board_id }}</a></td>
         <td>{{ x.answers }}</td>
         <td>{% if x.time_quality == "phone" %}phone clock{% else %}<span class="muted">estimated</span>{% endif %}</td>

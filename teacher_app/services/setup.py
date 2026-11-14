@@ -11,7 +11,7 @@ import classroom
 from classroom import paths
 from classroom.schemas import Identity, now_iso
 
-from . import boards
+from . import assignments, boards, hotspot
 
 MIN_FREE_BYTES = 500 * 1024 * 1024
 
@@ -30,6 +30,7 @@ class SetupRequest:
     group_id: int | None
     results: list = field(default_factory=list)
     status: dict | None = None
+    hotspot: object = None
 
 
 class StepFailed(Exception):
@@ -47,12 +48,13 @@ def install_software(conn, link, req):
 
 
 def configure_hotspot(conn, link, req):
-    return None  # later: make the board run its own Wi-Fi for the students' phones
+    req.hotspot, message = hotspot.ensure(link, req.name)
+    return message
 
 
 def install_contract(conn, link, req):
     boards.push_lib(link)
-    return f"classroom contract v{classroom.CONTRACT_VERSION} copied to ~/santolina/lib"
+    return f"contract v{classroom.CONTRACT_VERSION} and student app copied to ~/santolina/lib"
 
 
 def check_ready(conn, link, req):
@@ -97,24 +99,34 @@ def write_layout(conn, link, req):
 def register(conn, link, req):
     with conn:
         conn.execute(
-            "INSERT INTO boards (board_id, name, group_id, mode, registered_at, last_seen_at) "
-            "VALUES (?, ?, ?, 'student', ?, ?) "
+            "INSERT INTO boards (board_id, name, group_id, mode, registered_at, last_seen_at, "
+            "hotspot_ssid, hotspot_password) VALUES (?, ?, ?, 'student', ?, ?, ?, ?) "
             "ON CONFLICT(board_id) DO UPDATE SET name = excluded.name, "
-            "group_id = excluded.group_id, last_seen_at = excluded.last_seen_at",
-            (link.serial, req.name, req.group_id, now_iso(), now_iso()),
+            "group_id = excluded.group_id, last_seen_at = excluded.last_seen_at, "
+            "hotspot_ssid = excluded.hotspot_ssid, hotspot_password = excluded.hotspot_password",
+            (
+                link.serial,
+                req.name,
+                req.group_id,
+                now_iso(),
+                now_iso(),
+                req.hotspot.ssid if req.hotspot else None,
+                req.hotspot.password if req.hotspot else None,
+            ),
         )
     boards.set_mode(conn, link, "student")
     codes = boards.push_roster(conn, link)
+    assignments.push(conn, link)
     return f"registered, student mode, {len(codes)} student codes sent"
 
 
 STEPS = [
     ("check_device", "Check the device", check_device),
     ("install_software", "Install the copilot (later)", install_software),
-    ("configure_hotspot", "Set up the students' Wi-Fi (later)", configure_hotspot),
-    ("install_contract", "Copy the board module", install_contract),
+    ("install_contract", "Copy the board module and the student app", install_contract),
     ("check_ready", "Check the board is ready", check_ready),
     ("write_layout", "Write the board's files", write_layout),
+    ("configure_hotspot", "Set up the students' Wi-Fi", configure_hotspot),
     ("register", "Register the board", register),
 ]
 

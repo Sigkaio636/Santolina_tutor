@@ -16,7 +16,12 @@ def _setup(conn, link, group_id):
 def test_setup_writes_layout_and_registers(conn, fake, group_with_students):
     ok, req = _setup(conn, fake, group_with_students)
     assert ok, req.results
-    assert [r.status for r in req.results].count("skipped") == 2
+    assert [r.status for r in req.results].count("skipped") == 1
+    hotspot = json.loads(fake.read_text(paths.HOTSPOT))
+    assert hotspot["ssid"] == "Santolina-Board-7" and len(hotspot["password"]) == 10
+    assert boards.get_board(conn, fake.serial)["hotspot_password"] == hotspot["password"]
+    assert (fake.root / "lib" / "student_app" / "server.py").exists()
+    assert fake.read_text(paths.VERSION).strip() == boards.lib_version()
     identity = json.loads(fake.read_text(paths.IDENTITY))
     assert identity["name"] == "Board 7"
     assert json.loads(fake.read_text(paths.MODE))["mode"] == "student"
@@ -37,6 +42,34 @@ def test_setup_fails_without_rag_index(conn, fake, group_with_students):
     (fake.folder / "index.db").unlink()
     ok, req = _setup(conn, fake, group_with_students)
     assert not ok and "retrieval index" in req.results[-1].message
+
+
+def test_setup_again_keeps_the_wifi_password(conn, fake, group_with_students):
+    _setup(conn, fake, group_with_students)
+    first = json.loads(fake.read_text(paths.HOTSPOT))["password"]
+    _setup(conn, fake, group_with_students)
+    assert json.loads(fake.read_text(paths.HOTSPOT))["password"] == first
+
+
+def test_assignments_reach_the_board_with_their_pack(conn, fake, group_with_students, tmp_path):
+    from teacher_app.services import assignments
+
+    _setup(conn, fake, group_with_students)
+    packs.import_pack(conn, demo_pack(tmp_path / "src", n=4), tmp_path / "library")
+    assignments.create(
+        conn, group_with_students, "Week 1", "demo-arithmetic", ["e01"], "2026-12-01"
+    )
+    assert assignments.push(conn, fake) == 1
+    data = json.loads(fake.read_text(paths.ASSIGNMENTS))
+    assert data["assignments"][0]["exercise_ids"] == ["e01"]
+    assert [p["pack_id"] for p in fake.status()["packs"]] == ["demo-arithmetic"]
+
+
+def test_wifi_qr_payload_escapes():
+    from teacher_app.services.hotspot import make_ssid, wifi_qr_payload
+
+    assert make_ssid("Pissarra 3ª B") == "Santolina-Pissarra-3a-B"
+    assert wifi_qr_payload("a;b", 'p:"x') == 'WIFI:T:WPA;S:a\\;b;P:p\\:\\"x;;'
 
 
 def test_setup_keeps_student_data(conn, fake, group_with_students):
@@ -131,3 +164,49 @@ def test_widgets_render_in_every_scope(conn, fake, group_with_students, tmp_path
     ]:
         for w, data in render_all(conn, scope, ref):
             assert "Error" not in data.get("message", ""), (w.id, data)
+
+
+def test_m3kang_converter_skips_problems_missing_their_image(tmp_path):
+    from classroom.packs import read_pack
+    from teacher_app.m3kang import convert
+
+    rows = [
+        {
+            "id": "a",
+            "language": "eng",
+            "level": 0,
+            "text": "t",
+            "options": {"A": "1"},
+            "label": "A",
+            "text_only": True,
+        },
+        {
+            "id": "b",
+            "language": "eng",
+            "level": 0,
+            "text": "t",
+            "options": {"A": "1"},
+            "label": "A",
+            "text_only": False,
+        },
+        {
+            "id": "c",
+            "language": "eng",
+            "level": 1,
+            "text": "t",
+            "options": {"A": "1"},
+            "label": "A",
+            "text_only": False,
+            "topic": "geometry",
+        },
+    ]
+    source = tmp_path / "rows.json"  # synthetic rows; JSON lines in a .json name
+    source.write_text("\n".join(json.dumps(r) for r in rows))
+    images = tmp_path / "images"
+    images.mkdir()
+    (images / "c_eng.png").write_bytes(b"\x89PNG fake")
+    folder = convert(source, tmp_path / "out", "kang", "Kangaroo", images=images)
+    _, exercises = read_pack(folder)
+    assert [e.exercise_id for e in exercises] == ["a_eng", "c_eng"]
+    assert exercises[1].media == ["media/c_eng.png"] and exercises[1].meta["topic"] == "geometry"
+    assert (folder / "media" / "c_eng.png").exists()

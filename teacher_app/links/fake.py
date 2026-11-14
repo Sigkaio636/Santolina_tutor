@@ -91,6 +91,9 @@ class FakeLink:
         data["services"] = {"llm": up, "embed": up}
         return data
 
+    def configure_hotspot(self, ssid, password):
+        return f"hotspot {ssid} (simulated)"
+
 
 def discover(folder: Path) -> list:
     if not folder or not Path(folder).is_dir():

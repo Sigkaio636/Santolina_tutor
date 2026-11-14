@@ -43,6 +43,8 @@ def convert(
                 image = Path(images) / f"{exercise_id}.png"
                 if image.exists():
                     media = [f"media/{image.name}"]
+            if p.get("text_only") is False and not media:
+                continue  # the statement needs its picture, and we don't have it
             exercises.append(
                 Exercise(
                     exercise_id=exercise_id,
@@ -54,6 +56,7 @@ def convert(
                     answer=p.get("label"),
                     media=media,
                     meta={
+                        **({"topic": p["topic"]} if p.get("topic") else {}),
                         "source": "m3kang",
                         "m3kang_id": p["id"],
                         "year": p.get("year"),

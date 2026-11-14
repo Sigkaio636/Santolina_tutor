@@ -226,6 +226,18 @@ def test_full_student_visit_is_logged_and_unloaded(server, board, conn, tmp_path
     row = conn.execute("SELECT student_id, time_quality FROM sessions").fetchone()
     assert row["student_id"] is not None and row["time_quality"] == "phone"
 
+    # The teacher's stats read the new events without errors.
+    from teacher_app.widgets import render_all
+
+    for scope, ref in [("global", None), ("student", row["student_id"]), ("board", board.serial)]:
+        for w, data in render_all(conn, scope, ref):
+            assert "Error" not in data.get("message", ""), (w.id, data)
+    kpis = {
+        i["label"]: i["value"]
+        for i in render_all(conn, "student", row["student_id"])[0][1]["items"]
+    }
+    assert kpis["Solutions shown"] == 1 and kpis["Questions"] == 2 and kpis["Clues"] == 1
+
 
 def test_new_login_ends_previous_session(server, board):
     a, b = _client(server), _client(server)

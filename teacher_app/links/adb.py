@@ -12,6 +12,7 @@ from classroom import paths
 from .base import LinkError
 
 UNO_Q_MARKERS = ("Imola", "arduino,imola")
+HOTSPOT_CONNECTION = "santolina-hotspot"
 
 
 def list_devices(adb: str = "adb") -> list:
@@ -143,3 +144,49 @@ class AdbLink:
             return json.loads(result.stdout)
         except json.JSONDecodeError as e:
             raise LinkError(f"board status gave no JSON: {result.stdout[:200]!r}") from e
+
+    def configure_hotspot(self, ssid: str, password: str) -> str:
+        """Create the board's Wi-Fi hotspot profile. It starts at the next boot.
+
+        NetworkManager shares it (DHCP and DNS through dnsmasq) at 10.42.0.1. It is not
+        switched on now, so the board keeps its current Wi-Fi until it restarts.
+        """
+        name = HOTSPOT_CONNECTION
+        self._sh(f"nmcli connection delete {name} >/dev/null 2>&1; true")
+        args = [
+            "nmcli",
+            "connection",
+            "add",
+            "type",
+            "wifi",
+            "ifname",
+            "wlan0",
+            "con-name",
+            name,
+            "autoconnect",
+            "yes",
+            "ssid",
+            ssid,
+            "802-11-wireless.mode",
+            "ap",
+            "802-11-wireless.band",
+            "bg",
+            "ipv4.method",
+            "shared",
+            "ipv4.addresses",
+            "10.42.0.1/24",
+            "ipv6.method",
+            "disabled",
+            "wifi-sec.key-mgmt",
+            "wpa-psk",
+            "wifi-sec.psk",
+            password,
+            "connection.autoconnect-priority",
+            "100",
+        ]
+        result = self._sh(" ".join(shlex.quote(a) for a in args), check=False)
+        if result.returncode != 0:
+            raise LinkError(
+                f"could not create the hotspot: {(result.stderr or result.stdout).strip()}"
+            )
+        return f"hotspot {ssid} ready; it starts when the board restarts"
