@@ -1,6 +1,6 @@
 """Extract the M3Kang parquet shards in data/raw into plain files.
 
-    uv run python -m santolina_tutor.templates.dataset
+    uv run python -m santolina_tutor.dataset
 
 Output, in data/interim/m3kang/ (git-ignored; M3Kang is research-use only):
     problems.jsonl      one row per (id, language): metadata, text, label, image file

@@ -77,7 +77,7 @@ create_environment:
 ## Make dataset
 .PHONY: data
 data: requirements
-	$(PYTHON_INTERPRETER) santolina_tutor/templates/dataset.py
+	$(PYTHON_INTERPRETER) santolina_tutor/dataset.py
 
 
 #################################################################################
