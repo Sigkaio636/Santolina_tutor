@@ -774,6 +774,8 @@ OCR reads all five options for 62% of the problems. The rest have `"options": {}
 
 Better option reading is one of the easiest ways to improve your score. Look at the problems with empty options with `--save-images`.
 
+For counts of each failure mode, and one that this list misses, see [OCR failure modes: expected and measured](OCR_FAILURE_MODES.md).
+
 ### 9.4 The data format
 
 One problem per line in `data/train.jsonl` and `data/val.jsonl`:

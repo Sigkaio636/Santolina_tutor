@@ -114,21 +114,30 @@ def parse_options(boxes):
     items = reading_order(boxes)
     starts = [i for i, it in enumerate(items) if is_marker(it["text"], "A", strict=True) is not None]
     for start in reversed(starts):  # the options are the last A..E sequence
-        options, current, i = {}, None, start
+        options, current, i = {}, None, start  # options: letter -> list of box texts
         expected = iter(LETTERS)
         letter = next(expected)
         while i < len(items):
             text = items[i]["text"]
             rest = is_marker(text, letter, strict=(letter == "A")) if letter else None
+            if rest is None and letter == "C":
+                # OCR often drops the "C)" label: "A) 10", "B) 20", "30", "D) 40".
+                # If a "D)" comes with exactly two values after B, split them.
+                d_rest = is_marker(text, "D", strict=True)
+                values = [v for v in options.get("B", []) if v.strip()]
+                if d_rest is not None and len(values) == 2:
+                    options["B"], options["C"] = [values[0]], [values[1]]
+                    letter, rest = "D", d_rest
+                    next(expected)  # skip C
             if rest is not None:
                 current = letter
-                options[current] = rest
+                options[current] = [rest]
                 letter = next(expected, None)
             elif current:
-                options[current] = (options[current] + " " + text).strip()
+                options[current].append(text)
             i += 1
         if len(options) == 5:
-            cleaned = {k: v.lstrip(")）] ").strip() for k, v in options.items()}
+            cleaned = {k: " ".join(v).strip().lstrip(")）] ").strip() for k, v in options.items()}
             if all(cleaned.values()):
                 return cleaned
             return {}  # five markers, but the options are pictures
