@@ -8,7 +8,7 @@ documents:
       critique: validated
       decisions: validated
       repair: validated
-      language: pending
+      language: validated
       adversarial: pending
       signoff: pending
     validated_sha: null
@@ -19,14 +19,16 @@ documents:
       decisions: 'grilling Q1-Q23: 10 findings settled (0 wontfix, 0 dismissed); 41 verified left for
         S4'
       repair: 'docsjanitor: all verified findings fixed; predict.py rule canonical in CLAUDE.md (user)'
-    last_sha: 890ff73636f6f70d6f7b72746e0f54a12369f74ea251360028d40ef4ccf55437
+      language: asd-ste100 (flavored), ste-lint 7 -> 0; remaining hits are quotes, locked headings or
+        linter false positives
+    last_sha: 9c0e4c4fff2f2b703e2f1a3f61296c9f076c3aa91468d760d9e19376eaed499b
   docs/BOARD_SETUP.md:
     stages:
       audit: validated
       critique: validated
       decisions: validated
       repair: n/a
-      language: pending
+      language: n/a
       adversarial: pending
       signoff: pending
     validated_sha: null
@@ -37,6 +39,7 @@ documents:
       decisions: 'grilling Q1-Q23: 45 findings settled (45 wontfix, 0 dismissed); 0 verified left for
         S4'
       repair: verbatim copy of the organizers' README (S3 Q1); 45 findings wontfix
+      language: verbatim copy of the organizers' README (S3 Q1)
     last_sha: c19e8ba53247732f7634562ce092f35531d1944b5bc4496adbff8dfadddc87fe
   CLAUDE.md:
     stages:
@@ -44,7 +47,7 @@ documents:
       critique: validated
       decisions: validated
       repair: validated
-      language: pending
+      language: validated
       adversarial: pending
       signoff: pending
     validated_sha: null
@@ -53,14 +56,16 @@ documents:
       critique: 'diataxis: reference (agent instructions); docs-critic: 11 findings (4 misleading, 5 decisions)'
       decisions: 'grilling Q1-Q23: 6 findings settled (0 wontfix, 0 dismissed); 12 verified left for S4'
       repair: 'docsjanitor: all verified findings fixed; canonical copy of the predict.py rule (user)'
-    last_sha: 3c9b2f775dd059878aa31436418b26fd014824677643e0d0145df4dacfcde92a
+      language: asd-ste100 (strict), ste-lint 8 -> 0; remaining hits are quotes, locked headings or linter
+        false positives
+    last_sha: 04104ffbac9c28f0e8def16fee2f3e1af946583dfd8035e86e492b691930d293
   data/README.md:
     stages:
       audit: validated
       critique: validated
       decisions: validated
       repair: validated
-      language: pending
+      language: validated
       adversarial: pending
       signoff: pending
     validated_sha: null
@@ -69,14 +74,16 @@ documents:
       critique: 'diataxis: reference; docs-critic: 10 findings (2 misleading, 3 decisions)'
       decisions: 'grilling Q1-Q23: 4 findings settled (1 wontfix, 0 dismissed); 10 verified left for S4'
       repair: 'docsjanitor: all verified findings fixed or settled; 0 open'
-    last_sha: ee251d4ead71a3ca2a25e6686cd312fead21216aa119b2f222abc3aa2da0d278
+      language: asd-ste100 (flavored), ste-lint 6 -> 0; remaining hits are quotes, locked headings or
+        linter false positives
+    last_sha: fd095e3c354abb7674216e9e1010474c5c5c797fd9d9057928a55461021a7949
   docs/CHALLENGE_CONTEXT.md:
     stages:
       audit: validated
       critique: validated
       decisions: validated
       repair: validated
-      language: pending
+      language: validated
       adversarial: pending
       signoff: pending
     validated_sha: null
@@ -85,14 +92,16 @@ documents:
       critique: 'diataxis: explanation; docs-critic: 24 findings (2 misleading, 2 decisions)'
       decisions: 'grilling Q1-Q23: 5 findings settled (0 wontfix, 0 dismissed); 37 verified left for S4'
       repair: 'docsjanitor: all verified findings fixed or settled; 0 open'
-    last_sha: 6efce8549b20062d75060a8595c0ae62597a17f1828831d19d648c4dae002507
+      language: asd-ste100 (flavored), ste-lint 18 -> 1; remaining hits are quotes, locked headings or
+        linter false positives
+    last_sha: 3959346696c1e80b5f5b1181b74b1c263bfa13b3a7aa0f148bc306cb6e62dd09
   docs/GOAL_MUSTS.md:
     stages:
       audit: validated
       critique: validated
       decisions: validated
       repair: validated
-      language: pending
+      language: validated
       adversarial: pending
       signoff: pending
     validated_sha: null
@@ -101,14 +110,16 @@ documents:
       critique: 'diataxis: reference (checklist); docs-critic: 23 findings (3 misleading, 6 decisions)'
       decisions: 'grilling Q1-Q23: 6 findings settled (0 wontfix, 0 dismissed); 28 verified left for S4'
       repair: 'docsjanitor: all verified findings fixed or settled; 0 open'
-    last_sha: b44570d20918faec11be9c234b3613bde10c5ea6749067d47f461779d25ab069
+      language: asd-ste100 (flavored), ste-lint 28 -> 2; remaining hits are quotes, locked headings or
+        linter false positives
+    last_sha: 9ba4442caeb7a966b1bb00c26065c284c5495bda8c6f5db7b47f4141a7df12c9
   docs/GUIA_RESTRICCIONES_UNOQ.html:
     stages:
       audit: validated
       critique: validated
       decisions: validated
       repair: validated
-      language: pending
+      language: validated
       adversarial: pending
       signoff: pending
     validated_sha: null
@@ -118,14 +129,16 @@ documents:
         2 decisions)'
       decisions: 'grilling Q1-Q23: 6 findings settled (0 wontfix, 1 dismissed); 30 verified left for S4'
       repair: 'docsjanitor: all verified findings fixed or settled; 0 open'
-    last_sha: 5ce96f5e0950605b71997b66dd1241c8d8d5bb720a291b9e28bbd79a2552c476
+      language: asd-ste100 (flavored), ste-lint 13 -> 2; remaining hits are quotes, locked headings or
+        linter false positives
+    last_sha: 88e99ccf4d652e5df108ae1f59766a5e33cbbf7f925ff467725ee9dc95680974
   docs/RESUMEN_QUALCOMM_UNO_Q.md:
     stages:
       audit: validated
       critique: validated
       decisions: validated
       repair: validated
-      language: pending
+      language: validated
       adversarial: pending
       signoff: pending
     validated_sha: null
@@ -134,14 +147,16 @@ documents:
       critique: 'diataxis: explanation (video summary); docs-critic: 24 findings (4 misleading, 3 decisions)'
       decisions: 'grilling Q1-Q23: 8 findings settled (0 wontfix, 1 dismissed); 39 verified left for S4'
       repair: 'docsjanitor: all verified findings fixed or settled; 0 open'
-    last_sha: aad0b60bf103a3fb0fdbf268cbe9c6bdcc27fa7b66a72e97cbfc6d5188518962
+      language: asd-ste100 (flavored), ste-lint 39 -> 4; remaining hits are quotes, locked headings or
+        linter false positives
+    last_sha: 873ee31b9618efde48b518540832820641d68af12da61e9742095c8a6eda49f9
   docs/SKILLS_GUIDE.html:
     stages:
       audit: validated
       critique: validated
       decisions: validated
       repair: validated
-      language: pending
+      language: validated
       adversarial: pending
       signoff: pending
     validated_sha: null
@@ -150,14 +165,16 @@ documents:
       critique: 'diataxis: tutorial (self-study guide); docs-critic: 24 findings (2 misleading, 3 decisions)'
       decisions: 'grilling Q1-Q23: 8 findings settled (0 wontfix, 3 dismissed); 33 verified left for S4'
       repair: 'docsjanitor: all verified findings fixed or settled; 0 open'
-    last_sha: 0cbb931ea3115817582d6aaf63bcf5e7790f88b060d2f5849aad4f9ed7db2ac9
+      language: asd-ste100 (flavored), ste-lint 6 -> 2; remaining hits are quotes, locked headings or
+        linter false positives
+    last_sha: cfaabc793cdfdd9f55fb256e23c7592b67b372beabb58a3174d5a38edb7e477f
   docs/UNO_Q_BOARD_REFERENCE.md:
     stages:
       audit: validated
       critique: validated
       decisions: validated
       repair: validated
-      language: pending
+      language: validated
       adversarial: pending
       signoff: pending
     validated_sha: null
@@ -166,14 +183,16 @@ documents:
       critique: 'diataxis: reference; docs-critic: 25 findings (7 misleading, 1 decisions)'
       decisions: 'grilling Q1-Q23: 9 findings settled (0 wontfix, 0 dismissed); 44 verified left for S4'
       repair: 'docsjanitor: all verified findings fixed or settled; 0 open'
-    last_sha: 43a72b844a6fb13689b400b16eebb8b8c21fe80650320d7db5a15c16846a9be6
+      language: asd-ste100 (flavored), ste-lint 23 -> 5; remaining hits are quotes, locked headings or
+        linter false positives
+    last_sha: c9b748bef9b52da0c6886908ec0a54162edb42b28880abf0af79a4a80827186c
   docs/how-to/deploy-copilot-on-board.md:
     stages:
       audit: validated
       critique: validated
       decisions: validated
       repair: validated
-      language: pending
+      language: validated
       adversarial: pending
       signoff: pending
     validated_sha: null
@@ -182,14 +201,16 @@ documents:
       critique: 'diataxis: how-to; docs-critic: 21 findings (4 misleading, 4 decisions)'
       decisions: 'grilling Q1-Q23: 7 findings settled (0 wontfix, 0 dismissed); 32 verified left for S4'
       repair: 'docsjanitor: all verified findings fixed or settled; 0 open'
-    last_sha: 97f6732d354e97777f62fa22b5ac333855c603dc0b62c84ff2206ad519e51850
+      language: asd-ste100 (strict), ste-lint 2 -> 0; remaining hits are quotes, locked headings or linter
+        false positives
+    last_sha: 2c4d4cea53cffc8e868a24b0a21bea99ed77f9d951548cc5b51d7980f852c100
   docs/how-to/use-copilot-on-board.md:
     stages:
       audit: validated
       critique: validated
       decisions: validated
       repair: validated
-      language: pending
+      language: validated
       adversarial: pending
       signoff: pending
     validated_sha: null
@@ -199,14 +220,16 @@ documents:
       decisions: 'grilling Q1-Q23: 11 findings settled (0 wontfix, 0 dismissed); 30 verified left for
         S4'
       repair: 'docsjanitor: all verified findings fixed or settled; 0 open'
-    last_sha: d6ae2f8cfdd1faec008b762ee4f7fbd9143a02d3e0658ff1b948ff74da9475d5
+      language: asd-ste100 (strict), ste-lint 2 -> 0; remaining hits are quotes, locked headings or linter
+        false positives
+    last_sha: d4924b086270d19aed5c056540fdb0e02f97aa86653e9ea10222a0dd91ebabb5
   docs/index.md:
     stages:
       audit: validated
       critique: validated
       decisions: validated
       repair: validated
-      language: pending
+      language: validated
       adversarial: pending
       signoff: pending
     validated_sha: null
@@ -215,14 +238,16 @@ documents:
       critique: 'diataxis: landing page; docs-critic: 9 findings (1 misleading, 3 decisions)'
       decisions: 'grilling Q1-Q23: 3 findings settled (1 wontfix, 0 dismissed); 10 verified left for S4'
       repair: 'docsjanitor: all verified findings fixed or settled; 0 open'
-    last_sha: caf8e100a0f26f101e4797eb99067f3b90efc63b864c858fce0a86cb7c1882f0
+      language: asd-ste100 (flavored), ste-lint 0 -> 0; remaining hits are quotes, locked headings or
+        linter false positives
+    last_sha: c15c2cf7fe493278b2a68ffa6f743d15b536395911c542875514394b41988797
   docs/how-to/mineru-ocr-papers.md:
     stages:
       audit: validated
       critique: validated
       decisions: validated
       repair: validated
-      language: pending
+      language: validated
       adversarial: pending
       signoff: pending
     validated_sha: null
@@ -231,14 +256,16 @@ documents:
       critique: 'diataxis: how-to; docs-critic: 19 findings (2 misleading, 2 decisions)'
       decisions: 'grilling Q1-Q23: 4 findings settled (0 wontfix, 0 dismissed); 22 verified left for S4'
       repair: 'docsjanitor: all verified findings fixed or settled; 0 open'
-    last_sha: 7bda163019d25c0ac55676c7b3f5a84a76e1f1b08c5c22f640661c2791fcb843
+      language: asd-ste100 (strict), ste-lint 6 -> 0; remaining hits are quotes, locked headings or linter
+        false positives
+    last_sha: afecc3fa3edaae865cff2750c9fe7b547985dcf716721d7b91f7e10752ba17f0
   docs/vault/papers/README.md:
     stages:
       audit: validated
       critique: validated
       decisions: validated
       repair: validated
-      language: pending
+      language: validated
       adversarial: pending
       signoff: pending
     validated_sha: null
@@ -247,14 +274,16 @@ documents:
       critique: 'diataxis: reference (vault index); docs-critic: 16 findings (0 misleading, 3 decisions)'
       decisions: 'grilling Q1-Q23: 5 findings settled (0 wontfix, 0 dismissed); 24 verified left for S4'
       repair: 'docsjanitor: all verified findings fixed or settled; 0 open'
-    last_sha: 18fd532de07f0ca10ff1d008b56afedc23d2e5ebed7ac4c118ac6fc0536f8c84
+      language: asd-ste100 (flavored), ste-lint 29 -> 0; remaining hits are quotes, locked headings or
+        linter false positives
+    last_sha: 3485a602b4101c7e17170eb28883db92495a269e5cda3cdc71fead6316391bbc
   docs/vault/papers/_junctions.md:
     stages:
       audit: validated
       critique: validated
       decisions: validated
       repair: validated
-      language: pending
+      language: validated
       adversarial: pending
       signoff: pending
     validated_sha: null
@@ -263,14 +292,16 @@ documents:
       critique: 'diataxis: explanation; docs-critic: 20 findings (3 misleading, 1 decisions)'
       decisions: 'grilling Q1-Q23: 2 findings settled (0 wontfix, 0 dismissed); 27 verified left for S4'
       repair: 'docsjanitor: all verified findings fixed or settled; 0 open'
-    last_sha: 44ef0d7dde5fdbfc3570006f46f26e48a305081d70427345cf711831e52c885d
+      language: asd-ste100 (flavored), ste-lint 44 -> 0; remaining hits are quotes, locked headings or
+        linter false positives
+    last_sha: db49a919a5d4cea5569f3fb9b84c2eef6a4c1d0f2b2488c3909895166b978db0
   docs/vault/papers/benchmarks/_synthesis.md:
     stages:
       audit: validated
       critique: validated
       decisions: validated
       repair: validated
-      language: pending
+      language: validated
       adversarial: pending
       signoff: pending
     validated_sha: null
@@ -279,14 +310,16 @@ documents:
       critique: 'diataxis: explanation; docs-critic: 17 findings (3 misleading, 1 decisions)'
       decisions: 'grilling Q1-Q23: 4 findings settled (0 wontfix, 0 dismissed); 23 verified left for S4'
       repair: 'docsjanitor: all verified findings fixed or settled; 0 open'
-    last_sha: 4d2e5ad1fba6634fa6d5e511ab2edd992e5584fc4b81dd3db1ac7ed5b3260e03
+      language: asd-ste100 (flavored), ste-lint 38 -> 3; remaining hits are quotes, locked headings or
+        linter false positives
+    last_sha: c0687ade24af266a5d03d70db0e9e38dc779e3eef524bc966e57d33131867aee
   docs/vault/papers/finetuning_distillation/_synthesis.md:
     stages:
       audit: validated
       critique: validated
       decisions: validated
       repair: validated
-      language: pending
+      language: validated
       adversarial: pending
       signoff: pending
     validated_sha: null
@@ -295,14 +328,16 @@ documents:
       critique: 'diataxis: explanation; docs-critic: 15 findings (4 misleading, 3 decisions)'
       decisions: 'grilling Q1-Q23: 7 findings settled (0 wontfix, 2 dismissed); 21 verified left for S4'
       repair: 'docsjanitor: all verified findings fixed or settled; 0 open'
-    last_sha: b8981aeee43a17a6ac36053a2d8fcb05f4f3a0813774522ca7e609c263e09f37
+      language: asd-ste100 (flavored), ste-lint 50 -> 2; remaining hits are quotes, locked headings or
+        linter false positives
+    last_sha: 5198cf3d4c88962a234acfcb22f56df2f11f718f30c0596a9ae5fa38b7d47f72
   docs/vault/papers/inference/_synthesis.md:
     stages:
       audit: validated
       critique: validated
       decisions: validated
       repair: validated
-      language: pending
+      language: validated
       adversarial: pending
       signoff: pending
     validated_sha: null
@@ -311,14 +346,16 @@ documents:
       critique: 'diataxis: explanation; docs-critic: 12 findings (5 misleading, 0 decisions)'
       decisions: 'grilling Q1-Q23: 3 findings settled (0 wontfix, 0 dismissed); 23 verified left for S4'
       repair: 'docsjanitor: all verified findings fixed or settled; 0 open'
-    last_sha: 25901e725d6bd73024fa87c8f75d104c07cd77c11ac95ad435b572e6441f332e
+      language: asd-ste100 (flavored), ste-lint 69 -> 12; remaining hits are quotes, locked headings or
+        linter false positives
+    last_sha: b47e1becf533ea4aad91999aea074a1f6e9c4ebf05681674619d22ff394ec5f3
   docs/vault/papers/jev/_synthesis.md:
     stages:
       audit: validated
       critique: validated
       decisions: validated
       repair: validated
-      language: pending
+      language: validated
       adversarial: pending
       signoff: pending
     validated_sha: null
@@ -327,14 +364,16 @@ documents:
       critique: 'diataxis: explanation; docs-critic: 14 findings (4 misleading, 2 decisions)'
       decisions: 'grilling Q1-Q23: 7 findings settled (0 wontfix, 0 dismissed); 21 verified left for S4'
       repair: 'docsjanitor: all verified findings fixed or settled; 0 open'
-    last_sha: 872471bdcbcf0b68c34fd24f6dfd5e0eeee58154183bfb671d4b271febbb5f50
+      language: asd-ste100 (flavored), ste-lint 83 -> 16; remaining hits are quotes, locked headings or
+        linter false positives
+    last_sha: 15669451f713213ed2f800c4fb1536ce3d3a7d7d288e286b3335929a0df978e0
   docs/vault/papers/pruning/_synthesis.md:
     stages:
       audit: validated
       critique: validated
       decisions: validated
       repair: validated
-      language: pending
+      language: validated
       adversarial: pending
       signoff: pending
     validated_sha: null
@@ -343,14 +382,16 @@ documents:
       critique: 'diataxis: explanation; docs-critic: 12 findings (5 misleading, 1 decisions)'
       decisions: 'grilling Q1-Q23: 9 findings settled (0 wontfix, 1 dismissed); 21 verified left for S4'
       repair: 'docsjanitor: all verified findings fixed or settled; 0 open'
-    last_sha: 4592f2ff167c2724a43c5eb672c823eaaec360346b2100ac7d78d01792672903
+      language: asd-ste100 (flavored), ste-lint 71 -> 6; remaining hits are quotes, locked headings or
+        linter false positives
+    last_sha: 44213cc65e1624fcba821842b3dc48a1f88b8a221b73fe0e9f46e760fad30be3
   docs/vault/papers/quantization/_synthesis.md:
     stages:
       audit: validated
       critique: validated
       decisions: validated
       repair: validated
-      language: pending
+      language: validated
       adversarial: pending
       signoff: pending
     validated_sha: null
@@ -359,14 +400,16 @@ documents:
       critique: 'diataxis: explanation; docs-critic: 12 findings (4 misleading, 0 decisions)'
       decisions: 'grilling Q1-Q23: 9 findings settled (0 wontfix, 0 dismissed); 24 verified left for S4'
       repair: 'docsjanitor: all verified findings fixed or settled; 0 open'
-    last_sha: f27948ae77447f66841d6ac01d319994f9506032773c446c50968ba61d32efb4
+      language: asd-ste100 (flavored), ste-lint 89 -> 23; remaining hits are quotes, locked headings or
+        linter false positives
+    last_sha: 95037d55828ed3aea6648a4d968ae0a7f31449351f7f85f8e12026c6efea6f28
   docs/vault/papers/surveys/_synthesis.md:
     stages:
       audit: validated
       critique: validated
       decisions: validated
       repair: validated
-      language: pending
+      language: validated
       adversarial: pending
       signoff: pending
     validated_sha: null
@@ -375,14 +418,16 @@ documents:
       critique: 'diataxis: explanation; docs-critic: 19 findings (2 misleading, 0 decisions)'
       decisions: 'grilling Q1-Q23: 4 findings settled (0 wontfix, 0 dismissed); 25 verified left for S4'
       repair: 'docsjanitor: all verified findings fixed or settled; 0 open'
-    last_sha: c5a6626d06c5e95976256c156104f6ae00a99b61724d2838f69905cd9fac2d21
+      language: asd-ste100 (flavored), ste-lint 53 -> 5; remaining hits are quotes, locked headings or
+        linter false positives
+    last_sha: 02b5f1f07eec6bb96bbb2f7a410b81e85488736fdb876e0648cffd3bb218c5b6
   docs/vault/papers/tutoring_pedagogy/_synthesis.md:
     stages:
       audit: validated
       critique: validated
       decisions: validated
       repair: validated
-      language: pending
+      language: validated
       adversarial: pending
       signoff: pending
     validated_sha: null
@@ -391,14 +436,16 @@ documents:
       critique: 'diataxis: explanation; docs-critic: 13 findings (4 misleading, 0 decisions)'
       decisions: 'grilling Q1-Q23: 9 findings settled (0 wontfix, 2 dismissed); 22 verified left for S4'
       repair: 'docsjanitor: all verified findings fixed or settled; 0 open'
-    last_sha: 2df11d799571c304c3ad0efa149df7493f5fcdab1cadf6db946a2c120d0bbdd0
+      language: asd-ste100 (flavored), ste-lint 46 -> 1; remaining hits are quotes, locked headings or
+        linter false positives
+    last_sha: cfb07799e8013b095d87f100eb8d9dc10cbe5ba01402eb43e133486a8f447188
   mkdocs.yml:
     stages:
       audit: validated
       critique: validated
       decisions: validated
       repair: validated
-      language: pending
+      language: n/a
       adversarial: pending
       signoff: pending
     validated_sha: null
@@ -408,4 +455,5 @@ documents:
       decisions: 'grilling Q1-Q23: 15 findings settled (1 wontfix, 0 dismissed); 14 verified left for
         S4'
       repair: 'docsjanitor: all verified findings fixed or settled; 0 open'
+      language: configuration file
     last_sha: 3f7728095199bda04d26d84744c68d9ce723d22460351c81c30c8cd6e5a788da

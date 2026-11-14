@@ -1,7 +1,7 @@
 # Santolina tutor
 
-A math copilot that runs entirely on the Arduino UNO Q 4 GB, for the Qualcomm
-challenge of [Datathon FME 2026](BOARD_SETUP.md#the-challenge). It works with the
+Santolina tutor is a math copilot that runs entirely on the Arduino UNO Q 4 GB,
+for the Qualcomm challenge of [Datathon FME 2026](BOARD_SETUP.md#the-challenge). It works with the
 [M3Kang dataset](https://huggingface.co/datasets/qualcomm/M3Kang). The dataset
 is for research use only. Except for one example record in the organizers'
 setup guide, this site has no M3Kang problem text.
@@ -11,7 +11,7 @@ wants to run the copilot on a board. Read the pages under "Start here" in order.
 
 ## Start here
 
-1. [Board setup](BOARD_SETUP.md), steps 0 to 8: the organizers' guide to set up
+1. [Board setup](BOARD_SETUP.md), steps 0 to 8: the organizers' guide to prepare
    the board. It also defines the `predict.py` contract.
 2. [How to deploy the copilot on the UNO Q](how-to/deploy-copilot-on-board.md):
    put the code and data on the board and check it.
@@ -40,8 +40,8 @@ The paper vault is the folder `docs/vault/`: research papers and our notes on
 them. You can also open it in [Obsidian](https://obsidian.md), a Markdown
 note-taking app.
 
-- [Papers](vault/papers/README.md): the reading list on benchmarks, surveys and
-  model reports, on-device inference, quantization, pruning, fine-tuning and
+- [Papers](vault/papers/README.md): the reading list. Its topics are benchmarks,
+  surveys and model reports, on-device inference, quantization, pruning, fine-tuning and
   distillation, math tutoring and pedagogy, and Jev decision models.
 - [Extract papers to Markdown with MinerU](how-to/mineru-ocr-papers.md):
   MinerU converts PDFs to Markdown. This guide converts the vault papers, so

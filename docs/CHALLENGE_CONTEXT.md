@@ -29,7 +29,7 @@
 | Training data provided | **M3Kang**: 1,747 Kangaroo math contest problems, translated into 108 languages ([dataset card](https://huggingface.co/datasets/qualcomm/M3Kang), [BOARD_SETUP.md step 9](BOARD_SETUP.md#step-9-prepare-m3kang-on-your-laptop)) |
 | Answer format of data | Multiple choice, one letter **A to E** ([BOARD_SETUP.md](BOARD_SETUP.md), [`predict.py`](https://github.com/Sigkaio636/Santolina_tutor/blob/main/predict.py) contract) |
 | Key requirement | The copilot must do one of two things ([BOARD_SETUP.md, "The challenge"](BOARD_SETUP.md#the-challenge)). **Teach:** guide the student without giving away the answer. **Reason:** choose the correct letter for a Kangaroo-style problem |
-| Evaluation | The organizers run each team's `predict.py` on a hidden test and score the letters. For Teach, the team found a benchmark that evaluates **pedagogical explanation of answers**. It is better than multiple-choice benchmarks such as MMLU. Which one is open; candidates in §7 |
+| Evaluation | The organizers run each team's `predict.py` on a hidden test and score the letters. For Teach, the team found a benchmark that evaluates **pedagogical explanation of answers**. It is better than multiple-choice benchmarks such as MMLU. Which one is open. Candidates are in §7 |
 | Language | M3Kang has all 1,747 problems in English and Catalan, and fewer in other languages (BOARD_SETUP.md step 9). If the copilot must speak Catalan or Spanish, base-model language coverage matters a lot (see §3) |
 | Framework | Not decided yet. PyTorch + Hugging Face is the default assumption |
 
@@ -41,12 +41,12 @@
 
 The deployed language model is Qwen3.5 0.8B Q8_0
 ([`config.env`](https://github.com/Sigkaio636/Santolina_tutor/blob/main/config.env)). The fine-tune
-base is not chosen yet. Gemma 3 is one option being explored.
+base is not chosen yet. Gemma 3 is one candidate under study.
 
 ### Martí's recommended priority order
 1. **Quantize first.** It's the "safe bet", with big gains and low risk.
 2. Prune **only if needed**, and only **structured** (rows/columns).
-3. Fine-tune after pruning to recover quality (LoRA, low-rank adapters; see §6).
+3. Fine-tune after pruning to recover quality with LoRA (low-rank adapters). See §6.
 
 ---
 
@@ -56,7 +56,7 @@ base is not chosen yet. Gemma 3 is one option being explored.
 [UNO_Q_BOARD_REFERENCE.md](UNO_Q_BOARD_REFERENCE.md) is the full and canonical copy. In short:
 
 - **SoC:** Qualcomm Dragonwing **QRB2210**: 4× **Arm Cortex-A53** @ 2.0 GHz, **Adreno 702** GPU.
-  **No NPU** is published, and no TOPS (tera operations per second) figure
+  The official documents list **no NPU** and no TOPS (tera operations per second) figure
 - **RAM and storage:** **4 GB LPDDR4X**, 32 GB eMMC
 - **MCU:** STM32U585, the "classic Arduino" side. Irrelevant for the language model itself
 - **OS:** Debian Linux. Dev tool: **Arduino App Lab**
@@ -69,7 +69,7 @@ base is not chosen yet. Gemma 3 is one option being explored.
   runs its own `llama-server` services: language model on **8081**, embeddings on **8082**, optional
   vision on 8083, all on `127.0.0.1`.
 - Models offered by App Lab for UNO Q: **Qwen 3.5 0.8B (Q4_0)** (default, supports tool calling) and **Gemma 3 1B IT (Q4_0)**. IT means instruction-tuned.
-- Measured on a 4 GB board (mischianti.org): **Qwen 3.5 0.8B ≈ 4.4–4.5 tok/s, Gemma 3 1B ≈ 5.0 tok/s**. Time to first token was about 0.85–2.2 s once the model was loaded (9 s on cold load). The model needs close to **~1 GB RAM**.
+- Measured on a 4 GB board (mischianti.org): **Qwen 3.5 0.8B ≈ 4.4–4.5 tok/s, Gemma 3 1B ≈ 5.0 tok/s**. Time to first token was about 0.85–2.2 s once the model was in memory (9 s on cold load). The model needs close to **~1 GB RAM**.
 - Community also runs llama.cpp GGUF models via **yzma** (Go wrapper for llama.cpp).
 - ⇒ **The most pragmatic deployment path:** produce a GGUF (llama.cpp's model file format) of our
   fine-tuned model. Serve it with llama.cpp on the board. Run it as our own `llama-server` systemd
@@ -80,15 +80,15 @@ base is not chosen yet. Gemma 3 is one option being explored.
   I8MM**. Newer Arm cores use them to accelerate int8/int4 matmuls in llama.cpp. Expect modest
   throughput. ✅ **Confirmed on our board** (no `asimddp`, no `i8mm`, see
   [UNO_Q_BOARD_REFERENCE.md §14.2](UNO_Q_BOARD_REFERENCE.md#142-cpu-flags-answers-an-open-question)).
-  Whether decode is limited by memory bandwidth is open (§9).
-- **GPU (Adreno 702):** llama.cpp has an **OpenCL backend designed for Adreno**. It is optimized for
-  **pure Q4_0** (`llama-quantize` with `--pure`). Q8_0 and Q6_K are supported (Q6_K not optimized).
+  Whether memory bandwidth limits decode is open (§9).
+- **GPU (Adreno 702):** llama.cpp has an **OpenCL backend designed for Adreno**. Its optimized kernels
+  target **pure Q4_0** (`llama-quantize` with `--pure`). It also supports Q8_0 and Q6_K, but Q6_K has no optimized kernel.
   Qualcomm's Dragonwing docs say llama.cpp models on those boards run on the GPU via OpenCL. **But**
   the verified devices list only high-end Adreno (750/830/X85). The docs say **Adreno 6xx doesn't
   work**, and older phone A6x drivers are "likely not supported". Whether OpenCL llama.cpp works or
   is faster on Adreno 702 is open (§9). CPU may well be the only practical path.
-- Martí's point: **check that the GPU has integer kernels.** In llama.cpp the quantized kernels dequantize/compute inside the kernel (Q4_0/Q8_0 blocks), so "integer support" really means "does the backend have an optimized kernel for our quant type".
-- **Sparse kernels:** Martí asked whether the GPU supports **2:4 sparse matmul** (NVIDIA Ampere+ style). There is no evidence that Adreno 702 or llama.cpp exploit 2:4 or unstructured sparsity. **llama.cpp stores and computes zeros like any other weight.** ⇒ Unstructured or 2:4 pruning gives **no speed or memory win** in the standard deployment path unless we write custom kernels. See §5.
+- Martí's point: **check that the GPU has integer kernels.** In llama.cpp the quantized kernels dequantize/compute inside the kernel (Q4_0/Q8_0 blocks). So "integer support" really means "does the backend have an optimized kernel for our quant type".
+- **Sparse kernels:** Martí asked whether the GPU supports **2:4 sparse matmul** (NVIDIA Ampere+ style). There is no evidence that Adreno 702 or llama.cpp exploit 2:4 or unstructured sparsity. **llama.cpp stores and computes zeros like any other weight.** ⇒ Unstructured or 2:4 pruning gives **no speed or memory win** in the standard deployment path. To get a win, we would have to write custom kernels. See §5.
 - **Memory budget:** the 4 GB board has 3.6 GiB total and about 2.9 GiB available when idle. The
   two model services use about 920 MiB on our board
   ([UNO_Q_BOARD_REFERENCE.md §14.4](UNO_Q_BOARD_REFERENCE.md#144-build-and-services)). The
@@ -110,7 +110,7 @@ base is not chosen yet. Gemma 3 is one option being explored.
 | **Qwen 3.5 0.8B** | 0.8B | App Lab default on UNO Q (~4.5 tok/s). Qwen models are generally strong at math and multilingual. Our deployed language model is Qwen3.5 0.8B Q8_0 ([`config.env`](https://github.com/Sigkaio636/Santolina_tutor/blob/main/config.env)) |
 
 **Observations for agents:**
-- For Gemma 3 270M, **most parameters are the embedding table**. Pruning transformer blocks gains little. **Vocabulary trimming** (keep only tokens needed for Catalan/Spanish/English + math, then remap the embedding/LM head) could cut size massively. This is advanced and needs tokenizer surgery plus GGUF compatibility checks. ⚠️ Optional idea, not from the chat.
+- For Gemma 3 270M, **most parameters are the embedding table**. Pruning transformer blocks gains little. **Vocabulary trimming** (keep only tokens needed for Catalan/Spanish/English + math, then remap the embedding/LM head) could cut size massively. This is an advanced step. It needs tokenizer surgery plus GGUF compatibility checks. ⚠️ Optional idea, not from the chat.
 - Fine-tuning a 1B-class model on a single GPU with LoRA/QLoRA is cheap (minutes to hours).
 - Always compare a compressed model against the **unpruned quantized model** it came from. Also
   compare it against the **baseline**: the organizers' copilot with Qwen3.5 0.8B Q8_0 (see
@@ -189,18 +189,18 @@ Frantar & Alistarh, ICML 2023, [arXiv:2301.00774](https://arxiv.org/abs/2301.007
 - (Martí's "the third method I don't remember" is likely SparseGPT, which he names later.)
 
 ### Practical pruning guidance for agents
-- **Prune uniformly across layers** (same FFN width / head count in every layer) so the result is a standard config that HF `transformers` and `convert_hf_to_gguf.py` accept. Non-uniform per-layer shapes may not be supported by the GGUF converter for Gemma 3. Check this before you try non-uniform pruning (§9).
-- Keep GQA consistent: prune **KV groups together with their query heads**, or prune only FFN channels first (simplest, and the FFN is the bulk of transformer-block params).
+- **Prune uniformly across layers** (same FFN width / head count in every layer) so the result is a standard config that HF `transformers` and `convert_hf_to_gguf.py` accept. The GGUF converter for Gemma 3 may not support non-uniform per-layer shapes. Check this before you try non-uniform pruning (§9).
+- Keep GQA consistent: prune **KV groups together with their query heads**, or prune only FFN channels first. The second option is the simplest, and the FFN is the bulk of transformer-block params.
 - **Calibration data:** use math-tutoring text in the **target language**. Pruning with English-only or generic calibration data can damage other languages (cf. Martí's "German" anecdote).
 - Moderate ratios first (10–30%), then always **LoRA recovery** and **generation-based evaluation**.
-- For Gemma 3 270M, transformer-block pruning has limited upside (embeddings dominate). Consider vocab trimming instead (§3).
+- For Gemma 3 270M, transformer-block pruning gives little gain (embeddings dominate). Consider vocab trimming instead (§3).
 
 ---
 
 ## 6. Fine-tuning
 
 ### Which weights to train
-After pruning the model may be "broken", so fine-tuning is needed. You **don't have to fine-tune all weights**:
+After pruning the model may be "broken", so it needs fine-tuning. You **don't have to fine-tune all weights**:
 - **Freezing:** only train the last layers (the "lazy" option).
 - **LoRA** (Low-Rank Adaptation): train two low-rank matrices A, B with **W = W⁰ + A·B**. Considered state of the art in many papers. Variant **QLoRA** = LoRA on a quantized base.
   - **With structured pruning:** train A, B, then **merge** A·B into W⁰ so A, B don't need to be stored at inference. ✅
@@ -233,9 +233,9 @@ The team trains on an 8 GB NVIDIA RTX 4060 GPU in a team member's laptop.
 MCQ benchmarks (MMLU-style A/B/C/D) **hide** generation damage from pruning/quantization. Evaluate **open-ended explanations**.
 
 ### Candidate pedagogical benchmarks (which one the team chose is open)
-- **MathTutorBench** (ETH Zurich / TU Darmstadt, EMNLP 2025, arXiv:2502.18940): open-source, evaluates **math expertise, student understanding, pedagogical ability**, with a trained **reward model** for scoring open-ended tutor responses. Finds a trade-off between math skill and pedagogy.
+- **MathTutorBench** (ETH Zurich / TU Darmstadt, EMNLP 2025, arXiv:2502.18940): open-source. It evaluates **math expertise, student understanding, pedagogical ability**, with a trained **reward model** for scoring open-ended tutor responses. Finds a trade-off between math skill and pedagogy.
 - **MRBench** (MBZUAI, NAACL 2025, arXiv:2412.09416): 192 conversations with 1,596 tutor responses
-  on **student mistakes in math**. The data comes from Bridge and MathDial. Responses are annotated on
+  on **student mistakes in math**. The data comes from Bridge and MathDial. Each response has annotations on
   **8 pedagogical dimensions**, such as mistake identification, providing guidance, actionability,
   coherence, tutor tone and human-likeness.
 
@@ -246,19 +246,19 @@ The evaluation harness to build is in [What to try](#what-to-try).
 ## 8. Recommended pipeline (synthesis)
 
 1. **Reference models:** Gemma 3 1B IT and Gemma 3 270M IT, plus Qwen3.5 0.8B, the deployed
-   language model, for comparison. Convert to GGUF Q4_0, run on the UNO Q, and measure tutoring
-   score, tok/s and RAM.
-2. **Data:** build a tutoring SFT (supervised fine-tuning) set: the M3Kang training split plus
-   synthesized explanations or dialogues, in the target language. Keep the M3Kang validation set and
+   language model, for comparison. Convert them to GGUF Q4_0. Run them on the UNO Q. Measure the
+   tutoring score, tok/s and RAM.
+2. **Data:** build a tutoring SFT (supervised fine-tuning) set in the target language. It holds the
+   M3Kang training split plus synthesized explanations or dialogues. Keep the M3Kang validation set and
    the pedagogical benchmark for evaluation.
 3. **Fine-tune** (LoRA/QLoRA) the base model on tutoring data → merge → evaluate (FP16).
 4. **Quantize** (Q8_0, Q4_K_M, Q4_0, optionally with imatrix) → evaluate on the laptop → measure on
    the board.
-5. **Only if size or speed is still insufficient:** structured pruning (LLM-Pruner or structured
-   Wanda, FFN channels first, uniform across layers) → LoRA recovery on tutoring data → merge →
-   quantize → re-evaluate (generation, not MCQ!).
-6. **Deploy:** GGUF served by our own llama.cpp `llama-server` service on the UNO Q (ports 8081/8082,
-   pinned build `2cbe0ec`, CPU-only, see [BOARD_SETUP.md](BOARD_SETUP.md)). An OpenCL (Adreno 702)
+5. **Only if size or speed is still insufficient:** structured pruning → LoRA recovery → merge →
+   quantize → re-evaluate (generation, not MCQ!). Do the LoRA recovery on tutoring data. For the pruning, use LLM-Pruner or
+   structured Wanda, FFN channels first, uniform across layers.
+6. **Deploy:** serve the GGUF with our own llama.cpp `llama-server` service on the UNO Q. It uses
+   ports 8081/8082, pinned build `2cbe0ec`, CPU-only (see [BOARD_SETUP.md](BOARD_SETUP.md)). An OpenCL (Adreno 702)
    test is optional.
 
 Note: the team's original order was prune → fine-tune. Fine-tuning first (step 3) and pruning later with **task-specific calibration data** is also valid, and lets pruning keep exactly what the copilot needs. Either way, **always finish with recovery fine-tuning after pruning**.
@@ -274,12 +274,12 @@ Note: the team's original order was prune → fine-tune. Fine-tuning first (step
 - [ ] Required response language(s)?
 - [ ] Does Gemma 3 1B handle Catalan well (§3)?
 - [ ] Does llama.cpp's OpenCL backend work on Adreno 702? Is it faster than CPU? Compare speeds with the `timings` field of the server's answer (`prompt_per_second`, `predicted_per_second`) or with `llama-cli`'s timing output. The board build has no `llama-bench`.
-- [ ] Is decode limited by memory bandwidth, so that fewer bytes per weight give more tokens per second? This document assumed it in §2. It is not measured on our board.
+- [ ] Does memory bandwidth limit decode, so that fewer bytes per weight give more tokens per second? This document assumed it in §2. It is not measured on our board.
 - [x] CPU feature flags on QRB2210 (`/proc/cpuinfo`): confirmed, no `asimddp`/`i8mm`
-- [x] Custom GGUF: we run our own `llama-server` as a systemd service ([BOARD_SETUP.md](BOARD_SETUP.md) step 7). To swap the model, change `LLM_REPO`, `LLM_REVISION`, `LLM_FILE` and `LLM_SHA256` in `config.env` (see [Settings in config.env](BOARD_SETUP.md#settings-in-configenv)). Then change the service file from step 7, and run `sudo systemctl daemon-reload` and `sudo systemctl restart math-llm math-embed`.
+- [x] Custom GGUF: we run our own `llama-server` as a systemd service ([BOARD_SETUP.md](BOARD_SETUP.md) step 7). To swap the model, change `LLM_REPO`, `LLM_REVISION`, `LLM_FILE` and `LLM_SHA256` in `config.env` (see [Settings in config.env](BOARD_SETUP.md#settings-in-configenv)). Then change the service file from step 7. Run `sudo systemctl daemon-reload`. Then run `sudo systemctl restart math-llm math-embed`.
 - [ ] Does LLM-Pruner support Gemma 3 (§5)? Does `convert_hf_to_gguf.py` accept non-uniform pruned Gemma 3 configs?
 - [ ] MathDial and other public tutoring dialogue data: licenses and languages (§6)?
-- [x] Challenge rules on model size and allowed base models: any GGUF model that fits in RAM, answers in time, and has a license you can use (BOARD_SETUP.md 13.3).
+- [x] Challenge rules on model size and allowed base models? BOARD_SETUP.md 13.3 accepts any GGUF model that fits in RAM, answers in time, and has a license you can use.
 - [ ] Challenge rules on external data and synthetic data?
 
 ---

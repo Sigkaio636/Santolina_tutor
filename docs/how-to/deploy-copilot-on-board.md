@@ -1,6 +1,6 @@
 # How to deploy the copilot on the UNO Q
 
-This how-to guide is for a team member who set up an Arduino UNO Q 4 GB with the board setup and now deploys our copilot on it. It puts the copilot code and the data on the board, which already runs the two model services. At the end, the smoke test passes.
+This how-to guide is for a team member who prepared an Arduino UNO Q 4 GB with the board setup. It shows how to deploy our copilot on that board. It puts the copilot code and the data on the board, which already runs the two model services. At the end, the smoke test passes.
 
 The organizers of the Qualcomm challenge (Datathon FME 2026) wrote the [board setup](../BOARD_SETUP.md). This guide repeats some of its steps for our copilot, and links each step that it replaces.
 
@@ -80,7 +80,7 @@ The code needs no `pip` packages on the board (see [step 8.1](../BOARD_SETUP.md#
 
 This step replaces [step 10](../BOARD_SETUP.md#step-10-copy-the-data-to-the-board) of the board setup.
 
-M3Kang is for research use only. **Do not put these files in Git**: `train.jsonl`, `val.jsonl`, the images, `index.db`, and `.ocr_cache.jsonl`. The `.gitignore` excludes `data/`. A Claude Code hook blocks Claude from staging them, but your own `git add` is not blocked. The full rule is in [CLAUDE.md](https://github.com/Sigkaio636/Santolina_tutor/blob/main/CLAUDE.md).
+M3Kang is for research use only. **Do not put these files in Git**: `train.jsonl`, `val.jsonl`, the images, `index.db`, and `.ocr_cache.jsonl`. The `.gitignore` excludes `data/`. A Claude Code hook blocks Claude from staging them. The hook does not block your own `git add`. The full rule is in [CLAUDE.md](https://github.com/Sigkaio636/Santolina_tutor/blob/main/CLAUDE.md).
 
 On your laptop, from the repository folder:
 
@@ -129,7 +129,7 @@ On the board, from `~/Santolina_tutor`:
 ./board/05_smoke_test.sh
 ```
 
-The script checks both model services, makes one embedding, and answers the five sample problems in `data/sample_problems.jsonl`. On our board it printed the lines below. We left out the five lines that `predict.py` prints, one per problem.
+The script checks both model services, makes one embedding, and answers the five sample problems in `data/sample_problems.jsonl`. On our board it printed the lines below. The output below omits the five lines that `predict.py` prints, one per problem.
 
 ```text
 ==> Servers
@@ -170,7 +170,7 @@ git pull
 
 If the board has no internet, copy a fresh clone again, as in step 3.
 
-[`config.env`](https://github.com/Sigkaio636/Santolina_tutor/blob/main/config.env) holds the settings that the Python code and the scripts in `board/` read. It fixes the llama.cpp commit and each model: repository, revision, file, and SHA256 checksum. The checksum proves that the file is complete and correct. It also holds the ports and the time limit per problem (60 seconds).
+[`config.env`](https://github.com/Sigkaio636/Santolina_tutor/blob/main/config.env) holds the settings that the Python code and the scripts in `board/` read. It pins the llama.cpp commit and each model: repository, revision, file, and SHA256 checksum. The checksum proves that the file is complete and has the right content. It also holds the ports and the time limit per problem (60 seconds).
 
 | What changed | What to do |
 | --- | --- |
@@ -186,7 +186,7 @@ If the board has no internet, copy a fresh clone again, as in step 3.
   OK    embedding server ready on 127.0.0.1:8082
 ```
 
-The script stops with an error if you started a `llama-server` by hand on port 8081 or 8082. The error gives the PID and the command to stop that server, such as `Stop it with: kill 1234`. Run that command, then run the script again.
+The script stops with an error if you started a `llama-server` by hand on port 8081 or 8082. The error gives the PID and the command to stop that server, such as `Stop it with: kill 1234`. Run that command. Then run the script again.
 
 ## If something fails
 
@@ -199,7 +199,7 @@ This table replaces the [troubleshooting section](../BOARD_SETUP.md#troubleshoot
 | A model service is not active | `systemctl status math-llm math-embed`, then `journalctl -u math-llm -n 50 --no-pager`. For the embedding service, use `-u math-embed` |
 | The smoke test says a server is down | `sudo systemctl start math-llm math-embed` |
 | `sha256sum` says `FAILED` | Run `./board/03_download_models.sh`. It downloads the file again and checks it. If the check fails, it deletes the partial download and stops. Then run it again |
-| `ssh: connect to host … port 22: Connection refused` | The SSH host keys are empty. Connect with `adb shell`, then run `sudo rm -f /etc/ssh/ssh_host_* && sudo ssh-keygen -A && sudo systemctl restart ssh` |
+| `ssh: connect to host … port 22: Connection refused` | The SSH host keys are empty. Connect with `adb shell`. Then run `sudo rm -f /etc/ssh/ssh_host_* && sudo ssh-keygen -A && sudo systemctl restart ssh` |
 | `REMOTE HOST IDENTIFICATION HAS CHANGED` | On your laptop: `ssh-keygen -R "$BOARD_IP"` |
 
 More fixes are in the [board setup](../BOARD_SETUP.md#troubleshooting). Board facts and limits are in the [UNO Q board reference](../UNO_Q_BOARD_REFERENCE.md).

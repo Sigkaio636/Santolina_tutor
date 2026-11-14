@@ -1,10 +1,10 @@
 # Santolina_tutor
-Repository with the solution to the Qualcomm challenge (Datathon FME 2026): a
-math copilot that runs on the Arduino UNO Q.
+This repository holds the solution to the Qualcomm challenge (Datathon FME
+2026): a math copilot that runs on the Arduino UNO Q.
 
-This page explains how the repository is organized and which rules apply to it.
+This page explains the layout of the repository and the rules that apply to it.
 It is for developers who work on the project. The copilot uses the
-[M3Kang](GLOSSARY.md) dataset of Kangaroo math problems. To set up a board,
+[M3Kang](GLOSSARY.md) dataset of Kangaroo math problems. To prepare a board,
 go to [What to try](#what-to-try) at the end.
 
 ## Project organization
@@ -13,12 +13,12 @@ go to [What to try](#what-to-try) at the end.
 ├── LICENSE            <- Apache 2.0 license
 ├── Makefile           <- Convenience commands (`make help` lists them: requirements, lint,
 │                         format, docs-serve, docs-build, ...)
-├── README.md          <- The top-level README for developers using this project.
+├── README.md          <- The top-level README for developers who use this project.
 ├── mkdocs.yml         <- Docs site built from docs/ (see "Documentation site" below)
-├── data               <- Only README.md and sample_problems.jsonl are in Git; the other
-│                         files are created locally (M3Kang stays out of Git).
+├── data               <- Only README.md and sample_problems.jsonl are in Git. The other
+│                         files stay local (M3Kang stays out of Git).
 │                         data/README.md lists them.
-├── docs               <- Project documentation; docs/vault/ is the Obsidian paper vault
+├── docs               <- Project documentation. docs/vault/ is the Obsidian paper vault
 ├── pyproject.toml     <- Project configuration file with package metadata for
 │                         santolina_tutor and configuration for tools like ruff
 ├── models, notebooks, references, reports
@@ -43,8 +43,8 @@ runs before `gh pr create`, `gh pr new` or `gh pr ready`:
    to the browser.
 2. **Documentation red flag.** If the change touches code but no `*.md`,
    `docs/`, README or CHANGELOG file, the hook blocks the command.
-   Tests, lockfiles and `.github/` do not count as code. When no document
-   is affected, end the command with the shell comment
+   Tests, lockfiles and `.github/` do not count as code. When the change
+   affects no document, end the command with the shell comment
    `# pr-gate: no-docs <reason>` and give the reason in the PR body.
 
 The `pre-pr` skill in `.claude/skills/pre-pr/` prepares the PR: a
@@ -52,10 +52,10 @@ The `pre-pr` skill in `.claude/skills/pre-pr/` prepares the PR: a
 with What and Why. `/simplify` is a skill that comes with Claude Code. It
 reviews the changed code for simplifications.
 
-The hook only checks commands the agent runs. A PR opened from the GitHub
-website, from an app button or by hand is not checked. When the hook cannot
-read the command or find the Git repository, it lets the command through.
-When `origin` has no default branch, or `--repo` aims at another repo, the
+The hook only checks commands the agent runs. The hook does not check a PR
+opened from the GitHub website, from an app button or by hand. When the hook
+cannot read the command or find the Git repository, it allows the command.
+When `origin` has no default branch, or `--repo` names another repo, the
 hook skips only the documentation check. The draft check still applies.
 
 ## Where the code runs
@@ -79,7 +79,7 @@ exceptions. The upstream README is now `docs/BOARD_SETUP.md`. The upstream
 | `laptop/` | Laptop | `prepare_m3kang.py`: download M3Kang and read the options with OCR (optical character recognition: reading text from the problem images) |
 | `data/sample_problems.jsonl` | Both | The only data file in Git |
 
-Rules that keep the two halves apart:
+Rules that separate the two halves:
 
 - **Two `predict.py` files.** Only the root one is the organizers' contract.
   Don't merge them (the rule is in [CLAUDE.md](CLAUDE.md)).
@@ -95,8 +95,8 @@ Rules that keep the two halves apart:
 
 ## Red line: no M3Kang data in Git
 
-No one may stage, commit, push or send in a PR an M3Kang problem, or anything
-derived from one. A file already in a commit needs a history rewrite, not a new
+No one may stage, commit, push or open a PR with an M3Kang problem, or
+anything derived from one. A file already in a commit needs a history rewrite, not a new
 commit that deletes it. [`CLAUDE.md`](CLAUDE.md) states the full rule and the
 paths it covers.
 
@@ -106,7 +106,7 @@ in two places:
 | Where | When | What it does |
 | --- | --- | --- |
 | Claude Code hook (`.claude/settings.json`, PreToolUse on Bash) | Before the agent runs `git add`, `git commit`, `git push` or `gh pr create\|ready\|merge` | Lists every file the command would put in Git: staged files, forced adds, `-A`/`-a`, unpushed commits on any branch. Blocks the call if one is M3Kang data |
-| GitHub Actions (`.github/workflows/m3kang-guard.yml`) | Every PR, and every push to `main` | Checks every commit in the range and the final tree, so a commit made by hand or a PR opened on the website is checked too |
+| GitHub Actions (`.github/workflows/m3kang-guard.yml`) | Every PR, and every push to `main` | Checks every commit in the range and the final tree. So it also catches a commit made by hand or a PR opened on the website |
 
 The script checks file paths, not file contents. It catches problem images
 only under `data/`. An image saved anywhere else passes the check.
@@ -119,7 +119,7 @@ for `main` (GitHub repository settings).
 ## Skills for Claude
 
 `.claude/skills/` holds the project's skills. Claude Code loads a skill when
-the request fits. You can also ask for one by name. Four of them come from the
+the request fits. You can also request one by name. Four of them come from the
 organizers' repository. They teach Claude how the board, this code and the
 datathon work.
 
@@ -137,7 +137,7 @@ The other skills are general tools:
 
 | Skill | Use it to |
 | --- | --- |
-| [`doc-authoring`](.claude/skills/doc-authoring/SKILL.md) | Write a new document, or audit and repair existing ones, from start to end |
+| [`doc-authoring`](.claude/skills/doc-authoring/SKILL.md) | Write a new document, or audit and fix existing ones, from start to end |
 | [`diataxis`](.claude/skills/diataxis/SKILL.md) | Choose the document type (tutorial, how-to, reference, explanation) and structure a document |
 | [`docsauditor`](.claude/skills/docsauditor/SKILL.md) | Find where the docs no longer match the code, without changing anything |
 | [`docsjanitor`](.claude/skills/docsjanitor/SKILL.md) | Fix existing docs so they match the code |
@@ -150,7 +150,7 @@ The other skills are general tools:
 | [`domain-modeling`](.claude/skills/domain-modeling/SKILL.md) (Matt Pocock, MIT) | Keep `GLOSSARY.md` and the ADRs up to date |
 | [`structured-planning`](.claude/skills/structured-planning/SKILL.md) | Write a plan with steps, checks, risks and open questions |
 | [`pre-pr`](.claude/skills/pre-pr/SKILL.md) | Prepare a change for a pull request |
-| [`ponytail`](.claude/skills/ponytail/SKILL.md) and the `ponytail-*` skills | Make the smallest change that solves a task; the others audit, review, list shortcuts, show savings or give help |
+| [`ponytail`](.claude/skills/ponytail/SKILL.md) and the `ponytail-*` skills | Make the smallest change that solves a task. The others audit, review, list shortcuts, show savings or give help |
 | [`academic-paper-summarizer`](.claude/skills/academic-paper-summarizer/SKILL.md) | Summarize a research paper |
 | [`socratic-tutor`](.claude/skills/socratic-tutor/SKILL.md) | Be taught or quizzed on a topic |
 | [`vis-design`](.claude/skills/vis-design/SKILL.md) | Design a chart or other visualization |
@@ -164,18 +164,19 @@ repository declares none.
 
 ## Documentation site
 
-`mkdocs.yml` turns `docs/` into a browsable site (MkDocs + Material). It
-serves on port 8001, because the board explorer uses port 8000.
+`mkdocs.yml` configures a browsable site (MkDocs + Material) built from
+`docs/`. The site serves on port 8001, because the board explorer uses port
+8000.
 
 The site menu is the `nav:` list in `mkdocs.yml`. The `docs-site` skill explains
 how to add a page and check the build. No new page may contain M3Kang problem
 text. The only exception is the organizers' example record in
 `docs/BOARD_SETUP.md`, which is a verbatim copy.
 
-Every document goes through a review before it counts as validated: run
-`/docs-review` in Claude Code. It reviews one document per run in seven stages
-(audit, critique, decisions, repair, language, adversarial review, sign-off)
-and asks you to validate each stage. `docs/review/status.yml` records the
+A document counts as `validated` only after a review. To review a document,
+run `/docs-review` in Claude Code. It reviews one document per run in seven
+stages (`audit`, `critique`, `decisions`, `repair`, `language`, `adversarial`,
+`signoff`). It requests your sign-off at each stage. `docs/review/status.yml` records the
 result, and the site's "Review status" page shows it. `make docs-status`
 checks that file.
 
@@ -193,7 +194,7 @@ checks that file.
 
 ## What to try
 
-**Set up a board and run the copilot.**
+**Prepare a board and run the copilot.**
 
 1. Follow steps 0 to 8 of [`docs/BOARD_SETUP.md`](docs/BOARD_SETUP.md). The
    board then runs the two model services.

@@ -1,6 +1,6 @@
 # How to extract the vault papers to Markdown with MinerU
 
-This how-to guide is for a team member who wants to read or search the papers of the paper vault as text. The paper vault (`docs/vault/papers/`) holds the research papers that we read, with one synthesis note per topic. See the [vault index](../vault/papers/README.md).
+This how-to guide is for a team member who wants to read or search the vault papers as text. The paper vault (`docs/vault/papers/`) holds the research papers that we read, with one synthesis note per topic. See the [vault index](../vault/papers/README.md).
 
 The guide installs [MinerU](https://github.com/opendatalab/MinerU) 3.4.5 in the
 Santolina_tutor uv environment. MinerU converts the PDFs of the vault to Markdown.
@@ -15,7 +15,7 @@ We checked the flags in this guide against the installed 3.4.5 (`mineru --help`)
 ## Before you start
 
 - Linux, and [`uv`](https://docs.astral.sh/uv/) installed.
-- Python 3.12 (`pyproject.toml` requires `~=3.12.0`; uv gets it if you do not have it).
+- Python 3.12. `pyproject.toml` requires `~=3.12.0`. If you do not have it, uv gets it.
 - About 8 GB of free disk. After the install, `.venv` took 6.3 GB, because it includes the
   CUDA build of torch. The model weights take 1.6 GB more. (Measured on one laptop, 2026-11.)
 - Network access for the setup only.
@@ -80,7 +80,7 @@ Use one of the two ways below.
 ### Copy weights you already have (tested)
 
 Use this way if another MinerU 3.4.5 install on your machine already has the weights.
-Set `SRC` to the folder that holds its `pipeline` folder, then copy:
+Set `SRC` to the folder that holds its `pipeline` folder. Then copy its `pipeline` folder:
 
 ```bash
 SRC=/path/to/other/mineru-home
@@ -175,9 +175,9 @@ export PADDLE_PDX_CACHE_HOME="$MINERU_HOME/paddlex"
 What each variable does:
 
 - `MINERU_TOOLS_CONFIG_JSON` makes MinerU read `models/mineru-home/mineru.json` in place of
-  `~/mineru.json`. The path must be absolute; `$PWD` makes it absolute.
+  `~/mineru.json`. The path must be absolute. `$PWD` makes it absolute.
 - `MINERU_MODEL_SOURCE=local` makes MinerU use the local weights. It never downloads in
-  this mode: if the weights are not configured, it stops with an error.
+  this mode. If you did not configure the weights, it stops with an error.
 - The four cache variables send any unexpected download to `models/mineru-home/`, not to
   your home directory.
 
@@ -196,7 +196,7 @@ uv run --group ocr mineru -p docs/vault/papers/pruning/sun2023_wanda_2306.11695.
 - `-s 0 -e 0` parses only the first page. Page numbers start at 0.
 
 On one laptop (CPU only, 2026-11) this took 35–37 s and used about 2.6 GB of RAM at the peak.
-Most of the time is a fixed start cost: each `mineru` command starts a temporary local
+Most of the time is a constant start cost: each `mineru` command starts a temporary local
 `mineru-api` service.
 
 The result is `/tmp/mineru-check/sun2023_wanda_2306.11695/auto/sun2023_wanda_2306.11695.md`.
@@ -205,7 +205,8 @@ Open it. You should see the paper's title and the start of its abstract as reada
 ## 6. Extract the papers
 
 Write the output to a `parsed/` folder next to the PDFs. Git ignores every
-`docs/vault/**/parsed/` folder, because the output is derived and large.
+`docs/vault/**/parsed/` folder, because the output is large and MinerU generates it
+from the PDFs.
 
 One complete paper:
 
@@ -213,8 +214,8 @@ One complete paper:
 uv run --group ocr mineru -p docs/vault/papers/quantization/frantar2022_gptq_2210.17323.pdf -o docs/vault/papers/quantization/parsed -b pipeline -m auto
 ```
 
-A complete category folder (`-p` also accepts a directory; it does not go into
-subfolders):
+A complete category folder. `-p` also accepts a directory. It does not process the
+subfolders:
 
 ```bash
 uv run --group ocr mineru -p docs/vault/papers/pruning -o docs/vault/papers/pruning/parsed -b pipeline -m auto
@@ -251,17 +252,17 @@ For each PDF, MinerU writes a folder `<output>/<pdf name>/auto/` that contains:
 | Faster, without formulas or tables | `-f false -t false` |
 | A scanned PDF with no text layer | `-m ocr`. The arXiv PDFs have a text layer, so `-m auto` is correct for them |
 | Only some pages | `-s <first> -e <last>`, starting at 0 |
-| OCR language | `-l <lang>`. Without `-l`, MinerU uses `ch`, whose model also reads the Latin alphabet. `-l en` is accepted and becomes `ch` |
+| OCR language | `-l <lang>`. Without `-l`, MinerU uses `ch`, whose model also reads the Latin alphabet. MinerU accepts `-l en` and changes it to `ch` |
 
 All flags: `uv run --group ocr mineru --help`.
 
 ## If something fails
 
 - **MinerU installs its packages again before it runs.** A `uv sync` without
-  `--group ocr` removed them (see the warning in step 2). `uv run --group ocr` puts them
-  back. If you call `.venv/bin/mineru` directly, you get `No such file or directory`
+  `--group ocr` removed them (see the warning in step 2). `uv run --group ocr` installs them
+  again. If you call `.venv/bin/mineru` directly, you get `No such file or directory`
   instead. Run `uv sync --group ocr`.
-- **MinerU tries to download models.** The variables from step 4 are not set in this
+- **MinerU tries to download models.** You did not set the variables from step 4 in this
   terminal. Paste the block again.
 - **MinerU stops with an error about the local model path.** `models/mineru-home/mineru.json`
   is missing, or `models-dir.pipeline` has a wrong path. Do step 3 again.

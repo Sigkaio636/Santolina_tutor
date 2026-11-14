@@ -132,7 +132,7 @@ footer{margin-top:48px;font-size:.82rem;color:var(--muted);border-top:1px solid 
       <li><span class="tag t-ca">Calculated</span> arithmetic from measured rates, not a measurement.</li>
       <li><span class="tag t-in">Inferred</span> our interpretation.</li>
       <li><span class="tag t-pa">Paper</span> a publication.</li>
-      <li><span class="tag t-ve">⚠️ Verify</span> not confirmed.</li>
+      <li><span class="tag t-ve">⚠️ Verify</span> not verified yet.</li>
     </ul>
     When two sources conflict, a measurement on our board wins, then <code>BOARD_SETUP.md</code>, then Arduino's general docs (see <a href="#conflicts">conflicts</a>).
   </div>
@@ -168,7 +168,7 @@ footer{margin-top:48px;font-size:.82rem;color:var(--muted);border-top:1px solid 
 <p>The challenge statement: <em>design and build a math copilot that runs entirely on the Arduino UNO Q and uses M3Kang in an innovative way to help students reason mathematically.</em> The copilot must meet one of these two goals:</p>
 <div class="two">
   <div class="card"><strong>Teach</strong><p class="small">Guide the student without giving the answer: hints, adaptive practice, error analysis, physical interaction, collaboration. Judged on originality and measurement.</p></div>
-  <div class="card"><strong>Reason</strong><p class="small">Pick the correct answer to a Kangaroo problem (Cangur in Catalan). It is measured objectively on the organizers' <strong>hidden test</strong>. Every team's <code>predict.py</code> is scored there, whatever the team builds.</p></div>
+  <div class="card"><strong>Reason</strong><p class="small">Pick the correct answer to a Kangaroo problem (Cangur in Catalan). The organizers measure it objectively on their <strong>hidden test</strong>. They score every team's <code>predict.py</code> there, whatever the team builds.</p></div>
 </div>
 
 <div class="tbl"><table>
@@ -186,13 +186,13 @@ footer{margin-top:48px;font-size:.82rem;color:var(--muted);border-top:1px solid 
 <tr><td>Pitch</td><td class="n">3 min: problem 20 s · demo 90 s · numbers 40 s · lessons 30 s</td><td class="src"><span class="tag t-of">Official</span> BOARD_SETUP §14.5</td></tr>
 <tr><td>M3Kang data</td><td>Research-only license: no <code>train/val.jsonl</code>, images or <code>index.db</code> in the repo</td><td class="src"><span class="tag t-of">Official</span> BOARD_SETUP §15.1, <a href="https://github.com/Sigkaio636/Santolina_tutor/blob/main/CLAUDE.md">CLAUDE.md</a></td></tr>
 </tbody></table></div>
-<div class="note warn"><strong>⚠️ No scoring rubric is published</strong>: no weights, and no names of the people who score. The signals from the video (<a href="RESUMEN_QUALCOMM_UNO_Q/">video summary</a>): an original idea, replicable documentation, innovation over the baseline, and a copilot that works on the board. BOARD_SETUP says: "The most original uses will score highest."</div>
+<div class="note warn"><strong>⚠️ The organizers publish no scoring rubric</strong>: no weights, and no names of the people who score. The signals from the video (<a href="RESUMEN_QUALCOMM_UNO_Q/">video summary</a>): an original idea, replicable documentation, innovation over the baseline, and a copilot that works on the board. BOARD_SETUP says: "The most original uses will score highest."</div>
 </section>
 
 <!-- ============ 2. HARDWARE ============ -->
 <section id="hardware">
 <h2>2. Hardware limits</h2>
-<p class="small">The board specs are kept in the <a href="UNO_Q_BOARD_REFERENCE/">UNO Q board reference</a>. This section is a summary of the specs that limit the copilot.</p>
+<p class="small">The <a href="UNO_Q_BOARD_REFERENCE/">UNO Q board reference</a> has the board specs. This section is a summary of the specs that limit the copilot.</p>
 <div class="kpis">
   <div class="kpi"><div class="v">4× A53</div><div class="l">Cortex-A53 @ 2.0 GHz, ARMv8.0-A</div></div>
   <div class="kpi"><div class="v">~2.7 GiB</div><div class="l">RAM available with both model services up</div></div>
@@ -206,9 +206,9 @@ footer{margin-top:48px;font-size:.82rem;color:var(--muted);border-top:1px solid 
 <thead><tr><th>Component</th><th>Specification</th><th>Implication</th><th>Source</th></tr></thead>
 <tbody>
 <tr><td>SoC (system on chip)</td><td>Qualcomm Dragonwing QRB2210</td><td>—</td><td class="src"><span class="tag t-ds">Datasheet</span></td></tr>
-<tr><td>CPU</td><td class="n">4× Cortex-A53 @ 2.0 GHz, 64-bit, NEON (Arm's vector instructions)</td><td>If decode is limited by memory bandwidth, fewer bytes per weight give more tok/s. This is an open question</td><td class="src"><span class="tag t-ds">Datasheet</span></td></tr>
+<tr><td>CPU</td><td class="n">4× Cortex-A53 @ 2.0 GHz, 64-bit, NEON (Arm's vector instructions)</td><td>If memory bandwidth limits decode, fewer bytes per weight give more tok/s. This is an open question</td><td class="src"><span class="tag t-ds">Datasheet</span></td></tr>
 <tr><td>int8 instructions</td><td>No SDOT/UDOT and no I8MM (Arm's int8 dot-product and matrix-multiply instructions). ARMv8.0</td><td>llama.cpp's fast quantized kernels for newer Arm CPUs do not apply</td><td class="src"><span class="tag t-me">Measured</span> by us: no <code>asimddp</code>, no <code>i8mm</code> (board reference §14.2)</td></tr>
-<tr><td>GPU</td><td class="n">Adreno 702 @ 845 MHz. OpenCL 2.0 (Mesa), Vulkan 1.0.318 (turnip)</td><td>Unified memory: offloading layers adds no RAM. llama.cpp's OpenCL backend targets Adreno 7xx/8xx with Qualcomm's proprietary driver. So a GPU speedup is unconfirmed, and the contest build stays on the CPU</td><td class="src"><span class="tag t-ve">⚠️ Verify</span> board reference §6</td></tr>
+<tr><td>GPU</td><td class="n">Adreno 702 @ 845 MHz. OpenCL 2.0 (Mesa), Vulkan 1.0.318 (turnip)</td><td>Unified memory: offloading layers adds no RAM. llama.cpp's OpenCL backend targets Adreno 7xx/8xx with Qualcomm's proprietary driver. So nobody verified a GPU speedup, and the contest build stays on the CPU</td><td class="src"><span class="tag t-ve">⚠️ Verify</span> board reference §6</td></tr>
 <tr><td>NPU / DSP</td><td>No published NPU, no TOPS figure</td><td>Plan for the CPU</td><td class="src"><span class="tag t-ds">Datasheet</span></td></tr>
 <tr><td>MCU</td><td class="n">STM32U585, Cortex-M33 @ 160 MHz, 2 MB flash, 786 kB SRAM</td><td>Only the LED matrix, the buttons and the Bridge (the link between Linux and the microcontroller). Not used by the language model</td><td class="src"><span class="tag t-ds">Datasheet</span></td></tr>
 </tbody></table></div>
@@ -238,7 +238,7 @@ footer{margin-top:48px;font-size:.82rem;color:var(--muted);border-top:1px solid 
 <h3>Power and environment</h3>
 <ul class="tight">
   <li>USB-C PD <strong>5 V / 3 A (15 W)</strong>. A supply without PD does not boot the board. <span class="tag t-ds">Datasheet</span></li>
-  <li>Operating temperature −10 °C to +60 °C. <span class="tag t-ds">Datasheet</span> Throttling (the CPU slows down when hot) under sustained load is not documented. <span class="tag t-ve">⚠️ Verify</span></li>
+  <li>Operating temperature −10 °C to +60 °C. <span class="tag t-ds">Datasheet</span> Throttling (the CPU runs slower when hot) under sustained load is not documented. <span class="tag t-ve">⚠️ Verify</span></li>
   <li>Power draw during inference: no official figure. <span class="tag t-ve">⚠️ Verify</span> with a USB power meter.</li>
   <li>Debian 13 and gcc 14.2. <span class="tag t-me">Measured</span> by us (board reference §14.1, §14.4). cmake 3.31 and Python 3.13.5 come from the organizers' expected output. Linux boots in 20–30 s. <span class="tag t-ds">Datasheet</span> (board reference §3.6)</li>
 </ul>
@@ -347,7 +347,7 @@ footer{margin-top:48px;font-size:.82rem;color:var(--muted);border-top:1px solid 
 <section id="sota">
 <h2>6. State of the art</h2>
 <h3>M3Kang (Torres-Camps et al., Qualcomm, 2026): accuracy in English</h3>
-<p class="small">1,747 unique Kangaroo problems, 108 languages, 111,198 problems after filtering. Mean of 3 runs. VLMs (vision-language models) see the image. Table 2 of the paper, arXiv 2601.16218. High-, mid- and low-resource languages are grouped by how much text in that language is on the internet. <span class="tag t-pa">Paper</span></p>
+<p class="small">1,747 unique Kangaroo problems, 108 languages, 111,198 problems after filtering. Mean of 3 runs. VLMs (vision-language models) see the image. Table 2 of the paper, arXiv 2601.16218. The paper groups languages into high-, mid- and low-resource by how much text in each language is on the internet. <span class="tag t-pa">Paper</span></p>
 <div class="card">
   <div class="hbars" id="sotabars"></div>
   <div class="legend">
@@ -383,7 +383,7 @@ footer{margin-top:48px;font-size:.82rem;color:var(--muted);border-top:1px solid 
 <tbody>
 <tr><td>On-board speed of ~1B models</td><td class="n">Qwen 3.5 0.8B ≈ 4.4–4.5 tok/s, Gemma 3 1B ≈ 5.0 tok/s (Q4_0), by <a href="https://mischianti.org/?p=36049">mischianti.org</a>.<br>TTFT (time to first token) 0.85–2.2 s warm, 9 s cold. About 1 GB of RAM.<br>Details: <a href="CHALLENGE_CONTEXT/">CHALLENGE_CONTEXT</a> §2</td><td>A ~1B model fits. A 3B+ model does not fit in 60 s with long prompts <span class="tag t-in">Inferred</span></td></tr>
 <tr><td>Model sizes</td><td class="n">Gemma 3 1B Q4_K_M ≈ 815 MB · Gemma 3 270M Q4_0 ≈ 250–300 MB (≈170M of the 270M are embeddings)</td><td>Smaller ⇒ more tok/s, but less reasoning</td></tr>
-<tr><td>GGUF formats</td><td class="n">Q4_0 ≈ 4.5 bits/weight (blocks of 32 with an FP16 scale). Q8_0 = 8 bits</td><td>Going from Q8_0 to Q4_0 may almost double decode speed, if decode is limited by memory bandwidth (an open question) <span class="tag t-in">Inferred</span></td></tr>
+<tr><td>GGUF formats</td><td class="n">Q4_0 ≈ 4.5 bits/weight (blocks of 32 with an FP16 scale). Q8_0 = 8 bits</td><td>Going from Q8_0 to Q4_0 may almost double decode speed, if memory bandwidth limits decode (an open question) <span class="tag t-in">Inferred</span></td></tr>
 <tr><td>Pruning (LLM-KICK, 2023)</td><td>It breaks knowledge tasks at 25–30 % sparsity (the share of weights set to zero), even when perplexity looks fine</td><td>Quantize before you prune. Use only structured pruning, with LoRA (low-rank adapter) recovery</td></tr>
 <tr><td>Multilingual quantization (Marchisio, 2024)</td><td>Math reasoning is the first thing to degrade</td><td>Measure accuracy after each quantization. Calibrate the <code>imatrix</code> (the importance matrix for quantization) with Catalan/Spanish text (Chimoto 2026)</td></tr>
 <tr><td>Synthetic data (TinyGSM, 2023)</td><td class="n">&gt; 80 % on GSM8K (a grade-school math benchmark) with 1.3B models</td><td>The quality of the synthetic SFT (supervised fine-tuning) data matters more than model size</td></tr>
@@ -422,7 +422,7 @@ footer{margin-top:48px;font-size:.82rem;color:var(--muted);border-top:1px solid 
   <li><span class="tag t-ve">⚠️</span> Do llama.cpp's OpenCL or Vulkan backends work on the Adreno 702, and are they faster than the CPU? Optional experiment: do not change the contest build.</li>
   <li><span class="tag t-ve">⚠️</span> Power in watts, and thermal throttling during a long evaluation (<code>/sys/class/thermal/*/temp</code>).</li>
   <li><span class="tag t-ve">⚠️</span> The real speedup of Q4_0 / Q4_K_M over Q8_0 on this board, and its cost in accuracy.</li>
-  <li><span class="tag t-ve">⚠️</span> Is decode limited by memory bandwidth or by compute on this CPU? Not measured on our board.</li>
+  <li><span class="tag t-ve">⚠️</span> Does memory bandwidth or compute limit decode on this CPU? Not measured on our board.</li>
   <li><span class="tag t-ve">⚠️</span> Does <code>cache_prompt</code> reuse the prompt that the server already read, while the services run with <code>--cache-ram 0</code>? Not measured on our board.</li>
 </ul>
 </section>
@@ -431,7 +431,7 @@ footer{margin-top:48px;font-size:.82rem;color:var(--muted);border-top:1px solid 
 <section id="try">
 <h2>9. What to try</h2>
 <ul class="tight">
-  <li><strong>Interaction with <code>cache_prompt</code></strong>, a server option that keeps the prompt it already read (the organizers' tip, <a href="BOARD_SETUP/#the-classroom-debate-box">BOARD_SETUP §13.2</a>). Send the problem to the language model as soon as it is on screen. When the student asks for help, it reads only the new tokens. Check <code>prompt_n</code> in the server's <code>timings</code>: it is the number of tokens that the model really read.</li>
+  <li><strong>Interaction with <code>cache_prompt</code></strong>, a server option that keeps the prompt it already read (the organizers' tip, <a href="BOARD_SETUP/#the-classroom-debate-box">BOARD_SETUP §13.2</a>). Send the problem to the language model as soon as it is on screen. When the student asks for help, the model reads only the new tokens. Read <code>prompt_n</code> in the server's <code>timings</code>: it is the number of tokens that the model really read.</li>
   <li><strong>Rewrites of 50–100 tokens</strong> take 10–20 s. Make them ahead of time, not while the student waits, and store them in SQLite (<a href="BOARD_SETUP/#problems-for-students-with-dyslexia-or-dyscalculia">BOARD_SETUP §13.2</a>).</li>
   <li><strong>Measure our speed with <code>llama-bench</code></strong>. BOARD_SETUP step 3 builds only <code>llama-server</code> and <code>llama-cli</code>, so build <code>llama-bench</code> first.</li>
   <li><strong>Claim an improvement on the full validation set</strong>: <code>python3 eval.py --limit 0</code> (about 45 min for 281 problems).</li>
@@ -454,7 +454,7 @@ footer{margin-top:48px;font-size:.82rem;color:var(--muted);border-top:1px solid 
 </ul>
 </section>
 
-<footer>This guide was generated from the repo content on 2026-11-14. It contains no M3Kang problem text, only aggregate figures.</footer>
+<footer>We compiled this guide from the repo content on 2026-11-14. It contains no M3Kang problem text, only aggregate figures.</footer>
 </div>
 
 <script>

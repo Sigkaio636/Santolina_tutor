@@ -1,7 +1,7 @@
 # Arduino UNO Q 4 GB (ABX00173): board reference
 
-> **What this is:** a reference for team members who need a fact about the UNO Q: a spec, a pin, a
-> port, a limit or a measured speed. To set up the board step by step, follow
+> **What this is:** a reference for team members. Use it when you need a fact about the UNO Q: a
+> spec, a pin, a port, a limit or a measured speed. To prepare the board step by step, follow
 > [BOARD_SETUP.md](BOARD_SETUP.md). To deploy our copilot, follow
 > [Deploy the copilot on the board](how-to/deploy-copilot-on-board.md).
 >
@@ -111,7 +111,7 @@ The UNO Q has two processors, joined by an RPC layer called **Bridge**. The **MP
 | Bluetooth | 5.1 (Classic and BLE) |
 | Link to MPU | SDIO for Wi-Fi data, UART for Bluetooth control |
 | Antenna | One shared on-board PCB antenna |
-| Max transmit power (EIRP: effective isotropic radiated power) | BT Classic 15 dBm, BLE 9.5 dBm, Wi-Fi 2.4 GHz 19.59 dBm EIRP, Wi-Fi 5 GHz 17.64 dBm EIRP (13.95 dBm in the upper 5725–5875 MHz band) |
+| Max transmit power (EIRP: effective isotropic radiated power) | BT Classic 15 dBm, BLE 9.5 dBm. Wi-Fi 2.4 GHz 19.59 dBm EIRP, Wi-Fi 5 GHz 17.64 dBm EIRP (13.95 dBm in the upper 5725–5875 MHz band) |
 | Radio notes | 5.15–5.35 GHz is indoor-only. Keep 20 cm between the radiator and a person |
 
 ### 3.5 USB-C port (the only built-in port)
@@ -164,12 +164,15 @@ The UNO Q has two processors, joined by an RPC layer called **Bridge**. The **MP
 - **Use a 5 V / 3 A supply and cable.** Wireless bursts and display start-up cause short current peaks,
   and a weak supply gives undervoltage and resets.
 - Store FAQ: a non-PD supply **will not boot** the board. It recommends at least 15 W.
-- Reverse polarity was tested at −24 V on DC IN, but operation is specified only with the correct
-  polarity.
-- Powering from the 5 V or VIN pins does not enable USB host mode. To force host mode, power off,
-  short GND (JCTL pin 1 or 7) to VOL_DOWN (JCTL pin 3), then power on. See Arduino's
-  [Force USB host mode guide](https://github.com/arduino/docs-content/tree/main/content/hardware/uno/boards/uno-q/tutorials/guides/host-mode).
-  JCTL is 1.8 V, never apply 3.3 V or 5 V to it.
+- Reverse polarity was tested at −24 V on DC IN, but the official docs specify operation
+  only with the correct polarity.
+- Powering from the 5 V or VIN pins does not enable USB host mode. JCTL is 1.8 V. Never apply
+  3.3 V or 5 V to it. To force host mode, follow Arduino's
+  [Force USB host mode guide](https://github.com/arduino/docs-content/tree/main/content/hardware/uno/boards/uno-q/tutorials/guides/host-mode):
+
+    1. Disconnect the power supply.
+    2. Short GND (JCTL pin 1 or 7) to VOL_DOWN (JCTL pin 3).
+    3. Connect the power supply again.
 
 ### 4.2 Rails
 
@@ -192,11 +195,11 @@ The UNO Q has two processors, joined by an RPC layer called **Bridge**. The **MP
 | D3 (PB0) | 3.6 V tolerant only, **not 5 V tolerant in any mode** |
 | Most other digital pins | 5 V tolerant as inputs, outputs drive 3.3 V |
 | Per-pin current | Follow the STM32U585 limits. Store FAQ: about 20 mA typical, use a driver for loads |
-| Header power | Shared with on-board loads. No fixed current budget is published |
+| Header power | Shared with on-board loads. The official docs give no fixed current budget |
 
 Schottky diode-OR drop (forward voltage): 0.35 V at 1.0 A, 0.37 V at 1.5 A, 0.39 V at 2.0 A.
 
-**Power consumption:** the official documents give **no idle or load wattage** for the UNO Q.
+**Power consumption:** the official docs give **no idle or load wattage** for the UNO Q.
 See [Open questions](#open-questions).
 
 ---
@@ -349,8 +352,8 @@ Up to 1920×1080. Not relevant to a text copilot, but useful for a camera demo.
   works on it. llama.cpp's Adreno OpenCL backend targets the Qualcomm proprietary driver on high-end
   parts. Arduino's own guide runs **CPU-only**, and so does the pinned build in BOARD_SETUP.md, so
   **the CPU path is the contest path**. A GPU test is an optional side experiment (see [Open questions](#open-questions)).
-- GPU memory is shared with the 4 GB of system RAM. Offloading layers does not add memory.
-- **No NPU** and no DSP path is documented. Plan for CPU inference.
+- The GPU shares the 4 GB of system RAM. Offloading layers does not add memory.
+- The official docs list **no NPU** and no DSP path. Plan for CPU inference.
 - Cortex-A53 has no SDOT or I8MM instructions. ✅ **Confirmed on our board** (§14.2): the CPU flags list `asimd` but no `asimddp` and no `i8mm`.
 
 ---
@@ -359,14 +362,14 @@ Up to 1920×1080. Not relevant to a text copilot, but useful for a camera demo.
 
 ### 7.1 Linux (Debian)
 
-- Full Debian on the MPU. Docker and Docker Compose are supported. Python 3 is present.
+- Full Debian on the MPU. The OS supports Docker and Docker Compose. Python 3 is present.
 - No compiler toolchain and no passwordless `sudo` out of the box (llama.cpp guide). **Our setup
   installs the toolchain with `sudo apt-get` and builds llama.cpp on the board** (BOARD_SETUP steps 2–3).
 - User: `arduino`. **Project password: `opensource`**, set in App Lab first setup (BOARD_SETUP 0.1).
   It is also the `sudo` password. Arduino's ADB guide mentions `arduino` as a pre-setup fallback.
   The datasheet says there is no documented default. Do not rely on either.
 - Wi-Fi from the shell: `sudo nmcli d wifi connect <SSID> password <PASSWORD>`, or `nmtui`.
-- Safe shutdown: `sudo poweroff`, then wait. Do not pull power during writes.
+- Safe shutdown: run `sudo poweroff`. Then wait. Do not pull power during writes.
 - First boot takes 20–30 s. Wait for the LED-matrix animation to finish.
 
 ### 7.2 Arduino App Lab
@@ -399,7 +402,7 @@ Other ways to program the MCU: Arduino IDE 2.0+ (MCU only), Arduino CLI with VS 
 
 | Method | Command | Notes |
 |---|---|---|
-| **SSH (Wi-Fi)** | `ssh arduino@<boardname>.local` or `ssh arduino@<ip>` | SSH is enabled by App Lab first setup |
+| **SSH (Wi-Fi)** | `ssh arduino@<boardname>.local` or `ssh arduino@<ip>` | App Lab first setup enables SSH |
 | **ADB (USB)** | `adb devices`, then `adb shell` | Can take up to a minute to appear. Needs `android-sdk-platform-tools` |
 | **SBC mode** | Keyboard, mouse and HDMI through a USB-C dongle | Desktop login as `arduino` |
 | **Debug UART** | JCTL header, 1.8 V, 115200 baud | Works before the network is up |
@@ -420,12 +423,12 @@ Other ways to program the MCU: Arduino IDE 2.0+ (MCU only), Arduino CLI with VS 
 > Follow [BOARD_SETUP.md](BOARD_SETUP.md). See §13.
 
 GGUF is llama.cpp's model file format. `Q4_K_M` (4-bit) and `Q8_0` (8-bit) are two of its
-quantization types. Speeds are in tokens per second (tok/s); see
+quantization types. Speeds are in tokens per second (tok/s). See
 [Token](https://github.com/Sigkaio636/Santolina_tutor/blob/main/GLOSSARY.md) in the glossary.
 
-Arduino's own tutorial, "Running Llama.cpp with Qwen3.5-0.8B on the Arduino UNO Q", downloads a
-prebuilt llama.cpp release and a `Q4_K_M` model, then runs `llama-cli` and `llama-server` on port
-8080. Its commands are in Arduino's
+Arduino's own tutorial is "Running Llama.cpp with Qwen3.5-0.8B on the Arduino UNO Q". It downloads
+a prebuilt llama.cpp release and a `Q4_K_M` model. Then it runs `llama-cli` and `llama-server` on
+port 8080. Its commands are in Arduino's
 [llama.cpp guide](https://github.com/arduino/docs-content/tree/main/content/hardware/uno/boards/uno-q/tutorials/guides/llama-cpp).
 
 | Fact | Value |
@@ -435,7 +438,7 @@ prebuilt llama.cpp release and a `Q4_K_M` model, then runs `llama-cli` and `llam
 | The organizers' measurement ([BOARD_SETUP.md](BOARD_SETUP.md)) | About 11 tok/s prompt and about 6 tok/s generation with Qwen3.5 0.8B Q8_0 |
 | Our measurement (§14.3) | **10.1 tok/s prompt and 4.8 tok/s generation** with Qwen3.5 0.8B Q8_0 |
 | Free RAM | The guide says about 3.6 GB free. We measured 3.6 GiB total and about 2.9 GiB available (§14.1). Enough for a small 4-bit model, not for large F16 models |
-| Disk | Keep about 1 GB free. Build from source is discouraged (no toolchain, little disk) |
+| Disk | Keep about 1 GB free. The guide discourages a build from source (no toolchain, little disk) |
 
 Earlier third-party measurements are in [CHALLENGE_CONTEXT.md](CHALLENGE_CONTEXT.md) §2.
 
@@ -468,9 +471,9 @@ Topics covered:
 
 For the datathon, the useful rules are:
 
-- keep the model services on `127.0.0.1`;
-- change default credentials;
-- do not expose ports to the school network.
+- keep the model services on `127.0.0.1`
+- change default credentials
+- do not expose ports to the school network
 
 ---
 
@@ -505,7 +508,7 @@ settles it. Where §14 measured the same thing, the measurement wins (see the pr
 | Speed | Official: 8.4 tok/s prompt, 3.6 tok/s generation (Q4_K_M) | The organizers: about **11 tok/s read, about 6 tok/s write**. We measured 10.1 and 4.8 tok/s (§14.3). One-letter answer about 9 s, so the 60 s per-problem limit is the budget |
 | Network access | `.local` mDNS name | Use the **IP address** (`hostname -I`). SSH `arduino@<ip>`. `adb shell` as fallback, and for demos with Wi-Fi off (steps 0.2–0.4) |
 | Internet | Needed for the Arduino guide | Needed for steps 2–4, and for step 8.1, which clones the repository on the board. Copy it with `scp -r` or `adb push` to avoid that. Afterwards everything runs **offline** (a contest rule) |
-| GPU / OpenCL | Mesa OpenCL 2.0 exists, llama.cpp gain unconfirmed | The pinned build is **CPU-only** (`GGML_NATIVE`, NEON). No OpenCL or Vulkan flags. The CPU path is settled for the contest. GPU stays an optional experiment |
+| GPU / OpenCL | Mesa OpenCL 2.0 exists, llama.cpp gain unconfirmed | The pinned build is **CPU-only** (`GGML_NATIVE`, NEON). No OpenCL or Vulkan flags. The CPU path is the contest path. GPU stays an optional experiment |
 | Power | 15 W recommended (store) vs 5 V / 3 A (datasheet) | Both agree: **5 V, 3 A USB-C supply** (BOARD_SETUP "What you need") |
 | Shutdown | `sudo poweroff` | Same (step 0.5). Never pull power while it writes |
 | Ethernet and dongles | Store FAQ mentions Ethernet, no port on the board | Not used. The board and the laptop share **one Wi-Fi network** |
@@ -528,7 +531,7 @@ Arduino's figures. These items are in [Open questions](#open-questions).
 
 ## 14. Measured on our board (2026-11-14)
 
-Everything below was measured on our 4 GB UNO Q while following `docs/BOARD_SETUP.md` steps 0 to 8.
+We measured everything below on our 4 GB UNO Q while we followed `docs/BOARD_SETUP.md` steps 0 to 8.
 These are measurements, not Arduino's published figures.
 
 ### 14.1 System
@@ -552,7 +555,7 @@ Features : fp asimd evtstrm aes pmull sha1 sha2 crc32 cpuid
 ```
 
 No `asimddp` (dot product) and no `i8mm`. int8 and int4 matrix multiplication gets no hardware
-speedup on this CPU. Whether decoding is limited by memory bandwidth is in
+speedup on this CPU. Whether memory bandwidth limits decoding is in
 [Open questions](#open-questions).
 
 ### 14.3 Speed
@@ -574,7 +577,7 @@ The organizers quote about 11 tok/s reading and about 6 tok/s writing. Our numbe
 | Item | Result |
 |---|---|
 | llama.cpp | Built from source at pinned commit `2cbe0ec`, `-DGGML_NATIVE=ON`, Release, `-j4`, **about 25 minutes**. `llama-server --version` reports `0.9.0-dev (build 1, commit 2cbe0ec)` with GNU 14.2.0 |
-| Models | `Qwen_Qwen3.5-0.8B-Q8_0.gguf` (835 MB) and `bge-small-en-v1.5-q8_0.gguf` (37 MB), both SHA256-verified |
+| Models | `Qwen_Qwen3.5-0.8B-Q8_0.gguf` (835 MB) and `bge-small-en-v1.5-q8_0.gguf` (37 MB), both SHA256-checked |
 | Services | `math-llm` (8081) and `math-embed` (8082), both **active and enabled at boot**, listening only on `127.0.0.1` |
 | Memory with both services up | about 920 MiB used, about 2.7 GiB available |
 | Health script | `board/00_check_board.sh` reports "The board looks healthy" |
@@ -592,7 +595,7 @@ The organizers quote about 11 tok/s reading and about 6 tok/s writing. Our numbe
   `~/datathon-UPC-maths-qualcomm-arduino-unoq` (commit `d6e3f1b`). The board now runs our repository,
   `~/Santolina_tutor` (see [Deploy the copilot on the board](how-to/deploy-copilot-on-board.md)).
   [BOARD_SETUP.md](BOARD_SETUP.md) lists, in its source note, our local edits to the files copied
-  from that commit. Our repository has also added files since then.
+  from that commit. After that, we added more files to our repository.
 
 ## 15. Measured on the laptop (Fedora 44)
 
@@ -613,8 +616,8 @@ nohup ./board/02_build_llama_cpp.sh > ~/llama-build.log 2>&1 &
 tail -f ~/llama-build.log
 ```
 
-The build worked when the log ends with `Next: ./board/03_download_models.sh`. If llama-server is
-already built at the pinned commit, the script stops at once with `Nothing to do.`
+The build worked when the log ends with `Next: ./board/03_download_models.sh`. If llama-server
+already exists at the pinned commit, the script stops at once with `Nothing to do.`
 
 **Install App Lab on Fedora.**
 
@@ -623,7 +626,7 @@ already built at the pinned commit, the script stops at once with `Nothing to do
 3. Install `webkit2gtk4.1` and `android-tools` (for `adb`) with `dnf`.
 4. Add a udev rule for USB vendor IDs `2341` and `05c6`, with group `dialout` and mode `0666`.
    `adb` works with this rule alone, because mode `0666` opens the device to everyone.
-5. Add yourself to the `dialout` group: `sudo usermod -a -G dialout $USER`. Then log out and log in again.
+5. Add yourself to the `dialout` group: `sudo usermod -a -G dialout $USER`. Then start a new login session.
 
 ## Open questions
 
@@ -631,19 +634,19 @@ already built at the pinned commit, the script stops at once with `Nothing to do
   power meter during inference. It matters for a battery or demo setup.
 - **Temperature and throttling.** The operating range is −10 to +60 °C. Throttling under sustained
   load is not documented. Watch `/sys/class/thermal/*/temp` during a long `eval.py` experiment.
-- **Decode speed limit.** We assume decoding is limited by memory bandwidth, so fewer bytes per
+- **Decode speed limit.** We assume memory bandwidth limits decoding, so fewer bytes per
   weight would mean more tokens per second. This is not measured on our board.
-- **GPU benefit.** Untested. Mesa OpenCL 2.0 exists, but no llama.cpp gain is confirmed. Optional test:
-  build llama.cpp with OpenCL or Vulkan, and compare its speed with the CPU build. Read the speed from
+- **GPU benefit.** Untested. Mesa OpenCL 2.0 exists, but no source confirms a llama.cpp gain. Optional test:
+  build llama.cpp with OpenCL or Vulkan. Compare its speed with the CPU build. Read the speed from
   `llama-cli`'s timing output, or from the `timings` field of the server's answer (`prompt_per_second`,
   `predicted_per_second`). Our build has no `llama-bench`. Do not change the pinned build for the contest.
 - **Speed gap with Arduino's figures.** Arduino's guide gets 3.6 tok/s writing (`Q4_K_M`). We measured
   4.8 tok/s (`Q8_0`, §14.3). The quantization and the llama.cpp build differ. For a cleaner comparison,
-  run both models on the same build and compare the server's `timings`.
+  run both models on the same build. Then compare the server's `timings`.
 
 ## Sources
 
-Official pages (docs.arduino.cc content was read from the source repository
+Official pages (we read the docs.arduino.cc content from the source repository
 [arduino/docs-content](https://github.com/arduino/docs-content), path `content/hardware/uno/boards/uno-q/`):
 
 - Store page: <https://store.arduino.cc/products/uno-q-4gb>
@@ -668,7 +671,12 @@ Official pages (docs.arduino.cc content was read from the source repository
 - STM32U585 datasheet: <https://www.st.com/resource/en/datasheet/stm32u585ai.pdf>
 - Qualcomm QRB2210: <https://www.qualcomm.com/products/internet-of-things/robotics-processors/qrb2210>
 
-Not read (blocked or not fetched): the user manual and App Lab quickstart through the live site,
-`support.arduino.cc` articles, the App Lab Bricks reference and the Flash a Linux Image tutorial.
-The user manual and Debian, remote-access and hardening guides were read only for their structure
+We did not read these pages (blocked or not fetched):
+
+- the user manual and App Lab quickstart through the live site
+- `support.arduino.cc` articles
+- the App Lab Bricks reference
+- the Flash a Linux Image tutorial
+
+We read the user manual and the Debian, remote-access and hardening guides only for their structure
 and the sections quoted above.

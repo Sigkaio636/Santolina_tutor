@@ -1,6 +1,6 @@
 # How to use the copilot on the UNO Q
 
-This how-to guide is for a team member who has deployed the copilot on the Arduino UNO Q. It shows how to answer problems, measure the result, and compare experiments. All commands run on the board, from `~/Santolina_tutor`, unless the text says "on your laptop".
+This how-to guide is for a team member who deployed the copilot on the Arduino UNO Q. It shows how to answer problems, measure the result, and compare experiments. All commands run on the board, from `~/Santolina_tutor`, unless the text says "on your laptop".
 
 The organizers of the Qualcomm challenge (Datathon FME 2026) wrote the [board setup](../BOARD_SETUP.md). This guide repeats some of its steps for our copilot, and links each step that it replaces.
 
@@ -76,7 +76,7 @@ python3 eval.py --limit 50 --name baseline
 The report shows:
 
 - **Accuracy**, next to two numbers to beat: always answering `D`, and random guessing (20%).
-- **Latency**: mean, median, worst, and how many problems went over the limit.
+- **Latency**: mean, median, worst, and how many problems exceeded the limit.
 - Accuracy by language, by level, and with or without options.
 - **Letter counts**, predicted against true. A model that picks one letter far too often shows here.
 
@@ -104,13 +104,13 @@ python3 predict.py --input data/val.jsonl --output results/predictions-rag1.csv 
 
 Each example makes the prompt longer. On our board the language model reads about 10.1 tokens per second ([UNO Q board reference, §14.3](../UNO_Q_BOARD_REFERENCE.md#143-speed)). So every example adds seconds. Compare the latency columns, not only the accuracy.
 
-## Look at the problems in a browser
+## View the problems in a browser
 
 This section replaces the [optional explorer step](../BOARD_SETUP.md#optional-explore-the-problems-in-your-browser) of the board setup.
 
 The explorer shows each validation problem, with its image and the options that optical character recognition (OCR) read. You can answer it yourself, or ask the language model. If `data/index.db` exists, it also shows the three most similar training problems.
 
-The explorer needs the problem images. On your laptop, from the repository folder, make them again with the command of step 9.2 plus `--save-images`. The OCR results are cached, so the second time is quicker:
+The explorer needs the problem images. On your laptop, from the repository folder, make them again with the command of step 9.2 plus `--save-images`. `prepare_m3kang.py` caches the OCR results, so the second run is quicker:
 
 ```bash
 uv run --no-project --python 3.12 --with-requirements laptop/requirements.txt \
@@ -141,7 +141,7 @@ You should see three lines. The first counts the problems, the images, and the p
 
 The explorer listens only on the board, on port 8000. The board setup starts it with `--host 0.0.0.0`, which opens it to your whole network. The tunnel below does not need that option.
 
-To open it on your laptop, forward the port. On your laptop, in a second terminal, set `BOARD_IP` again, then:
+To open it on your laptop, forward the port. On your laptop, in a second terminal, set `BOARD_IP` again. Then run:
 
 ```bash
 ssh -L 8000:127.0.0.1:8000 arduino@"$BOARD_IP"
@@ -190,12 +190,12 @@ The organizers see the copilot work on the board, with the Wi-Fi off.
 - Both services start at boot. Check with `systemctl is-enabled math-llm math-embed`: both say `enabled`.
 - Nothing in your code may download data at run time.
 - If a web page runs on your laptop, connect over USB and use `adb forward`, as above.
-- Choose the demo problems in advance. Run them on the board on the day of the demo, and time each one.
-- Shut the board down from the terminal before you unplug it: `sudo poweroff`.
+- Choose the demo problems in advance. Run them on the board on the day of the demo. Time each one.
+- Before you unplug the board, run `sudo poweroff` on the board.
 
 ## Not covered yet
 
-The challenge asks the copilot to *Teach*: to guide the student without giving away the answer ([the challenge](../BOARD_SETUP.md#the-challenge)). This part (hints, a web page, the LED matrix) is not built. The team chooses the idea in [step 13 of the board setup](../BOARD_SETUP.md#step-13-brainstorm-your-idea). This guide will cover it when it exists. Until then, `predict.py`, `eval.py`, retrieval and the explorer are all that the copilot offers.
+The challenge asks the copilot to *Teach*: to guide the student without revealing the answer ([the challenge](../BOARD_SETUP.md#the-challenge)). This part (hints, a web page, the LED matrix) does not exist yet. The team chooses the idea in [step 13 of the board setup](../BOARD_SETUP.md#step-13-brainstorm-your-idea). This guide will cover it when it exists. Until then, `predict.py`, `eval.py`, retrieval and the explorer are all that the copilot offers.
 
 ## See also
 
