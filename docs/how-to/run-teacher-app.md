@@ -17,6 +17,14 @@ make teacher
 
 The app opens at <http://127.0.0.1:8010>. It listens on this computer only, and works without internet.
 
+To start it with a double click instead, add a **Santolina Teacher** shortcut (a graduation cap icon) to the desktop and the applications menu, once:
+
+```bash
+uv run --group teacher python -m teacher_app install-shortcut
+```
+
+The shortcut opens the app in the browser. If the app is already running, it only opens the browser. Messages go to `~/.local/state/santolina-teacher.log`. The app keeps running until you log out. If you move the repository, run the command again.
+
 Your data goes to `~/.local/share/santolina-teacher/`: the teacher store (`teacher.sqlite3`), a raw copy of every file unloaded from a board (`raw/`) and the exercise pack library (`packs/`). Set `SANTOLINA_TEACHER_HOME` to use another folder. It is outside the repository, so it never goes into Git.
 
 ## Set up a new board

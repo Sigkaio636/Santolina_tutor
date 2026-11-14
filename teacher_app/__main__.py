@@ -1,6 +1,10 @@
 """Command line of the teacher app: `python -m teacher_app --help`."""
 
 from pathlib import Path
+import socket
+import sys
+import threading
+import time
 import webbrowser
 
 import typer
@@ -12,20 +16,55 @@ app = typer.Typer(help="Santolina teacher app", no_args_is_help=True, add_comple
 
 
 @app.command()
-def serve(open_browser: bool = typer.Option(True, help="Open the app in the browser")):
+def serve(
+    open_browser: bool = typer.Option(True, help="Open the app in the browser"),
+    log_file: Path = typer.Option(None, help="Write messages to this file (for the shortcut)"),
+):
     """Start the app on http://127.0.0.1:8010 (localhost only)."""
     import uvicorn
+
+    if log_file:
+        log_file.parent.mkdir(parents=True, exist_ok=True)
+        sys.stdout = sys.stderr = open(log_file, "a", buffering=1, encoding="utf-8")  # noqa: SIM115
 
     from .web.main import create_app
 
     settings = config.load()
     url = f"http://127.0.0.1:{settings.port}"
+    if _port_open(settings.port):  # already running (e.g. the shortcut clicked twice)
+        typer.echo(f"Teacher app already running: {url}")
+        if open_browser:
+            webbrowser.open(url)
+        return
     typer.echo(f"Teacher app: {url}  (data in {settings.home})")
     if settings.fake_boards:
         typer.echo(f"Simulated boards from {settings.fake_boards}")
     if open_browser:
-        webbrowser.open(url)
+
+        def open_when_up():
+            for _ in range(100):
+                if _port_open(settings.port):
+                    webbrowser.open(url)
+                    return
+                time.sleep(0.1)
+
+        threading.Thread(target=open_when_up, daemon=True).start()
     uvicorn.run(create_app(settings), host="127.0.0.1", port=settings.port, log_level="warning")
+
+
+def _port_open(port: int) -> bool:
+    with socket.socket() as s:
+        s.settimeout(0.3)
+        return s.connect_ex(("127.0.0.1", port)) == 0
+
+
+@app.command("install-shortcut")
+def install_shortcut():
+    """Add a "Santolina Teacher" shortcut to the desktop and the applications menu."""
+    from .shortcut import install
+
+    for path in install():
+        typer.echo(f"Shortcut written: {path}")
 
 
 @app.command("fake-boards")
