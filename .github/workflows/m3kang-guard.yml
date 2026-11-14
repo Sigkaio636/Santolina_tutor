@@ -1,0 +1,30 @@
+# Red line: M3Kang data (research use only) never enters Git.
+# Runs the same rule set as the Claude Code hook (.claude/hooks/m3kang-guard.py)
+# on every PR and every push to main, so a commit made by hand or a PR opened
+# from the website is checked too. It checks every commit in the range, not
+# only the final tree, because a file added and later deleted stays in history.
+# To make it block merges, mark "m3kang-guard" as a required status check in
+# the branch protection rule for main.
+name: m3kang-guard
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  m3kang-guard:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: No M3Kang data in the commits or the tree
+        env:
+          BASE: ${{ github.event_name == 'pull_request' && github.event.pull_request.base.sha || github.event.before }}
+          HEAD_SHA: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.sha }}
+        # A new branch pushes with an all-zero "before": the script then checks the whole history.
+        run: python3 .claude/hooks/m3kang-guard.py --range "$BASE" "$HEAD_SHA"

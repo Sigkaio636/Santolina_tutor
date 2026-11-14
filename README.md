@@ -109,7 +109,33 @@ Rules that keep the two halves apart:
   upstream code.
 - **M3Kang is for research use only.** `.gitignore` keeps everything in
   `data/` out of Git except `sample_problems.jsonl` and `README.md`, plus
-  `*.gguf`, `*.db` and `results/`.
+  `*.gguf`, `*.db` and `results/`. The guard below enforces it.
+
+### Red line: no M3Kang data in Git
+
+M3Kang problems, and anything derived from them, must never be staged,
+committed, pushed or sent in a PR, nor appear in any commit of the history.
+That covers `data/` (except `sample_problems.jsonl` and `README.md`),
+`*.jsonl`, `*.parquet`, `*.db`/`*.sqlite`, the OCR cache and train/val/test
+splits. One script, `.claude/hooks/m3kang-guard.py`, holds the rules and
+enforces them in two places:
+
+| Where | When | What it does |
+| --- | --- | --- |
+| Claude Code hook (`.claude/settings.json`, PreToolUse on Bash) | Before the agent runs `git add`, `git commit`, `git push` or `gh pr create\|ready\|merge` | Lists every file the command would put in Git (staged files, forced adds, `-A`/`-a`, unpushed commits on any branch) and blocks the call if one is M3Kang data |
+| GitHub Actions (`.github/workflows/m3kang-guard.yml`) | Every PR, and every push to `main` | Checks every commit in the range and the final tree, so a commit made by hand or a PR opened on the website is checked too |
+
+The CI check only stops a merge once **m3kang-guard** is a required status
+check in the branch protection rule for `main` (GitHub repository settings).
+[`CLAUDE.md`](CLAUDE.md) states the rule for the agent. To check a range by
+hand:
+
+```bash
+python3 .claude/hooks/m3kang-guard.py --range origin/main HEAD
+```
+
+If a file is already in a commit, removing it in a new commit isn't enough:
+the history must be rewritten before anything is pushed.
 
 ### Skills for Claude
 
