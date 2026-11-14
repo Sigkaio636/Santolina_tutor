@@ -1,0 +1,2974 @@
+00:02 Hello again. Yeah, my name is Maros. I'm
+00:06 
+
+00:06 from Qualcomm and this video goes with
+00:09 
+
+00:09 the second step of the of the Dathlon.
+00:11 
+
+00:11 That means that you choose the Qualcomm
+00:13 
+
+00:13 challenge which is really cool. So in
+00:16 
+
+00:16 this video in the first minutes I'm
+00:18 
+
+00:18 going to introduce the challenge of of
+00:20 
+
+00:20 Qualcomm and afterwards I'm going to
+00:22 
+
+00:22 show you how to deploy or and how to set
+00:24 
+
+00:24 up the Arduino no to be ready for the
+00:27 
+
+00:27 for the data.
+00:29 
+
+00:29 Um the third part um that which is the
+00:32 
+
+00:32 most relevant is the project that you
+00:34 
+
+00:34 choose um to to develop um with yeah in
+00:39 
+
+00:39 this data tone. I think this is the most
+00:41 
+
+00:41 important that you choose a topic that
+00:43 
+
+00:43 actually triggers sparks your curiosity
+00:45 
+
+00:45 to deploy it and then you choose a
+00:47 
+
+00:47 technology to solve this problem. Okay.
+00:50 
+
+00:50 Everything that I'm going to explain
+00:51 
+
+00:51 it's on the rhyme of a GitHub
+00:53 
+
+00:53 repository. uh if you don't have the
+00:55 
+
+00:55 URL, I'm sure the organizers or the or
+00:59 
+
+00:59 anyone from Qualcomm knows the the
+01:02 
+
+01:02 GitHub URL and can share it with you.
+01:05 
+
+01:05 So, feel free to to to play this video,
+01:08 
+
+01:08 stop uh when I say, yeah, run this uh
+01:11 
+
+01:11 command, run this other thing. Uh so,
+01:14 
+
+01:14 you can just copy and paste from the
+01:15 
+
+01:15 readme to your terminal and and and
+01:20 
+
+01:20 that's it. Basically, the only thing
+01:21 
+
+01:21 that you're going to need is a Arduino Q
+01:24 
+
+01:24 connected via USBC to your laptop. Um,
+01:28 
+
+01:28 if it's a Mac, Windows, Linux machine,
+01:31 
+
+01:31 that might work. Uh, you may need
+01:33 
+
+01:33 Arduino Applap just to start uh to
+01:37 
+
+01:37 update all the Linux uh Debian version
+01:40 
+
+01:40 and different libraries that needs to be
+01:43 
+
+01:43 updated. And the second thing that
+01:45 
+
+01:45 you're going to need basically, yeah,
+01:47 
+
+01:47 it's to deploy what um what I'm going to
+01:50 
+
+01:50 share in a second. But let's start with
+01:53 
+
+01:53 a challenge maybe. Let me share my
+01:56 
+
+01:56 screen with the GitHub uh repository. So
+01:59 
+
+01:59 I'm going to do some uh zoom in here and
+02:04 
+
+02:04 I will go through the GitHub repository.
+02:06 
+
+02:06 So initially the challenge as I
+02:08 
+
+02:08 explained before
+02:11 
+
+02:11 um
+02:12 
+
+02:12 yeah the mathematical proficiency in
+02:14 
+
+02:14 Catalonia is declining okay and we would
+02:19 
+
+02:19 like to use AI to help everyone students
+02:22 
+
+02:22 teachers whoever and for that the data
+02:26 
+
+02:26 that you have it's this model developed
+02:29 
+
+02:29 by the Qualcomm Barcelona team which is
+02:32 
+
+02:32 the M3 can it's a it's a model that you
+02:36 
+
+02:36 can find with almost 2,000 mathematical
+02:39 
+
+02:39 problems from 2007 till 2024 from the
+02:43 
+
+02:43 procangur uh translated to 108 languages
+02:47 
+
+02:47 uh from Catalan to English to yeah all
+02:50 
+
+02:50 106 languages and that can be a perfect
+02:53 
+
+02:53 raw material that you can use to train
+02:56 
+
+02:56 your machine learning models your
+02:58 
+
+02:58 generative AI system your racks and
+03:01 
+
+03:01 embeddings and the system that I'm going
+03:03 
+
+03:03 to share in in in some minutes what are
+03:06 
+
+03:06 they and how to deploy them on the UNOQ.
+03:09 
+
+03:09 So don't worry if you don't know uh how
+03:11 
+
+03:11 this works. The challenge of this
+03:13 
+
+03:13 datathon, as you can see here, it's
+03:15 
+
+03:15 designed and built a math copilot and
+03:18 
+
+03:18 runs entirely on the UNOQ and can take
+03:21 
+
+03:21 advantage of of all of these
+03:23 
+
+03:23 mathematical problems that you can find
+03:24 
+
+03:24 in this M3K um data set and and model to
+03:29 
+
+03:29 create an innovative uh way to help a
+03:33 
+
+03:33 students to learn mathematics. Okay. So
+03:37 
+
+03:37 and the copilot must do one of these two
+03:39 
+
+03:39 things. It must teach uh students uh
+03:44 
+
+03:44 mathematics students to improve their
+03:47 
+
+03:47 experience or must help to reason
+03:52 
+
+03:52 uh new problems or or reason why uh
+03:56 
+
+03:56 students are failing a specific kanguru
+03:59 
+
+03:59 um problems for the provis kangur. for
+04:03 
+
+04:03 example, if you want to get ready for
+04:04 
+
+04:04 for Provis Kangur another. So you can
+04:07 
+
+04:07 choose kind of here. But um basically at
+04:11 
+
+04:11 the step 13 after all the setup steps uh
+04:14 
+
+04:14 that are 12 steps uh that are pretty
+04:16 
+
+04:16 okay. In a couple of hours you will have
+04:18 
+
+04:18 everything up uh set up and ready. Um
+04:22 
+
+04:22 and basically running with a lot of uh
+04:25 
+
+04:25 interesting stuff on your Arduino no.
+04:28 
+
+04:28 After that time in the step 13 I I get
+04:30 
+
+04:30 some ideas. So maybe we will get into
+04:32 
+
+04:32 that before the setup just to spark you
+04:35 
+
+04:35 some curiosity and ideas. Okay. Um
+04:40 
+
+04:40 my recommendation as well uh the Arduino
+04:43 
+
+04:43 no it's an amazing board. It's dual
+04:46 
+
+04:46 brain um device. However it's not a
+04:50 
+
+04:50 super uh powerful device. So Qualcomm
+04:53 
+
+04:53 basically has other more powerful
+04:55 
+
+04:55 devices uh such as the Arduino VentunoQ.
+04:58 
+
+04:58 I don't know if you know it, but this
+04:60 
+
+04:60 can basically compute 40 tops of AI.
+05:03 
+
+05:03 Sorry we couldn't bring this to you
+05:06 
+
+05:06 guys. Maybe next time in the next
+05:08 
+
+05:08 datathon. Uh but on this one, yeah, you
+05:12 
+
+05:12 can basically read at 11 tokens per
+05:14 
+
+05:14 second and five tokens per second. That
+05:16 
+
+05:16 means that maybe every prompt uh gets
+05:20 
+
+05:20 you like 20 from 20 to 40 seconds to get
+05:23 
+
+05:23 an answer. uh some kangaroo uh problems
+05:26 
+
+05:26 from M3 Kang it they took me like 20
+05:30 
+
+05:30 seconds to reply and and 80% of the time
+05:33 
+
+05:33 they were wrong. So it's kind of still
+05:36 
+
+05:36 uh in the initial steps uh on the setup
+05:39 
+
+05:39 you're going to see that it's still kind
+05:40 
+
+05:40 of a random answer but yeah here is
+05:44 
+
+05:44 where you can apply your innovation and
+05:46 
+
+05:46 creativity to to improve this system and
+05:50 
+
+05:50 and submit a really interesting project
+05:53 
+
+05:53 for everyone. deliverables. Uh,
+05:56 
+
+05:56 basically as I mentioned before, we want
+05:59 
+
+05:59 you to create a GitHub repository where
+06:01 
+
+06:01 you can open source everything that you
+06:03 
+
+06:03 built. Can you can build it yourself or
+06:05 
+
+06:05 you can use an AI agent that can help
+06:08 
+
+06:08 you have the skills in this ripple as
+06:10 
+
+06:10 I'm going to show you later uh to do
+06:12 
+
+06:12 everything. And then as well, I would
+06:15 
+
+06:15 love to get the step by step of your
+06:18 
+
+06:18 projects published on the Arduino
+06:20 
+
+06:20 project.
+06:21 
+
+06:21 Okay. Um this is a a platform to share
+06:24 
+
+06:24 how you built your project and others
+06:27 
+
+06:27 can basically go there and try to
+06:28 
+
+06:28 replicate it. As I explained before,
+06:30 
+
+06:30 this is one of the most important things
+06:32 
+
+06:32 as engineers that basically anyone else
+06:35 
+
+06:35 can replicate your projects anywhere in
+06:37 
+
+06:37 the world and you can help others or you
+06:39 
+
+06:39 can spark curiosity of others to build
+06:42 
+
+06:42 projects that you have references on
+06:44 
+
+06:44 this project. Um, basically for this
+06:46 
+
+06:46 datadon, the the the foundational
+06:49 
+
+06:49 technology I'm going to use, it's based
+06:50 
+
+06:50 on a teacher from Chile who is teaching
+06:54 
+
+06:54 in as well in Brazil and Latin America.
+06:57 
+
+06:57 It's called Marel Rob who's a Qualcomm
+06:59 
+
+06:59 ambassador who has lot of interesting uh
+07:02 
+
+07:02 documentation about how to use
+07:04 
+
+07:04 generative AI technology on Arduino. And
+07:08 
+
+07:08 basically for this project we are going
+07:10 
+
+07:10 to use a lot of racks system which are
+07:12 
+
+07:12 small databases as you are going to see
+07:15 
+
+07:15 uh that basically help to as we
+07:17 
+
+07:17 mentioned before know it takes um 11
+07:20 
+
+07:20 seconds right um to to read a prompt and
+07:25 
+
+07:25 five seconds to write an answer. So it
+07:28 
+
+07:28 helps basically to accelerate uh all all
+07:31 
+
+07:31 of these uh tokens uh
+07:34 
+
+07:34 all of these tokens uh spend basically
+07:38 
+
+07:38 there I also have an article myself that
+07:41 
+
+07:41 I explain how to deploy another system
+07:44 
+
+07:44 uh uh with go uh on on Arduino no to run
+07:49 
+
+07:49 LLMs or VLMs for example and finally
+07:52 
+
+07:52 there is in this references the the M3
+07:55 
+
+07:55 kang uh data set and paper as hosted in
+07:58 
+
+07:58 hacking phase. Okay. Um this is the
+08:01 
+
+08:01 repository. Um
+08:04 
+
+08:04 but before that I would like to jump to
+08:07 
+
+08:07 brainstorming your ideas. So as we are
+08:09 
+
+08:09 going to be like some time here uh
+08:12 
+
+08:12 setting up the Arduino Unoq I would like
+08:14 
+
+08:14 to um basically
+08:18 
+
+08:18 uh meanwhile you set up the UNOQ
+08:21 
+
+08:21 uh start thinking on okay what can we
+08:23 
+
+08:23 build as a team? What can be like a
+08:25 
+
+08:25 really cool idea? Okay. And um basically
+08:29 
+
+08:29 some of the ideas that I had when I was
+08:31 
+
+08:31 thinking on this challenge and talking
+08:34 
+
+08:34 with my colleagues from Qualcomm, Jordi
+08:36 
+
+08:36 Ross and and others uh was basically um
+08:42 
+
+08:42 some of these ideas like uh student get
+08:45 
+
+08:45 a problem so how can the copilot can
+08:48 
+
+08:48 help them no to find a similar problem
+08:51 
+
+08:51 that it's easier so it can basically um
+08:55 
+
+08:55 help the student to improve their
+08:57 
+
+08:57 knowledge on mathematics and improve for
+08:59 
+
+08:59 example their performance on the on the
+09:02 
+
+09:02 procangur
+09:04 
+
+09:04 for example um
+09:07 
+
+09:07 as well
+09:09 
+
+09:09 um what else for example yeah for
+09:12 
+
+09:12 example you can do a classroom debate
+09:14 
+
+09:14 box that could be super interesting so
+09:16 
+
+09:16 imagine that uh everyone in the
+09:19 
+
+09:19 classroom
+09:20 
+
+09:20 um can vote for the answer no you you
+09:23 
+
+09:23 have the pro this project these problems
+09:26 
+
+09:26 from the M3 Kang for example and you for
+09:30 
+
+09:30 example in the classroom in the
+09:32 
+
+09:32 whiteboard uh or the projection you for
+09:34 
+
+09:34 example say okay this is the problem uh
+09:38 
+
+09:38 which is the right answer A B C D or E
+09:42 
+
+09:42 and all the students basically vote for
+09:44 
+
+09:44 from their mobile phone for example or
+09:46 
+
+09:46 similar or or basically with a button or
+09:48 
+
+09:48 by voice
+09:50 
+
+09:50 um so this is something that you can do
+09:52 
+
+09:52 with the Q you could convert the the
+09:55 
+
+09:55 UNOQ uh in the classroom as the kind of
+09:58 
+
+09:58 a teacher that checks that the answer is
+10:01 
+
+10:01 correct or not and can show you can
+10:04 
+
+10:04 create a web interface for example uh
+10:07 
+
+10:07 with Python that uh shows uh the
+10:10 
+
+10:10 problems and then you choose an answer
+10:13 
+
+10:13 and if it's right it say it's right if
+10:15 
+
+10:15 not not okay I think that can be uh
+10:18 
+
+10:18 super fun project to do
+10:22 
+
+10:22 um
+10:24 
+
+10:24 as well multilingual bridge or for
+10:26 
+
+10:26 example another one that I love it it's
+10:29 
+
+10:29 uh so probably maybe you have colleagues
+10:31 
+
+10:31 I remember I had a teacher a
+10:33 
+
+10:33 mathematical teacher in the university
+10:35 
+
+10:35 who had dyslexia and couldn't
+10:38 
+
+10:38 distinguish very well between the plus
+10:39 
+
+10:39 and the minos or the yeah zero or or one
+10:42 
+
+10:42 which is kind of tricky uh for the topic
+10:46 
+
+10:46 she was teaching however maybe just
+10:49 
+
+10:49 simplifying the text of the problem
+10:52 
+
+10:52 simplifying the way it's explained can
+10:55 
+
+10:55 help a lot of people with this type of
+10:58 
+
+10:58 um problems uh to improve their
+11:01 
+
+11:01 performance on on exams or on test like
+11:05 
+
+11:05 these. Okay. So yeah, just try to maybe
+11:11 
+
+11:11 think on these kind of ideas. Okay. and
+11:14 
+
+11:14 basically start um start exploring what
+11:19 
+
+11:19 can be like a really really cool idea to
+11:22 
+
+11:22 execute. Okay.
+11:26 
+
+11:26 So let's start um with what we are going
+11:29 
+
+11:29 to do initially uh with the UNOQ. So
+11:33 
+
+11:33 first uh what we will do it's we are
+11:36 
+
+11:36 going to update the Arduino Q to the
+11:39 
+
+11:39 latest version that we have. This is
+11:41 
+
+11:41 important because
+11:43 
+
+11:43 um the UNOQ that probably you you
+11:46 
+
+11:46 received was manufactured some months
+11:48 
+
+11:48 ago. So probably the version of the
+11:50 
+
+11:50 operating system and the libraries that
+11:52 
+
+11:52 it brings are not the last one. So we
+11:54 
+
+11:54 want something that is secure even if
+11:56 
+
+11:56 it's offline needs to be the latest
+11:58 
+
+11:58 version. Okay. Once your device is up
+12:01 
+
+12:01 updated uh that we will do it with
+12:04 
+
+12:04 Arduino AppLab which is I think best way
+12:07 
+
+12:07 to do it. um we will start deploying
+12:10 
+
+12:10 software. The first software that we are
+12:12 
+
+12:12 going to deploy very basically it's LMA
+12:14 
+
+12:14 CPP. Llama CPP it's a software that
+12:17 
+
+12:17 allows to uh run um generative AI models
+12:22 
+
+12:22 on the CPU of the device. Um if you have
+12:26 
+
+12:26 a super powerful laptop probably you can
+12:29 
+
+12:29 run a very powerful uh 35 billion
+12:33 
+
+12:33 parameters 26 billion parameters. I'm
+12:36 
+
+12:36 running Gemma 4, Quen 3.8, etc. on on
+12:41 
+
+12:41 very powerful MacBooks or Macinis for
+12:43 
+
+12:43 example. However, on this device, we are
+12:46 
+
+12:46 going to run like tiny um large language
+12:50 
+
+12:50 models. Actually, the language models
+12:52 
+
+12:52 that we are going to use, we call SLMs,
+12:54 
+
+12:54 small language models. Okay, in this
+12:56 
+
+12:56 case, uh we are going to use the quen
+12:59 
+
+12:59 3.5 0.8 billion parameters. Okay, which
+13:04 
+
+13:04 it's uh it's okay. It uh knows how to
+13:08 
+
+13:08 write sentences in in a lot of
+13:10 
+
+13:10 languages. However, it's not proficient
+13:13 
+
+13:13 in most of the topics. Okay, this is why
+13:16 
+
+13:16 we are going to use extra technologies
+13:18 
+
+13:18 like embeddings and racks in order to
+13:20 
+
+13:20 help uh this SLM to become a mathematics
+13:24 
+
+13:24 expert. Okay, as you're going to see if
+13:26 
+
+13:26 you go to the Marello Rabai uh tutorial,
+13:30 
+
+13:30 um in his tutorial, he shows step by
+13:34 
+
+13:34 step how to make uh this SLM. I think he
+13:38 
+
+13:38 is also using the quen 3.5.8 million
+13:40 
+
+13:40 parameters to become an expert of Deni
+13:44 
+
+13:44 um using racks and embedding. So there
+13:47 
+
+13:47 as well uh another example of how you
+13:50 
+
+13:50 can train or or add extra layers to to
+13:55 
+
+13:55 make these technologies uh more experts
+13:57 
+
+13:57 on specific things. Okay. Uh once this
+14:01 
+
+14:01 is going to be deployed the models and
+14:02 
+
+14:02 llama CPP we are going to basically run
+14:05 
+
+14:05 a hello world and afterwards we are
+14:08 
+
+14:08 going to um download M3 can on the on
+14:11 
+
+14:11 the Arduino no and we will start playing
+14:13 
+
+14:13 with some projects. Basically at that
+14:15 
+
+14:15 point I will leave you alone with the
+14:18 
+
+14:18 readme uh from GitHub and you will be
+14:21 
+
+14:21 able to to do the next steps. Okay.
+14:24 
+
+14:24 Okay. So the first thing that we are
+14:25 
+
+14:25 going to do it's basically to install
+14:28 
+
+14:28 Arduino AppLab. Just click here on this
+14:30 
+
+14:30 on this link and download Arduino Applab
+14:33 
+
+14:33 if you don't have it on your computer.
+14:35 
+
+14:35 Connect the Arduino uh Uno Q uh via USBC
+14:40 
+
+14:40 on your uh on your computer on your
+14:43 
+
+14:43 laptop. And basically uh you should be
+14:47 
+
+14:47 able to see uh the Arduino Q connected.
+14:51 
+
+14:51 Okay. Once it will be connected, you
+14:53 
+
+14:53 will be able to give a name to the
+14:55 
+
+14:55 board. Uh add a password. So this is
+14:58 
+
+14:58 important that you remember the
+14:60 
+
+14:60 password. I usually use open source or
+15:02 
+
+15:02 something like that uh or Arduino.
+15:05 
+
+15:05 uh something simple that everyone else
+15:07 
+
+15:07 can remember in the near future because
+15:09 
+
+15:09 you will not be able to access to the
+15:11 
+
+15:11 device if you don't know the uh the
+15:14 
+
+15:14 password and it's important at that
+15:16 
+
+15:16 point that you're going to introduce the
+15:17 
+
+15:17 Wi-Fi credentials of the of the UPC. Uh
+15:21 
+
+15:21 sadly it doesn't work with Ed Rome. So
+15:24 
+
+15:24 yeah, it should uh there should be a
+15:25 
+
+15:25 Wi-Fi there ready to download um
+15:29 
+
+15:29 everything that you need to to upgrade
+15:32 
+
+15:32 or to update your UNO cube. Okay, once
+15:36 
+
+15:36 that's ready, the next step is to I
+15:40 
+
+15:40 prefer to use SSH at that mo moment. Uh
+15:43 
+
+15:43 so we are not going to use Arduino Appl
+15:45 
+
+15:45 to build this, but Arduino Applap it's
+15:47 
+
+15:47 perfect ecosystem to try to build other
+15:50 
+
+15:50 applications with Unoq. So I invite you
+15:53 
+
+15:53 that after this datathon that you can
+15:56 
+
+15:56 test Arduino applab with the UNOQ and
+15:59 
+
+15:59 try the the examples and the
+16:01 
+
+16:01 inspirations that you can find there
+16:02 
+
+16:02 that show you how to run computer vision
+16:05 
+
+16:05 and other type of uh edge AI machine
+16:08 
+
+16:08 learning models directly running on on
+16:11 
+
+16:11 the UNO cube. So um yeah that's for the
+16:14 
+
+16:14 next hyon or the next uh data. Okay. So
+16:19 
+
+16:19 once the board is connected uh we will
+16:23 
+
+16:23 um connect via SSH or via ADB. Okay, ADB
+16:28 
+
+16:28 basically it's the Android SDK platform
+16:30 
+
+16:30 tool. So my recommendation if you don't
+16:34 
+
+16:34 have it uh just install it. Okay. Um in
+16:39 
+
+16:39 my case, yeah, I'm going to show you how
+16:40 
+
+16:40 it works, but it's pretty
+16:42 
+
+16:42 straightforward. you do ADB devices that
+16:44 
+
+16:44 list all the devices connected via USB
+16:46 
+
+16:46 that are compatible with this Android
+16:48 
+
+16:48 SDK
+16:50 
+
+16:50 uh system and then ADB shell will if you
+16:52 
+
+16:52 have more than one then you need to add
+16:55 
+
+16:55 the ID of the device but if there is
+16:59 
+
+16:59 only one device basically uh just saying
+17:02 
+
+17:02 ADB shell we'll get into that if not you
+17:05 
+
+17:05 need to do ADB minos and the number this
+17:09 
+
+17:09 long number and shell Okay. Uh it's
+17:13 
+
+17:13 important that when you don't Yeah. When
+17:17 
+
+17:17 you stop using it, uh run sudo power
+17:20 
+
+17:20 off. To run sudo, you will need the
+17:22 
+
+17:22 initial password that you introduce on
+17:25 
+
+17:25 Arduino Applap. Okay. Um so yeah, do
+17:29 
+
+17:29 that. If not, sometimes the llama CPP
+17:31 
+
+17:31 server gets in a zombie state uh in the
+17:39 
+
+17:39 in the Arduino when you just turn it on
+17:41 
+
+17:41 again. Uh and then you need to do SPS
+17:45 
+
+17:45 kill um and llama server. But yeah, it's
+17:49 
+
+17:49 it's important that you do power off so
+17:51 
+
+17:51 it uh basically
+17:54 
+
+17:54 stops with a with a good uh status all
+17:58 
+
+17:58 the services and all the and everything
+18:00 
+
+18:00 that it's running. Okay. So yeah,
+18:04 
+
+18:04 sometimes yeah you you will need a lot
+18:06 
+
+18:06 of memory. So check that the memory is
+18:08 
+
+18:08 available and yeah then first thing that
+18:11 
+
+18:11 I suggest you to do it's a pseudo aet
+18:14 
+
+18:14 get update. Okay, I'm going to copy this
+18:17 
+
+18:17 and I'm going to access ADV devices.
+18:20 
+
+18:20 This is my terminal. Sorry that it's
+18:22 
+
+18:22 white, but I think it's better for the
+18:24 
+
+18:24 video. And I will do ADV shell. I get
+18:26 
+
+18:26 into the devices and I'm going to paste
+18:29 
+
+18:29 sudo apd get update.
+18:33 
+
+18:33 Okay, so I'm installing I'm reading the
+18:36 
+
+18:36 package list everything. Yeah, remember
+18:39 
+
+18:39 you can pause my video and just run
+18:41 
+
+18:41 this. probably if it's first time it
+18:43 
+
+18:43 will take some minutes but if not uh
+18:46 
+
+18:46 yeah you can then you will need to
+18:49 
+
+18:49 install the packages okay this basically
+18:51 
+
+18:51 install the compilers uh that you need
+18:54 
+
+18:54 to basically build and deploy properly
+18:57 
+
+18:57 um uh llama cpp okay so copy this
+19:03 
+
+19:03 and you go here and I introduce my
+19:06 
+
+19:06 password
+19:09 
+
+19:09 and I have everything installed of
+19:11 
+
+19:11 course or not something to update.
+19:14 
+
+19:14 Perfect.
+19:19 
+
+19:19 Perfect. It's done.
+19:22 
+
+19:22 And then the next thing that you need to
+19:24 
+
+19:24 do basically is to check the versions
+19:27 
+
+19:27 installed and then you're ready to
+19:30 
+
+19:30 install Llama CPP.
+19:33 
+
+19:33 Okay.
+19:35 
+
+19:35 Um
+19:41 
+
+19:41 basically you will download a specific
+19:43 
+
+19:43 version of a specific commit from llama
+19:45 
+
+19:45 CPP. Okay. And then you will do the you
+19:49 
+
+19:49 will compile it locally and you will
+19:52 
+
+19:52 build it locally. Okay. So you'll have
+19:54 
+
+19:54 the llama server and the llama CLI.
+19:57 
+
+19:57 Right? So I should be ready to do this
+20:00 
+
+20:00 at this point if I'm not wrong.
+20:03 
+
+20:03 Um so I have the llama version 09 de
+20:08 
+
+20:08 with this version as well and I have
+20:12 
+
+20:12 this genu and they look fantastic. So
+20:15 
+
+20:15 next step basically we are step four
+20:17 
+
+20:17 it's download the models. Okay so we are
+20:20 
+
+20:20 going to download uh the quen 3.5 model
+20:23 
+
+20:23 with 0.8 8 billion parameters which is
+20:26 
+
+20:26 almost a one gigabyte and then um we are
+20:30 
+
+20:30 going to download this VGA small
+20:34 
+
+20:34 um
+20:36 
+
+20:36 model. Okay. Uh so we will create uh
+20:40 
+
+20:40 these uh directory models and yeah it's
+20:44 
+
+20:44 time you to do wget and to download from
+20:47 
+
+20:47 hugging face uh the models. Okay, I'm
+20:51 
+
+20:51 not going to do it because I have them,
+20:53 
+
+20:53 but
+20:54 
+
+20:54 uh feel free to do it, please.
+21:01 
+
+21:01 Okay, once this is uh done, you can my
+21:05 
+
+21:05 recommendation is to open um a second
+21:07 
+
+21:07 terminal.
+21:09 
+
+21:09 I have the it term here. So, I have um I
+21:15 
+
+21:15 can do ATV devices. So, ATV shell. So I
+21:20 
+
+21:20 can have a second shell.
+21:24 
+
+21:24 Okay. So I'm going to run here
+21:29 
+
+21:29 the llama server.
+21:32 
+
+21:32 Okay. It's starting. So as as mentioned
+21:35 
+
+21:35 before, so it's listening in the local
+21:36 
+
+21:36 host at81.
+21:39 
+
+21:39 So now I'm going to send a message. So
+21:42 
+
+21:42 I'm going to send to uh to the API that
+21:46 
+
+21:46 it's exposing in the port 8081 chat
+21:49 
+
+21:49 completions uh JSON which says hello
+21:53 
+
+21:53 what is 7 * 8 answer in one sentence
+21:56 
+
+21:56 temperature zero so no innovation
+21:60 
+
+21:60 and max tokens 40 so it should say 56
+22:05 
+
+22:05 right so let's try
+22:11 
+
+22:11 7* date equals 56. So correct. You can
+22:15 
+
+22:15 see that it took some time. Um so let's
+22:18 
+
+22:18 explore how to measure as well the time.
+22:22 
+
+22:22 Okay. You have as well here information
+22:24 
+
+22:24 on how this works and and explanation of
+22:27 
+
+22:27 everything.
+22:29 
+
+22:29 Okay. And how fast is this? So to test
+22:32 
+
+22:32 how fast is this?
+22:34 
+
+22:34 So we can do this uh pipe basically uh
+22:38 
+
+22:38 with a prompt per second predicted uh
+22:40 
+
+22:40 seconds etc. So oops let's try here
+22:44 
+
+22:44 again 7* 8
+22:48 
+
+22:48 and it took uh yeah the prediction took
+22:53 
+
+22:53 six seconds and the prompt it's almost 9
+22:57 
+
+22:57 seconds.
+22:58 
+
+22:58 Okay interesting. So that's important.
+23:01 
+
+23:01 This is an example that you can use in
+23:02 
+
+23:02 the near future to learn. Yeah, how how
+23:04 
+
+23:04 long it took, etc. Okay, so now it's
+23:09 
+
+23:09 time to uh test the llama server with a
+23:12 
+
+23:12 procangur. One of the problems from the
+23:14 
+
+23:14 M3 can um uh problems uh that we have in
+23:19 
+
+23:19 the procangur.
+23:20 
+
+23:20 So basically it's asking what is 2 + 3
+23:25 
+
+23:25 multiplied by four. Okay. And as in the
+23:28 
+
+23:28 procangur it's giving um five uh
+23:32 
+
+23:32 possibilities. No. A B C E. No. Uh, if
+23:38 
+
+23:38 you can do some mathematics, 2 + 3 * 4
+23:42 
+
+23:42 should be 14. Should be the B. So, let's
+23:45 
+
+23:45 see. What do you think? It's going to
+23:48 
+
+23:48 it's going to make it or not. What do
+23:50 
+
+23:50 you think? So, let's test.
+23:56 
+
+23:56 Okay, it says C. So, it says 24. I'm not
+23:59 
+
+23:59 sure how is doing the mathematics, but
+24:01 
+
+24:01 it's wrong. And this is one of the
+24:03 
+
+24:03 challenge that you have. Maybe one of
+24:04 
+
+24:04 the challenges try to improve
+24:07 
+
+24:07 um this uh model this uh when uh model
+24:13 
+
+24:13 to improving mathematics using racks as
+24:16 
+
+24:16 I'm going to show you in some seconds or
+24:19 
+
+24:19 maybe something else. So
+24:23 
+
+24:23 to do this uh we are I'm going to
+24:25 
+
+24:25 introduce you uh the embedding model
+24:28 
+
+24:28 which is um which is this one that we
+24:32 
+
+24:32 already download before. Okay. And I'm
+24:36 
+
+24:36 going to stop the llama server here with
+24:39 
+
+24:39 a quen and I'm going to start again the
+24:41 
+
+24:41 llama server in the port 8082 with this
+24:45 
+
+24:45 uh embedding model.
+24:55 
+
+24:55 So basically with embeddings um we are
+24:58 
+
+24:58 going to try to do an experiment with
+25:00 
+
+25:00 that that sometimes it's useful with a
+25:03 
+
+25:03 small language models. So every token um
+25:08 
+
+25:08 will get converted into an embedding
+25:10 
+
+25:10 which is a numerical vector that the
+25:13 
+
+25:13 system positions in a high dimensional
+25:15 
+
+25:15 space. So um so the meaning of the
+25:20 
+
+25:20 embedding is basically the location of
+25:22 
+
+25:22 the encoding of this token. So the words
+25:25 
+
+25:25 that are similar uh have similar
+25:27 
+
+25:27 meanings sit next to each other. So
+25:30 
+
+25:30 embeddings basically are the bridges
+25:32 
+
+25:32 between yeah human language and this
+25:35 
+
+25:35 purithmetic model to to connect words
+25:39 
+
+25:39 and tokens. Okay. Um so TensorFlow has
+25:44 
+
+25:44 uh embeddings and and basically what we
+25:47 
+
+25:47 use here is as well a model with with
+25:50 
+
+25:50 embeddings that understand these. So we
+25:52 
+
+25:52 are going to test if with embeddings we
+25:55 
+
+25:55 it can help it can uh improve uh the way
+25:60 
+
+25:60 uh that this system uh knows
+26:02 
+
+26:02 mathematics. So let's going to try it.
+26:07 
+
+26:07 So
+26:10 
+
+26:10 um okay
+26:15 
+
+26:15 so basically we start the server um
+26:20 
+
+26:20 so the embedding this embedding model
+26:22 
+
+26:22 that we deployed turns a text into a
+26:24 
+
+26:24 list of 384 numbers okay a vector and
+26:29 
+
+26:29 the text with similar meanings gets
+26:31 
+
+26:31 vectors that point to similar
+26:32 
+
+26:32 directions. So you will use it to find
+26:35 
+
+26:35 soft problem that looks look like a new
+26:37 
+
+26:37 one. So that means that if you create
+26:39 
+
+26:39 embeddings with the M3 Kang uh problems
+26:43 
+
+26:43 okay it will uh enable the system uh
+26:48 
+
+26:48 once you will introduce new problems
+26:51 
+
+26:51 okay to basically think uh if they are
+26:55 
+
+26:55 similar uh how to solve them okay this
+26:58 
+
+26:58 is an interesting technique to start
+27:01 
+
+27:01 testing. So let's see how it works. Um
+27:06 
+
+27:06 basically yeah this
+27:10 
+
+27:10 so let's test this should return 384. So
+27:13 
+
+27:13 it's super fast. Um so in this case it's
+27:17 
+
+27:17 it's asking something random I guess.
+27:20 
+
+27:20 How many apples are left? Um so it
+27:23 
+
+27:23 basically positions this question in
+27:25 
+
+27:25 this highdimensional space uh generated.
+27:29 
+
+27:29 But I think it's it's an interesting
+27:31 
+
+27:31 technique to take into account um to
+27:34 
+
+27:34 improve uh the mathematical knowledge of
+27:37 
+
+27:37 the
+27:38 
+
+27:38 of the system that we are uh that we are
+27:41 
+
+27:41 building. Okay. Because you will need uh
+27:43 
+
+27:43 embeddings and racks uh
+27:47 
+
+27:47 in yeah to improve the system. So let's
+27:50 
+
+27:50 continue
+27:51 
+
+27:51 um with this. Okay. So the step seven
+27:55 
+
+27:55 basically it's interesting. So as you
+27:58 
+
+27:58 see uh we were running um we were
+28:02 
+
+28:02 launching uh the llama server
+28:05 
+
+28:05 um and we basically were doing Ctrl C to
+28:08 
+
+28:08 stop uh it uh is interesting. However,
+28:12 
+
+28:12 you don't want to run the Lama server
+28:14 
+
+28:14 like that all the time. So one thing
+28:17 
+
+28:17 that you can do basically is to run both
+28:19 
+
+28:19 models the the model for embedding and
+28:22 
+
+28:22 the quen 3.5 as services in the Linux uh
+28:26 
+
+28:26 Debian. So uh they work automatically
+28:30 
+
+28:30 um every time. All right. So basically
+28:34 
+
+28:34 if you copy and paste these so let's do
+28:37 
+
+28:37 basically uh we need to stop both
+28:40 
+
+28:40 servers. So I'm going to stop here.
+28:43 
+
+28:43 pskll lama server.
+28:47 
+
+28:47 Oops. PSKL no p sorry.
+28:53 
+
+28:53 Okay. And then we are going to basically
+28:56 
+
+28:56 paste this here
+28:59 
+
+28:59 and we are going to paste the embedding
+29:02 
+
+29:02 model.
+29:05 
+
+29:05 So now just starting them with systemct
+29:08 
+
+29:08 ctl
+29:12 
+
+29:12 um will basically enable them on
+29:15 
+
+29:15 systemct ctl
+29:18 
+
+29:18 will allow this one it's called mac lm
+29:23 
+
+29:23 and the other mac embed. Now we have the
+29:27 
+
+29:27 both running on the local host port 8081
+29:30 
+
+29:30 on the local host port 8082.
+29:34 
+
+29:34 Okay. If we check if it's active.
+29:37 
+
+29:37 Sorry. I can check here that they are
+29:40 
+
+29:40 both active.
+29:43 
+
+29:43 They are both active.
+29:45 
+
+29:45 And
+29:49 
+
+29:49 yeah. Okay. So
+29:53 
+
+29:53 the next step it's basically to clone
+29:55 
+
+29:55 the repository that I share with you.
+29:59 
+
+29:59 So let's do it.
+30:09 
+
+30:09 Okay. So now if I go to datathon
+30:14 
+
+30:14 UPC it's a very long name but this is
+30:16 
+
+30:16 going to this is going to be okay. Then
+30:20 
+
+30:20 um let's start uh checking some of the
+30:23 
+
+30:23 M3 can uh problems that we have. Okay.
+30:26 
+
+30:26 So basically one of the things I built
+30:28 
+
+30:28 it's a Python script called predict
+30:31 
+
+30:31 where you can input um sample problems
+30:34 
+
+30:34 or problems with a JSON format and you
+30:37 
+
+30:37 basically say that you want to output on
+30:39 
+
+30:39 a CSV file for example and you can see
+30:42 
+
+30:42 the answers this way. So let's try to do
+30:44 
+
+30:44 this. So let's create um
+30:49 
+
+30:49 uh the the results uh folder and let's
+30:53 
+
+30:53 start this zummoke CSV. So yeah, if we
+30:58 
+
+30:58 go to the sorry to the other one in a
+31:01 
+
+31:01 while.
+31:02 
+
+31:02 So we go to the CD data
+31:07 
+
+31:07 uh and we go to the CD data cut sample
+31:12 
+
+31:12 problems. Okay, we will see some
+31:14 
+
+31:14 problems. So that we have like examples
+31:17 
+
+31:17 from this M3 can. Anna has three bags
+31:20 
+
+31:20 with four apples in each bag. She eats
+31:22 
+
+31:22 two apples. How many apples does she
+31:24 
+
+31:24 have left? Okay. And think like that or
+31:28 
+
+31:28 in Catalan, right?
+31:37 
+
+31:37 how it goes uh how it works and if it
+31:40 
+
+31:40 works well or not. So basically
+31:44 
+
+31:44 um it takes as you have can see from 9
+31:47 
+
+31:47 seconds to to six seconds to solve these
+31:50 
+
+31:50 problems and basically this is the yeah
+31:54 
+
+31:54 this is what we are going to be able to
+31:55 
+
+31:55 see cut result smoke CSV. So this is
+31:60 
+
+31:60 like a CSV um problem that that we can
+32:03 
+
+32:03 see. Okay. Um here we can see the
+32:08 
+
+32:08 correct answer. So for the first one
+32:11 
+
+32:11 it's C. We say A B C C B. So basically
+32:17 
+
+32:17 it has a tendency basically the SLM to
+32:21 
+
+32:21 choose A or D. Um
+32:24 
+
+32:24 so yeah so this is something to improve.
+32:27 
+
+32:27 Okay. So let's try to see if embeddings
+32:30 
+
+32:30 and racks can help to improve this.
+32:36 
+
+32:36 Okay, so now it's time to
+32:39 
+
+32:39 um use the repo to download at the
+32:45 
+
+32:45 to download the M3 Kang model on the on
+32:49 
+
+32:49 your laptop. So you can be able to
+32:52 
+
+32:52 generate um training models for
+32:56 
+
+32:56 embeddings and you're going to see as
+32:57 
+
+32:57 well for racks uh to improve the model
+32:60 
+
+32:60 and see if they can reply properly uh
+33:02 
+
+33:02 the mathematical questions. So let's do
+33:05 
+
+33:05 it. Uh let's go to the terminal and I'm
+33:08 
+
+33:08 going to create a new tab. Okay. on my
+33:11 
+
+33:11 on my MacBook
+33:14 
+
+33:14 and I'm going to go to projects
+33:17 
+
+33:17 um get clone
+33:20 
+
+33:20 this project.
+33:23 
+
+33:23 Okay. So
+33:26 
+
+33:26 uh I'm going to create environment a
+33:29 
+
+33:29 virtual environment Python
+33:35 
+
+33:35 and we are going to activate the virtual
+33:37 
+
+33:37 environment
+33:41 
+
+33:41 and now we are going to install the
+33:43 
+
+33:43 requirements with PIP.
+33:48 
+
+33:48 Okay, if you don't have PIP or similar,
+33:51 
+
+33:51 just install it or ask uh your uh
+33:54 
+
+33:54 favorite AI to how to do it with your
+33:57 
+
+33:57 with your operating system of your
+33:59 
+
+33:59 laptop. In my case, I'm running a
+34:01 
+
+34:01 MacBook. Uh yeah, and I already had this
+34:05 
+
+34:05 if you don't have Python as well. So
+34:07 
+
+34:07 feel free to yeah uh download Python on
+34:10 
+
+34:10 your laptop. Okay, so I have this.
+34:15 
+
+34:15 So uh it's time to
+34:18 
+
+34:18 basically download the um M3AN uh
+34:26 
+
+34:26 mathematical problems in English and
+34:28 
+
+34:28 CLA. Okay. So this is going to be about
+34:30 
+
+34:30 400 megabytes.
+34:33 
+
+34:33 So let's see.
+34:35 
+
+34:35 Okay. In my case I'm going to run it
+34:36 
+
+34:36 with limit 20 because if not it takes a
+34:39 
+
+34:39 lot of time. Okay. So I have it.
+34:43 
+
+34:43 Um,
+34:46 
+
+34:46 now
+34:49 
+
+34:49 basically I can check if this exist.
+34:55 
+
+34:55 Okay, I have one problem per line. Uh,
+34:58 
+
+34:58 in this case we only copy the English
+35:00 
+
+35:00 problems. Okay, from 2015.
+35:04 
+
+35:04 Find the missing piece of the house.
+35:07 
+
+35:07 Okay. And we don't have the
+35:09 
+
+35:09 we don't have the answers or Yes, we do
+35:13 
+
+35:13 have. Yeah. Ah. Okay. Yes. In this case,
+35:16 
+
+35:16 it's an image problem. Uh so we can
+35:19 
+
+35:19 check as well if we want problems with
+35:21 
+
+35:21 OCR or not.
+35:24 
+
+35:24 Okay. Um we should have duplication
+35:27 
+
+35:27 uh problems
+35:30 
+
+35:30 here. Perfect. Okay. So
+35:34 
+
+35:34 um what are we going to do? We have now
+35:37 
+
+35:37 these two files um from that we download
+35:41 
+
+35:41 from the model from hugging phase. Uh we
+35:45 
+
+35:45 are going to what we are going to do is
+35:47 
+
+35:47 we're going to push them to to the
+35:49 
+
+35:49 Arduino cube. Okay. To have them uh
+35:53 
+
+35:53 there locally so we can continue
+35:56 
+
+35:56 training the embeddings and the
+35:60 
+
+35:60 and the rack. Okay. So we can use SCP
+36:03 
+
+36:03 you want. I'm going to use ADB. Uh um so
+36:08 
+
+36:08 let's use ADB.
+36:10 
+
+36:10 I push both files. So here we I was
+36:13 
+
+36:13 connected connected by ADB.
+36:16 
+
+36:16 Okay. So clear let's
+36:22 
+
+36:22 yeah let's clear both uh terminals. I
+36:26 
+
+36:26 don't know if we need both or not but
+36:29 
+
+36:29 let's see. Okay. So now
+36:33 
+
+36:33 let's try to predict uh with the with
+36:38 
+
+36:38 the problems that we download uh how
+36:40 
+
+36:40 good is how good are the predictions
+36:44 
+
+36:44 remember that
+36:46 
+
+36:46 first time oh let's check that uh they
+36:48 
+
+36:48 are properly oops okay I mean data yes
+36:54 
+
+36:54 first time that we check this it was
+36:56 
+
+36:56 pretty bad no we didn't get any of the
+36:59 
+
+36:59 five uh answer. So let's try to see now.
+37:07 
+
+37:07 So we are using the validating uh JSON
+37:10 
+
+37:10 file which are two problems. Okay. Um if
+37:15 
+
+37:15 we remember well
+37:18 
+
+37:18 uh they were these ones. Okay.
+37:23 
+
+37:23 These two one is label C and the other
+37:25 
+
+37:25 label D. Okay. Um
+37:31 
+
+37:31 so
+37:33 
+
+37:33 let's go let's let's go to to retrieval.
+37:37 
+
+37:37 So let's go to the rack. Um basically
+37:40 
+
+37:40 now we have llama. So we have a small
+37:44 
+
+37:44 language model running on the UNOQ that
+37:46 
+
+37:46 knows mathematics more or less or knows
+37:49 
+
+37:49 how to generate text and how to write
+37:50 
+
+37:50 text. Right? We we we learn what are the
+37:54 
+
+37:54 embeddings. Um and now it's time to do
+37:59 
+
+37:59 racks which is retrieval augmented
+38:00 
+
+38:00 generation. So that means that uh the
+38:05 
+
+38:05 embeds or the or yeah all everything
+38:09 
+
+38:09 that we want uh the system to learn will
+38:11 
+
+38:11 be stored on a on a database file. So
+38:15 
+
+38:15 every time that the system basically
+38:17 
+
+38:17 gets a prompt before generating any
+38:20 
+
+38:20 answer, we'll check this database file
+38:23 
+
+38:23 and check if if the answer is there or
+38:25 
+
+38:25 if there is any knowledge that can be
+38:27 
+
+38:27 used to generate the answer
+38:30 
+
+38:30 directly in the database. Okay, directly
+38:34 
+
+38:34 in the database. So um that can be a
+38:37 
+
+38:37 super interesting thing to build. So
+38:40 
+
+38:40 let's build the index of the database.
+38:42 
+
+38:42 Let's build the index of the database
+38:44 
+
+38:44 now.
+38:44 
+
+38:44 So this is my laptop. No. Okay. I want
+38:47 
+
+38:47 to go be here. So basically
+38:51 
+
+38:51 let's see how this works. Okay.
+38:54 
+
+38:54 So we created the embeddings of 13
+38:57 
+
+38:57 problems in this database and we have
+38:60 
+
+38:60 the yeah we are not going to see
+39:02 
+
+39:02 anything I guess.
+39:05 
+
+39:05 Okay. But we have the database file and
+39:08 
+
+39:08 and embeds uh here.
+39:11 
+
+39:11 Okay. So let's try to use it. So we can
+39:16 
+
+39:16 use it with a rag one's um rag one
+39:22 
+
+39:22 uh tries to add the most similar train
+39:26 
+
+39:26 problems with answers. In our case
+39:30 
+
+39:30 um
+39:32 
+
+39:32 basically we have only 13 problems but
+39:35 
+
+39:35 if you download all of them in English
+39:37 
+
+39:37 and Catalan it will create something
+39:40 
+
+39:40 interesting I think.
+39:43 
+
+39:43 Okay,
+39:45 
+
+39:45 fantastic. So it create uh something and
+39:51 
+
+39:51 then if we run the predict
+39:56 
+
+39:56 you can see the first one
+39:59 
+
+39:59 uh before
+40:01 
+
+40:01 well before this
+40:07 
+
+40:07 the first one it took eight seconds to
+40:10 
+
+40:10 reply and the and the second 9.2 two.
+40:14 
+
+40:14 Okay, I think the first one was D was
+40:16 
+
+40:16 correct and this was C. Okay, let's see
+40:19 
+
+40:19 now how long it takes. So this is
+40:22 
+
+40:22 interesting. So as it knows uh this one
+40:25 
+
+40:25 so in less than one second uh it tells
+40:28 
+
+40:28 us oops uh this
+40:32 
+
+40:32 and then the second one takes 20 seconds
+40:34 
+
+40:34 because probably doesn't find it and
+40:36 
+
+40:36 take other techniques and takes 20
+40:38 
+
+40:38 seconds to reply E. um which I don't
+40:42 
+
+40:42 know which was the correct answer for
+40:44 
+
+40:44 the
+40:46 
+
+40:46 for the second one. One is C and the
+40:48 
+
+40:48 other D uh or I'm not sure what we are
+40:51 
+
+40:51 checking here but uh yeah it's it's
+40:54 
+
+40:54 interesting that find something similar
+40:57 
+
+40:57 and basically very quickly reply.
+40:60 
+
+40:60 So as we mentioned the Arduino no it's
+41:02 
+
+41:02 it's a it's a device which is slow
+41:06 
+
+41:06 uh but however with techniques like
+41:08 
+
+41:08 embeddings and racks you can accelerate
+41:12 
+
+41:12 uh the SLMs so you can start finding
+41:15 
+
+41:15 like the right data set for training a
+41:17 
+
+41:17 specific models that solve the problem
+41:19 
+
+41:19 that you are trying uh to build and
+41:23 
+
+41:23 basically with these techniques can help
+41:25 
+
+41:25 to improve
+41:27 
+
+41:27 uh the model that you are trying to to
+41:30 
+
+41:30 build. Okay. So let's go um okay
+41:34 
+
+41:34 something else something interesting
+41:37 
+
+41:37 um is that um something that I like to
+41:40 
+
+41:40 do when I build project with the Arduino
+41:42 
+
+41:42 Q running them in the terminal it's fun
+41:45 
+
+41:45 it's nice uh however
+41:48 
+
+41:48 uh it's really easy to create a Python
+41:50 
+
+41:50 server on the Arduino Q and basically
+41:52 
+
+41:52 expose a website that can be used uh or
+41:57 
+
+41:57 can be visualized so it's more
+41:59 
+
+41:59 everything it's more visual and and you
+42:02 
+
+42:02 can create things. So um basically you
+42:06 
+
+42:06 can save all the images from the
+42:07 
+
+42:07 problems uh coming from the M3 Kang
+42:11 
+
+42:11 model uh copy them to the Arduino no and
+42:15 
+
+42:15 basically once they are pushed uh or or
+42:18 
+
+42:18 sent by SCP to the to the UNOQ you can
+42:21 
+
+42:21 basically uh start the server. Okay.
+42:26 
+
+42:26 Okay. So let's start explorer and to do
+42:28 
+
+42:28 that um we need to
+42:33 
+
+42:33 say host 0000 so our laptop can or
+42:37 
+
+42:37 basically the Q can understand as well
+42:40 
+
+42:40 not only local host uh but this other
+42:44 
+
+42:44 outside um
+42:48 
+
+42:48 uh gets from a few more laptops. So if I
+42:52 
+
+42:52 try this. Okay. Then
+42:57 
+
+42:57 um I run this as well. Okay. And now if
+43:02 
+
+43:02 I put the local IP address of my Arduino
+43:05 
+
+43:05 to port 8,000 system and explore.
+43:09 
+
+43:09 Okay. So um we should be able to start
+43:15 
+
+43:15 playing with this. So um this has been
+43:19 
+
+43:19 done with aentic AI. uh a system where
+43:23 
+
+43:23 yeah you can run a web application that
+43:27 
+
+43:27 can show whatever you want. So this is
+43:30 
+
+43:30 this is why I added as well on the
+43:32 
+
+43:32 GitHub repository. If we file oops yeah
+43:36 
+
+43:36 we already did lot. So you have the do
+43:39 
+
+43:39 skills here you can have skills that you
+43:41 
+
+43:41 can actually tell to your cloud
+43:44 
+
+43:44 application that you are running on your
+43:47 
+
+43:47 on your computer. uh learn from these
+43:50 
+
+43:50 and help me to build an application that
+43:52 
+
+43:52 does XY Z and if it's a web application
+43:54 
+
+43:54 you can have things like these so uh we
+43:58 
+
+43:58 have four bags of four apples in each
+43:60 
+
+43:60 bag
+44:02 
+
+44:02 seven so how many do we have so I don't
+44:05 
+
+44:05 know yeah nine
+44:08 
+
+44:08 16
+44:10 
+
+44:10 perfect and we can ask the model that
+44:13 
+
+44:13 can be interesting so with rack one
+44:17 
+
+44:17 we can ask And basically this is running
+44:19 
+
+44:19 locally. So you can see it in your uh in
+44:21 
+
+44:21 your laptop but this is running locally
+44:23 
+
+44:23 on the Arduino. So basically testing
+44:26 
+
+44:26 with the rack that we have uh that we
+44:30 
+
+44:30 just uh deployed and we train with 13
+44:33 
+
+44:33 indexes. So it's it's really small. Uh
+44:38 
+
+44:38 we are trying this. So it says D and the
+44:42 
+
+44:42 A. So yeah so you can start playing with
+44:46 
+
+44:46 this. Okay. Okay, this is like the
+44:48 
+
+44:48 basics that you have uh on from this
+44:51 
+
+44:51 GitHub repos.
+44:54 
+
+44:54 And what else? Where we are? We are in
+44:57 
+
+44:57 the step 13 and 12 if I'm not wrong.
+45:02 
+
+45:02 Check.
+45:06 
+
+45:06 Okay, let so okay there is a way as well
+45:08 
+
+45:08 that I'm not going to show you but as I
+45:10 
+
+45:10 mentioned in the entry in the proascan
+45:13 
+
+45:13 there are a lot of images as well in the
+45:16 
+
+45:16 in problems so basically if you want the
+45:19 
+
+45:19 3508 can read images okay but for that
+45:23 
+
+45:23 you need a projector file and that can
+45:25 
+
+45:25 run in another uh it's another you can
+45:27 
+
+45:27 run it in another server with a llama
+45:30 
+
+45:30 llama server okay and you can do it if
+45:33 
+
+45:33 you want so um just download the model
+45:36 
+
+45:36 that you need for that uh projector file
+45:39 
+
+45:39 and just start uh the llama server in
+45:42 
+
+45:42 the port 8083. So you will be able to
+45:45 
+
+45:45 meet to read images or to uh yeah
+45:48 
+
+45:48 basically read images and basically uh
+45:52 
+
+45:52 try to answer the questions in case that
+45:54 
+
+45:54 you're interested on the can grow
+45:58 
+
+45:58 problems with images. Okay. And yeah,
+46:02 
+
+46:02 this is the basics uh of what you can
+46:05 
+
+46:05 build uh with the UNOQ. As mentioned
+46:07 
+
+46:07 before, it's not a super powerful
+46:09 
+
+46:09 device, but you can run amazing stuff
+46:11 
+
+46:11 locally. As you can see, you learn about
+46:15 
+
+46:15 how to deploy uh machine learning models
+46:17 
+
+46:17 and deading models and as well uh racks
+46:21 
+
+46:21 locally to create indexes and help you
+46:24 
+
+46:24 to go uh to find faster solutions. Uh
+46:28 
+
+46:28 now it's time I hope that you had time
+46:31 
+
+46:31 to discuss uh the ideas that you have
+46:33 
+
+46:33 and it's time to start implementing
+46:35 
+
+46:35 them. Okay. Um
+46:39 
+
+46:39 so here I just brought some ideas
+46:43 
+
+46:43 um as well there are some
+46:46 
+
+46:46 some things to improve in the code uh
+46:48 
+
+46:48 that I generated uh I'm sure that can be
+46:52 
+
+46:52 improved
+46:54 
+
+46:54 and yeah basically the next step it's
+46:58 
+
+46:58 yeah to implement the ideas that you
+46:60 
+
+46:60 have uh as I mentioned before I created
+47:03 
+
+47:03 this skills folder where you can find
+47:05 
+
+47:05 skills to uh let your agent take ai
+47:09 
+
+47:09 where it's the Q how to build an
+47:10 
+
+47:10 application for the UNO Q how to deal
+47:13 
+
+47:13 with the entry uh model how the UI
+47:17 
+
+47:17 hardware works on the UNO Q and as well
+47:21 
+
+47:21 uh it there is a another skill that can
+47:24 
+
+47:24 help you to just write up a project hub
+47:27 
+
+47:27 if you want with nice uh language etc.
+47:31 
+
+47:31 So my recommendation is basically uh as
+47:34 
+
+47:34 you clone already this repository just
+47:37 
+
+47:37 introduce uh the skills that of your
+47:41 
+
+47:41 report your skills because they can be
+47:43 
+
+47:43 very helpful. Okay. Then there are um
+47:48 
+
+47:48 tools to measure to analyze errors. Uh
+47:52 
+
+47:52 you have an an LED matrix. I wanted as
+47:55 
+
+47:55 well to add just some examples just so
+47:57 
+
+47:57 you can show stuff on the LED matrix
+48:02 
+
+48:02 from UNO cube. Why not can be fun? You
+48:05 
+
+48:05 can maybe make a a box or something uh
+48:09 
+
+48:09 that uh where you can do things maybe uh
+48:14 
+
+48:14 we didn't have time but maybe you can
+48:16 
+
+48:16 use pools with keyword spotting. I have
+48:19 
+
+48:19 a project um here the island sword fight
+48:24 
+
+48:24 on my GitHub repository which basically
+48:28 
+
+48:28 I was doing um a keyword spotting
+48:31 
+
+48:31 machine learning model uh that that
+48:34 
+
+48:34 could recognize AB C. So maybe you can
+48:36 
+
+48:36 do a b cde e and try to allow a machine
+48:40 
+
+48:40 learning model that can run locally on
+48:42 
+
+48:42 the
+48:44 
+
+48:44 on the UNO Q and maybe you can do uh so
+48:48 
+
+48:48 yeah you you need a microphone for that.
+48:50 
+
+48:50 So maybe you need to ask to the
+48:52 
+
+48:52 organizers a USB hub and a webcam that
+48:55 
+
+48:55 can bring a microphone and maybe it's a
+48:58 
+
+48:58 user interface that ask you uh a problem
+49:03 
+
+49:03 and then you say a b cde e by voice and
+49:07 
+
+49:07 basically the led matrix uh tells you if
+49:11 
+
+49:11 it's correct or not or something like
+49:12 
+
+49:12 that. It can go uh red or green or so
+49:16 
+
+49:16 you can play with that. Okay. And
+49:19 
+
+49:19 basically finally as I mentioned so you
+49:21 
+
+49:21 will need a GitHub um repository with
+49:25 
+
+49:25 all the information it's really
+49:27 
+
+49:27 important that you explain everything
+49:29 
+
+49:29 that you do. So if you uh download uh M3
+49:34 
+
+49:34 can problems which ones did you download
+49:36 
+
+49:36 how did you train the model etc etc uh
+49:39 
+
+49:39 explain the why you are doing this
+49:41 
+
+49:41 project uh start explaining everything
+49:44 
+
+49:44 documenting everything I think this will
+49:46 
+
+49:46 give a lot of value to this and then
+49:48 
+
+49:48 finally as well create this Arduino
+49:51 
+
+49:51 project hub and basically the
+49:53 
+
+49:53 presentation that you're going to do on
+49:55 
+
+49:55 Sundays
+49:60 
+
+49:60 And this is it. Uh some troubleshooting,
+50:02 
+
+50:02 some links to everything, but we run
+50:07 
+
+50:07 everything that we prepared for you. I
+50:09 
+
+50:09 hope that uh you will not have any
+50:11 
+
+50:11 problem with it. Um
+50:15 
+
+50:15 and yeah, and everything
+50:20 
+
+50:20 will be fantastic. I hope that your
+50:22 
+
+50:22 projects will work really well. You will
+50:24 
+
+50:24 learn a lot on this challenge. And if
+50:27 
+
+50:27 you have any comment, anything just
+50:30 
+
+50:30 write me a message on LinkedIn
+50:32 
+
+50:32 my post or just send me a message at
+50:35 
+
+50:35 mark at edgeimpulse.com
+50:38 
+
+50:38 or just tell feedback to people. Uh if
+50:43 
+
+50:43 you have any questions or anything, I
+50:45 
+
+50:45 will be happy to reply and questions
+50:48 
+
+50:48 that you don't have there. Okay. Um
+50:53 
+
+50:53 good luck. See you soon. Bye. I will see
+50:57 
+
+50:57 your uh your projects on Monday. Bye.
