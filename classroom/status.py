@@ -80,7 +80,7 @@ def collect(root=None, rag_index_path=None, ports=None, check_services=True) -> 
     now = time.time()
     identity = _read(root / paths.IDENTITY, Identity)
     if rag_index_path is None:
-        rag_index_path = (identity or {}).get("rag_index_path") or paths.DEFAULT_RAG_INDEX
+        rag_index_path = (identity or {}).get("rag_index_path") or paths.find_rag_index()
     disk = shutil.disk_usage(root if root.exists() else root.parent)
     ports = ports or DEFAULT_PORTS
     return {

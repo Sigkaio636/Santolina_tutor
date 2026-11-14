@@ -92,3 +92,14 @@ def test_status_reads_rag_index(tmp_path):
     assert data["rag"]["languages"] == {"cat": 3, "eng": 3}
     assert os.path.getmtime(tmp_path / "index.db") == before
     json.dumps(data)  # it must be JSON
+
+
+def test_find_rag_index_falls_back_to_the_organizers_copy(tmp_path, monkeypatch):
+    from classroom import paths
+
+    monkeypatch.setenv("HOME", str(tmp_path))
+    assert paths.find_rag_index() == paths.DEFAULT_RAG_INDEX  # none exists: the default
+    other = tmp_path / "datathon-UPC-maths-qualcomm-arduino-unoq" / "data" / "index.db"
+    other.parent.mkdir(parents=True)
+    other.write_bytes(b"")
+    assert paths.find_rag_index() == paths.RAG_INDEX_CANDIDATES[1]

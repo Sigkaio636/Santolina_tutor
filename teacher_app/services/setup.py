@@ -90,7 +90,12 @@ def write_layout(conn, link, req):
             group_id=req.group_id,
             setup_at=now_iso(),
             contract_version=classroom.CONTRACT_VERSION,
-            rag_index_path=(old.rag_index_path if old else link.default_rag_index_path),
+            rag_index_path=(
+                old.rag_index_path
+                if old
+                # the index check_ready found (on a real board it may be in the organizers' copy)
+                else (req.status or {}).get("rag", {}).get("path") or link.default_rag_index_path
+            ),
         ),
     )
     return "~/santolina/ written (existing student data kept)"
