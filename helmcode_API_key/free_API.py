@@ -42,7 +42,7 @@ def ask_model() -> str:
     while True:
         choice = input(f"Choose model [1-{len(MODELS)}] or type an ID (default gemma4): ").strip()
         if not choice:
-            return "gemma4"
+            return "qwen3.6"
         if choice.isdigit() and 1 <= int(choice) <= len(MODELS):
             return MODELS[int(choice) - 1]
         if not choice.isdigit():
