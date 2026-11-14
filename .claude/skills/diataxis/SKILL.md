@@ -1,6 +1,6 @@
 ---
 name: diataxis
-description: Create, review, or restructure software documentation using the Diataxis framework. Use when the user asks for docs, when you are writing or rewriting a guide, a README or any file under docs/, or when they mention tutorials, how-to guides, reference, or explanation. For a heavy document start with doc-authoring, which calls this skill first. One document = one Diataxis type. Not for code comments, commit messages or inline chat explanations; just answer those.
+description: Classify, structure and write documentation with the Diataxis framework -- one document, one type (tutorial, how-to, reference, explanation) -- and set its weight. Use for a reference doc, or for a type split. For a heavy document start with doc-authoring, which calls this first. Not for code comments or chat answers.
 ---
 
 # Workflow: Diataxis documentation
@@ -41,7 +41,8 @@ chat, this workflow does not apply -- just answer.
    signature" is unmistakably reference; don't interrogate the user over
    something already clear. Only ask when the type is genuinely ambiguous.
 
-   Then **assign the weight**. A document is *light* when its type is
+   Then **assign the weight**. This is the one definition of weight; every
+   other docs skill cites it. A document is *light* when its type is
    reference and its path is not a heavy path. Every other document is
    *heavy*: tutorial, how-to, explanation, and anything under a heavy path.
    Heavy paths are the project `README.md` and anything under `docs/`. Size the output to the
@@ -50,9 +51,11 @@ chat, this workflow does not apply -- just answer.
 
 2. **Fill remaining gaps -- but only the genuine ones.** Beyond type, a doc
    needs: **target audience**, **the user's goal**, and **scope** (what's in,
-   and explicitly what's out). Take whatever the request already gives you and
-   ask only about what's underdetermined. One focused round of questions, not a
-   fixed checklist every time.
+   and explicitly what's out). Take whatever the request already gives you.
+   Put only the underdetermined ones to the user as one `grilling` round:
+   numbered questions, each with your recommended answer. If `GLOSSARY.md`
+   exists, read it and use its terms; when a term is in dispute, let
+   `domain-modeling` settle it.
 
 3. **Propose a structure.** Before writing full content, propose an outline --
    a table of contents with a one-line description per section. Apply the
@@ -120,8 +123,9 @@ are not stylistic preferences -- they are what keep each type in its lane.
 
 ## After writing
 
-A new document is not done when it is written. Audit it with `docsauditor`,
-then repair what the audit finds with `docsjanitor`.
+A new document is not done when it is written. For a heavy document, the
+`doc-authoring` chain continues from here. For a light one, run `docsauditor`
+on it, then `docsjanitor` on its findings.
 
 ## Output to the user
 
