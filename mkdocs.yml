@@ -14,6 +14,8 @@ nav:
       - Try the prior solver on the board: how-to/try-prior-solver.md
       - Time a 2B model on the board: how-to/time-2b-model-on-board.md
       - Extract papers to Markdown with MinerU: how-to/mineru-ocr-papers.md
+  - Experiments:
+      - Noema-2B speed on the board: experiments/2026-11-noema-2b-board-timing.md
   - Reference:
       - UNO Q board reference: UNO_Q_BOARD_REFERENCE.md
       - Board limits (interactive page): GUIA_RESTRICCIONES_UNOQ.html
