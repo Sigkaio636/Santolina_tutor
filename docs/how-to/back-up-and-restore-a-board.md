@@ -4,7 +4,7 @@ Use this page before you change the student app, the teacher app or the models o
 
 ## Know what changes the board
 
-The **teacher app copies the laptop's code to the board.** This happens when you set up a board, or when you open the page of a board that you plugged in. The teacher app then copies `classroom/` and `student_app/` from your laptop's working tree to `~/santolina/lib` on the board. It deletes the old copy, and the student app restarts with the new code. Code that does not import stops the student app: systemd starts it again every 2 seconds, and it fails each time.
+The **teacher app copies the laptop's code to the board.** This happens when you set up a board, or when you open the page of a board that you plugged in. The teacher app then copies `classroom/` and `student_app/` to `~/santolina/lib` on the board. It takes them from your laptop's working tree. It deletes the old copy, and the student app restarts with the new code. Code that does not import stops the student app: systemd starts it again every 2 seconds, and it fails each time.
 
 So, before you plug a board into the teacher app:
 
