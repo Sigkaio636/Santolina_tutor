@@ -15,6 +15,10 @@ decisions) and `docsjanitor` (applies fixes). Every finding has these fields:
 | `severity` | `breaks` (a reader following it fails), `misleading` or `cosmetic` |
 | `depends_on` | ids that must be resolved first, or `-` |
 
+**M3Kang problem text** (red line in `CLAUDE.md`): a finding about it gives
+`file` and `line` only. `claim` and `evidence` never quote the text, because
+findings can go to Git (for example `/docs-review` findings files).
+
 ## Status and who resolves it
 
 | status | meaning | resolved by |

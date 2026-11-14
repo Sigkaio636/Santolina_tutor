@@ -27,17 +27,14 @@ and `drift-taxonomy.md`. Pass findings from stage to stage in the arguments.
 A called skill does not audit or ask again.
 
 **The findings file.** `findings <path>` gives the document's findings file
-(for example `docs/review/findings/docs__BOARD_SETUP_md.md`). It keeps the
-findings between sessions:
+(for example `docs/review/findings/docs/BOARD_SETUP.md.md`). It keeps the
+findings between sessions, and it goes to Git, so the schema's M3Kang rule
+applies:
 
 - After S1, S2 and S6, write every finding into it as one findings-schema
   table, with its status.
-- S3 updates the status of each finding that the user settles. S4 marks each
-  fixed finding `fixed`.
-- When a run continues a review, read this file. Do not run a validated stage
-  again to get its findings back.
-- The file goes to Git. A finding about M3Kang problem text cites the line
-  (`path:line`) only, never the text.
+- S3 updates the status of each finding that the user settles. S4 deletes
+  each finding it fixed. What stays in the file is open.
 
 ## The ledger script
 
@@ -48,15 +45,16 @@ S=".claude/skills/docs-review/scripts/docs_status.py"
 uv run --group docs python $S check          # ledger vs docs in scope, stale sign-offs
 uv run --group docs python $S table          # status table
 uv run --group docs python $S set <path> <stage> <status> --note "<one line>"
-uv run --group docs python $S reopen <path> <stage>   # this stage and later ones to pending
+uv run --group docs python $S reopen <path> <stage>   # see --stage under Arguments
 uv run --group docs python $S findings <path>         # path of the findings file
 uv run --group docs python $S text <path>             # visible text of an HTML page
 uv run --group docs python $S sync --yes     # add new docs as pending, drop deleted ones
 ```
 
 Statuses: `pending`, `done` (the agent finished the stage), `validated` (the
-user approved it), `n/a` (the stage does not apply; the note says why).
-`set` and `reopen` regenerate the site page.
+user approved it), `n/a` (the stage does not apply; the note says why; never
+`validated` for a stage that does not apply). `set` and `reopen` regenerate
+the site page.
 
 What the script enforces:
 
@@ -67,8 +65,10 @@ What the script enforces:
 - **Stale.** A document whose file changes after `signoff: validated` is
   stale and fails `check`.
 - **Changed outside the review.** Each `set` and `reopen` stores the file's
-  hash. If the file changes later while a review is open, `check` fails. The
-  change came from someone else, not from S4.
+  hash. If the file changes later while a review is open, `check` fails: the
+  change came from someone else, not from S4. Show `git diff` / `git log` for
+  the file and ask the user: reopen from `audit` (`reopen <path> audit`), or
+  accept the change (`set` the current stage again with the same status).
 
 ## Arguments
 
@@ -83,11 +83,10 @@ What the script enforces:
 ## Flow (one document per run)
 
 0. **Start.** Run `check`. State the document, its current stage statuses and
-   which stages will run. Skip a stage that is already `validated`. Read the
-   findings file if it exists. If `check` says the document **changed outside
-   the review**, show `git diff` / `git log` for it and ask the user: reopen
-   from `audit` (`reopen <path> audit`), or accept the change (`set` the
-   current stage again with the same status).
+   which stages will run. Read the findings file if it exists. Skip a stage
+   that is already `validated`: its findings are in that file, so do not run
+   it again. If `check` says the document changed outside the review, act as
+   "What the script enforces" says.
 1. **S1 audit.** Invoke `docsauditor` with the document as scope. For
    `mkdocs.yml`: check `exclude_docs`, theme and extensions against `docs/`
    and the docs build (`mkdocs build` into a scratch dir).
@@ -100,7 +99,8 @@ What the script enforces:
    settled term goes to `GLOSSARY.md` through `domain-modeling`.
 4. **S4 repair.** Invoke `docsjanitor` with the verified findings, including
    the ones the user settled. Fix only this document (and a link target only
-   when the finding names it).
+   when the finding names it). To delete a sentence that adds nothing is
+   better than to add text.
 5. **S5 language.** Scope: the text changed in S4 and any paragraph S2
    flagged for sentences or jargon. Keep the document's language. Never
    translate.
@@ -108,9 +108,10 @@ What the script enforces:
      `.claude/skills/asd-ste100/scripts/ste-lint.py` on the document. For an
      HTML page, lint the output of `text <path>`.
    - Any other language (Spanish, Catalan): `asd-ste100` and its linter are
-     English only. Apply its structural rules by hand: at most 25 words per
-     sentence, one idea per sentence, active voice, a list for 3 or more steps,
-     one term per concept. The note says `manual (<language>)`.
+     English only. Apply by hand the structural rules of
+     `.claude/skills/asd-ste100/references/writing-rules.md` (sentence length,
+     one idea per sentence, active voice, lists, one term per concept). The
+     note says `manual (<language>)`.
    - `mkdocs.yml`: `n/a`.
 6. **S6 adversarial.** Invoke `devils-advocate:adversarial-review`, Mode 2,
    scoped to this one document. Lenses, at most three:
@@ -124,8 +125,7 @@ What the script enforces:
    Use `devils-advocate:adjudicator` when more than one lens reports. Fix what
    is real through S4 and S5 again. **At most 2 rounds**; then report what is
    still open. Before the first S6 of the session, ask the user before the
-   plugin's toolchain gate runs, because it installs a Python package
-   (`pip install --user stellars-claude-code-plugins`). If the user says no,
+   plugin's toolchain gate installs its tools. If the user says no,
    spawn `devils-advocate:adversarial-reviewer` by hand, one per lens, and
    say that the scripted loop did not run.
 7. **S7 sign-off.** Show the user the final diff of the document and the list
@@ -141,9 +141,8 @@ What the script enforces:
    user's note, redo the stage.
 
 **Only the user validates.** Never write `validated` without the user's
-answer in this turn. A stage that does not apply is `n/a` with a note, never
-`validated`. When the user stops mid-way, leave the statuses as they are: the
-next run continues from the first stage that is not validated.
+answer in this turn. When the user stops mid-way, leave the statuses as they
+are.
 
 ## Rules
 
@@ -154,5 +153,4 @@ next run continues from the first stage that is not validated.
   is removed.
 - **Leave other people's changes alone.** Do not stage or edit an untracked
   file that is not the document under review.
-- **Do not sweep.** Fix the document in scope only.
 - End the run with `check` and `table`, and report the document's statuses.

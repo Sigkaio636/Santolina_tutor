@@ -43,9 +43,8 @@ Check every item against every section. One finding per problem, with its line.
 11. **Claims.** A number, version or result with no source or link.
 12. **Red line: M3Kang.** Any M3Kang or Kangaroo problem text (statement,
     options, solution) is a finding with severity `breaks`. Link to the
-    dataset card is the only allowed form. See `CLAUDE.md`. The evidence of
-    this finding is `path:line` only. Never quote the problem text: the
-    findings file goes to Git.
+    dataset card is the only allowed form. See `CLAUDE.md`. Never quote the
+    problem text: follow the findings schema's M3Kang rule.
 
 ## Output
 
@@ -54,8 +53,8 @@ Return only:
 1. One line: `CRITIQUE <path>: <n> findings (<b> breaks, <m> misleading, <c> cosmetic)`.
 2. The findings table in the findings schema. Use `category: readability/<item>`
    (e.g. `readability/4 sentences`). `evidence` is the quoted text plus the
-   checklist rule, or the other file's `path:line`. For item 12 (M3Kang),
-   `evidence` is `path:line` only.
+   checklist rule, or the other file's `path:line`. Item 12 (M3Kang) quotes
+   nothing.
 3. Status: `verified` when the rule settles it and the fix is clear,
    `decision` when only the user can choose (canonical language, split,
    which duplicate stays), `suspected` when you could not confirm it (for
