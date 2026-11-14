@@ -4,7 +4,7 @@
 documents:
   README.md:
     stages:
-      audit: done
+      audit: pending
       critique: pending
       decisions: pending
       repair: pending
@@ -15,7 +15,7 @@ documents:
     notes:
       audit: 'docsauditor: 10 findings (5 verified, 2 suspected, 3 decision); suspected F4 confirmed (no
         LICENSE in academic-paper-summarizer), F5 confirmed (data subfolders untracked)'
-    last_sha: eff0026b9f3de0af1e7975ac96b47cf6d383c7854f58954e6f3bac9ec3a2cfcc
+    last_sha: 8fe2291657840f68e31c2a53acf1e90864507e60ce05bb09edcef17d47043415
   docs/BOARD_SETUP.md:
     stages:
       audit: pending

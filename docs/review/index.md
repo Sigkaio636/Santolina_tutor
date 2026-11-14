@@ -8,7 +8,7 @@ Each document goes through the `/docs-review` stages. ✅ validated by the user,
 
 | Document | audit | critique | decisions | repair | language | adversarial | signoff |
 | --- | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| README.md | 🟡 | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ |
+| README.md | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ |
 | [docs/BOARD_SETUP.md](../BOARD_SETUP.md) | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ |
 | CLAUDE.md | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ |
 | data/README.md | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ |
