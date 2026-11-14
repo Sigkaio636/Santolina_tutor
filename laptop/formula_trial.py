@@ -64,9 +64,7 @@ def pick(args):
             continue
         options = parse_options(boxes) or parse_options(v4[key])
         for letter, value in options.items():
-            k = kind(value)
-            if k:
-                found[k].append((key, letter, value))
+            found[kind(value)].append((key, letter, value))
     random.seed(args.seed)
     chosen = random.sample(found["words"], 8) + random.sample(found["units"], 6) + random.sample(found["formula"], 6)
     json.dump(chosen, open(PICK, "w"), ensure_ascii=False)
