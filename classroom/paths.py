@@ -10,6 +10,10 @@ EXERCISES = "exercises"
 OUTBOX = "outbox"
 ARCHIVE = "archive"
 LIB = "lib"
+ASSIGNMENTS = "assignments.json"
+HOTSPOT = "hotspot.json"
+PROGRESS = "progress"
+VERSION = "lib/VERSION"  # changes when the teacher app pushes new code; the student app restarts
 
 # The copilot's retrieval index, built on the board by build_index.py (see docs/BOARD_SETUP.md).
 DEFAULT_RAG_INDEX = "~/Santolina_tutor/data/index.db"

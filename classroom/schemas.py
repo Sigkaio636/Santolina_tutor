@@ -16,12 +16,22 @@ SCHEMA_VERSION = 1
 MODES = ("student", "professor")
 
 # Event types the contract names today. Other types are allowed: payloads are free-form.
+# Most events also carry the context: mode (homework | practice | free), assignment_id,
+# pack_id, exercise_id, level, topic.
 EVENT_TYPES = (
-    "session_start",  # payload: client_ts (the phone's clock, ISO 8601), anything else
-    "exercise_shown",  # payload: pack_id, exercise_id, level
-    "answer_submitted",  # payload: pack_id, exercise_id, answer, correct (bool), level
-    "hint_requested",  # payload: pack_id, exercise_id, hint_level
-    "session_end",  # payload: reason
+    "session_start",  # client_ts (the phone's clock, ISO 8601), language
+    "session_end",  # reason: logout | idle | new_login
+    "view_opened",  # view: home | homework | practice | free | exercise
+    "exercise_shown",  # path_reason (free mode: random | easier_after_fail | suggested)
+    "answer_submitted",  # answer, correct (bool), attempt, seconds_since_shown, with_help
+    "hint_requested",  # hint_number
+    "solution_requested",  # attempts_before
+    "question_asked",  # text, has_photo, photo_bytes, photo_type
+    "copilot_reply",  # text, seconds, kind: chat | clue | solution, suggestions
+    "exercise_left",  # seconds, attempts (left without solving)
+    "page_hidden",  # the student switched to another app
+    "page_visible",  # seconds_hidden
+    "language_changed",  # language
 )
 
 PACK_ID_RE = re.compile(r"^[a-z0-9][a-z0-9_-]{0,63}$")
@@ -152,6 +162,30 @@ class PackManifest:
             raise ContractError(f"PackManifest: invalid pack_id {self.pack_id!r}")
         if not isinstance(self.version, int) or self.version < 1:
             raise ContractError("PackManifest: version must be a positive integer")
+
+
+@dataclass
+class Assignment:
+    assignment_id: str
+    title: str
+    pack_id: str
+    exercise_ids: list | None  # None: the whole pack
+    due: str | None  # ISO date, optional
+    created_at: str
+
+    def check(self):
+        if not self.assignment_id or not self.pack_id:
+            raise ContractError("Assignment: assignment_id and pack_id are required")
+
+
+@dataclass
+class Hotspot:
+    ssid: str
+    password: str  # WPA2, at least 8 characters
+
+    def check(self):
+        if not self.ssid or len(self.password) < 8:
+            raise ContractError("Hotspot: ssid and a password of 8+ characters are required")
 
 
 @dataclass

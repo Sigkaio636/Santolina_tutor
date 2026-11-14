@@ -10,6 +10,7 @@ from pathlib import Path
 from . import paths
 from .schemas import (
     SCHEMA_VERSION,
+    Assignment,
     ContractError,
     Exercise,
     PackManifest,
@@ -71,3 +72,15 @@ def list_packs(root=None) -> list:
             except (ContractError, ValueError, OSError):
                 continue
     return manifests
+
+
+def read_assignments(root=None) -> list:
+    """The homework the teacher assigned to this board, skipping invalid entries."""
+    data = read_json(paths.board_root(root) / paths.ASSIGNMENTS) or {}
+    out = []
+    for item in data.get("assignments", []):
+        try:
+            out.append(from_dict(Assignment, item))
+        except (ContractError, TypeError):
+            continue
+    return out
