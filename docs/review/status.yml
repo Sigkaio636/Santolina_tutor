@@ -82,6 +82,17 @@ documents:
       signoff: pending
     validated_sha: null
     notes: {}
+  docs/OCR_FAILURE_MODES.md:
+    stages:
+      audit: pending
+      critique: pending
+      decisions: pending
+      repair: pending
+      language: pending
+      adversarial: pending
+      signoff: pending
+    validated_sha: null
+    notes: {}
   docs/RESUMEN_QUALCOMM_UNO_Q.md:
     stages:
       audit: pending
@@ -137,6 +148,32 @@ documents:
       adversarial: '2 rounds, 3 lenses hand-spawned (toolkit gate FATAL: PEP 668); r1 30 findings -> adjudicator
         3 changes; r2 2 SHIP + 1 MAJOR wording, fixed after round; 7 deferred'
     last_sha: 35b1a72925afb7e71accd623acb833ef65df846de757b46eb5e94e1c3d33a26a
+  docs/experiments/2026-11-ocr-text-vs-annotation.md:
+    stages:
+      audit: validated
+      critique: validated
+      decisions: validated
+      repair: validated
+      language: validated
+      adversarial: validated
+      signoff: validated
+    validated_sha: e9266d9fe34320659996e2928a65b3dfb59ca3143f410902c18cd388b142d2ac
+    notes:
+      audit: 'docsauditor: 8 findings (F3 suspected resolved by rerun, 4 verified F1 F5 F6 F8, 3 decision
+        F2 F4 F7)'
+      critique: 'docs-critic: 28 findings (0 breaks); C26 closed by rerun; 5 decisions C1 C11 C16 C18
+        C23, rest plain fixes; type explanation, heavy'
+      decisions: 'grilling: 8 decisions settled by the user (2 rounds); no GLOSSARY.md, no term settled'
+      repair: 'docsjanitor: 35 findings fixed (page rewritten, bootstrap added to script); mkdocs build:
+        no warning for this page (other pages warn); no structured-planning plan (one file, approved plan
+        covers it)'
+      language: 'asd-ste100 STE-flavored plus ste-lint.py: 17 findings fixed (passives, synonym rotation,
+        3 semicolons); final run 0 violations; hedges untouched'
+      adversarial: 'hand-spawned reviewers (user declined plugin toolchain): round 1 methodologist/popular-science/slop-hunter
+        + adjudicator, round 2 popular-science and methodologist SHIP; wording edits after round 2 not
+        re-reviewed; 8 deferred items in findings file'
+      signoff: signed off by the user after S1-S6; 8 deferred items in the findings file
+    last_sha: e9266d9fe34320659996e2928a65b3dfb59ca3143f410902c18cd388b142d2ac
   docs/index.md:
     stages:
       audit: pending
