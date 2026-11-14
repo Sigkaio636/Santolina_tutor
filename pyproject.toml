@@ -45,3 +45,8 @@ extend-select = ["I"]  # Add import sorting
 known-first-party = ["santolina_tutor"]
 force-sort-within-sections = true
 
+[dependency-groups]
+ocr = [
+    "mineru[core]==3.4.5",
+]
+
