@@ -1,0 +1,3 @@
+name: Santolina LEDs
+description: Shows on the LED matrix when the board's Wi-Fi is waiting for a phone, and when a phone is connected.
+icon: 📶

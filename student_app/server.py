@@ -21,6 +21,7 @@ from urllib.parse import parse_qs, urlsplit
 
 from classroom import paths
 
+from .board_state import BoardState
 from .state import Board, Expired, Refused
 from .strings import LANGUAGES, strings
 
@@ -45,6 +46,7 @@ class Handler(BaseHTTPRequestHandler):
     board: Board = None  # set by make_server
     public_host: str | None = None
     log_requests = False
+    board_state: BoardState = None  # set by make_server
 
     def log_message(self, fmt, *args):  # quiet unless asked: the events are the log that matters
         if self.log_requests:
@@ -106,6 +108,11 @@ class Handler(BaseHTTPRequestHandler):
         self.do_GET()
 
     def do_GET(self):
+        self.board_state.heard_from(self.client_address[0])
+        # The LED matrix app asks from its container, under whatever host name: answer it
+        # before the captive portal would redirect it.
+        if urlsplit(self.path).path == "/api/board-state":
+            return self._json({"wifi": self.board_state.state})
         if self._captive():
             return
         url = urlsplit(self.path)
@@ -126,6 +133,7 @@ class Handler(BaseHTTPRequestHandler):
         self._send(HTTPStatus.NOT_FOUND, b"not found", "text/plain")
 
     def do_POST(self):
+        self.board_state.heard_from(self.client_address[0])
         if self._captive():
             return
         url = urlsplit(self.path)
@@ -222,16 +230,31 @@ class Handler(BaseHTTPRequestHandler):
         raise Refused("not found")
 
 
-def make_server(root, host="0.0.0.0", port=80, public_host=None, board=None, log_requests=False):
+def make_server(
+    root,
+    host="0.0.0.0",
+    port=80,
+    public_host=None,
+    board=None,
+    log_requests=False,
+    board_state=None,
+):
     board = board or Board(root)
+    board_state = board_state or BoardState()
     handler = type(
         "BoundHandler",
         (Handler,),
-        {"board": board, "public_host": public_host, "log_requests": log_requests},
+        {
+            "board": board,
+            "public_host": public_host,
+            "log_requests": log_requests,
+            "board_state": board_state,
+        },
     )
     server = ThreadingHTTPServer((host, port), handler)
     server.daemon_threads = True
     server.board = board
+    server.board_state = board_state
     return server
 
 
@@ -271,6 +294,7 @@ def main():
         root, args.host, args.port, args.public_host, log_requests=args.log_requests
     )
     threading.Thread(target=_watch, args=(server, root, 10), daemon=True).start()
+    server.board_state.start()  # Wi-Fi and connected phones, for the LED matrix
     print(f"Student app on http://{args.public_host or args.host}:{args.port} (board {root})")
     try:
         server.serve_forever()

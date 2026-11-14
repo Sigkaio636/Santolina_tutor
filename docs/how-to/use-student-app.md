@@ -13,9 +13,17 @@ Each student gets a board. The board makes its own Wi-Fi, and the student uses i
 
     It asks for the `sudo` password once. It makes every web address on the board's Wi-Fi lead to the board, and starts the student app on port 80 at every boot.
 
-3. **Set the board up in the teacher app.** Plug it in and click **Set up this board**. Setup copies the student app, creates the board's Wi-Fi (`Santolina-<board name>`, with its own password) and sends the group's student codes.
-4. **Print the sticker.** On the board page, click **Print the sticker** and stick it on the board's case. It shows the board's name, a QR code that joins the Wi-Fi, the password (for laptops) and the address `http://10.42.0.1`.
-5. **Restart the board.** The Wi-Fi starts at boot. From then on the board no longer joins other Wi-Fi networks; the teacher app still reaches it over USB.
+3. **Show the Wi-Fi status on the LED matrix** (optional). While the board still has internet:
+
+    ```bash
+    ./board/07_install_led_app.sh
+    ```
+
+    It installs a small App Lab app that starts at every boot. While the board's Wi-Fi waits for a phone, the matrix shows a Wi-Fi symbol whose waves grow from the dot. Once a phone is connected, a check mark draws itself and bounces. With the Wi-Fi off, the matrix stays dark. The first start downloads App Lab's Python image, which is why it needs internet.
+
+4. **Set the board up in the teacher app.** Plug it in and click **Set up this board**. Setup copies the student app, creates the board's Wi-Fi (`Santolina-<board name>`, with its own password) and sends the group's student codes.
+5. **Print the sticker.** On the board page, click **Print the sticker** and stick it on the board's case. It shows the board's name, a QR code that joins the Wi-Fi, the password (for laptops) and the address `http://10.42.0.1`.
+6. **Restart the board.** The Wi-Fi starts at boot. From then on the board no longer joins other Wi-Fi networks; the teacher app still reaches it over USB.
 
 ## What the student does
 
