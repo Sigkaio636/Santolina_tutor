@@ -44,6 +44,7 @@ def parse_args():
     p.add_argument("--val-years", default="", help="hold out these years instead, e.g. 2023,2024")
     p.add_argument("--out", default="data", help="output folder")
     p.add_argument("--no-ocr", action="store_true", help="skip OCR; options will be empty")
+    p.add_argument("--gpu", action="store_true", help="run OCR on CUDA (needs onnxruntime-gpu)")
     p.add_argument("--save-images", action="store_true", help="also save problem images as PNG")
     p.add_argument("--limit", type=int, default=0, help="only process the first N rows (for testing)")
     return p.parse_args()
@@ -146,8 +147,11 @@ def main():
 
     ocr = None
     if not args.no_ocr:
+        if args.gpu:
+            import onnxruntime
+            onnxruntime.preload_dlls()  # find the pip-installed CUDA and cuDNN
         from rapidocr_onnxruntime import RapidOCR
-        ocr = RapidOCR()
+        ocr = RapidOCR(det_use_cuda=args.gpu, cls_use_cuda=args.gpu, rec_use_cuda=args.gpu)
 
     cache_path = os.path.join(args.out, ".ocr_cache.jsonl")
     cache = {}

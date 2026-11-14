@@ -21,6 +21,9 @@ otherwise the next re-sync reverts it silently.
 - `copilot/llm.py`: `build_decider_prompt()` and a `/completion` branch in
   `answer_letter()` used only when `LLM_PROMPT=decider`, for Mapika/decider-*
   models. The default `chat` path is unchanged.
+- `laptop/prepare_m3kang.py`: opt-in `--gpu` flag that runs RapidOCR on CUDA
+  (calls `onnxruntime.preload_dlls()` first; needs `onnxruntime-gpu`). Without
+  the flag it behaves as upstream.
 
 `.skills/README.md` upstream is not vendored: its symlink setup doesn't apply,
 because skills here live directly in `.claude/skills/`. Its skills table is in
