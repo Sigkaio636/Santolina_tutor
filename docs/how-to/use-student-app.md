@@ -50,6 +50,43 @@ The teacher unloads it by plugging the board in. Each session has a timeline on 
 
 Clues, solutions and chat replies come from a stand-in (`student_app/tutor.py`), and free mode picks problems with a simple rule (`student_app/planner.py`): a random one, or an easier one after a failure. Replace those two classes to connect the real copilot. The interface doesn't change.
 
+## Stop, start and check the app on a board
+
+The app on a board has two parts. Both start at every boot:
+
+| Part | What it is | Name |
+|---|---|---|
+| Student app | the web page on port 80 (systemd service) | `santolina-student` |
+| LED app | the Wi-Fi status on the LED matrix (App Lab app) | `user:santolina-leds` |
+
+Run these commands on the board (`adb shell` or `ssh`). The `systemctl` commands that change a service need the `sudo` password. Run them in your own terminal.
+
+**Check:**
+
+```bash
+systemctl is-active santolina-student    # prints "active" when it runs
+curl -s -o /dev/null -w "%{http_code}\n" http://127.0.0.1/api/info    # prints 200
+arduino-app-cli app ps                   # santolina-leds: running
+```
+
+**Stop** (for example, to free the CPU for a long test):
+
+```bash
+sudo systemctl stop santolina-student
+arduino-app-cli app stop user:santolina-leds
+```
+
+**Start again:**
+
+```bash
+sudo systemctl start santolina-student
+arduino-app-cli app start user:santolina-leds
+```
+
+`stop` does not disable the app: both parts start again at the next boot. To keep the student app off after a reboot as well, use `sudo systemctl disable --now santolina-student`, and `sudo systemctl enable --now santolina-student` to undo it.
+
+Stopping the app deletes nothing. The student data stays in `~/santolina`, and the board's Wi-Fi stays on. The two model services (`math-llm`, `math-embed`) are separate and keep running. If the student app does not start, read its log with `journalctl -u santolina-student -n 50`.
+
 ## Try it on the laptop
 
 Double-click **Santolina Demo** on the desktop, or run:
