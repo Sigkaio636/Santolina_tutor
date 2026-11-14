@@ -1,6 +1,6 @@
-# Papers: pruning, quantization, constrained LLM inference, math tutoring
+# Papers: pruning, quantization, constrained LLM inference, math tutoring, Jev decision models
 
-PDFs downloaded from arXiv on 2026-11-14 (the `benchmarks/` and `tutoring_pedagogy/` folders and the rows complementing `CHALLENGE_CONTEXT.md` were added the same day). Each arXiv ID was checked against the arXiv API, and the titles match.
+PDFs downloaded from arXiv on 2026-11-14 (the `benchmarks/`, `tutoring_pedagogy/` and `jev/` folders and the rows complementing `CHALLENGE_CONTEXT.md` were added the same day). Each arXiv ID was checked against the arXiv API, and the titles match.
 File name pattern: `<category>/<firstauthor><year>_<short_name>_<arxivID>.pdf`. The PDF column opens the local copy in Obsidian.
 
 The PDFs are not in git. After cloning, run `./download.sh` in this folder to fetch them from arXiv (the list is in `papers.tsv`).
@@ -118,6 +118,31 @@ Relevance notes refer to our target: a small math-tutor LLM served with llama.cp
 | 2024 | Boosting LLMs with Socratic Method for Conversational Mathematics Teaching (Ding et al.) | [2407.17349](https://arxiv.org/abs/2407.17349) | [[ding2024_socratic_math_teaching_2407.17349.pdf\|PDF]] | SocraticMATH: Socratic primary-school math dataset, close to the Kangaroo level |
 | 2024 | LearnLM: Improving Gemini for Learning (LearnLM Team) | [2412.16429](https://arxiv.org/abs/2412.16429) | [[learnlm2024_improving_gemini_for_learning_2412.16429.pdf\|PDF]] | Pedagogy as system-level instructions: design of the tutor prompt and SFT format |
 | 2025 | From Problem-Solving to Teaching Problem-Solving (Dinucu-Jianu et al.) | [2505.15607](https://arxiv.org/abs/2505.15607) | [[dinucujianu2025_teaching_problem_solving_rl_2505.15607.pdf\|PDF]] | Multi-turn RL tutor that avoids leaking the solution; same group as MathTutorBench |
+
+## jev/
+
+Jev is TypeSafe AI's "System One" decision model (early access since September 2026). It answers typed Choice / Noul (yes-no) / Score questions with a probability for each option instead of writing text. TypeSafe has published no technical paper and no weights, and the hosted model only takes text. These are third-party papers that evaluate Jev, use it, or build open Jev-style models. The notes come from titles and abstract keywords; the papers have not been read yet.
+
+| Year | Paper | arXiv | PDF | Why it matters here |
+|---|---|---|---|---|
+| 2026 | Jev in the Wild: Functionality, Applications and Ecosystem (Ling et al.) | [2609.30216](https://arxiv.org/abs/2609.30216) | [[ling2026_jev_in_the_wild_2609.30216.pdf\|PDF]] | Overview of the model and its ecosystem |
+| 2026 | Evaluating and Benchmarking the System One Model Jev (Deußer et al.) | [2609.37647](https://arxiv.org/abs/2609.37647) | [[deusser2026_evaluating_benchmarking_jev_2609.37647.pdf\|PDF]] | Main evaluation; lists arithmetic and numeric precision among Jev's weaknesses |
+| 2026 | Specialized Decision Models vs. General-Purpose LLMs: Benchmarking Jev Across Knowledge, Reasoning, and Multilingual Tasks (Li et al.) | [2610.11978](https://arxiv.org/abs/2610.11978) | [[li2026_decision_models_vs_llms_benchmark_2610.11978.pdf\|PDF]] | Covers math, multilingual tasks and small edge models |
+| 2026 | Type-Safe Is Not Error-Free (Sun et al.) | [2609.26758](https://arxiv.org/abs/2609.26758) | [[sun2026_typesafe_not_error_free_2609.26758.pdf\|PDF]] | Decision models follow the option name, not its definition: matters for how A–E options are worded |
+| 2026 | When the Right Answer Is Missing: An Arithmetic-Dependent Rejection Bottleneck in Jev (Zhong et al.) | [2609.39496](https://arxiv.org/abs/2609.39496) | [[zhong2026_arithmetic_rejection_bottleneck_2609.39496.pdf\|PDF]] | Closest to multiple-choice problems that need calculation |
+| 2026 | NumericJev: Jev-like LLM Numerical Decoding with Multiway Decision Trees (Ye et al.) | [2609.28587](https://arxiv.org/abs/2609.28587) | [[ye2026_numericjev_2609.28587.pdf\|PDF]] | Getting numeric answers out of a decision model |
+| 2026 | Correct Choices, Failed Sequences: Choice2Seq (Lai et al.) | [2610.16191](https://arxiv.org/abs/2610.16191) | [[lai2026_choice2seq_2610.16191.pdf\|PDF]] | Accuracy when picking an option vs when generating the answer |
+| 2026 | JEV-as-a-Judge: Accept When Confident, Escalate When Unsure (Li et al.) | [2609.26550](https://arxiv.org/abs/2609.26550) | [[li2026_jev_as_a_judge_2609.26550.pdf\|PDF]] | Confidence-based escalation: fits a small → large model cascade on the board |
+| 2026 | The Value of Thinking: Learning When to Reason in Hybrid Decision Models (Yu et al.) | [2611.16961](https://arxiv.org/abs/2611.16961) | [[yu2026_value_of_thinking_hybrid_2611.16961.pdf\|PDF]] | When step-by-step reasoning pays off vs answering directly |
+| 2026 | Visual Jev: Accurate and Efficient Decisions from Shared Visual Context (Yu & Yao) | [2609.25845](https://arxiv.org/abs/2609.25845) | [[yu2026_visual_jev_2609.25845.pdf\|PDF]] | Several questions about one image, encoded once |
+| 2026 | Intern-Decision: Efficient Multimodal Decision Making with Autoregressive Masked LM (Zhu et al.) | [2610.22131](https://arxiv.org/abs/2610.22131) | [[zhu2026_intern_decision_2610.22131.pdf\|PDF]] | Small multimodal decision model |
+| 2026 | DecisionRobust: Robustness for JEV-Style Decision Models Across Text and Vision (Lan et al.) | [2610.19118](https://arxiv.org/abs/2610.19118) | [[lan2026_decisionrobust_2610.19118.pdf\|PDF]] | Robustness with text and image inputs |
+| 2026 | Beyond CLIP: Calibrated (Few-Shot) Defect Detection With System One Decision Models (Megahed et al.) | [2610.41199](https://arxiv.org/abs/2610.41199) | [[megahed2026_beyond_clip_defect_detection_2610.41199.pdf\|PDF]] | Few-shot image classification compared with CLIP |
+| 2026 | Small Heads, Strong Decisions: A Controlled Study of Typed-Decision Models (Rastogi) | [2611.15592](https://arxiv.org/abs/2611.15592) | [[rastogi2026_small_heads_strong_decisions_2611.15592.pdf\|PDF]] | Controlled study with small models |
+| 2026 | From LLMs to Efficient System One Models via Adaptive Computation (Nguyen) | [2611.16321](https://arxiv.org/abs/2611.16321) | [[nguyen2026_llm_to_system_one_adaptive_2611.16321.pdf\|PDF]] | Turning an LLM into an efficient decision model |
+| 2026 | Flide: Accelerating Decision Inference with Exact State Forking (Li et al.) | [2610.42148](https://arxiv.org/abs/2610.42148) | [[li2026_flide_state_forking_2610.42148.pdf\|PDF]] | Faster inference for several questions on the same input |
+| 2026 | Zuse: A Decision Model for European Languages (Imam) | [2611.06238](https://arxiv.org/abs/2611.06238) | [[imam2026_zuse_european_decision_model_2611.06238.pdf\|PDF]] | European multilingual decision model |
+| 2026 | SO-Arena: Capability Spectrum and Reliability of System One Models (Li et al.) | [2611.15777](https://arxiv.org/abs/2611.15777) | [[li2026_so_arena_2611.15777.pdf\|PDF]] | Benchmark for this model class |
 
 ## Not on arXiv (not downloaded)
 
