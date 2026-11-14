@@ -23,6 +23,7 @@ Fuentes:
     - [ ] **Teach**: guía al estudiante sin dar la respuesta (pistas, práctica adaptativa, análisis de errores, interacción física, colaboración).
     - [ ] **Reason**: dado un problema tipo Kangaroo, elige la respuesta correcta. Los organizadores lo miden en un conjunto de test oculto.
 - [ ] Si se elige **Reason**: el `predict.py` de la raíz respeta el contrato de los organizadores. (`CLAUDE.md`)
+- [ ] ⚠️ Si se elige **Reason**: hipótesis de trabajo, **no confirmada**: el test oculto trae solo preguntas de texto, en varios idiomas. Ver la evidencia en [4.1](#41-test-oculto-formato-esperado).
 
 ### 1.2 Repositorio de GitHub público
 
@@ -113,3 +114,30 @@ No se han inventado pesos, puntuaciones ni plazos. Si el jurado publica una rúb
 - [ ] ⚠️ **Idioma(s) de respuesta** del copiloto. (`CHALLENGE_CONTEXT.md` §7)
 - [ ] ⚠️ **Benchmark pedagógico** concreto y si hay script oficial de evaluación. (`CHALLENGE_CONTEXT.md` §7)
 - [ ] ⚠️ **URL del repositorio de Qualcomm**: no sale en el vídeo. (`RESUMEN_QUALCOMM_UNO_Q.md`)
+- [ ] ⚠️ **Formato del test oculto**: ver [4.1](#41-test-oculto-formato-esperado).
+
+### 4.1 Test oculto: formato esperado
+
+**Hipótesis de trabajo:** el test oculto de **Reason** trae solo preguntas de texto, en varios idiomas.
+
+**Ninguna fuente lo dice.** Es una lectura de pistas indirectas. Revisión hecha el 2026-11-14 sobre los documentos del repositorio y sobre el README de los organizadores en GitHub. Su último commit es `d6e3f1b`, el mismo que copia [`BOARD_SETUP.md`](BOARD_SETUP.md).
+
+| Qué se espera | Evidencia | Fuente |
+|---|---|---|
+| **El test existe y es oculto** | "Organizers will measure this objectively on a hidden test set." Se puntúa el `predict.py` de cada equipo. | `BOARD_SETUP.md`, The challenge (línea 38) y 13.3 (línea 1093). `OCR_FAILURE_MODES.md` línea 151. |
+| **Solo texto** | La entrada de `predict.py` es un JSONL con `id`, `text`, y `options` y `language` "cuando estén disponibles". No hay campo ni argumento para imagen. `solve()` acepta `image_b64`, pero `predict.py` nunca se lo pasa. | `predict.py`, docstring (líneas 7 a 9) y `copilot/pipeline.py` |
+| **Solo texto** | La imagen es un experimento del explorer: con la imagen reducida cuesta 28 a 38 s por problema, y con la completa no cabe en los 60 s. | `BOARD_SETUP.md`, "Let the model see the image" (líneas 975 a 1009) |
+| **Varios idiomas** | El CSV de salida lleva la columna `language`. M3Kang tiene 108 idiomas con el mismo `id`. | `predict.py`; `BOARD_SETUP.md` líneas 715 a 754 |
+| **Varios idiomas** | `eval.py` mide por idioma. El entregable pide error por tema, idioma y dificultad. | `BOARD_SETUP.md` líneas 46 y 855 |
+
+**Lo que no cubre la evidencia:**
+
+- Ningún texto dice "solo texto". La descripción del reto dice "Kangaroo-style problem", no "problemas de M3Kang". (`BOARD_SETUP.md`, línea 38)
+- En M3Kang, las opciones A a E están solo en la imagen. Si el test trae solo `text`, las `options` pueden venir vacías. Entonces "solo texto" no significa "con opciones". (`BOARD_SETUP.md`, línea 717)
+- Si el test fuera una muestra aleatoria de M3Kang, más de la mitad de las filas necesitaría una figura: 440 de 789 en nuestra validación. (`docs/experiments/2026-11-decider-0.8b.md`, líneas 119 y 120)
+- No hay lista de idiomas del test. Los datos locales solo tienen `eng`, `cat` y `esp`.
+
+**Qué hacer:**
+
+- Preguntar a los organizadores: ¿el test trae `options` rellenas o vacías? ¿Hay campo de imagen? ¿Qué idiomas incluye?
+- Mientras llega la respuesta, no apoyar el sistema en la imagen. Probar el caso sin `options` y varios idiomas, con `eval.py`.
