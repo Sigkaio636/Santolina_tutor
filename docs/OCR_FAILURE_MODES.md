@@ -2,7 +2,9 @@
 
 This page explains why many M3Kang problems reach the model without their answer options. It compares the failures that the board guide expects with the failures we measured. It is for team members who want the model to see more answer options.
 
-The main result: in most empty rows (rows with no options), the text that OCR returns has no `C)` label in front of option C. The guide does not list this failure. A parser change now rebuilds the missing C. On the 2,277 text-only rows in English, Catalan and Spanish, it raises coverage from 75.8% to 87.1% and empties no row that had options (see [The fix, measured](#the-fix-measured)).
+The main result: in most empty rows (rows with no options), the text that OCR returns has no `C)` label in front of option C. The guide does not list this failure. A parser change now rebuilds the missing C. On the 2,277 text-only rows in English, Catalan and Spanish, it raises coverage from 75.8% to 87.1% and empties no row that had options (see [The fix, measured](#the-fix-measured)). A second fix for an `A` label with no sign brings it to 89.2%. The newer PP-OCRv5 OCR models, with PP-OCRv4 as a fallback, bring it to 98.5% (see [What this means](#what-this-means-for-improving-option-reading)).
+
+For how well the two engines read the question text, scored against the annotated text of M3Kang, see the [experiment report](experiments/2026-11-ocr-text-vs-annotation.md).
 
 ## Background: how the options are read
 
@@ -95,7 +97,7 @@ The 87 recoverable rows are 29% of the sample. If the same share holds for all 1
 
 ### The fix, measured
 
-`parse_options` in `laptop/prepare_m3kang.py` now applies the rule. It acts only when the parser waits for C and finds a D label followed by a sign such as `)`, with exactly two values after the B label. The first value becomes B and the second becomes C. With any other number of values, the row stays empty, as before. Unlike the strict rule above, it does not ask for a sign after B or E.
+`parse_options` in `laptop/prepare_m3kang.py` now applies the rule. It acts only when the parser waits for C and finds a D label, with exactly two values after the B label. In the version measured here the D label needed a sign such as `)`; the [fix for the `A)` label](#no-a-label) later also accepts a D without a sign. The first value becomes B and the second becomes C. With any other number of values, the row stays empty, as before. Unlike the strict rule above, it does not ask for a sign after B or E.
 
 We measured it on the text-only rows (`text_only` true) of the first `high_quality` file, in English, Catalan and Spanish: 2,277 rows. We ran OCR on the GPU again for all of them and parsed the same OCR output with the old and the new parser. The other three files have no rows in these languages.
 
@@ -122,6 +124,75 @@ In 48 of the 300 sampled rows, the parser finds no `A)` label that it accepts. T
 - The label is there but in a form the parser rejects. For A, the parser requires one of the signs listed above after the letter.
 
 The script does not tell these two causes apart. To know which one applies, look at the images of these rows.
+
+### Which cause, measured
+
+After the C fix, 293 of the 2,277 text-only rows (English, Catalan, Spanish) are still empty. With no accepted `A)` label is the largest group, 76 rows. We looked at the OCR boxes of these 76 rows:
+
+| What the OCR returns | Rows |
+| --- | --- |
+| A box with the letter A alone, no sign | 48 |
+| A box with A and a number, no sign | 4 |
+| No A at all: the OCR drops it | 24 |
+
+So in most of these rows the label is there and the parser rejects it. 65 of the 76 rows have a `B)` label.
+
+In 20 of the 48 rows with a bare A, the D label also has no sign and the C label is missing, for example (made up) `A`, `10`, `B) 20`, `30`, `D`, `40`, `E) 50`. The C fix asked for a D with a sign, so it did not apply.
+
+### The A fix, measured
+
+`parse_options` now tries the labels in two passes:
+
+1. First, as before, it starts only at an `A` followed by a sign.
+2. Only if no sequence A to E completes, it also starts at an A without a sign: the A alone, or the A followed by a number. This is the rule the parser already used for B to E.
+
+A row that the first pass reads cannot change. A figure label "A" is accepted only if B to E follow it. The C fix now also accepts a D without a sign.
+
+Measured on the same OCR output as the C fix (2,277 text-only rows):
+
+| Language | Rows | 5 options before | 5 options after | Recovered | Lost | Changed |
+| --- | --- | --- | --- | --- | --- | --- |
+| Catalan | 811 | 713 | 729 | 16 | 0 | 0 |
+| English | 811 | 697 | 717 | 20 | 0 | 0 |
+| Spanish | 655 | 574 | 586 | 12 | 0 | 0 |
+| All | 2,277 | 1,984 (87.1%) | 2,032 (89.2%) | 48 | 0 | 0 |
+
+Check between languages: in the recovered rows, 128 of 135 numeric options agree with the same problem in the other languages. The 7 differences are stacked fractions, read for example (made up) as `1 14` in one language and `14` in another. This is the [numeric option of a different length](#a-numeric-option-has-a-different-length-in-another-language), not an error of the new rule.
+
+## PP-OCRv5 compared with PP-OCRv4
+
+`prepare_m3kang.py` uses `rapidocr_onnxruntime`, which runs the PP-OCRv4 models. We ran the newer PP-OCRv5 models on the same 2,277 text-only rows and parsed both outputs with the same parser (with the C and A fixes).
+
+- **PP-OCRv4:** `rapidocr_onnxruntime` 1.4.4, its default models.
+- **PP-OCRv5:** `rapidocr` 3.10, mobile text detector and the recognizer for Latin scripts (it reads accents). The server detector ran out of memory on an 8 GB GPU.
+- Both on the GPU with `onnxruntime-gpu`. PP-OCRv5 ran at about 5 rows per second.
+
+`laptop/ocr_boxes.py` runs each engine and saves the raw OCR boxes under `data/interim/`; its `compare` command gives the counts below.
+
+| Language | Rows | 5 options, v4 | 5 options, v5 | Only v5 | Only v4 | Both | Both, values differ |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| Catalan | 811 | 729 | 760 | 71 | 40 | 689 | 109 |
+| English | 811 | 717 | 760 | 82 | 39 | 678 | 98 |
+| Spanish | 655 | 586 | 610 | 58 | 34 | 552 | 83 |
+| All | 2,277 | 2,032 (89.2%) | 2,130 (93.5%) | 211 | 113 | 1,919 | 290 |
+
+"Values differ" ignores spaces, `,` and `.`. 6 of the 290 rows differ only in the minus sign (`-` or `−`).
+
+**Check between languages.** Over all rows with five options, 98.5% of the numeric options of PP-OCRv4 agree with the other languages (2,876 of 2,920), against 99.4% for PP-OCRv5 (3,015 of 3,034).
+
+**What differs.** In the rows that both engines read, PP-OCRv5 keeps superscripts, units and signs that PP-OCRv4 drops or turns into digits. For example (made up), `x²` instead of `x2`, `20 €` instead of `20`, `0` instead of the letter `O`. It also adds fewer stray digits, such as `1 10` for `10`. Its own errors: stray characters (`15°$`), the two numbers of a stacked fraction in the other order, and, once, Greek letters for digits.
+
+**Manual review (by Claude).** We looked at 20 images, chosen at random with seed 1, and compared each engine's options with the image:
+
+| Sample | Rows | Result |
+| --- | --- | --- |
+| Both read five options, values differ | 12 | v5 closer to the image in 6, v4 in 3, both wrong in 3. All five right: v5 in 4 rows, v4 in 3 |
+| Only v5 reads five options | 4 | v5 right in 3; the fourth has stacked fractions, read wrong |
+| Only v4 reads five options | 4 | v4 right in 3; the fourth has one wrong option |
+
+With 20 rows this shows the kinds of difference, not exact rates.
+
+**Combining the engines.** Taking the PP-OCRv5 options when it reads five, and the PP-OCRv4 options otherwise, gives five options in 2,243 of the 2,277 rows: **98.5%** (Catalan 98.6%, English 98.5%, Spanish 98.3%). The 113 rows that only PP-OCRv4 reads are mostly right, so dropping PP-OCRv4 would lose them.
 
 ## A numeric option has a different length in another language
 
@@ -197,13 +268,25 @@ The images of the reviewed rows are in `data/interim/manual_review/`, which Git 
 
 ## What this means for improving option reading
 
-The parser fix for the missing `C)` label is now written. On text-only rows in English, Catalan and Spanish, it raises coverage from 75.8% to 87.1% with no rows lost (see [The fix, measured](#the-fix-measured)). It needed no new model and no new image processing. Its effect on rows with a figure is not measured yet.
+On the text-only rows in English, Catalan and Spanish (2,277 rows), the measured steps add up:
+
+| Step | Rows with five options |
+| --- | --- |
+| Old parser, PP-OCRv4 | 1,725 (75.8%) |
+| [C fix](#the-fix-measured) | 1,984 (87.1%) |
+| [A fix](#the-a-fix-measured) | 2,032 (89.2%) |
+| [PP-OCRv5](#pp-ocrv5-compared-with-pp-ocrv4) | 2,130 (93.5%) |
+| PP-OCRv5, PP-OCRv4 when v5 reads no options | 2,243 (98.5%) |
+
+The two parser fixes need no new model. PP-OCRv5 also reads the option values better (see the check between languages and the manual review). None of these steps is measured yet on rows with a figure, or in `data/train.jsonl` and `data/val.jsonl`.
 
 The other improvements are not measured yet:
 
 - **Take only boxes on the label's line**, or on the line just below it. This can fix some of the 58 numeric options of different length.
-- **Use a better OCR model.** It may read the `C)` labels that RapidOCR loses, and it may help with the 48 rows with no `A)` label if the OCR is their cause. It would also help the 68 ambiguous rows.
+- **Read stacked fractions.** Both engines read a fraction as two numbers, and PP-OCRv5 sometimes swaps them.
 - **Crop the image before OCR**, as the guide suggests. This removes figure text that can be added to an option.
+
+A LaTeX OCR, PP-FormulaNet, was tested on options with words, units and simple formulas, not on fractions, and was not adopted: see the [experiment report](experiments/2026-11-ppformulanet.md).
 
 ## Limits of these numbers
 
