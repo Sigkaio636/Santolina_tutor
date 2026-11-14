@@ -9,6 +9,10 @@
 > describe the *hardware*. What actually runs on *our* board is in `docs/BOARD_SETUP.md` and
 > `.claude/skills/unoq-board/SKILL.md`. Where they disagree, trust a measurement on the board.
 >
+> **Precedence:** `docs/BOARD_SETUP.md` rules. Where Arduino's generic docs and BOARD_SETUP.md
+> disagree, BOARD_SETUP.md wins. [§13](#13-contrast-with-docsboard_setupmd) lists every case and
+> how it was resolved.
+>
 > Related: `docs/CHALLENGE_CONTEXT.md` (strategy and open questions), `docs/BOARD_SETUP.md` (our setup).
 
 ---
@@ -298,8 +302,8 @@ Up to 1920×1080. Not relevant to a text tutor, but useful for a camera demo.
 
 - The official docs mention **OpenCL 2.0 via Mesa**, but they do **not** say llama.cpp's OpenCL backend
   works on it. llama.cpp's Adreno OpenCL backend targets the Qualcomm proprietary driver on high-end
-  parts. **⚠️ VERIFY** by running `llama-bench` on CPU and on a Mesa OpenCL or Vulkan build.
-  Arduino's own guide runs **CPU-only**.
+  parts. Arduino's own guide runs **CPU-only**, and so does the pinned build in BOARD_SETUP.md, so
+  **the CPU path is the contest path**. A GPU test is an optional side experiment (§13.2).
 - GPU memory is shared with the 4 GB of system RAM. Offloading layers does not add memory.
 - **No NPU** and no DSP path is documented. Plan for CPU inference.
 - Cortex-A53 has no SDOT or I8MM instructions. ⚠️ VERIFY with `grep Features /proc/cpuinfo`.
@@ -311,11 +315,11 @@ Up to 1920×1080. Not relevant to a text tutor, but useful for a camera demo.
 ### 7.1 Linux (Debian)
 
 - Full Debian on the MPU. Docker and Docker Compose are supported. Python 3 is present.
-- No compiler toolchain and no passwordless `sudo` by default (llama.cpp guide). Use prebuilt
-  binaries, or build elsewhere. Our `board/02_build_llama_cpp.sh` handles this for the project.
-- Default user: `arduino`. The password is **the one you set during App Lab first setup**.
-  The ADB guide mentions `arduino` as a fallback before setup, but the datasheet removed its
-  "default password" reference as incorrect (rev. 4). **⚠️ VERIFY**, and never guess `sudo` passwords.
+- No compiler toolchain and no passwordless `sudo` out of the box (llama.cpp guide). **Our setup
+  installs the toolchain with `sudo apt-get` and builds llama.cpp on the board** (BOARD_SETUP steps 2–3).
+- User: `arduino`. **Project password: `opensource`**, set in App Lab first setup (BOARD_SETUP 0.1).
+  It is also the `sudo` password. Arduino's ADB guide mentions `arduino` as a pre-setup fallback, and
+  the datasheet says there is no documented default, so do not rely on either.
 - Wi-Fi from the shell: `sudo nmcli d wifi connect <SSID> password <PASSWORD>`, or `nmtui`.
 - Safe shutdown: `sudo poweroff`, then wait. Do not pull power during writes.
 - First boot takes 20–30 s. Wait for the LED-matrix animation to finish.
@@ -366,6 +370,10 @@ Other ways to program the MCU: Arduino IDE 2.0+ (MCU only), Arduino CLI with VS 
 
 ## 9. Running an LLM on the board (official guide)
 
+> **Not our procedure.** This is Arduino's generic tutorial (prebuilt binary, `Q4_K_M`, port 8080).
+> Our project builds llama.cpp at a pinned commit and serves Q8_0 models on ports 8081 and 8082.
+> Follow `docs/BOARD_SETUP.md`. See §13.
+
 Arduino's own tutorial, "Running Llama.cpp with Qwen3.5-0.8B on the Arduino UNO Q":
 
 ```bash
@@ -386,7 +394,7 @@ LD_LIBRARY_PATH=. ./llama-server -m <model.gguf> --port 8080   # OpenAI-compatib
 |---|---|
 | Model | Qwen3.5-0.8B `Q4_K_M`, about 500 MB (unsloth GGUF) |
 | Official speed | About **8.4 tok/s prompt, 3.6 tok/s generation**, CPU only |
-| Our measurement (`unoq-board` skill) | About 11 tok/s prompt and 6 tok/s generation with Qwen3.5 0.8B Q8_0 |
+| Our measurement (BOARD_SETUP.md, `unoq-board` skill) | About 11 tok/s prompt and 5–6 tok/s generation with Qwen3.5 0.8B Q8_0 |
 | Free RAM | About 3.6 GB on the 4 GB board. Enough for a small 4-bit model, not for large F16 models |
 | Disk | Keep about 1 GB free. Build from source is discouraged (no toolchain, little disk) |
 
@@ -423,20 +431,51 @@ of conformity: <https://docs.arduino.cc/certifications/>. Radio equipment must s
 
 ---
 
-## 13. Discrepancies and open points
+## 13. Contrast with `docs/BOARD_SETUP.md`
 
-| Topic | Conflict or gap | Action |
+`docs/BOARD_SETUP.md` (the organizers' guide, pinned at commit `d6e3f1b`) rules. Each row below was
+a conflict or gap in the Arduino documentation, and how BOARD_SETUP.md settles it.
+
+### 13.1 Resolved by BOARD_SETUP.md
+
+| Topic | Arduino docs said | BOARD_SETUP.md says (rules) |
 |---|---|---|
-| Board size | Store 68.85 mm, datasheet 68.58 mm | Trust datasheet, ignore |
-| Ethernet | Store FAQ mentions Ethernet, spec table lists no port | Ethernet works only through a USB-C dongle |
-| PD wattage | Store says 15 W recommended. Datasheet says the board requests 5 V / 3 A only | Use a 5 V / 3 A PD source |
-| Default password | ADB guide cites `arduino`. Datasheet rev. 4 removed a "default password" claim | Use the password set in App Lab |
-| File names | Datasheet and schematics URLs say ABX00162, product is ABX00173 | Same document for both variants |
-| GPU for llama.cpp | Mesa OpenCL 2.0 exists. No source confirms llama.cpp gains | Benchmark CPU vs GPU |
-| CPU flags | No official statement on dot-product instructions | `grep Features /proc/cpuinfo` |
-| Power draw | No official figure | Measure with a USB power meter |
-| User manual and App Lab pages | Not readable through the web fetcher (JavaScript-rendered). Content here comes from Arduino's `docs-content` repository on GitHub | Re-check on docs.arduino.cc if a detail matters |
-| Support articles | `support.arduino.cc` returned HTTP 403. The "code repositories for App Lab components" article was **not read** | Open it in a browser |
+| Linux password | Unclear: `arduino` in the ADB guide, none in the datasheet | Set it in App Lab as **`opensource`** (step 0.1). Same password for SSH and `sudo` |
+| Toolchain | No compiler, no passwordless `sudo`. Use a prebuilt binary | `sudo apt-get install build-essential cmake git pkg-config libssl-dev curl wget ca-certificates python3 sqlite3 jq` (step 2) |
+| llama.cpp source | Newest prebuilt `ubuntu-arm64` release (`b10644`) | **Build from source** at pinned commit `2cbe0ec` with `-DGGML_NATIVE=ON -DCMAKE_BUILD_TYPE=Release`, about 30 min (step 3). Pinned so every team's results compare |
+| Language model | Qwen3.5-0.8B **Q4_K_M**, about 500 MB | Qwen3.5 0.8B **Q8_0**, 835 MB, SHA256-checked (step 4) |
+| Embedding model | Not covered | bge-small-en-v1.5 Q8_0, 37 MB, 384 dimensions |
+| Server ports | `llama-server` on 8080 (guide). 9999 for the App Lab LLM Brick (third-party report) | **8081** language model, **8082** embeddings, **8083** optional vision. All bound to `127.0.0.1` |
+| Server flags | Defaults | `--threads 4 --ctx-size 4096 --parallel 1 --cache-ram 0 --ctx-checkpoints 2 --jinja --reasoning off` (language model). Default flags got the server killed for lack of memory |
+| Custom model path | Open question in CHALLENGE_CONTEXT: LLM Brick or own server? | Own `llama-server` run as **systemd services** `math-llm` and `math-embed`, started at boot (step 7). App Lab runs next to them |
+| Free RAM and swap | "About 3.6 GB free" | `free -h` shows **3.6 GiB total, about 3.1 GiB available, 1.8 GiB swap** on a fresh board. Both servers use about **1.1 GB**, leaving about **2.5 GB** |
+| Disk | "Small root filesystem", keep 1 GB free | Need **≥ 2 GB free** (`df -h ~`). Build about 350 MB, models 870 MB, packages a few hundred MB |
+| Speed | Official: 8.4 tok/s prompt, 3.6 tok/s generation (Q4_K_M) | About **11 tok/s read, 5 tok/s write** (BOARD_SETUP). One-letter answer about 9 s, so the 60 s per-problem limit is the budget |
+| Network access | `.local` mDNS name | Use the **IP address** (`hostname -I`). SSH `arduino@<ip>`. `adb shell` as fallback, and for demos with Wi-Fi off (steps 0.2–0.4) |
+| Internet | Needed for the Arduino guide | Needed **only for steps 2–4**. Afterwards everything runs **offline** (a contest rule) |
+| GPU / OpenCL | Mesa OpenCL 2.0 exists, llama.cpp gain unconfirmed | The pinned build is **CPU-only** (`GGML_NATIVE`, NEON). No OpenCL or Vulkan flags. The CPU path is settled for the contest. GPU stays an optional experiment |
+| Power | 15 W recommended (store) vs 5 V / 3 A (datasheet) | Both agree: **5 V, 3 A USB-C supply** (BOARD_SETUP "What you need") |
+| Shutdown | `sudo poweroff` | Same (step 0.5). Never pull power while it writes |
+| Ethernet and dongles | Store FAQ mentions Ethernet, no port on the board | Not used. The board and the laptop share **one Wi-Fi network** |
+| Debian toolchain versions | Not stated | The expected outputs show gcc 14.2, cmake 3.31, Python 3.13.5 (Debian 13 "trixie", inferred) |
+
+### 13.2 Not covered by BOARD_SETUP.md (still open)
+
+| Topic | Gap | Action |
+|---|---|---|
+| CPU flags | No source states whether the A53 has dot-product or I8MM | `grep Features /proc/cpuinfo` on the board |
+| Power draw | No official figure and none in BOARD_SETUP.md | Measure with a USB power meter during inference |
+| Temperature and throttling | Operating range is −10 to +60 °C. Sustained-load throttling is not documented | Watch `/sys/class/thermal/*/temp` during a long `eval.py` run |
+| GPU benefit | Untested | Optional: `llama-bench` on CPU vs a Mesa OpenCL or Vulkan build. Do not change the pinned build for the contest |
+| Speed gap | Official 3.6 tok/s (Q4_K_M) vs our 5 (Q8_0) | Different quantization and llama.cpp build. Measure our own number with `llama-bench` |
+
+### 13.3 Cosmetic discrepancies inside the Arduino docs (no action)
+
+| Topic | Detail |
+|---|---|
+| Board size | Store 68.85 mm, datasheet 68.58 mm. Trust the datasheet |
+| File names | Datasheet and schematics URLs say ABX00162, the product is ABX00173. One document covers both |
+| Page coverage | The live user manual and App Lab pages were not fetchable. The content here comes from Arduino's `docs-content` GitHub repo. `support.arduino.cc` returned HTTP 403, so the "code repositories for App Lab components" article was **not read** |
 
 ---
 

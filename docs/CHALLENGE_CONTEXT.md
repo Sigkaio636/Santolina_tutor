@@ -4,6 +4,7 @@
 > It condenses a planning chat between Pau Soler (team) and Martí (an ML/hardware colleague with pruning experience from Semidynamics),
 > plus web research done on 2026-11-14 on each topic mentioned.
 > Martí explicitly said his advice comes from memory (and 4 hours of sleep), so **if research or experiments contradict him, trust the evidence and flag it.**
+> Board facts, ports and the llama.cpp build follow `docs/BOARD_SETUP.md`, which rules. Full board details: `docs/UNO_Q_BOARD_REFERENCE.md`.
 > Items marked **⚠️ VERIFY** are assumptions or open questions the team has not settled yet.
 
 ---
@@ -14,9 +15,9 @@
 |---|---|
 | Goal | Fine-tune a small LLM to act as a **math teacher's assistant / home tutor** ("having a teacher at home") |
 | Target hardware | **Arduino UNO Q** (Qualcomm Dragonwing QRB2210 Linux SoC + STM32 MCU). See §2 |
-| RAM | ⚠️ VERIFY: the team doesn't know yet if the board is the **2 GB or 4 GB** variant. Design for **2 GB** to be safe |
+| RAM | ✅ **Resolved: 4 GB variant (ABX00173)**, about 3.6 GiB usable plus 1.8 GiB swap. See `docs/UNO_Q_BOARD_REFERENCE.md` |
 | Training data provided | ~**1000 Kangaroo math contest problems** ("proves Cangur") |
-| Answer format of data | Multiple choice. ⚠️ VERIFY: chat says A/B/C/D, but the official Kangaroo format is normally **5 options (A–E)**. Check the dataset |
+| Answer format of data | Multiple choice, one letter **A to E** (`docs/BOARD_SETUP.md`, `predict.py` contract) |
 | Key requirement | The model must **not** just output the right letter. It must **explain pedagogically**, like a teacher. The Kangaroo set is probably mostly for benchmarking, but the model should also handle Kangaroo-style problems |
 | Evaluation | Team found a benchmark that evaluates **pedagogical explanation of answers** (better than MCQ benchmarks like MMLU). ⚠️ VERIFY which one; candidates in §7 |
 | Language | ⚠️ VERIFY: Kangaroo data is likely in **Catalan** (Societat Catalana de Matemàtiques). If the tutor must speak Catalan/Spanish, base-model language coverage matters a lot (see §3) |
@@ -42,25 +43,25 @@
 - **CPU:** 4× **Arm Cortex-A53** @ 2.0 GHz (64-bit)
 - **GPU:** **Adreno 702** @ 845 MHz. Supports OpenGL ES 3.1, **OpenCL 2.0**, Vulkan 1.1
 - **DSP:** Qualcomm Hexagon. **No dedicated NPU** and no TOPS figure is published
-- **RAM:** 2 GB or 4 GB LPDDR4 (store page: 4 GB variant). **Storage:** 32 GB eMMC (4 GB variant)
+- **RAM:** **4 GB LPDDR4X** (our variant; a 2 GB / 16 GB variant also exists). **Storage:** 32 GB eMMC (4 GB variant)
 - **MCU:** STM32U585 (Cortex-M33 @160 MHz, 2 MB flash, 786 KB SRAM). This is the "classic Arduino" side. Irrelevant for the LLM itself
 - **OS:** Debian Linux (upstream), Docker supported. Dev tool: **Arduino App Lab**
 - **Power:** USB-C **PD supply required** (≥15 W recommended). A non-PD supply won't boot
 - Connectivity: Wi-Fi 5, BT 5.1. Audio in/out on a header (a voice tutor is possible later)
 
 ### What already runs on it (important baseline!)
-- App Lab ships an **LLM "Brick"** that talks to a **llama.cpp server running on the board** (OpenAI-compatible API, **port 9999**).
+- App Lab ships an **LLM "Brick"** (`arduino:llm`) that talks to a llama.cpp server on the board (third-party reports say port 9999). **Our project does not use it**: `docs/BOARD_SETUP.md` runs its own `llama-server` services (language model on **8081**, embeddings on **8082**, optional vision on 8083, all on `127.0.0.1`).
 - Models offered by App Lab for UNO Q: **Qwen 3.5 0.8B (Q4_0)** (default, supports tool calling) and **Gemma 3 1B IT (Q4_0)**.
 - Measured on a 4 GB board (mischianti.org): **Qwen 3.5 0.8B ≈ 4.4–4.5 tok/s, Gemma 3 1B ≈ 5.0 tok/s**. Time to first token was about 0.85–2.2 s once the model was loaded (9 s on cold load). The model needs close to **~1 GB RAM**.
 - Community also runs llama.cpp GGUF models via **yzma** (Go wrapper for llama.cpp).
-- ⇒ **The most pragmatic deployment path: produce a GGUF of our fine-tuned model and serve it with llama.cpp on the board** (ideally through the App Lab LLM Brick).
+- ⇒ **The most pragmatic deployment path: produce a GGUF of our fine-tuned model and serve it with llama.cpp on the board** (as our own `llama-server` systemd service, the way `docs/BOARD_SETUP.md` does it, not through the App Lab LLM Brick).
 
 ### Hardware implications for agents (important)
 - **Cortex-A53 is ARMv8.0-A.** It has NEON SIMD but **no SDOT/UDOT dot-product instructions and no I8MM**, which newer Arm cores use to accelerate int8/int4 matmuls in llama.cpp. Expect modest throughput. Decode is **memory-bandwidth-bound**, so **fewer bytes per weight ⇒ more tokens/s**. ⚠️ VERIFY by running `cat /proc/cpuinfo` (features line) on the board.
 - **GPU (Adreno 702):** llama.cpp has an **OpenCL backend designed for Adreno**, optimized for **pure Q4_0** (`llama-quantize --pure ... Q4_0`). Q8_0 and Q6_K are supported (Q6_K not optimized). Qualcomm's Dragonwing docs say llama.cpp models on those boards run on the GPU via OpenCL. **But** the verified devices list only high-end Adreno (750/830/X85), the docs say **Adreno 6xx doesn't work**, and older phone A6x drivers are "likely not supported". **⚠️ VERIFY whether OpenCL llama.cpp actually works / is faster on Adreno 702**. CPU may well be the only practical path. Benchmark both with `llama-bench`.
 - Martí's point: **check that the GPU has integer kernels.** In llama.cpp the quantized kernels dequantize/compute inside the kernel (Q4_0/Q8_0 blocks), so "integer support" really means "does the backend have an optimized kernel for our quant type".
 - **Sparse kernels:** Martí asked whether the GPU supports **2:4 sparse matmul** (NVIDIA Ampere+ style). There is no evidence that Adreno 702 or llama.cpp exploit 2:4 or unstructured sparsity. **llama.cpp stores and computes zeros like any other weight.** ⇒ Unstructured or 2:4 pruning gives **no speed or memory win** in the standard deployment path unless we write custom kernels. See §5.
-- **Memory budget (2 GB board):** OS + App Lab + llama.cpp + model + KV cache. A ~1B model at Q4_0 (~0.7–0.8 GB) fits. A 270M model at Q4_0 is ~0.25–0.3 GB. Keep context modest (KV cache grows with context length).
+- **Memory budget (4 GB board, ~3.6 GiB usable; the two servers in BOARD_SETUP use ~1.1 GB):** OS + App Lab + llama.cpp + model + KV cache. A ~1B model at Q4_0 (~0.7–0.8 GB) fits. A 270M model at Q4_0 is ~0.25–0.3 GB. Keep context modest (KV cache grows with context length).
 - **Latency target:** human reading speed is roughly 4–7 tok/s. Current baselines (~5 tok/s for 1B) are at the bottom of that range, so a smaller or pruned model gives a real UX win.
 
 ---
@@ -191,8 +192,8 @@ MCQ benchmarks (MMLU-style A/B/C/D) **hide** generation damage from pruning/quan
 4. ONLY IF size/speed is still insufficient:
    structured pruning (LLM-Pruner or structured-Wanda, FFN channels first, uniform across layers)
    → LoRA recovery on tutoring data → merge → quantize → re-evaluate (generation, not MCQ!)
-5. Deploy: GGUF served by llama.cpp on UNO Q (App Lab LLM Brick / llama-server, port 9999)
-   Try CPU vs OpenCL (Adreno 702) backends and keep the faster one.
+5. Deploy: GGUF served by our own llama.cpp `llama-server` service on the UNO Q (ports 8081/8082,
+   pinned build `2cbe0ec`, CPU-only, see docs/BOARD_SETUP.md). An OpenCL (Adreno 702) test is optional.
 ```
 
 Note: the team's original order was prune → fine-tune. Fine-tuning first (step 2) and pruning later with **task-specific calibration data** is also valid, and lets pruning keep exactly what the tutor needs. Either way, **always finish with recovery fine-tuning after pruning**.
@@ -200,13 +201,13 @@ Note: the team's original order was prune → fine-tune. Fine-tuning first (step
 ---
 
 ## 9. Open questions / TODO checklist
-- [ ] 2 GB or 4 GB UNO Q?
-- [ ] Kangaroo dataset: language, number of options (A–D vs A–E), are solutions/explanations included?
+- [x] 2 GB or 4 GB UNO Q? **4 GB.**
+- [ ] Kangaroo dataset: language, number of options (answered: A–E), are solutions/explanations included?
 - [ ] Which pedagogical benchmark exactly? Is there an official evaluation script/rules from the challenge?
 - [ ] Required response language(s)?
 - [ ] Does llama.cpp's OpenCL backend work on Adreno 702? Is it faster than CPU?
 - [ ] CPU feature flags on QRB2210 (`/proc/cpuinfo`): confirm no `asimddp`/`i8mm`
-- [ ] Can we deploy a custom GGUF through the App Lab LLM Brick, or do we run our own `llama-server`?
+- [x] Custom GGUF: we run our own `llama-server` as a systemd service (`docs/BOARD_SETUP.md` step 7). Swap the model file in `config.env` and the service.
 - [ ] Does LLM-Pruner support Gemma 3? Does `convert_hf_to_gguf.py` accept non-uniform pruned Gemma 3 configs?
 - [ ] Challenge rules on model size / allowed base models / external data / synthetic data?
 
