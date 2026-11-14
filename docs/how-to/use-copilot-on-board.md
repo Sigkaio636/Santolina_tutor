@@ -44,7 +44,7 @@ The output is a CSV file with one row per problem:
 | `seconds` | The time the problem took |
 | `status` | `ok`, `timeout`, or `error: <reason>` |
 
-If the request times out, or a model service is down or returns an error, the answer is `D`, and the `status` tells you why.
+The answer is `D` when the request fails. The failure can be a timeout, a reply that is not one letter A to E, or an error from a model service. The `status` tells you which.
 
 **The [contract](https://github.com/Sigkaio636/Santolina_tutor/blob/main/GLOSSARY.md).** Keep these rules in every change you make:
 

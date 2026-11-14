@@ -15,6 +15,7 @@ import os
 import random
 import statistics
 import subprocess
+import sys
 import time
 from collections import Counter, defaultdict
 
@@ -58,8 +59,11 @@ def main():
 
     index = None
     if args.rag:
-        from copilot.rag import Index
-        index = Index(args.index)
+        from copilot import rag
+        problem = rag.check(args.index)
+        if problem:
+            sys.exit(problem)
+        index = rag.Index(args.index)
 
     os.makedirs("results", exist_ok=True)
     stamp = time.strftime("%Y%m%d-%H%M%S")

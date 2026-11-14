@@ -143,10 +143,10 @@ The script checks both model services, makes one embedding, and answers the five
 
 ==> Baseline on the 5 sample problems
   0/5 correct, worst latency 7.0 s
-  OK    the minimum pipeline works. Next: prepare M3Kang on your laptop (docs/BOARD_SETUP.md, step 9)
+  OK    the minimum pipeline works. Next: answer problems with the copilot (docs/how-to/use-copilot-on-board.md)
 ```
 
-Ignore the `Next:` hint in the last line: you did step 9 before this guide. Your times can differ by a second or two. `predict.py` prints each problem as `[n/5] <id> -> <letter> in <seconds> s (<status>)`. The same values are in `results/smoke.csv`:
+Your times can differ by a second or two. `predict.py` prints each problem as `[n/5] <id> -> <letter> in <seconds> s (<status>)`. The same values are in `results/smoke.csv`:
 
 ```bash
 cat results/smoke.csv
