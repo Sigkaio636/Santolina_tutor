@@ -75,3 +75,44 @@ _Avoid_: topic, theme
 **Logit distillation**:
 Training a small student model to copy the next-token probabilities (logits) of a larger teacher model.
 _Avoid_: token-level KD, word-level KD, logit KD
+
+### Model compression and fine-tuning
+
+**PTQ**:
+Post-training quantization: quantizing the weights of a model that is already trained.
+
+**QAT**:
+Quantization-aware training: training a model so that it keeps its quality after quantization.
+
+**Per-channel scale**:
+One quantization scale per output row of a weight matrix.
+
+**Group-wise scale**:
+One quantization scale per block of N weights.
+
+**GGUF**:
+The llama.cpp model file format.
+
+**Quantization type**:
+A llama.cpp format for quantized weights, such as Q4_0, Q8_0 or Q4_K_M.
+
+**Structured pruning**:
+Removing whole neurons, heads or channels, so the matrices stay dense but get smaller.
+
+**Unstructured pruning**:
+Setting individual weights to zero, which gives sparse matrices. It needs sparse formats or kernels to give any benefit.
+
+**N:M sparsity**:
+In every block of M weights, N are zero (for example 2:4). Some NVIDIA GPUs accelerate it in hardware.
+
+**CSR**:
+Compressed Sparse Row, a storage format for sparse matrices.
+
+**LoRA**:
+Low-rank adapter fine-tuning: training two small low-rank matrices instead of the full weights.
+
+**QLoRA**:
+LoRA on a frozen base model quantized to 4 bits.
+
+**Taylor importance**:
+The estimated change in loss when weights are removed, about |gradient × weight|.
