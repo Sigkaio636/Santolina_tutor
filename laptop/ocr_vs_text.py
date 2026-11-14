@@ -164,6 +164,43 @@ def summarize(rows, title):
                   f"{pct(sum(r['cer_ns'] < 0.05 for r in rs) / len(rs)):>8}{pct(m('nums')):>8}")
 
 
+def bootstrap(clean, times=2000, seed=0):
+    """95 % interval of the mean cer_ns of each engine, and of v4 minus v5.
+
+    Resamples problems, not rows: the same problem in three languages stays together.
+    """
+    import random
+    by_problem = defaultdict(list)  # problem id -> [(lang, cer_v4, cer_v5)]
+    cer = {(r["key"], r["engine"]): r["cer_ns"] for r in clean}
+    for key in sorted({r["key"] for r in clean}):
+        by_problem[key.split("|")[0]].append((key.split("|")[1], cer[key, "v4"], cer[key, "v5"]))
+    ids = sorted(by_problem)
+    rnd = random.Random(seed)
+    print(f"\n95 % bootstrap interval of the mean CER (no spaces), {times} resamples of {len(ids)} problems, seed {seed}")
+    print(f"{'lang':5}{'v4':>20}{'v5':>20}{'v4 minus v5 (points)':>30}")
+    for lang in LANGS + ("all",):
+        groups = [[row for row in by_problem[i] if lang in ("all", row[0])] for i in ids]
+        groups = [g for g in groups if g]
+        means = []
+        for _ in range(times):
+            sample = [row for g in (rnd.choice(groups) for _ in groups) for row in g]
+            n = len(sample)
+            means.append((sum(r[1] for r in sample) / n, sum(r[2] for r in sample) / n))
+        rows = [row for g in groups for row in g]
+        point = (statistics.mean(r[1] for r in rows), statistics.mean(r[2] for r in rows))
+
+        def interval(values):
+            values = sorted(values)
+            return values[int(0.025 * times)], values[int(0.975 * times) - 1]
+
+        lo4, hi4 = interval([m[0] for m in means])
+        lo5, hi5 = interval([m[1] for m in means])
+        lod, hid = interval([m[0] - m[1] for m in means])
+        print(f"{lang:5}{f'{pct(point[0])} [{lo4 * 100:.1f}, {hi4 * 100:.1f}]':>20}"
+              f"{f'{pct(point[1])} [{lo5 * 100:.1f}, {hi5 * 100:.1f}]':>20}"
+              f"{f'{100 * (point[0] - point[1]):.1f} [{lod * 100:.1f}, {hid * 100:.1f}]':>30}")
+
+
 def selftest():
     assert lev("kitten", "sitting") == 3 and lev("", "abc") == 3 and lev("abc", "") == 3
     assert lev("abc", "abc") == 0 and lev("flaw", "lawn") == 2
@@ -227,6 +264,7 @@ def main():
     for d in by.values():
         better["v5" if d["v5"] < d["v4"] else "v4" if d["v4"] < d["v5"] else "tie"] += 1
     print(f"\nclean rows, lower cer_ns: v5 {better['v5']}, v4 {better['v4']}, tie {better['tie']}")
+    bootstrap(clean)
 
     # Rows where the OCR text is much shorter than the reference: lines of the question are missing.
     # The length ratio is a sign, not proof: it can also come from a wrong read.
