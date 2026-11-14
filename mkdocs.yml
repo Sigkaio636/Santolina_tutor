@@ -2,6 +2,7 @@ site_name: Santolina tutor
 site_description: Math on the Edge copilot for the Arduino UNO Q (Qualcomm challenge)
 docs_dir: docs
 site_dir: site  # ignored by .gitignore (/site)
+dev_addr: 127.0.0.1:8001  # 8000 is the board explorer (docs/BOARD_SETUP.md)
 
 # No `nav:`: the navigation follows the folders in docs/, so new pages appear on their own.
 
@@ -12,6 +13,7 @@ exclude_docs: |
   vault/papers/**/parsed/
   *.pdf
   vault/papers/download.sh
+  review/status.yml
 
 theme:
   name: material

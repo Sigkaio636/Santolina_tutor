@@ -14,6 +14,8 @@ is for research use only, so this site has no problem text.
 - [UNO Q board reference](UNO_Q_BOARD_REFERENCE.md): the board's hardware and limits.
 - [Qualcomm UNO Q summary](RESUMEN_QUALCOMM_UNO_Q.md): a Spanish summary of the
   setup video.
+- [UNO Q constraints guide](GUIA_RESTRICCIONES_UNOQ.html): an HTML page with the
+  challenge constraints and the board specs.
 
 ## Vault
 

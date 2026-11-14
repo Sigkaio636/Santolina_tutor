@@ -32,15 +32,21 @@ lint:
 	ruff format --check
 	ruff check
 
-## Serve the MkDocs site with live reload (http://127.0.0.1:8000)
+## Serve the MkDocs site with live reload (http://127.0.0.1:8001)
 .PHONY: docs-serve
 docs-serve:
-	NO_MKDOCS_2_WARNING=1 uv run --group docs mkdocs serve -a 127.0.0.1:8000
+	NO_MKDOCS_2_WARNING=1 uv run --group docs mkdocs serve
 
 ## Build the MkDocs site into site/ (ignored by Git)
 .PHONY: docs-build
 docs-build:
 	NO_MKDOCS_2_WARNING=1 uv run --group docs mkdocs build
+
+## Check the docs review ledger and print the status table
+.PHONY: docs-status
+docs-status:
+	uv run --group docs python .claude/skills/docs-review/scripts/docs_status.py check
+	uv run --group docs python .claude/skills/docs-review/scripts/docs_status.py table
 
 ## Format source code with ruff
 .PHONY: format

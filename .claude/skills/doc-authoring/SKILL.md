@@ -21,6 +21,7 @@ one owner:
 | diagrams | `mermaid-artist` |
 | language pass | `asd-ste100` |
 | hostile review | `devils-advocate:adversarial-review` |
+| full review with user sign-off and status ledger | `docs-review` |
 
 **Orchestrated mode.** You set the scope once, in M1 or A1. When this skill
 calls another skill, pass the scope and the findings in the arguments. The

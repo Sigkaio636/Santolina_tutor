@@ -1,19 +1,23 @@
-# Santolina_turor
-Repo amd la solució del Qualcomm repte 
+# Santolina_tutor
+Repo amb la solució del repte de Qualcomm (Datathon FME 2026): un copilot de
+matemàtiques que corre a l'Arduino UNO Q.
 
 ## Project Organization
 
 ```
 ├── LICENSE            <- Apache 2.0 license
-├── Makefile           <- Makefile with convenience commands like `make data` or `make train`
+├── Makefile           <- Convenience commands (`make help` lists them: requirements, lint,
+│                         format, docs-serve, docs-build, ...)
 ├── README.md          <- The top-level README for developers using this project.
-├── data
+├── mkdocs.yml         <- Docs site built from docs/ (see "Documentation site" below)
+├── data               <- Only README.md and sample_problems.jsonl are in Git;
+│   │                     the subfolders are created locally (M3Kang stays out of Git)
 │   ├── external       <- Data from third party sources.
 │   ├── interim        <- Intermediate data that has been transformed.
 │   ├── processed      <- The final, canonical data sets for modeling.
 │   └── raw            <- The original, immutable data dump.
 │
-├── docs               <- Project documentation
+├── docs               <- Project documentation; docs/vault/ is the Obsidian paper vault
 │
 ├── models             <- Trained and serialized models, model predictions, or model summaries
 │
@@ -139,9 +143,9 @@ the history must be rewritten before anything is pushed.
 
 ### Skills for Claude
 
-Four skills in `.claude/skills/` teach Claude how the board, this code and the
-datathon work. Claude Code loads them when the request fits, or ask for one by
-name.
+`.claude/skills/` holds the project's skills. Claude Code loads them when the
+request fits, or ask for one by name. Four of them come from the datathon
+repository and teach Claude how the board, this code and the datathon work.
 
 | Skill | Use it to |
 | --- | --- |
@@ -150,8 +154,39 @@ name.
 | [`unoq-hardware-ui`](.claude/skills/unoq-hardware-ui/SKILL.md) | Build an App Lab app with a web page and the LED matrix |
 | [`publish-project`](.claude/skills/publish-project/SKILL.md) | Prepare the public repository and the Arduino Project Hub write-up |
 
-Each skill has a `PROVENANCE.md` with the upstream commit and the local edits.
-If the ports, models or rules change, change the skills too.
+Each of these four has a `PROVENANCE.md` with the upstream commit and the local
+edits. If the ports, models or rules change, change the skills too.
+
+The other skills are general tools:
+
+| Group | Skills |
+| --- | --- |
+| Documentation | `doc-authoring`, `diataxis`, `docsauditor`, `docsjanitor`, `docs-site`, `mermaid-artist`, `asd-ste100` |
+| Planning and review | `grilling`, `grill-with-docs`, `domain-modeling` (Matt Pocock, MIT), `structured-planning`, `pre-pr`, `ponytail*` |
+| Research and teaching | `academic-paper-summarizer`, `socratic-tutor` |
+| Visualization | `vis-design`, `vis-value-critique` |
+
+Vendored skills keep their upstream `LICENSE` in their folder.
+
+## Documentation site
+
+`mkdocs.yml` turns `docs/` into a browsable site (MkDocs + Material). On the
+laptop:
+
+```bash
+uv sync --group docs
+make docs-serve   # http://127.0.0.1:8001 (8000 is the board explorer)
+```
+
+Pages are picked up from the folders. The `docs-site` skill explains how to
+add one and check the build. No page may contain M3Kang problem text.
+
+Every document goes through a review before it counts as validated: run
+`/docs-review` in Claude Code. It reviews one document per run in seven stages
+(audit, critique, decisions, repair, language, adversarial review, sign-off)
+and asks you to validate each one. `docs/review/status.yml` records the
+result, and the site's "Review status" page shows it. `make docs-status`
+checks the ledger.
 
 ### Credits
 

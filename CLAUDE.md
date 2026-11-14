@@ -29,6 +29,11 @@ stop and tell the user.
 - Board side (Arduino UNO Q): `board/`, `copilot/`, `predict.py`, `config.env`.
   Guide: `docs/BOARD_SETUP.md`. Skills: `.claude/skills/unoq-*`,
   `m3kang-copilot`, `publish-project`.
-- Laptop side: `santolina_tutor/` (cookiecutter layout, uv, Python 3.12).
+- Laptop side: `santolina_tutor/` (cookiecutter layout, uv, Python 3.12),
+  `laptop/prepare_m3kang.py` (M3Kang download and OCR).
+- Docs: `docs/` (guides, `docs/vault/` paper vault), served as a site by
+  `mkdocs.yml` on port 8001. Skill: `docs-site`. Review with user sign-off:
+  skill `docs-review`, ledger `docs/review/status.yml`. Only the user marks a
+  stage `validated`.
 - The root `predict.py` is the organizers' contract; don't merge it with
   `santolina_tutor/modeling/predict.py`.
