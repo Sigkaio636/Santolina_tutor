@@ -50,6 +50,8 @@ def main():
     p.add_argument("--name", default="vision")
     p.add_argument("--time-limit", type=float, default=float(CONFIG["TIME_LIMIT_SECONDS"]))
     p.add_argument("--url", default=f"http://127.0.0.1:{CONFIG['VISION_PORT']}/v1/chat/completions")
+    p.add_argument("--ids", help="JSON file with rows of {id, label}: keep only ids labelled 'logic'")
+    p.add_argument("--no-image", action="store_true", help="blind run: same server, image not sent")
     args = p.parse_args()
 
     base = args.url.split("/v1/")[0]
@@ -64,6 +66,10 @@ def main():
     with open(args.input) as f:
         problems = [json.loads(line) for line in f if line.strip()]
     problems = [x for x in problems if not x["text_only"] and (not languages or x["language"] in languages)]
+    if args.ids:
+        with open(args.ids) as f:
+            keep = {r["id"] for r in json.load(f)["rows"] if r["label"] == "logic"}
+        problems = [x for x in problems if x["id"] in keep]
     random.Random(42).shuffle(problems)
     if args.limit:
         problems = problems[:args.limit]
@@ -82,14 +88,14 @@ def main():
         writer.writerow(["id", "language", "level", "has_options", "label", "answer",
                          "correct", "seconds", "status", "prompt_tokens", "retrieved", "has_image"])
         for n, problem in enumerate(problems, 1):
-            b64 = base64.b64encode(images[(problem["id"], problem["language"])]).decode()
+            b64 = None if args.no_image else base64.b64encode(images[(problem["id"], problem["language"])]).decode()
             result = solve(problem, image_b64=b64, llm_url=args.url, time_limit=args.time_limit)
             correct = result["answer"].strip().upper() == problem["label"].strip().upper()
             row = {**problem, **result, "correct": correct, "has_options": bool(problem.get("options"))}
             rows.append(row)
             writer.writerow([problem["id"], problem["language"], problem["level"], row["has_options"],
                              problem["label"], result["answer"], int(correct), result["seconds"],
-                             result["status"], result["prompt_tokens"], result["retrieved"], 1])
+                             result["status"], result["prompt_tokens"], result["retrieved"], int(b64 is not None)])
             out.flush()
             running = 100 * sum(r["correct"] for r in rows) / len(rows)
             print(f"[{n}/{len(problems)}] {result['answer']} (label {problem['label']}) "
@@ -125,7 +131,8 @@ def main():
         if new:
             writer.writerow(["time", "name", "commit", "input", "languages", "n", "rag_k",
                              "accuracy", "mean_s", "worst_s", "over_limit"])
-        writer.writerow([stamp, args.name, git_commit(), args.input + " (figure, image)",
+        writer.writerow([stamp, args.name, git_commit(),
+                         args.input + (" (figure, blind)" if args.no_image else " (figure, image)"),
                          args.languages or "all", len(rows), 0, f"{accuracy:.1f}",
                          f"{statistics.mean(seconds):.1f}", f"{max(seconds):.1f}", over])
     print(f"\nDetails: {detail_path}\nAblation log: {log}")
