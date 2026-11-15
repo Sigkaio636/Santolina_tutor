@@ -10,8 +10,8 @@ documents:
       repair: validated
       language: validated
       adversarial: validated
-      signoff: pending
-    validated_sha: null
+      signoff: validated
+    validated_sha: 8571d5d6d667be758c871f73b254e379822535778f0ec36d10f4bdb4813c0055
     notes:
       audit: 'round 2026-11-15, diff only: docsauditor 0 findings; user validated'
       critique: 'diff only: docs-critic 5 findings (1 decision); user validated'
@@ -19,7 +19,7 @@ documents:
       repair: 'round 2026-11-15: R1-R5 fixed; user validated'
       language: 'round 2026-11-15: no rewrite, ste-lint 0; user validated'
       adversarial: 'round 2026-11-15: 2 rounds, all SHIP; A3 fixed; A4, A5 open; user validated'
-      signoff: user sign-off 2026-11-14 after S1-S6 (commit b9c84d2)
+      signoff: 'round 2026-11-15: user signed off; A4, A5 open (guide move)'
     last_sha: 8571d5d6d667be758c871f73b254e379822535778f0ec36d10f4bdb4813c0055
   docs/BOARD_SETUP.md:
     stages:
