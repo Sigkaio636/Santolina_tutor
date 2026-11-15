@@ -1,223 +1,425 @@
-# Santolina_tutor
-This repository holds the solution to the Qualcomm challenge (Datathon FME
-2026): a math copilot that runs on the Arduino UNO Q.
+# Santolina: a math tutor that lives on the Arduino UNO Q
 
-This page explains the layout of the repository and the rules that apply to it.
-It is for developers who work on the project. The copilot uses the
-[M3Kang](GLOSSARY.md) dataset of Kangaroo math problems. To prepare a board,
-go to [What to try](#what-to-try) at the end.
+Santolina is a math tutor for secondary school students that runs entirely on
+an Arduino UNO Q 4 GB. Each student gets a board. The board makes its own
+Wi-Fi, the student opens the tutor on a phone, and a small fine-tuned model
+guides them through Kangaroo problems with short questions, never with the
+answer. A teacher app on a laptop loads homework onto the boards and reads back
+what each student did, over USB. Nothing leaves the board.
 
-## Project organization
+For the hidden test, `predict.py` answers each problem with one letter. A 2B
+model writes a short Python program for the problem, the board runs it, and
+the program's value picks the option.
 
+<p align="center">
+  <img src="docs/images/student-app-phone.jpeg" alt="The student app on a phone: a fractions problem at level 2, with the wrong option B greyed out and option D marked correct" height="460">
+  &nbsp;
+  <img src="docs/images/teacher-app-dashboard.jpeg" alt="The teacher app dashboard: connected boards, the class's first-try score, and a class map of each student's score by topic" height="460">
+</p>
+
+*Left: the student app on a phone, connected to the board's own Wi-Fi. A
+wrong answer is greyed out, and the student tries again. Right: the teacher
+app on the laptop, with the class map by topic. Both screens show made-up demo
+data.*
+
+This project is our entry to the Qualcomm challenge of the
+[Datathon FME 2026](https://github.com/mpous/datathon-UPC-maths-qualcomm-arduino-unoq),
+"Math on the Edge".
+
+## Contents
+
+1. [What it does](#what-it-does)
+2. [Architecture](#architecture)
+3. [How to replicate it](#how-to-replicate-it)
+4. [Results](#results)
+5. [Error analysis](#error-analysis)
+6. [What didn't work, and what we would try next](#what-didnt-work-and-what-we-would-try-next)
+7. [The team](#the-team)
+8. [Credits and license](#credits-and-license)
+
+## What it does
+
+The challenge asks the copilot to do two things: **teach** and **reason**.
+
+**Teach.** The student scans the QR code on the board's sticker. The phone
+joins the board's Wi-Fi and opens the tutor at `http://10.42.0.1`. The student
+types their code and picks homework, practice by topic, or free mode. On each
+problem they can:
+
+- tap an option and see at once if it is right,
+- ask for a **clue**: the first says where to start, the second adds a
+  similar, easier Kangaroo problem, and each later clue gives the next step,
+- chat with the tutor in Catalan, Spanish or English,
+- see the solution, but only after a wrong answer.
+
+Code checks every reply of the model before the student sees it. If a reply
+names the right option or its value, a fixed hint replaces it. In free mode,
+the next problem follows a fixed rule: one level up after a clean solve, one
+level down after a failure, another topic after three clean solves in a row.
+
+Two reading switches make a problem easier to read: a font in which similar
+characters such as 0 and O are hard to confuse (Atkinson Hyperlegible), and an
+"easy read" layout with one sentence per line and the question last. The LED matrix shows the Wi-Fi state, and a "thinking" bar
+while the model writes.
+
+The teacher app runs on the teacher's laptop. It sets up each board, loads
+exercise packs, and unloads each student's answers, clues and chat when the
+board is plugged in. Students are known by a code. The board never sees their
+names.
+
+**Reason.** `predict.py` is the program the organizers run on the hidden test:
+one letter, A to E, per problem, in at most 60 seconds, with no network. Our
+solver asks Noema-2B to write a Python `solve()`, runs it in a separate
+process, and picks the option equal to its value. When no option matches, it
+falls back to one letter from the model, then to a fixed rule.
+
+## Architecture
+
+```mermaid
+flowchart TB
+  phone["Student's phone<br/>browser, no app"]
+  laptop["Teacher's laptop<br/>teacher app"]
+  jury["Organizers<br/>hidden test"]
+
+  subgraph board["Arduino UNO Q 4 GB"]
+    subgraph linux["Linux on the Qualcomm QRB2210"]
+      app["Student app<br/>port 80"]
+      tutor["llama-server, port 8084<br/>tutor: Qwen3.5 0.8B fine-tuned"]
+      embed["llama-server, port 8082<br/>bge-small embeddings"]
+      index[("index.db<br/>M3Kang problem vectors")]
+      store[("events and progress<br/>per student code")]
+      predict["predict.py<br/>program solver"]
+      noema["llama-server<br/>Noema-2B"]
+      sandbox["Python sandbox<br/>2 s limit"]
+      ledpy["LED app, App Lab<br/>Python"]
+    end
+    subgraph mcu["Microcontroller: STM32U585"]
+      sketch["sketch.ino<br/>8x13 LED matrix"]
+    end
+  end
+
+  phone -- "board's own Wi-Fi" --> app
+  laptop -- "USB, adb:<br/>packs in, events out" --> store
+  app -- "clues, chat" --> tutor
+  app -- "similar problem,<br/>next problem" --> index
+  embed -. "builds" .-> index
+  app --> store
+  jury -- "problems file" --> predict
+  predict -- "write solve()" --> noema
+  predict -- "run it" --> sandbox
+  ledpy -- "reads board state" --> app
+  ledpy -- "Bridge: set_mode,<br/>set_thinking" --> sketch
 ```
-├── LICENSE            <- Apache 2.0 license
-├── Makefile           <- Convenience commands (`make help` lists them: requirements, lint,
-│                         format, docs-serve, docs-build, ...)
-├── README.md          <- The top-level README for developers who use this project.
-├── mkdocs.yml         <- Docs site built from docs/ (see "Documentation site" below)
-├── data               <- Only README.md and sample_problems.jsonl are in Git. The other
-│                         files stay local (M3Kang stays out of Git).
-│                         data/README.md lists them.
-├── docs               <- Project documentation. docs/vault/ is the Obsidian paper vault
-├── pyproject.toml     <- Project configuration file with package metadata for
-│                         santolina_tutor and configuration for tools like ruff
-├── models, notebooks, references, reports
-│                      <- Empty cookiecutter folders (only .gitkeep files)
-│
-└── santolina_tutor    <- Source code for use in this project (laptop side).
-    ├── __init__.py    <- Makes santolina_tutor a Python module
-    ├── config.py      <- Store useful variables and configuration
-    ├── dataset.py     <- Extracts the M3Kang parquet shards in data/raw/
-    │                     into data/interim/m3kang/
-    └── templates      <- Cookiecutter scaffolding that nothing uses yet: features.py,
-                          plots.py, modeling/predict.py, modeling/train.py
+
+### What runs where
+
+| Part | Runs on | Code |
+| --- | --- | --- |
+| Student app: pages, clue ladder, chat, leak check, free-mode rule | Linux, port 80, systemd `santolina-student` | [`student_app/`](student_app/) |
+| Tutor model: Qwen3.5 0.8B with our fine-tune, Q8_0 | Linux, port 8084, systemd `math-tutor` | [`board/08_install_tutor.sh`](board/08_install_tutor.sh) |
+| Embedding model: bge-small-en-v1.5 | Linux, port 8082, systemd `math-embed` | [`board/systemd/`](board/systemd/) |
+| Retrieval index of solved M3Kang problems | Linux, `data/index.db` | [`build_index.py`](build_index.py) |
+| Program solver for the hidden test | Linux, `predict.py` with `SOLVER=program` | `copilot/program_head.py` ([source](https://github.com/Sigkaio636/Santolina_tutor/blob/b956cf03dadb675bea796181dac01d2b77b1a38b/copilot/program_head.py)) |
+| LED app: Python side | Linux, App Lab app `santolina-leds` | [`board/app-lab/santolina-leds/python/main.py`](board/app-lab/santolina-leds/python/main.py) |
+| LED matrix animations | Microcontroller | [`board/app-lab/santolina-leds/sketch/sketch.ino`](board/app-lab/santolina-leds/sketch/sketch.ino) |
+| Teacher app | Teacher's laptop | [`teacher_app/`](teacher_app/) |
+
+**The Bridge.** The LED app's Python side reads the board state from the
+student app, at most every 250 ms. It calls two functions on the microcontroller
+with `Bridge.call`: `set_mode` (Wi-Fi off, waiting for a phone, phone
+connected) and `set_thinking` (how many of the 104 LEDs the "thinking" bar
+fills). The sketch draws every frame, so the animations stay smooth whatever
+Linux is doing.
+
+### How we use M3Kang
+
+| Use | Where |
+| --- | --- |
+| **Similar problem.** Clue 2 finds a similar, easier solved problem in the embedding index, never a homework problem | `student_app/tutor.py`, `index.db` |
+| **Adaptive path.** Free mode takes its next problem from the index: the nearest problem for "same topic", the farthest from the last five for "other topic" | `student_app/planner.py` |
+| **Kangaroo library.** The teacher builds homework packs from the index, by topic and level | `teacher_app/kangaroo.py` |
+| **Tutor fine-tune.** Tutor dialogues written from M3Kang problems with checked solutions, filtered in code and graded by a second model, train a LoRA on Qwen3.5 0.8B | [fine-tune record](docs/models/qwen35-tutor.md) |
+| **Answer prior.** The fallback letter and the prior rule come from the answer statistics of M3Kang | `copilot/prior.py`, `config.env` |
+
+M3Kang is licensed for research use only. No problem, image or index from it
+is in this repository: see the [dataset card](https://huggingface.co/datasets/qualcomm/M3Kang).
+
+## How to replicate it
+
+Start from a board set up with **steps 0 to 12 of
+[`docs/BOARD_SETUP.md`](docs/BOARD_SETUP.md)**. The board then runs
+`math-llm` (port 8081) and `math-embed` (port 8082), and has the retrieval
+index `data/index.db`. Run every command below on the board, from the
+repository folder, unless the step says "laptop".
+
+### 1. Deploy the copilot code
+
+Follow [How to deploy the copilot on the UNO Q](docs/how-to/deploy-copilot-on-board.md).
+
+You should see the smoke test pass at its last step.
+
+### 2. Install the student app
+
+```bash
+./board/06_install_student_app.sh
 ```
 
-## Pull requests
+It asks for the `sudo` password once. It starts the student app on port 80 at
+every boot, and sends every web address on the board's Wi-Fi to it. Check it:
 
-When Claude Code opens a pull request in this repo, a hook checks two rules.
-The hook is `.claude/hooks/pr-gate.sh`, wired in `.claude/settings.json`. It
-runs before `gh pr create`, `gh pr new` or `gh pr ready`:
+```bash
+systemctl is-active santolina-student
+curl -s -o /dev/null -w "%{http_code}\n" http://127.0.0.1/api/info
+```
 
-1. **Draft.** `gh pr create` carries `--draft`, unless `--web` hands the PR
-   to the browser.
-2. **Documentation red flag.** If the change touches code but no `*.md`,
-   `docs/`, README or CHANGELOG file, the hook blocks the command.
-   Tests, lockfiles and `.github/` do not count as code. When the change
-   affects no document, end the command with the shell comment
-   `# pr-gate: no-docs <reason>` and give the reason in the PR body.
+You should see `active`, then `200`.
 
-The `pre-pr` skill in `.claude/skills/pre-pr/` prepares the PR: a
-`/simplify` pass you review, the affected documentation, and a draft PR
-with What and Why. `/simplify` is a skill that comes with Claude Code. It
-reviews the changed code for simplifications.
+### 3. Install the LED app
 
-The hook only checks commands the agent runs. The hook does not check a PR
-opened from the GitHub website, from an app button or by hand. When the hook
-cannot read the command or find the Git repository, it allows the command.
-When `origin` has no default branch, or `--repo` names another repo, the
-hook skips only the documentation check. The draft check still applies.
+Run this while the board still has internet: the first start downloads App
+Lab's Python image.
 
-## Where the code runs
+```bash
+./board/07_install_led_app.sh
+arduino-app-cli app ps
+```
 
-The board side comes from the organizers' repository
-[mpous/datathon-UPC-maths-qualcomm-arduino-unoq](https://github.com/mpous/datathon-UPC-maths-qualcomm-arduino-unoq),
-copied at commit [`d6e3f1b`](https://github.com/mpous/datathon-UPC-maths-qualcomm-arduino-unoq/tree/d6e3f1b0c28a7dc47db3143c17e1e609006cd0a4).
-Its files keep their upstream paths at the root of this repository, with two
-exceptions. The upstream README is now `docs/BOARD_SETUP.md`. The upstream
-`.skills/` folder is now `.claude/skills/`.
+You should see `santolina-leds` as `running`. The matrix shows a Wi-Fi symbol
+whose arcs grow while it waits for a phone.
 
-| Path | Runs on | What it is |
+### 4. Install the tutor model
+
+> `qwen35-tutor-Q8_0.gguf` is not downloadable. It was trained on data made
+> from M3Kang, which is for research use only, so the model stays private. To
+> make your own, follow [the tutor's fine-tune record](docs/models/qwen35-tutor.md#train-it-again).
+> The file on our boards has SHA256
+> `fa4bdb3bc91a89ec2964a1c2ef8d9344fe5ca98f8d00e7c1768dbe9a7740ad43`.
+
+On the laptop:
+
+```bash
+adb push qwen35-tutor-Q8_0.gguf /home/arduino/models/
+```
+
+On the board:
+
+```bash
+./board/08_install_tutor.sh
+```
+
+It starts `math-tutor.service` on port 8084 and asks the model for one clue.
+You should see the clue, then a line with the prompt tokens, the tokens
+written and the time for each.
+
+### 5. Install Noema-2B for `predict.py`
+
+On a laptop with internet, download the pinned file and check it:
+
+```bash
+curl -L -o Noema-2B-Q4_K_M.gguf \
+  https://huggingface.co/NoemaAI-labs/Noema-2B-GGUF/resolve/66d96b1efe4fec42eda0bdea42563fb3ec728c73/Noema-2B-Q4_K_M.gguf
+sha256sum Noema-2B-Q4_K_M.gguf
+adb push Noema-2B-Q4_K_M.gguf /home/arduino/models/
+```
+
+You should see `e39e79c60f0411304ec6813ca3a07ba7dcd1c9fd3312202ad9de7a1b455cb762`.
+The file is 1.27 GB.
+
+On the board, stop the 0.8B model to free RAM, and start Noema-2B (terminal 1):
+
+```bash
+sudo systemctl stop math-llm
+~/llama.cpp/build/bin/llama-server \
+  -m ~/models/Noema-2B-Q4_K_M.gguf \
+  --host 127.0.0.1 --port 8090 \
+  --threads 4 --ctx-size 4096 \
+  --parallel 1 --cache-ram 0 --ctx-checkpoints 8 \
+  --jinja --reasoning off --reasoning-budget 0
+```
+
+It is ready when it prints `server is listening`. `--ctx-checkpoints 8` keeps
+the fixed part of the prompt in the cache from one problem to the next.
+
+### 6. Answer problems with `predict.py`
+
+In terminal 2:
+
+```bash
+mkdir -p results
+SOLVER=program LLM_PORT=8090 python3 predict.py \
+  --input data/sample_problems.jsonl --output results/check.csv
+cat results/check.csv
+```
+
+You should see five rows, each with one letter from A to E, a `seconds` value
+under 60 and the status `ok`. The first problem waits about a minute for the
+warm-up before its clock starts.
+
+To measure it on a problem file, as in [Results](#results):
+
+```bash
+SOLVER=program LLM_PORT=8090 python3 eval.py --input data/demo/train.jsonl \
+  --limit 0 --languages eng --name program-noema-eng
+```
+
+### 7. Set up the board for a class (laptop)
+
+On the teacher's laptop, with [uv](https://docs.astral.sh/uv/) and `adb`:
+
+```bash
+make teacher
+```
+
+The app opens at <http://127.0.0.1:8010>. Add a group and its students, plug
+the board in, and click **Set up this board**. Then print the sticker and
+restart the board. The full steps are in
+[Run the teacher app](docs/how-to/run-teacher-app.md) and
+[Use the student app](docs/how-to/use-student-app.md).
+
+To try both apps on the laptop without a board:
+
+```bash
+uv run --group teacher python -m teacher_app demo
+```
+
+## Results
+
+All results come from the **organizers' practice set**: 50 new
+Kangaroo-style problems, each in English and Catalan, so 100 rows. Each letter
+is right on 20 rows, so any fixed letter scores 20 %. **These are results on
+50 problems per language.** One answer is 2 points in one language, and 1
+point on the 100 rows. The practice set went to the teams only, so it is not in
+this repository.
+
+Board runs, 2026-11-15, 60-second limit per problem:
+
+| Solver | Right of 100 | 95 % interval | English, of 50 | Catalan, of 50 | Mean time | Worst time |
+| --- | --- | --- | --- | --- | --- | --- |
+| **Noema-2B writes a program (`SOLVER=program`)** | **37** | 28–47 % | 20 | 17 | 43.3 s | 57.1 s |
+| Noema-2B, one forced letter | 24 | 17–33 % | 12 | 12 | 17.7 s | 28.1 s |
+| Qwen3.5 0.8B, one forced letter (organizers' baseline) | 22 | 15–31 % | 12 | 10 | 7.6 s | 13.6 s |
+| Any fixed letter | 20 | | 10 | 10 | 0 s | 0 s |
+| Prior rule on option values (`SOLVER=prior`) | 16 | 10–24 % | 8 | 8 | 0 s | 0 s |
+| decider-0.8b, one forced letter | 15 | 9–23 % | 9 | 6 | 7.7 s | 12.0 s |
+
+The organizers' own baseline is 22.5 % (9 of 40) on 40 English M3Kang
+problems whose options OCR read ([`docs/BOARD_SETUP.md`, step 11.3](docs/BOARD_SETUP.md#113-what-we-measured)).
+On the practice set the same baseline scores 24 % in English.
+
+Sources: [four solvers on the practice set](https://github.com/Sigkaio636/Santolina_tutor/blob/1049459dfdcfb8c53a261844200a743204825206/docs/experiments/2026-11-practice-set-on-board.md)
+and [the program solver on the board](https://github.com/Sigkaio636/Santolina_tutor/blob/b956cf03dadb675bea796181dac01d2b77b1a38b/docs/experiments/2026-11-program-solver-and-vision-on-board.md).
+We computed the interval of the program solver (Wilson, 95 %). The other
+intervals come from the first report.
+
+**The tutor.** These numbers come from board B1 and from our router tests:
+
+| Measure | Value | Source |
 | --- | --- | --- |
-| [`docs/BOARD_SETUP.md`](docs/BOARD_SETUP.md) | (a guide, not code) | The step-by-step guide: from a new board to the baseline, then retrieval (RAG), the problem explorer (`explorer/`) and the project |
-| `board/` | Board | Setup scripts `00` to `05` (check, packages, llama.cpp, models, services, smoke test) and the systemd units |
-| `config.env` | Both | Pinned llama.cpp commit, models (with SHA256), ports, time limit, seed |
-| `copilot/` | Board | The copilot: retrieval, prompt, and the call to the model services. Python standard library only |
-| `predict.py` | Board | **The organizers' contract.** `python3 predict.py --input X.jsonl --output Y.csv`: one letter A to E per problem, at most 60 s each |
-| `eval.py`, `build_index.py` | Board | Measure accuracy and latency (writes `results/`), and build the RAG index |
-| `explorer/` | Board | A web page to try problems one by one (port 8000) |
-| `laptop/` | Laptop | `prepare_m3kang.py`: download M3Kang and read the options with OCR (optical character recognition: reading text from the problem images) |
-| `laptop/option_boxes.py`, `laptop/option_rec.py` | Laptop | The [label-anchored option reader](GLOSSARY.md): reads the five answer options from a problem image. Guide: [`docs/OPTION_READER_GUIDE.md`](docs/OPTION_READER_GUIDE.md) |
-| `data/sample_problems.jsonl` | Both | The only data file in Git |
+| Time to the first word of a reply | 2.5 to 7 s | [Use the student app](docs/how-to/use-student-app.md#the-copilot) |
+| Time for a whole reply | 8 to 18 s, at about 5.7 tokens/s | same |
+| Intent router: decider-2b against decider-0.8b, 250 student messages | 87.6 % against 80.8 % right (p = 0.009) | [router round 3](docs/experiments/2026-11-router-bakeoff-3.md) |
 
-Rules that separate the two halves:
+## Error analysis
 
-- **Two `predict.py` files.** Only the root one is the organizers' contract.
-  Don't merge them (the rule is in [CLAUDE.md](CLAUDE.md)).
-- **Nothing on the board imports `santolina_tutor`.** The `santolina_tutor`
-  package needs `loguru` and `python-dotenv`, and the board has no `pip`.
-  `copilot/`, `predict.py`, `eval.py`, `build_index.py` and `explorer/` use
-  the standard library only.
-- **Ruff only checks `santolina_tutor/`**, so `make format` never rewrites the
-  upstream code.
-- **M3Kang is for research use only.** `.gitignore` keeps everything in
-  `data/` out of Git, except `sample_problems.jsonl` and `README.md`. It also
-  excludes `*.gguf`, `*.db` and `results/`. The guard below enforces the red line.
+On the program solver, the board run above (100 rows).
 
-## Red line: no M3Kang data in Git
+**By language.** English 20 of 50 (40 %), Catalan 17 of 50 (34 %). The model
+writes a program for fewer Catalan rows (20 against 23), and fewer of those
+programs are right.
 
-No one may stage, commit, push or open a PR with an M3Kang problem, or
-anything derived from one. A file already in a commit needs a history rewrite, not a new
-commit that deletes it. [`CLAUDE.md`](CLAUDE.md) states the full rule and the
-paths it covers.
+**By how it answered:**
 
-One script, `.claude/hooks/m3kang-guard.py`, holds the rules and enforces them
-in two places:
-
-| Where | When | What it does |
+| Answered by | English | Catalan |
 | --- | --- | --- |
-| Claude Code hook (`.claude/settings.json`, PreToolUse on Bash) | Before the agent runs `git add`, `git commit`, `git push` or `gh pr create\|ready\|merge` | Lists every file the command would put in Git: staged files, forced adds, `-A`/`-a`, unpushed commits on any branch. Blocks the call if one is M3Kang data |
-| GitHub Actions (`.github/workflows/m3kang-guard.yml`) | Every PR, and every push to `main` | Checks every commit in the range and the final tree. So it also catches a commit made by hand or a PR opened on the website |
+| The program's value matched one option | 14 of 23 right (61 %) | 10 of 20 right (50 %) |
+| One letter after the program | 3 of 15 right (20 %) | 3 of 17 right (18 %) |
+| No answer from the model | 0 of 4 | 1 of 4 |
+| Timeout: the answer is D | 8 rows | 9 rows |
 
-The script checks file paths, not file contents. It catches problem images
-only under `data/`. An image saved anywhere else passes the check.
+The program is the part that works. The letter after it is at chance.
 
-`main` has no branch protection (checked on 2026-11-14). So the CI check
-warns, but it does not block a merge. It blocks merges only after
-**m3kang-guard** becomes a required status check in a branch protection rule
-for `main` (GitHub repository settings).
+**By difficulty (level),** English and Catalan together:
 
-## Skills for Claude
+| Level | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Right | 4 of 16 | 7 of 16 | 5 of 14 | 3 of 12 | 6 of 12 | 4 of 10 | 1 of 10 | 7 of 10 |
 
-`.claude/skills/` holds the project's skills. Claude Code loads a skill when
-the request fits. You can also request one by name. Four of them come from the
-organizers' repository. They teach Claude how the board, this code and the
-datathon work.
+Each cell holds 5 to 8 problems in two languages, so most differences between
+levels can be chance. We did not find why level 7 scores highest.
 
-| Skill | Use it to |
-| --- | --- |
-| [`unoq-board`](.claude/skills/unoq-board/SKILL.md) | Connect over SSH or adb, check the model services and the RAM, fix common problems |
-| [`m3kang-copilot`](.claude/skills/m3kang-copilot/SKILL.md) | Change the copilot, run measured experiments, analyze the errors |
-| [`unoq-hardware-ui`](.claude/skills/unoq-hardware-ui/SKILL.md) | Build an App Lab app with a web page and the LED matrix |
-| [`publish-project`](.claude/skills/publish-project/SKILL.md) | Prepare the public repository and the Arduino Project Hub write-up |
+**By topic: not measured.** The practice problems have no topic labels, and
+we did not label them. This is the main gap in this analysis.
 
-Each of these four has a `PROVENANCE.md` with the upstream commit and the local
-edits. If the ports, models or rules change, change the skills too.
+**A few wrong answers, explained** (problem IDs only: the practice set is not
+public):
 
-The other skills are general tools:
+- **Timeouts.** 17 of 100 rows run out of time, and every timeout answers `D`.
+  `D` is right on 20 % of the rows, so these rows are close to lost.
+- **Figure problems.** The model does not see the figure: it gets only the
+  statement and the options that OCR read. With the image, through the 0.8B
+  vision model, the program was right on 1 of 6 figure rows. On
+  `lvl-0_2026_3`, in both languages, the program returned no option.
+- **The same problem, two languages.** On `lvl-1_2026_2` the vision path
+  answered right in English (`D`) and wrong in Catalan (`A`).
+- **Letter bias.** Of the 50 English answers, 16 are C, while C is right on
+  only 10 rows. In Catalan, 15 answers are D, and D is right on 10 rows.
 
-| Skill | Use it to |
-| --- | --- |
-| [`doc-authoring`](.claude/skills/doc-authoring/SKILL.md) | Write a new document, or audit and fix existing ones, from start to end |
-| [`diataxis`](.claude/skills/diataxis/SKILL.md) | Choose the document type (tutorial, how-to, reference, explanation) and structure a document |
-| [`docsauditor`](.claude/skills/docsauditor/SKILL.md) | Find where the docs no longer match the code, without changing anything |
-| [`docsjanitor`](.claude/skills/docsjanitor/SKILL.md) | Fix existing docs so they match the code |
-| [`docs-site`](.claude/skills/docs-site/SKILL.md) | Serve, build or add a page to the MkDocs site |
-| [`docs-review`](.claude/skills/docs-review/SKILL.md) | Review one document in seven stages, with your sign-off |
-| [`mermaid-artist`](.claude/skills/mermaid-artist/SKILL.md) | Draw Mermaid diagrams for the docs |
-| [`asd-ste100`](.claude/skills/asd-ste100/SKILL.md) | Rewrite text in Simplified Technical English, so it is hard to misread |
-| [`grilling`](.claude/skills/grilling/SKILL.md) | Stress-test a plan or decision with hard questions |
-| [`grill-with-docs`](.claude/skills/grill-with-docs/SKILL.md) | Stress-test a plan, and write ADRs and glossary entries as you go |
-| [`domain-modeling`](.claude/skills/domain-modeling/SKILL.md) (Matt Pocock, MIT) | Keep `GLOSSARY.md` and the ADRs up to date |
-| [`structured-planning`](.claude/skills/structured-planning/SKILL.md) | Write a plan with steps, checks, risks and open questions |
-| [`pre-pr`](.claude/skills/pre-pr/SKILL.md) | Prepare a change for a pull request |
-| [`ponytail`](.claude/skills/ponytail/SKILL.md) and the `ponytail-*` skills | Make the smallest change that solves a task. The others audit, review, list shortcuts, show savings or give help |
-| [`academic-paper-summarizer`](.claude/skills/academic-paper-summarizer/SKILL.md) | Summarize a research paper |
-| [`socratic-tutor`](.claude/skills/socratic-tutor/SKILL.md) | Be taught or quizzed on a topic |
-| [`vis-design`](.claude/skills/vis-design/SKILL.md) | Design a chart or other visualization |
-| [`vis-value-critique`](.claude/skills/vis-value-critique/SKILL.md) | Critique an existing chart |
+## What didn't work, and what we would try next
 
-Skills copied from other projects keep their upstream license file in their
-folder: `asd-ste100`, `domain-modeling`, `grilling`, `grill-with-docs`, the
-`ponytail` skills and `socratic-tutor`. The four skills from the organizers'
-repository have no license file. Their `PROVENANCE.md` says the upstream
-repository declares none.
+What didn't work:
 
-## Documentation site
+- **One forced letter from a small model.** Every model we tried scored 15 to
+  24 of 100, close to the 20 of a fixed letter. Each one answers mostly one
+  letter: Noema-2B answers C on 84 rows, Qwen3.5 0.8B answers D on 73.
+- **The prior rule.** It beat a fixed letter on M3Kang, where real papers
+  rarely put the answer at the smallest or largest value. The practice set
+  sorts its options, so the rule always picks C, and it scores 16 of 100.
+- **Worked steps.** Noema-2B writes about 2.4 tokens per second on the board.
+  132 written tokens took 81 s, which is over the 60 s limit.
+- **The figure path.** It fits in time (worst 48.9 s on 6 rows), but the
+  answers are wrong.
+- **The tutor's arithmetic.** The tutor model sometimes states a wrong fact,
+  and it accepts a wrong step from the student. The leak check cannot catch
+  that. The model cannot read photos.
+- **The first intent router.** decider-0.8b had recall under 60 % on one
+  label. decider-2b replaces it, and is not on the board yet.
 
-`mkdocs.yml` configures a browsable site (MkDocs + Material) built from
-`docs/`. The site serves on port 8001, because the board explorer uses port
-8000.
+What we would try next:
 
-The site menu is the `nav:` list in `mkdocs.yml`. The `docs-site` skill explains
-how to add a page and check the build. No new page may contain M3Kang problem
-text. The only exception is the organizers' example record in
-`docs/BOARD_SETUP.md`, which is a verbatim copy.
+- Stop the program earlier when time is short, so the prior answers instead
+  of the timeout `D`.
+- Translate Catalan statements to English before the program.
+- Check the numbers in a tutor reply against a verified program.
+- Label the problems by topic, and report accuracy by topic.
+- Run decider-2b on the board, and turn each router label into its own reply
+  type.
 
-A document counts as `validated` only after a review. To review a document,
-run `/docs-review` in Claude Code. It reviews one document per run in seven
-stages (`audit`, `critique`, `decisions`, `repair`, `language`, `adversarial`,
-`signoff`). It requests your sign-off at each stage. `docs/review/status.yml` records the
-result, and the site's "Review status" page shows it. `make docs-status`
-checks that file.
+## The team
 
-## Credits
+- Eki Gonzalez
+- Pau Soler
+- Ferran Alia 
+- Haokang Chen
 
-- Board setup, copilot, scripts and skills: the UPC Datathon FME 2026
-  Qualcomm challenge organizers, [mpous/datathon-UPC-maths-qualcomm-arduino-unoq](https://github.com/mpous/datathon-UPC-maths-qualcomm-arduino-unoq).
+
+## Credits and license
+
+Our code is under the [Apache 2.0 license](LICENSE).
+
+- Board setup, the first copilot, the scripts and four skills: the organizers
+  of the UPC Datathon FME 2026 Qualcomm challenge,
+  [mpous/datathon-UPC-maths-qualcomm-arduino-unoq](https://github.com/mpous/datathon-UPC-maths-qualcomm-arduino-unoq).
 - **M3Kang**: Torres-Camps et al., 2026, [arXiv:2601.16218](https://arxiv.org/abs/2601.16218).
-  [Dataset card and license](https://huggingface.co/datasets/qualcomm/M3Kang): research use only.
-- [llama.cpp](https://github.com/ggml-org/llama.cpp) (MIT), Qwen3.5 0.8B and
-  bge-small-en-v1.5 (see their model cards:
-  [Qwen3.5 0.8B](https://huggingface.co/bartowski/Qwen_Qwen3.5-0.8B-GGUF),
-  [bge-small-en-v1.5](https://huggingface.co/CompendiumLabs/bge-small-en-v1.5-gguf)),
-  [RapidOCR](https://github.com/RapidAI/RapidOCR) (Apache 2.0).
+  [Dataset card and license](https://huggingface.co/datasets/qualcomm/M3Kang):
+  research use only.
+- [llama.cpp](https://github.com/ggml-org/llama.cpp) (MIT).
+- Models: [Qwen3.5 0.8B](https://huggingface.co/bartowski/Qwen_Qwen3.5-0.8B-GGUF),
+  [bge-small-en-v1.5](https://huggingface.co/CompendiumLabs/bge-small-en-v1.5-gguf),
+  [Noema-2B](https://huggingface.co/NoemaAI-labs/Noema-2B-GGUF) (Apache 2.0).
+  See each model card for its license.
+- [RapidOCR](https://github.com/RapidAI/RapidOCR) (Apache 2.0).
+- [Atkinson Hyperlegible](https://www.brailleinstitute.org/freefont/) font,
+  Braille Institute (SIL Open Font License).
 
-## What to try
-
-**Prepare a board and run the copilot.**
-
-1. Follow steps 0 to 8 of [`docs/BOARD_SETUP.md`](docs/BOARD_SETUP.md) on the
-   board, then step 9 on your laptop. The board then runs the two model
-   services, and your laptop has `data/train.jsonl` and `data/val.jsonl`.
-2. Follow [How to deploy the copilot on the UNO Q](docs/how-to/deploy-copilot-on-board.md).
-   At the end, the smoke test passes.
-3. Follow [How to use the copilot on the UNO Q](docs/how-to/use-copilot-on-board.md)
-   to answer problems and measure the results.
-
-**Check a range of commits for M3Kang data.** From the repository root:
-
-```bash
-python3 .claude/hooks/m3kang-guard.py --range origin/main HEAD
-```
-
-A clean range prints `m3kang-guard: clean (N paths checked)`. On a hit, the
-script lists each file with the reason and exits with code 1.
-
-**Serve the documentation site.** On the laptop, with
-[uv](https://docs.astral.sh/uv/) (the Python package manager of this project):
-
-```bash
-uv sync --group docs
-make docs-serve   # http://127.0.0.1:8001 (8000 is the board explorer)
-```
+**For developers:** the repository layout, the M3Kang guard, the pull request
+rules and the docs site are in [`docs/DEVELOPING.md`](docs/DEVELOPING.md).

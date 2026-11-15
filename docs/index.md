@@ -9,15 +9,45 @@ setup guide, this site has no M3Kang problem text.
 This site is the project's documentation, for the team and for anyone who
 wants to run the copilot on a board. Read the pages under "Start here" in order.
 
+## The project
+
+Each student gets a board. The board makes its own Wi-Fi, and the student
+opens the tutor on a phone. A fine-tuned Qwen3.5 0.8B guides the student
+through Kangaroo problems with short questions, and code blocks any reply that
+gives the answer away. A teacher app on a laptop loads homework onto the boards
+and unloads what each student did, over USB. For the organizers' hidden test,
+`predict.py` asks Noema-2B to write a short Python program, runs it, and picks
+the option equal to its value.
+
+The [README](https://github.com/Sigkaio636/Santolina_tutor#readme) is the
+project's submission page. It holds these sections:
+
+- [What it does](https://github.com/Sigkaio636/Santolina_tutor#what-it-does)
+- [Architecture](https://github.com/Sigkaio636/Santolina_tutor#architecture),
+  with how we use M3Kang
+- [How to replicate it](https://github.com/Sigkaio636/Santolina_tutor#how-to-replicate-it)
+- [Results](https://github.com/Sigkaio636/Santolina_tutor#results) and
+  [error analysis](https://github.com/Sigkaio636/Santolina_tutor#error-analysis)
+  by language and level
+- [What didn't work](https://github.com/Sigkaio636/Santolina_tutor#what-didnt-work-and-what-we-would-try-next)
+- [The team](https://github.com/Sigkaio636/Santolina_tutor#the-team)
+
 ## Start here
 
-1. [Board setup](BOARD_SETUP.md), steps 0 to 8 on the board, then step 9 on
-   your laptop: the organizers' guide to prepare the board and the M3Kang
-   files. It also defines the `predict.py` contract.
+1. [Board setup](BOARD_SETUP.md), steps 0 to 12: the organizers' guide to
+   prepare the board, the M3Kang files on your laptop (step 9) and the
+   retrieval index (step 12). It also defines the `predict.py` contract.
 2. [How to deploy the copilot on the UNO Q](how-to/deploy-copilot-on-board.md):
    put the code and data on the board and check it.
-3. [How to use the copilot on the UNO Q](how-to/use-copilot-on-board.md):
-   answer problems, measure results, and use retrieval.
+3. [Use the student app](how-to/use-student-app.md): install the student app,
+   the LED app and the tutor model on the board, and use them from a phone.
+4. [Run the teacher app](how-to/run-teacher-app.md): set up boards, load
+   homework and unload what students did.
+5. [How to use the copilot on the UNO Q](how-to/use-copilot-on-board.md):
+   answer problems with `predict.py`, measure results, and use retrieval.
+
+Developers: see [Develop the project](DEVELOPING.md) for the repository layout
+and its rules.
 
 ## Background
 
