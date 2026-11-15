@@ -856,8 +856,8 @@ documents:
       repair: validated
       language: validated
       adversarial: validated
-      signoff: done
-    validated_sha: null
+      signoff: validated
+    validated_sha: fccdf846d282464e4f85fde58805aa5324267f583803a7b5aaa994b03f603737
     notes:
       audit: '2026-11-15: user validated (counts in findings file)'
       critique: '2026-11-15: user validated (counts in findings file)'

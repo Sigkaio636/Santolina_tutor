@@ -61,7 +61,7 @@ Each document goes through the `/docs-review` stages. ✅ validated by the user,
 | [docs/how-to/use-decider-2b-router.md](../how-to/use-decider-2b-router.md) | ✅ | ✅ | 🟡 | ⏳ | ⏳ | ⏳ | ⏳ |
 | [docs/how-to/use-student-app.md](../how-to/use-student-app.md) | ✅ | ✅ | 🟡 | ⏳ | ⏳ | ⏳ | ⏳ |
 | [docs/index.md](../index.md) | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ |
-| [docs/models/decider-2b-vision.md](../models/decider-2b-vision.md) | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 🟡 |
+| [docs/models/decider-2b-vision.md](../models/decider-2b-vision.md) | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | [docs/models/internvl3.5-1b.md](../models/internvl3.5-1b.md) | ✅ | ✅ | ✅ | 🟡 | ⏳ | ⏳ | ⏳ |
 | [docs/models/qwen35-tutor.md](../models/qwen35-tutor.md) | ✅ | ✅ | ✅ | ✅ | ✅ | ⏳ | ⏳ |
 | [docs/reference/board-data-contract.md](../reference/board-data-contract.md) | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
@@ -83,4 +83,4 @@ Each document goes through the `/docs-review` stages. ✅ validated by the user,
 | [docs/vault/papers/tutoring_pedagogy/_synthesis.md](../vault/papers/tutoring_pedagogy/_synthesis.md) | ✅ | ✅ | ✅ | ✅ | ✅ | – | ✅ |
 | mkdocs.yml | ✅ | ✅ | 🟡 | ⏳ | – | ⏳ | ⏳ |
 
-Signed off: 35 of 70 documents.
+Signed off: 36 of 70 documents.
