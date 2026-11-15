@@ -64,3 +64,25 @@ Type: tutorial (steps 0-12) with reference and explanation parts, heavy. 30 find
 | C30 | docs/BOARD_SETUP.md | 862-867, 971, 1002-1005, 1019-1028 | readability/11 claims | "What we measured" tables cite no source, date or commit | rule 11 — S3 Q1 (user): BOARD_SETUP.md is a verbatim copy of the organizers' README; do not change it | wontfix | cosmetic | - |
 
 S3 note (2026-11-14): the user settled F9: leave the record as it is (the organizers' own example). No history rewrite.
+
+## Round 2026-11-15 (diff since sign-off ae8ecfa only, X5)
+
+| id | file | line | category | claim | evidence | status | severity | depends_on |
+|---|---|---|---|---|---|---|---|---|
+| B4 | docs/BOARD_SETUP.md | 777, 762-769 | 11 claims | Link sits next to 62% / 74%, which predate the parser fixes | laptop/prepare_m3kang.py:115-149; OCR_FAILURE_MODES.md:109,158 (75.8% -> 89.2% text-only) | wontfix | misleading | - |
+
+### S3 decisions (2026-11-15)
+
+S4 (2026-11-15) fixed B1, B2, B3, B5 and B6 and deleted them here. The source note now compares with the import commit `ae8ecfa`, because `d6e3f1b` is not in this repository.
+
+- B4 -> wontfix: lines 762-769 are the organizers' text (read-only rule, S3 Q1 of 2026-11-14); OCR_FAILURE_MODES holds the current numbers.
+
+### S6 adversarial (2026-11-15)
+
+Lenses analyst, popular-science, slop-hunter; adjudicated. Round 1: 1 MAJOR (the 11.1 note claimed a model call for problems with an image; `eval.py` and `predict.py` never pass one) and 7 MINOR. Fixed: the 11.1 note wording, "`--rag` changes no answer", example names `letter-baseline` and `letter-rag1`, the 9.3 sentence scoped to the organizers' parser. Refuted as immaterial: the "byte-identical to the commit" referent, the "for example" list of own files, spelling out the prior rule. Round 2: SHIP from all three lenses. Two cosmetic fixes after round 2 ("paragraph after the list", "rows it leaves empty"), not re-reviewed. Open, out of bar:
+
+| id | file | line | category | claim | evidence | status | severity | depends_on |
+|---|---|---|---|---|---|---|---|---|
+| A1 | docs/BOARD_SETUP.md | 784 | 4 sentences | "the organizers' parser" is the guide's first mention of a parser | the 9.3 heading and list talk only about OCR; `parse_options` in `laptop/prepare_m3kang.py` | open | cosmetic | - |
+| A2 | docs/BOARD_SETUP.md | 838-841, 862 | 11 claims | the organizers' 11.2 command logs the prior solver as `baseline`; `ablations.csv` has no solver column | `eval.py:119-125` | open | cosmetic | - |
+| A3 | docs/BOARD_SETUP.md | 838-841 | 11 claims | if the uncommitted `config.env` change (another session) switches `LLM_FILE`, `SOLVER=letter` measures a different model from the 0.8B in the 11.3 table | `git diff config.env` (working tree, not this review) | open | cosmetic | - |

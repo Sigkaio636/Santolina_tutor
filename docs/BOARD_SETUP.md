@@ -11,10 +11,19 @@
 >   (`~/Santolina_tutor`); step 9 runs `laptop/` through `uv run --no-project` instead of a
 >   `python3 -m venv .venv`, which would clash with this repository's uv `.venv`; step 14.1 points at
 >   `.claude/skills/` instead of `.skills/` and its symlink.
-> - `config.env`, `explorer/server.py`, `board/05_smoke_test.sh`: "the README" -> `docs/BOARD_SETUP.md`.
+> - This guide, added text: in step 9.3, the paragraph after the list (the missing `C)` label and a
+>   link to `OCR_FAILURE_MODES.md`). In steps 11.1 and 12.2, a local note on `SOLVER=prior`.
+> - `config.env`, `explorer/server.py`: "the README" -> `docs/BOARD_SETUP.md`.
+> - Changed after the import commit `ae8ecfa` (`git diff ae8ecfa -- <file>` shows each change):
+>   `config.env`, `copilot/llm.py`, `copilot/pipeline.py`, `copilot/rag.py`, `predict.py`, `eval.py`,
+>   `explorer/server.py`, `laptop/prepare_m3kang.py`, `data/README.md`. `board/05_smoke_test.sh` now
+>   points at `docs/how-to/use-copilot-on-board.md`.
+> - Files added after `ae8ecfa` are this repository's own, for example `copilot/prior.py`,
+>   `board/06`-`08`, `board/ocr_speed.sh`, `board/app-lab/`, most of `laptop/`, `student_app/`,
+>   `teacher_app/` and `classroom/`.
 > - Skills: see each `.claude/skills/<name>/PROVENANCE.md`.
-> - All other files in `board/`, `copilot/`, `explorer/`, `laptop/`, `data/`, `results/`,
->   `predict.py`, `eval.py` and `build_index.py` are byte-identical to the commit.
+> - All other files in `board/`, `copilot/`, `explorer/`, `laptop/`, `data/`, `results/` and
+>   `build_index.py` are byte-identical to the commit.
 
 <img width="1526" height="927" alt="UPC-datathon" src="https://github.com/user-attachments/assets/daa7be34-b91a-4703-9581-7b5142f75d91" />
 
@@ -772,9 +781,9 @@ OCR reads all five options for 62% of the problems. The rest have `"options": {}
 - Fractions and formulas come out garbled, such as `1/2` read as `12`
 - In a few problems, two options come out the same
 
-Better option reading is one of the easiest ways to improve your score. Look at the problems with empty options with `--save-images`.
+This list misses the most frequent failure of the organizers' parser. In most rows it leaves empty, the OCR text has no `C)` label in front of option C. [OCR failure modes: expected and measured](OCR_FAILURE_MODES.md) counts each failure mode.
 
-For counts of each failure mode, and one that this list misses, see [OCR failure modes: expected and measured](OCR_FAILURE_MODES.md).
+Better option reading is one of the easiest ways to improve your score. Look at the problems with empty options with `--save-images`.
 
 ### 9.4 The data format
 
@@ -825,6 +834,11 @@ wc -l data/train.jsonl data/val.jsonl
 ```bash
 python3 predict.py --input data/val.jsonl --output results/predictions.csv
 ```
+
+> **Local note.** This repository answers with the prior solver (`SOLVER=prior` in `config.env`).
+> It picks a letter with a fixed rule. With this solver, `eval.py` and `predict.py` do not call
+> the language model. To measure the language model as this step describes, set `SOLVER=letter`,
+> for example `SOLVER=letter python3 eval.py --limit 50 --name letter-baseline`.
 
 For each problem, `copilot/pipeline.py`:
 
@@ -892,6 +906,10 @@ It embeds every training problem with bge-small and stores the vectors in a SQLi
 python3 eval.py --limit 50 --rag 1 --name rag1
 python3 predict.py --input data/val.jsonl --output results/predictions.csv --rag 1
 ```
+
+> **Local note.** With `SOLVER=prior` (this repository's default), `--rag` changes no answer: the
+> prior solver does not call the language model, so it does not search the index. Set
+> `SOLVER=letter` to use retrieval, for example `SOLVER=letter python3 eval.py --limit 50 --rag 1 --name letter-rag1`.
 
 `--rag 1` adds the most similar training problem, with its answer, before the question. `--rag 2` adds two. `eval.py` never retrieves the problem it's answering (`exclude_id`), so the score stays honest.
 

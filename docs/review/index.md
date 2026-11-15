@@ -13,7 +13,7 @@ Each document goes through the `/docs-review` stages. ✅ validated by the user,
 | Document | audit | critique | decisions | repair | language | adversarial | signoff |
 | --- | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
 | README.md | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| [docs/BOARD_SETUP.md](../BOARD_SETUP.md) | ✅ | ✅ | ✅ | ✅ | ✅ | – | ⏳ |
+| [docs/BOARD_SETUP.md](../BOARD_SETUP.md) | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | CLAUDE.md | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | data/README.md | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | [docs/CHALLENGE_CONTEXT.md](../CHALLENGE_CONTEXT.md) | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
@@ -71,4 +71,4 @@ Each document goes through the `/docs-review` stages. ✅ validated by the user,
 | [docs/vault/papers/tutoring_pedagogy/_synthesis.md](../vault/papers/tutoring_pedagogy/_synthesis.md) | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | mkdocs.yml **stale** | ✅ | ✅ | ✅ | ✅ | – | ✅ | ✅ |
 
-Signed off: 28 of 58 documents.
+Signed off: 29 of 58 documents.

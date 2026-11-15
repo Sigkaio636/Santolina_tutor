@@ -28,9 +28,9 @@ documents:
       decisions: validated
       repair: validated
       language: validated
-      adversarial: n/a
-      signoff: pending
-    validated_sha: null
+      adversarial: validated
+      signoff: validated
+    validated_sha: 773d8810219857e46b99a3f78a56e6cf986a042be65a14a84d8f7a3fcf863c32
     notes:
       audit: 'round 2026-11-15, diff only: docsauditor 1 finding; user validated'
       critique: 'diff only: docs-critic 4 findings + 1 out-of-diff decision (steps 11-12 vs SOLVER); user
@@ -38,9 +38,9 @@ documents:
       decisions: 'grilling 2026-11-15: B4 wontfix, B5-B6 settled by X11; user validated'
       repair: user validated S4 on 2026-11-15
       language: user validated S5 on 2026-11-15
-      adversarial: verbatim copy of the organizers' README (S3 Q1)
-      signoff: user sign-off 2026-11-14 after S1-S6 (commit b9c84d2)
-    last_sha: 1ca709aa0becbea4e93bb8d2321eb6ad9e1f305917886396c8cc267a15aacc71
+      adversarial: user validated S6 on 2026-11-15
+      signoff: user signed off on 2026-11-15; open A1-A3 cosmetic
+    last_sha: 773d8810219857e46b99a3f78a56e6cf986a042be65a14a84d8f7a3fcf863c32
   CLAUDE.md:
     stages:
       audit: validated
