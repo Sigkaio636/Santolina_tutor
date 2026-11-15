@@ -22,6 +22,8 @@ dependencies = [
     "matplotlib",
     "notebook",
     "numpy",
+    "onnxruntime",
+    "opencv-python-headless",
     "pandas",
     "pip",
     "pyarrow",
