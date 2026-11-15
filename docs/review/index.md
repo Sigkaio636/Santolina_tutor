@@ -12,8 +12,8 @@ Each document goes through the `/docs-review` stages. ✅ validated by the user,
 
 | Document | audit | critique | decisions | repair | language | adversarial | signoff |
 | --- | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| README.md | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| [docs/BOARD_SETUP.md](../BOARD_SETUP.md) | ✅ | ✅ | ✅ | – | – | – | ✅ |
+| README.md **stale** | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| [docs/BOARD_SETUP.md](../BOARD_SETUP.md) **stale** | ✅ | ✅ | ✅ | – | – | – | ✅ |
 | CLAUDE.md | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | data/README.md | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | [docs/CHALLENGE_CONTEXT.md](../CHALLENGE_CONTEXT.md) | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
@@ -22,6 +22,10 @@ Each document goes through the `/docs-review` stages. ✅ validated by the user,
 | [docs/RESUMEN_QUALCOMM_UNO_Q.md](../RESUMEN_QUALCOMM_UNO_Q.md) | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | [docs/SKILLS_GUIDE.html](../SKILLS_GUIDE.html) | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | [docs/UNO_Q_BOARD_REFERENCE.md](../UNO_Q_BOARD_REFERENCE.md) | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| [docs/experiments/2026-11-decider-0.8b.md](../experiments/2026-11-decider-0.8b.md) | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| [docs/experiments/2026-11-ocr-text-vs-annotation.md](../experiments/2026-11-ocr-text-vs-annotation.md) | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| [docs/experiments/2026-11-option-extraction-consensus.md](../experiments/2026-11-option-extraction-consensus.md) | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| [docs/experiments/2026-11-ppformulanet.md](../experiments/2026-11-ppformulanet.md) | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | [docs/how-to/deploy-copilot-on-board.md](../how-to/deploy-copilot-on-board.md) | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | [docs/how-to/mineru-ocr-papers.md](../how-to/mineru-ocr-papers.md) | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | [docs/how-to/use-copilot-on-board.md](../how-to/use-copilot-on-board.md) | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
@@ -36,6 +40,6 @@ Each document goes through the `/docs-review` stages. ✅ validated by the user,
 | [docs/vault/papers/quantization/_synthesis.md](../vault/papers/quantization/_synthesis.md) | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | [docs/vault/papers/surveys/_synthesis.md](../vault/papers/surveys/_synthesis.md) | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | [docs/vault/papers/tutoring_pedagogy/_synthesis.md](../vault/papers/tutoring_pedagogy/_synthesis.md) | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| mkdocs.yml | ✅ | ✅ | ✅ | ✅ | – | ✅ | ✅ |
+| mkdocs.yml **stale** | ✅ | ✅ | ✅ | ✅ | – | ✅ | ✅ |
 
-Signed off: 25 of 25 documents.
+Signed off: 29 of 29 documents.

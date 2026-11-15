@@ -76,7 +76,7 @@ exceptions. The upstream README is now `docs/BOARD_SETUP.md`. The upstream
 | `predict.py` | Board | **The organizers' contract.** `python3 predict.py --input X.jsonl --output Y.csv`: one letter A to E per problem, at most 60 s each |
 | `eval.py`, `build_index.py` | Board | Measure accuracy and latency (writes `results/`), and build the RAG index |
 | `explorer/` | Board | A web page to try problems one by one (port 8000) |
-| `laptop/` | Laptop | `prepare_m3kang.py`: download M3Kang and read the options with OCR (optical character recognition: reading text from the problem images) |
+| `laptop/` | Laptop | `prepare_m3kang.py`: download M3Kang and read the options with OCR (optical character recognition: reading text from the problem images). New option reader, not in `prepare_m3kang.py` yet: [docs/OPTION_READER_GUIDE.md](docs/OPTION_READER_GUIDE.md) |
 | `data/sample_problems.jsonl` | Both | The only data file in Git |
 
 Rules that separate the two halves:
