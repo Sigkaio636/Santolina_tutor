@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>{{ S.setup_title }}</h1>
+<p class="muted">{{ serial }}{% if kind == "fake" %} · {{ S.simulated }}{% endif %}</p>
+{% if req is none %}
+  <p>{{ S.setup_intro }}</p>
+  <form class="card" method="post" action="/setup/{{ serial }}">
+    <label>{{ S.setup_name }}
+      <input name="name" required value="{{ identity.name if identity else '' }}" placeholder="Board 1">
+    </label>
+    <p class="muted small">{{ S.setup_name_help }}</p>
+    <label>{{ S.setup_group }}
+      <select name="group_id">
+        <option value="">{{ S.no_group }}</option>
+        {% for g in groups %}<option value="{{ g.id }}">{{ g.name }}</option>{% endfor %}
+      </select>
+    </label>
+    <ol class="steps muted small">{% for key, title, _ in steps %}<li>{{ title }}</li>{% endfor %}</ol>
+    <button class="primary big">{{ S.setup_start }}</button>
+  </form>
+{% else %}
+  {% if ok %}<p class="flash ok">{{ S.setup_done.format(name=req.name) }}</p>
+  {% else %}<p class="flash err">{{ S.setup_failed }}</p>{% endif %}
+  <ol class="steps">
+    {% for r in req.results %}
+      <li class="step {{ r.status }}"><strong>{{ r.title }}</strong> — {{ r.status }}{% if r.message %}: {{ r.message }}{% endif %}</li>
+    {% endfor %}
+  </ol>
+  {% if ok %}<a class="button primary" href="/boards/{{ serial }}">{{ S.connected_open }}</a>
+  {% else %}<a class="button" href="/setup/{{ serial }}">↻</a>{% endif %}
+{% endif %}
+{% endblock %}

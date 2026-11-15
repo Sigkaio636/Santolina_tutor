@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}{{ S.app_name }}{% endblock %}</title>
+  <link rel="icon" href="/static/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/static/app.css">
+  <script src="/static/htmx.min.js"></script>
+  <script src="/static/chart.umd.min.js"></script>
+  <script src="/static/app.js" defer></script>
+</head>
+<body>
+  <header class="top">
+    <a class="brand" href="/">{{ S.app_name }}</a>
+    <nav>
+      <a href="/">{{ S.nav_dashboard }}</a>
+      <a href="/students">{{ S.nav_students }}</a>
+      <a href="/groups">{{ S.nav_groups }}</a>
+      <a href="/boards">{{ S.nav_boards }}</a>
+      <a href="/assignments">{{ S.nav_assignments }}</a>
+      <a href="/library">{{ S.nav_library }}</a>
+      <a href="/packs">{{ S.nav_packs }}</a>
+      <a href="/unassigned">{{ S.nav_unassigned }}</a>
+    </nav>
+  </header>
+  {% if demo_url %}
+  <section class="demo-banner">
+    <div>
+      <strong>{{ S.demo_title }}</strong>
+      <p>{{ S.demo_text }} <a href="{{ demo_url }}" target="_blank">{{ demo_url }}</a></p>
+      <p class="small">{{ S.demo_phone }}</p>
+    </div>
+    <div class="demo-qr">{{ demo_qr | safe }}</div>
+  </section>
+  {% endif %}
+  <section class="connected" hx-get="/fragments/connected" hx-trigger="load, every 2s" hx-swap="innerHTML">
+  </section>
+  <main>
+    {% if msg %}<p class="flash ok">{{ msg }}</p>{% endif %}
+    {% if err %}<p class="flash err">{{ err }}</p>{% endif %}
+    {% block content %}{% endblock %}
+  </main>
+</body>
+</html>

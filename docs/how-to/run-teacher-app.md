@@ -1,0 +1,118 @@
+# Run the teacher app
+
+The teacher app runs on the teacher's laptop. With it you set up boards, load exercise packs onto them, unload what the students did, and see statistics per class, per student and per board.
+
+During class a board works on its own. Students use it from a phone, and no computer is attached. You plug a board into the laptop with its USB-C cable only to set it up, load exercises or unload data.
+
+## Before you start
+
+- **Linux laptop** with [uv](https://docs.astral.sh/uv/) and `adb` (`sudo dnf install android-tools` on Fedora). See the udev rule in [the board reference](../UNO_Q_BOARD_REFERENCE.md) if `adb devices` shows the board as `no permissions`.
+- **A ready board.** App Lab first setup is done, and the copilot is installed with the scripts in `board/`: the model services answer, and the retrieval index `~/Santolina_tutor/data/index.db` exists (Step 12 of [the board setup guide](../BOARD_SETUP.md)). Setup in the app stops with a clear message if any of this is missing.
+
+## Start the app
+
+```bash
+make teacher
+```
+
+The app opens at <http://127.0.0.1:8010>. It listens on this computer only, and works without internet.
+
+To start it with a double click instead, add a **Santolina Teacher** shortcut (a graduation cap icon) to the desktop and the applications menu, once:
+
+```bash
+uv run --group teacher python -m teacher_app install-shortcut
+```
+
+The shortcut opens the app in the browser. If the app is already running, it only opens the browser. Messages go to `~/.local/state/santolina-teacher.log`. The app keeps running until you log out. If you move the repository, run the command again.
+
+Your data goes to `~/.local/share/santolina-teacher/`: the teacher store (`teacher.sqlite3`), a raw copy of every file unloaded from a board (`raw/`) and the exercise pack library (`packs/`). Set `SANTOLINA_TEACHER_HOME` to use another folder. It is outside the repository, so it never goes into Git.
+
+## Set up a new board
+
+1. Add a **group** (for example "3r ESO B") and its **students** in the app. Each student gets a code, such as `K7M2`. Students type this code on the board. The board never sees their names.
+2. Plug the board in. After up to a minute, it appears in **Connected boards** as *New board*.
+3. Click **Set up this board**, give it a name (for example "Board 7") and pick the group.
+4. Write the name on a sticker on the board.
+
+Setup copies the board module to `~/santolina/lib/`, checks that the board is ready, writes the board's files, sets **student mode**, and sends the group's student codes.
+
+## Load exercises
+
+1. On **Exercise packs**, import a pack folder, or click **Create a demo pack** to try with synthetic exercises.
+2. Open the connected board, pick the pack and click **Load pack**.
+
+To build a pack from M3Kang (research use only, written outside the repository):
+
+```bash
+uv run --group teacher python -m teacher_app m3kang-pack \
+  --source data/val.jsonl --pack-id kangaroo-l0 --title "Kangaroo level 0" \
+  --languages eng,cat --levels 0 --limit 30
+```
+
+## Choose Kangaroo problems by topic
+
+**Kangaroo library** lists the solved Kangaroo problems that the board's copilot knows, in a grid of topics by level. Each cell gives the number of problems with text options in the chosen language.
+
+1. Plug in a board and click **Copy** under *Copy the problems of a connected board*. The app copies the board's retrieval index and its topic labels into its own folder. Do it again when the board's index changes.
+2. Click a number in the grid, or pick a topic, a level and a language and search the text. Each problem shows its options and its answer.
+3. Tick the problems you want, give the pack a title, pick a group and click **Make the pack**. The app opens **Homework** with the new pack. Tick the exercises to assign there, or none for the whole pack.
+
+A pack from the library keeps each problem's id and topic. The copilot then finds similar problems for a clue, and the student's **Practice** groups the exercises by topic.
+
+The topics come from `~/santolina/topics.jsonl` on the board: one line per problem, `{"id", "level", "topic"}`, made by `santolina_tutor/topics.py`. It is M3Kang data, so it never goes into Git. Copy it to each board once:
+
+```bash
+adb push topics.jsonl /home/arduino/santolina/topics.jsonl
+```
+
+Without it, the library still works, and every problem shows as *(no topic)*.
+
+## Give homework
+
+On **Homework**, pick a title, a group, a pack and an optional due date, then tick the exercises (or none, for the whole pack). Boards of that group that are plugged in get it at once, with the pack if they don't have it. The others get it the next time you plug them in. **Homework done** shows how many students finished each one.
+
+## Print a board's sticker
+
+Setup also creates the board's own Wi-Fi. On the board page, **Print the sticker** gives a label with a QR code that joins that Wi-Fi, its password and the address of the student app. See [Use the student app](use-student-app.md).
+
+## Keep the board's code up to date
+
+Every time you set up a board or open a connected board's page, the app copies its own student app onto the board. The copy comes from the repository folder that the app runs from. To keep a laptop with an old checkout from putting old code back on a board, the student app carries a release number (`RELEASE` in `student_app/__init__.py`). The app never replaces a board's code with a lower release. It leaves the board as it is and shows a warning on the board page. Update that laptop's checkout (`git pull`) and open the page again.
+
+If you change the board code in a way that boards must keep, raise `RELEASE` by one.
+
+## Unload student data
+
+Open the connected board and click **Unload student data**. The app copies every finished session, adds it to the teacher store, and moves the files on the board to its archive. Sessions still in progress stay on the board for the next time. Unloading twice never counts anything twice.
+
+Sessions whose code doesn't match a student appear in **Unassigned**. Pick the student they belong to there.
+
+Click a session's start time on a student's page to see its timeline: every answer, clue, solution, question and copilot reply.
+
+**Delete unloaded data from the board** empties the board's archive. The data is already on the laptop.
+
+## Lock and unlock a board
+
+On the board page, **Unlock (professor mode)** and **Lock (student mode)** switch the mode. Only the app changes it, so plugging the board into your laptop is the key.
+
+## Try it without a board
+
+```bash
+export SANTOLINA_FAKE_BOARDS=/tmp/fake-boards SANTOLINA_TEACHER_HOME=/tmp/teacher-demo
+uv run --group teacher python -m teacher_app fake-boards --dir $SANTOLINA_FAKE_BOARDS --n 3
+make teacher
+```
+
+The simulated boards appear as connected. After you set one up in the app, write synthetic student sessions on it, then unload them:
+
+```bash
+uv run --group teacher python -m teacher_app simulate --dir $SANTOLINA_FAKE_BOARDS FAKE0001
+```
+
+## Add a statistic
+
+Statistics are widgets in `teacher_app/widgets/`. Write one function that queries the teacher store and returns `kpis`, `bar`, `line` or `table` data, and decorate it with `@widget(...)`. It appears on the pages whose scope it lists (`global`, `group`, `student`, `board`). See `teacher_app/widgets/base.py`.
+
+Read events through `event_filter()`. It also applies the period that the teacher chose on the page (last 7 days, last 30 days or all). A table cell can be a bar: return `{"bar": 0-100, "text": ...}` in place of a value. Add a `title` to the data to show one sentence with the finding over the widget.
+
+The learning-progress widgets are in `teacher_app/widgets/learning.py`: the class map, the spread by topic, and on the student page the progress by session, the comparison with the class and the last exercises. They use the events that the boards already write.

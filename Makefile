@@ -26,10 +26,10 @@ clean:
 	find . -type d -name "__pycache__" -delete
 
 
-## Run the copilot tests (standard library only, no model or M3Kang data needed)
-.PHONY: test
-test:
-	python3 -m unittest discover -s tests -v
+## Run only the copilot tests (standard library only, no model or M3Kang data needed)
+.PHONY: test-copilot
+test-copilot:
+	python3 -m unittest tests.test_pipeline -v
 
 
 ## Lint using ruff (use `make format` to do formatting)
@@ -53,6 +53,16 @@ docs-build:
 docs-status:
 	uv run --group docs python .claude/skills/docs-review/scripts/docs_status.py check
 	uv run --group docs python .claude/skills/docs-review/scripts/docs_status.py table
+
+## Start the teacher app (http://127.0.0.1:8010)
+.PHONY: teacher
+teacher:
+	uv run --group teacher python -m teacher_app serve
+
+## Run all the tests: copilot, board data contract, student app, teacher app
+.PHONY: test
+test:
+	uv run --group teacher pytest
 
 ## Format source code with ruff
 .PHONY: format

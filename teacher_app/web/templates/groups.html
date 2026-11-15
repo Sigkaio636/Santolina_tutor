@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>{{ S.groups_title }}</h1>
+{% if groups %}
+<table>
+  <thead><tr><th>{{ S.groups_title }}</th><th>{{ S.groups_students }}</th><th>{{ S.groups_boards }}</th></tr></thead>
+  <tbody>
+  {% for g in groups %}
+    <tr><td><a href="/groups/{{ g.id }}">{{ g.name }}</a></td><td>{{ g.n_students }}</td><td>{{ g.n_boards }}</td></tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% else %}<p class="muted">{{ S.groups_none }}</p>{% endif %}
+<form class="card inline" method="post" action="/groups">
+  <h3>{{ S.groups_add }}</h3>
+  <input name="name" placeholder="{{ S.groups_name }}" required>
+  <button class="primary">{{ S.add }}</button>
+</form>
+{% endblock %}

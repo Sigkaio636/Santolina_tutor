@@ -1,0 +1,155 @@
+{# Draws each widget by its "kind". See teacher_app/widgets/base.py for the kinds. #}
+{% macro ibar(p, few=false, ref=none, text=none) -%}
+<span class="ib"><span class="track"><i class="{{ 'few' if few }}" style="width:{{ p }}%"></i>{% if ref is not none %}<em style="left:{{ ref }}%"></em>{% endif %}</span><b>{{ text if text else p ~ "%" }}</b></span>
+{%- endmacro %}
+{% macro outcome_key(outcomes) -%}
+<p class="key">{% for label in outcomes %}<span><i class="sw m{{ loop.index0 }}"></i>{{ label }}</span>{% endfor %}</p>
+{%- endmacro %}
+<div class="widgets">
+{% for w, data in widgets %}
+  <section class="card widget widget-{{ data.kind }}">
+    <h3>{{ w.title }}</h3>
+    {% if data.title %}<p class="takeaway">{{ data.title }}</p>{% endif %}
+    {% if data.kind == "kpis" %}
+      {% if data.lead %}<p class="lead">{{ data.lead | safe }}</p>{% endif %}
+      <div class="kpis">
+        {% for item in data["items"] %}
+          <div class="kpi"><span class="value">{{ item.value }}</span> <span class="label">{{ item.label }}</span></div>
+        {% endfor %}
+      </div>
+
+    {% elif data.kind == "classmap" %}
+      <div class="ctl">
+        <span class="muted small">Sort</span>
+        <span class="seg"><button type="button" class="on" aria-pressed="true" data-cm="sort:low">Lowest first</button><button type="button" aria-pressed="false" data-cm="sort:name">By name</button></span>
+        <span class="muted small">Colour</span>
+        <span class="seg"><button type="button" class="on" aria-pressed="true" data-cm="colour:gap">Gap to class</button><button type="button" aria-pressed="false" data-cm="colour:score">Score</button></span>
+      </div>
+      <div class="tw">
+      <table class="cm gap">
+        <thead><tr><th>Student</th>{% for c in data.columns %}<th class="hc">{{ c }}</th>{% endfor %}<th class="hc">All</th><th>How they got there</th><th class="num">First tries</th><th>Last activity</th></tr></thead>
+        <tbody>
+        {% for r in data.rows %}
+          <tr data-name="{{ r.name }}" data-pct="{{ r.all.pct if r.all.pct is not none else 999 }}">
+            <td><a href="/students/{{ r.id }}"><b>{{ r.name }}</b></a> <code class="small muted">{{ r.code }}</code></td>
+            {% for c in r.cells %}
+              {% if c.pct is none %}<td class="hc none" title="No tries">·</td>
+              {% else %}<td class="hc {{ 'below' if c.below else 'above' }}{{ ' thin' if c.thin }}{{ ' s-hi' if c.pct > 52 }}{{ ' g-hi' if c.strength > 50 }}" style="--s:{{ c.score }};--k:{{ c.strength }}" title="{{ c.ok }} of {{ c.n }} first tries">{{ c.pct }}</td>{% endif %}
+            {% endfor %}
+            <td class="hc all">{{ r.all.pct if r.all.pct is not none else "–" }}</td>
+            <td><span class="mix" role="img" aria-label="{{ r.mix_text }}" title="{{ r.mix_text }}">{% for m in r.mix %}<i class="m{{ loop.index0 }}" style="width:{{ m }}%"></i>{% endfor %}</span></td>
+            <td class="num">{{ r.all.n }}</td>
+            <td class="small">{{ r.last | when if r.last else "–" }}</td>
+          </tr>
+        {% endfor %}
+        </tbody>
+        <tfoot><tr><td>Class</td>{% for p in data.footer %}<td class="hc all">{{ p }}</td>{% endfor %}<td class="hc all">{{ data.avg }}</td><td></td><td class="num">{{ data.n }}</td><td></td></tr></tfoot>
+      </table>
+      </div>
+      <p class="key">
+        <span data-colour-key="gap">Cells: % right at the first try. Amber is under the class average of {{ data.avg }}%, green is over.</span>
+        <span data-colour-key="score" hidden>Cells: % right at the first try. Darker is higher.</span>
+        <span><u class="thin-k">12</u> under {{ data.thin }} first tries</span><span>· no tries</span>
+      </p>
+      {{ outcome_key(data.outcomes) }}
+
+    {% elif data.kind == "daybars" %}
+      {% set n = data.bars | length %}{% set x0 = 34 %}{% set x1 = 412 %}{% set y0 = 150 %}{% set h = 132 %}
+      {% set sw = (x1 - x0) / n %}{% set bw = [32, sw * 0.7] | min %}
+      <svg viewBox="0 0 420 172" role="img" aria-label="Answers and correct answers" class="chart">
+        {% for g in [0, data.top / 2, data.top] %}
+          <line x1="{{ x0 }}" x2="{{ x1 }}" y1="{{ y0 - g / data.top * h }}" y2="{{ y0 - g / data.top * h }}" class="grid"/>
+          <text x="{{ x0 - 6 }}" y="{{ y0 - g / data.top * h + 4 }}" text-anchor="end">{{ "%g" | format(g) }}</text>
+        {% endfor %}
+        {% for b in data.bars %}
+          {% set x = x0 + loop.index0 * sw + (sw - bw) / 2 %}
+          <rect x="{{ x }}" y="{{ y0 - b.n / data.top * h }}" width="{{ bw }}" height="{{ b.n / data.top * h }}" rx="3" class="all"><title>{{ b.label }}: {{ b.ok }} correct of {{ b.n }} answers</title></rect>
+          <rect x="{{ x }}" y="{{ y0 - b.ok / data.top * h }}" width="{{ bw }}" height="{{ b.ok / data.top * h }}" rx="3" class="ok"/>
+          {% if n <= 10 %}<text x="{{ x + bw / 2 }}" y="{{ y0 - b.n / data.top * h - 5 }}" text-anchor="middle" class="val">{{ b.pct }}%</text>{% endif %}
+          {% if n <= 10 or loop.index0 % 2 == (n - 1) % 2 %}<text x="{{ x + bw / 2 }}" y="{{ y0 + 15 }}" text-anchor="middle">{{ b.label }}</text>{% endif %}
+        {% endfor %}
+      </svg>
+      <p class="key"><span><i class="sw"></i>correct</span><span><i class="sw soft"></i>all answers</span>{% if n <= 10 %}<span>The label is the share of correct answers.</span>{% endif %}</p>
+
+    {% elif data.kind == "hbars" %}
+      {% for b in data.bars %}
+        <div class="lv"><span>{{ b.label }}</span>{{ ibar(b.pct, b.few, data.avg) }}<span class="num muted small">{{ b.n }} {{ data.unit }}</span></div>
+      {% endfor %}
+      <p class="key"><span><i class="sw avg"></i>{{ data.avg_label }}, {{ data.avg }}%</span><span><i class="sw few"></i>under {{ data.few }} {{ data.unit }}: read with care</span></p>
+
+    {% elif data.kind == "strips" %}
+      {% set x0 = 110 %}{% set x1 = 404 %}{% set rh = 46 %}{% set n = data.rows | length %}
+      <svg viewBox="0 0 420 {{ n * rh + 24 }}" role="img" aria-label="Each student's share right at the first try, by {{ data.by }}" class="chart">
+        {% for g in [0, 25, 50, 75, 100] %}
+          <line x1="{{ x0 + g / 100 * (x1 - x0) }}" x2="{{ x0 + g / 100 * (x1 - x0) }}" y1="4" y2="{{ n * rh }}" class="grid"/>
+          <text x="{{ x0 + g / 100 * (x1 - x0) }}" y="{{ n * rh + 16 }}" text-anchor="middle">{{ g }}%</text>
+        {% endfor %}
+        {% for r in data.rows %}
+          {% set base = loop.index * rh - 8 %}
+          <text x="0" y="{{ base - 6 }}" class="lab">{{ r.label | truncate(17, true, "…", 0) }}</text>
+          {% for d in r.dots %}<circle cx="{{ x0 + d.x / 100 * (x1 - x0) }}" cy="{{ base - 4 - d.level * 7.5 }}" r="3.4" class="dot"/>{% endfor %}
+          <line x1="{{ x0 + r.median / 100 * (x1 - x0) }}" x2="{{ x0 + r.median / 100 * (x1 - x0) }}" y1="{{ base - rh + 12 }}" y2="{{ base + 2 }}" class="ref"><title>Median: {{ r.median }}%</title></line>
+        {% endfor %}
+      </svg>
+      <p class="key"><span><i class="sw dot"></i>one student</span><span><i class="sw avg"></i>median</span><span>Dots are stacked in steps of 5 points.</span></p>
+
+    {% elif data.kind == "sessions" %}
+      {% set n = data.points | length %}{% set x0 = 34 %}{% set x1 = 350 %}{% set y0 = 150 %}{% set h = 132 %}{% set sw = (x1 - x0) / n %}
+      <svg viewBox="0 0 420 176" role="img" aria-label="Share right at the first try in each session" class="chart narrow">
+        {% for g in [0, 50, 100] %}
+          <line x1="{{ x0 }}" x2="{{ x1 }}" y1="{{ y0 - g / 100 * h }}" y2="{{ y0 - g / 100 * h }}" class="grid"/>
+          <text x="{{ x0 - 6 }}" y="{{ y0 - g / 100 * h + 4 }}" text-anchor="end">{{ g }}%</text>
+        {% endfor %}
+        {% if data.class_avg is not none %}
+          <line x1="{{ x0 }}" x2="{{ x1 }}" y1="{{ y0 - data.class_avg / 100 * h }}" y2="{{ y0 - data.class_avg / 100 * h }}" class="cls"/>
+          <text x="{{ x1 + 4 }}" y="{{ y0 - data.class_avg / 100 * h + 4 }}">class, {{ data.class_avg }}%</text>
+        {% endif %}
+        <polyline class="line" points="{% for p in data.points %}{{ x0 + (loop.index0 + 0.5) * sw }},{{ y0 - p.pct / 100 * h }} {% endfor %}"/>
+        {% for p in data.points %}
+          {% set x = x0 + (loop.index0 + 0.5) * sw %}
+          <circle cx="{{ x }}" cy="{{ y0 - p.pct / 100 * h }}" r="5" class="pt{{ ' thin' if p.n < 3 }}"><title>{{ p.day }}: {{ p.ok }} of {{ p.n }} right at the first try</title></circle>
+          {% if n <= 8 %}<text x="{{ x }}" y="{{ y0 - p.pct / 100 * h - 10 }}" text-anchor="middle" class="val">{{ p.pct }}%</text>{% endif %}
+          {% if n <= 8 or loop.index0 % 2 == (n - 1) % 2 %}<text x="{{ x }}" y="168" text-anchor="middle">{{ p.day[8:] }}/{{ p.day[5:7] }}</text>{% endif %}
+        {% endfor %}
+      </svg>
+      <p class="key"><span><i class="sw"></i>share right at the first try, one point per session</span><span>Dashed line: the class in this period.</span><span>A hollow point has under 3 exercises. Sessions are short, so read single points with care.</span></p>
+
+    {% elif data.kind == "profile" %}
+      {% set x0 = 110 %}{% set x1 = 372 %}{% set rh = 30 %}{% set n = data.rows | length %}
+      <svg viewBox="0 0 420 {{ n * rh + 24 }}" role="img" aria-label="The student against the class, by {{ data.by }}" class="chart">
+        {% for g in [0, 50, 100] %}
+          <line x1="{{ x0 + g / 100 * (x1 - x0) }}" x2="{{ x0 + g / 100 * (x1 - x0) }}" y1="2" y2="{{ n * rh }}" class="grid"/>
+          <text x="{{ x0 + g / 100 * (x1 - x0) }}" y="{{ n * rh + 16 }}" text-anchor="middle">{{ g }}%</text>
+        {% endfor %}
+        {% for r in data.rows %}
+          {% set y = loop.index0 * rh + 16 %}{% set a = x0 + r.pct / 100 * (x1 - x0) %}{% set b = x0 + r.cls / 100 * (x1 - x0) %}
+          <text x="0" y="{{ y + 4 }}" class="lab">{{ r.label | truncate(17, true, "…", 0) }}</text>
+          <line x1="{{ a }}" x2="{{ b }}" y1="{{ y }}" y2="{{ y }}" class="link"/>
+          <line x1="{{ b }}" x2="{{ b }}" y1="{{ y - 8 }}" y2="{{ y + 8 }}" class="ref"><title>Class: {{ r.cls }}%</title></line>
+          <circle cx="{{ a }}" cy="{{ y }}" r="6" class="pt{{ ' thin' if r.thin }}"><title>{{ r.pct }}% over {{ r.n }} first tries</title></circle>
+          <text x="420" y="{{ y + 4 }}" text-anchor="end" class="val">{{ r.pct }}%</text>
+        {% endfor %}
+      </svg>
+      <p class="key"><span><i class="sw dot"></i>the student</span><span><i class="sw avg"></i>class</span><span>A hollow point has under {{ data.thin }} first tries.</span></p>
+
+    {% elif data.kind == "trace" %}
+      <div class="trace">{% for i in data["items"] %}{% if i.gap %}<i class="gap"></i>{% endif %}<i class="sq m{{ i.outcome }}" title="{{ i.text }}"></i>{% endfor %}</div>
+      {{ outcome_key(data.outcomes) }}
+      <p class="key"><span>A gap separates sessions.</span></p>
+
+    {% elif data.kind in ("bar", "line") %}
+      <div class="chart-box"><canvas data-chart='{{ data | tojson_compact }}'></canvas></div>
+    {% elif data.kind == "table" %}
+      <div class="tw">
+      <table>
+        <thead><tr>{% for c in data.columns %}<th>{{ c }}</th>{% endfor %}</tr></thead>
+        <tbody>{% for row in data.rows %}<tr>{% for cell in row %}<td>{% if cell is mapping %}{{ ibar(cell.bar, cell.few, none, cell.text) }}{% else %}{{ cell }}{% endif %}</td>{% endfor %}</tr>{% endfor %}</tbody>
+      </table>
+      </div>
+      {% if data.few %}<p class="key"><span><i class="sw few"></i>under {{ data.few }} first tries: read with care</span></p>{% endif %}
+    {% else %}
+      <p class="muted">{{ data.message }}</p>
+    {% endif %}
+  </section>
+{% endfor %}
+</div>

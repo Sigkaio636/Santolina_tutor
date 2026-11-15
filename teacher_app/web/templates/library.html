@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>{{ S.library_title }}</h1>
+<p class="muted">{{ S.library_help }}</p>
+
+<div class="row">
+  {% if boards %}
+  <form class="card inline" method="post" action="/library/refresh">
+    <h3>{{ S.library_refresh }}</h3>
+    <select name="serial">{% for b in boards %}<option value="{{ b.serial }}">{{ b.serial }}</option>{% endfor %}</select>
+    <button>{{ S.library_refresh_button }}</button>
+  </form>
+  {% else %}<p class="muted">{{ S.library_refresh_none }}</p>{% endif %}
+</div>
+
+{% if not n_problems %}
+<p class="muted">{{ S.library_empty }}</p>
+{% else %}
+<p class="muted small">{{ S.library_count.format(n=n_problems) }}</p>
+
+<form class="card lib-filter" method="get" action="/library">
+  <label><select name="language" title="{{ S.library_language }}">{% for l in languages %}<option {% if l == language %}selected{% endif %}>{{ l }}</option>{% endfor %}</select></label>
+  <label><select name="topic"><option value="">{{ S.library_topic_any }}</option>
+    {% for t in topics %}<option value="{{ t }}" {% if t == topic %}selected{% endif %}>{{ t.replace("_", " ") }}</option>{% endfor %}</select></label>
+  <label><select name="level"><option value="">{{ S.library_level_any }}</option>
+    {% for lv in levels %}<option value="{{ lv }}" {% if lv == level %}selected{% endif %}>{{ S.library_level.format(level=lv) }}</option>{% endfor %}</select></label>
+  <input name="q" value="{{ q }}" placeholder="{{ S.library_search }}">
+  <button>{{ S.library_filter }}</button>
+</form>
+
+<table class="lib-grid">
+  <thead><tr><th></th>{% for lv in levels %}<th class="num">{{ S.library_level.format(level=lv) }}</th>{% endfor %}<th class="num"></th></tr></thead>
+  <tbody>
+  {% for r in grid %}
+    <tr {% if r.topic == topic %}class="on"{% endif %}>
+      <th><a href="/library?language={{ language }}&topic={{ r.topic or '' }}">{{ r.topic.replace("_", " ") if r.topic else S.library_no_topic }}</a></th>
+      {% for n in r.cells %}
+        <td class="num {% if level == loop.index0 and r.topic == topic %}on{% endif %}">{% if n %}<a href="/library?language={{ language }}&topic={{ r.topic or '' }}&level={{ loop.index0 }}" style="--n: {{ [n, 30] | min }}">{{ n }}</a>{% else %}<span class="muted">·</span>{% endif %}</td>
+      {% endfor %}
+      <td class="num muted">{{ r.total }}</td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+
+{% if shown %}
+<form class="card" method="post" action="/library/pack">
+  <p class="muted small">{% if n_shown > shown|length %}{{ S.library_shown_cut.format(n=n_shown) }}{% else %}{{ S.library_shown.format(n=n_shown) }}{% endif %}</p>
+  <table>
+    <thead><tr>
+      <th><input type="checkbox" id="all" onclick="document.querySelectorAll('input[name=keys]').forEach(c => c.checked = this.checked)"></th>
+      <th colspan="3" class="muted small" style="font-weight:400"><label for="all" style="display:inline;font-weight:400;margin:0">{{ S.library_select_all }}</label></th>
+    </tr></thead>
+    <tbody>
+    {% for p in shown %}
+      <tr>
+        <td><input type="checkbox" name="keys" value="{{ p.key }}" id="k{{ loop.index }}"></td>
+        <td><label for="k{{ loop.index }}" style="font-weight:400;margin:0">{{ p.text[:180] }}{% if p.text|length > 180 %}…{% endif %}</label>
+          <div class="muted small">{% for k, v in p.options.items() %}{{ k }}) {{ v }}&nbsp;&nbsp; {% endfor %}</div></td>
+        <td class="muted small">{{ S.library_level.format(level=p.level) }} {{ (p.topic or "").replace("_", " ") }}<br>{{ p.year }}</td>
+        <td class="small">{{ S.library_answer }}: <b>{{ p.label }}</b></td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  <p>
+    <input name="title" placeholder="{{ S.library_pack_title }}" size="40" required>
+    <label style="display:inline;font-weight:400">{{ S.library_pack_group }}
+      <select name="group_id"><option value="">{{ S.library_pack_no_group }}</option>
+      {% for g in groups %}<option value="{{ g.id }}">{{ g.name }}</option>{% endfor %}</select></label>
+    <button class="primary">{{ S.library_make }}</button>
+  </p>
+</form>
+{% elif topic or level is not none or q %}
+<p class="muted">{{ S.library_none }}</p>
+{% else %}
+<p class="muted">{{ S.library_pick }}</p>
+{% endif %}
+{% endif %}
+{% endblock %}

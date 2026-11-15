@@ -1,0 +1,3 @@
+<p class="ctl"><span class="muted small">Period</span>
+  <span class="seg">{% for key, p in periods.items() %}<a href="?period={{ key }}" class="{{ 'on' if key == period }}" {% if key == period %}aria-current="true"{% endif %}>{{ p[0] }}</a>{% endfor %}</span>
+</p>

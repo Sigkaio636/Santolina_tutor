@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <title>Santolina Teacher</title>
+  <rect x="2" y="2" width="60" height="60" rx="14" fill="#2f6f4f"/>
+  <!-- cap base -->
+  <path d="M18 31v10c0 4 6.3 7 14 7s14-3 14-7V31l-14 6.5z" fill="#ffffff" opacity=".85"/>
+  <!-- board on top -->
+  <path d="M32 15 6 27l26 12 26-12z" fill="#ffffff"/>
+  <!-- tassel -->
+  <path d="M32 27 50 31v12" fill="none" stroke="#f2c14e" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="50" cy="45" r="3" fill="#f2c14e"/>
+  <circle cx="32" cy="27" r="2.2" fill="#2f6f4f"/>
+</svg>

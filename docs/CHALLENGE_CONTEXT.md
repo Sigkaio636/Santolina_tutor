@@ -239,6 +239,12 @@ MCQ benchmarks (MMLU-style A/B/C/D) **hide** generation damage from pruning/quan
   **8 pedagogical dimensions**, such as mistake identification, providing guidance, actionability,
   coherence, tutor tone and human-likeness.
 
+### First results on the board (2026-11-14)
+Qwen3.5 0.8B Q8_0, 50 validation problems (28 Catalan, 22 English), `docs/BOARD_SETUP.md` steps 11 and 12:
+- **Baseline: 10/50 (20.0%)**, mean 12.0 s per problem. This is below the 22.0% you get if you always answer `D`.
+- **Retrieval with one example (`--rag 1`): 7/50 (14.0%)**, mean 27.9 s. English goes up (3 → 5), Catalan goes down (7 → 2). The embedding model is English-only.
+- ⇒ A 0.8B model is weak at picking the letter. This supports the tutor goal in §1: put the effort into hints and explanations, not into letter accuracy. Details: `docs/UNO_Q_BOARD_REFERENCE.md` §14.6.
+
 The evaluation harness to build is in [What to try](#what-to-try).
 
 ---
