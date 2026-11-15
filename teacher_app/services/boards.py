@@ -3,6 +3,7 @@
 import hashlib
 import json
 from pathlib import Path
+import re
 
 import classroom
 from classroom import paths
@@ -48,19 +49,30 @@ def lib_version() -> str:
     return digest.hexdigest()[:16]
 
 
-def push_lib(link) -> bool:
-    """Copy the board packages (contract + student app) when they changed. True if copied.
+def board_release(link) -> int:
+    """The RELEASE of the student app on the board; 0 when it has none (older code)."""
+    text = link.read_text(f"{paths.LIB}/student_app/__init__.py") or ""
+    match = re.search(r"^RELEASE = (\d+)", text, re.MULTILINE)
+    return int(match.group(1)) if match else 0
 
+
+def push_lib(link) -> str:
+    """Copy the board packages (contract + student app) when they changed.
+
+    Returns "copied", "same", or "kept_newer" when the board runs a higher RELEASE than this
+    teacher app: then the board keeps its code, and the teacher should update this app.
     Writing lib/VERSION makes a running student app restart with the new code.
     """
     version = lib_version()
     if (link.read_text(paths.VERSION) or "").strip() == version:
-        return False
+        return "same"
+    if board_release(link) > student_app.RELEASE:
+        return "kept_newer"
     for package in BOARD_PACKAGES:
         folder = Path(package.__file__).parent
         link.push_dir(folder, f"{paths.LIB}/{folder.name}")
     link.write_text(paths.VERSION, version + "\n")
-    return True
+    return "copied"
 
 
 def write_identity(link, identity: Identity) -> None:
@@ -116,9 +128,11 @@ def refresh(conn, link) -> dict:
     """Update the board's copy of the contract and its roster, then return its status."""
     from . import assignments  # assignments uses packs, which doesn't need boards: no cycle
 
-    push_lib(link)
+    lib = push_lib(link)
     if get_board(conn, link.serial):
         push_roster(conn, link)
         assignments.push(conn, link)
         touch(conn, link.serial)
-    return link.status()
+    status = link.status()
+    status["lib"] = lib
+    return status

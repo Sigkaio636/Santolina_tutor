@@ -132,3 +132,16 @@ label input, label select { display: block; margin-top: .25rem; font-weight: 400
   border-radius: 10px; }
 .demo-banner p { margin: .2rem 0; }
 .demo-qr svg { width: 110px; height: auto; background: #fff; border-radius: 6px; display: block; }
+
+/* Kangaroo library: the topic x level grid */
+.lib-filter { display: flex; flex-wrap: wrap; gap: .5rem; align-items: center; }
+.lib-filter label { display: inline; font-weight: 400; margin: 0; }
+.lib-grid { border-collapse: collapse; margin-bottom: 1rem; }
+.lib-grid th { text-align: left; font-weight: 600; padding: .2rem .6rem .2rem 0; }
+.lib-grid td { padding: 2px; }
+.lib-grid td.num:last-child { padding: .25rem .4rem; vertical-align: middle; }
+.lib-grid td a { display: block; min-width: 2.2rem; padding: .25rem .4rem; border-radius: 6px;
+  text-decoration: none; color: var(--text);
+  background: color-mix(in srgb, var(--accent) calc(var(--n) * 2.5%), var(--panel)); }
+.lib-grid td.on a, .lib-grid tr.on th a { outline: 2px solid var(--accent); }
+.lib-grid tr.on th a { border-radius: 4px; }

@@ -13,7 +13,7 @@ from fastapi.templating import Jinja2Templates
 
 from classroom.packs import read_pack
 
-from .. import config, db, links
+from .. import config, db, kangaroo, links
 from ..services import assignments, boards, hotspot, packs, setup, unload
 from ..simulate import demo_pack
 from ..strings import S
@@ -481,6 +481,80 @@ def create_app(settings: config.Settings | None = None) -> FastAPI:
         with tempfile.TemporaryDirectory() as tmp:
             m = packs.import_pack(conn, demo_pack(Path(tmp)), settings.packs_dir)
         return back("/packs", msg=f"Imported {m.title}")
+
+    # ---------------------------------------------------------------- Kangaroo library
+    @app.get("/library", response_class=HTMLResponse)
+    def library_page(
+        request: Request,
+        topic: str = "",
+        level: str = "",
+        language: str = "",
+        q: str = "",
+        conn=Depends(get_conn),
+    ):
+        problems = kangaroo.load(settings.home)
+        langs = kangaroo.languages(problems)
+        language = language if language in langs else ("cat" if "cat" in langs else "")
+        lv = int(level) if level.isdigit() else None
+        shown = (
+            kangaroo.select(problems, topic or None, lv, language, q)
+            if topic or lv is not None or q
+            else []
+        )
+        return page(
+            request,
+            "library.html",
+            n_problems=len(problems),
+            grid=kangaroo.grid(problems, language),
+            levels=kangaroo.LEVELS,
+            topics=[t for t in kangaroo.TOPICS],
+            languages=langs,
+            language=language,
+            topic=topic,
+            level=lv,
+            q=q,
+            shown=shown[:200],
+            n_shown=len(shown),
+            boards=[c for c in links.connected(settings) if c.link is not None],
+            groups=groups_list(conn),
+        )
+
+    @app.post("/library/refresh")
+    def library_refresh(serial: str = Form(...)):
+        link = link_or_404(serial)
+        try:
+            got = kangaroo.refresh(link, settings.home)
+        except Exception as e:  # noqa: BLE001  (show the error to the teacher)
+            return back("/library", err=f"{type(e).__name__}: {e}")
+        msg = S.library_refreshed.format(**got)
+        if not got["topics_file"]:
+            msg += " " + S.library_no_topics
+        return back("/library", msg=msg)
+
+    @app.post("/library/pack")
+    async def library_pack(request: Request, conn=Depends(get_conn)):
+        form = await request.form()
+        title = (form.get("title") or "").strip()
+        keys = form.getlist("keys")
+        if not title or not keys:
+            return back("/library", err=S.library_missing)
+        pack_id = "kangaroo-" + datetime.now(UTC).strftime("%Y%m%d-%H%M%S")
+        with tempfile.TemporaryDirectory() as tmp:
+            try:
+                folder = kangaroo.make_pack(
+                    kangaroo.load(settings.home), keys, Path(tmp), pack_id, title
+                )
+            except ValueError as e:
+                return back("/library", err=str(e))
+            m = packs.import_pack(conn, folder, settings.packs_dir)
+        group_id = form.get("group_id")
+        if group_id:
+            return RedirectResponse(
+                f"/assignments/new?pack_id={quote(m.pack_id)}&group_id={int(group_id)}"
+                f"&title={quote(title)}",
+                status_code=303,
+            )
+        return back("/packs", msg=f"Imported {m.title} (v{m.version}, {m.count} exercises)")
 
     # ---------------------------------------------------------------- unassigned
     @app.get("/unassigned", response_class=HTMLResponse)

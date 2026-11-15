@@ -8,3 +8,9 @@ Standard library only (the board has no pip). The teacher app copies this packag
 The copilot is behind `tutor.Tutor` (the fine-tuned tutor model, `llm.py`, with the
 message router of `router.py`) and the learning path behind `planner.PathPlanner`.
 """
+
+# Raise this by one with every change that boards must keep. A teacher app never replaces a
+# board's code with a lower release (teacher_app/services/boards.py, push_lib), so a laptop
+# with an old checkout can't put old code back on a board. Code from before this line is 0.
+#   1: the real tutor (fine-tuned model, leak check, router)
+RELEASE = 1

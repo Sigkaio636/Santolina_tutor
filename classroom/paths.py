@@ -13,6 +13,10 @@ LIB = "lib"
 ASSIGNMENTS = "assignments.json"
 HOTSPOT = "hotspot.json"
 PROGRESS = "progress"
+# One topic per M3Kang problem id ({"id", "level", "topic"} per line), from
+# santolina_tutor/topics.py. Copied to the board by hand, never in Git. The teacher app's
+# Kangaroo library reads it with the retrieval index.
+TOPICS = "topics.jsonl"
 VERSION = "lib/VERSION"  # changes when the teacher app pushes new code; the student app restarts
 
 # The copilot's retrieval index, built on the board by build_index.py (see docs/BOARD_SETUP.md).

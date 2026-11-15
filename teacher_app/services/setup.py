@@ -11,6 +11,7 @@ import classroom
 from classroom import paths
 from classroom.schemas import Identity, now_iso
 
+from ..strings import S
 from . import assignments, boards, hotspot
 
 MIN_FREE_BYTES = 500 * 1024 * 1024
@@ -53,7 +54,8 @@ def configure_hotspot(conn, link, req):
 
 
 def install_contract(conn, link, req):
-    boards.push_lib(link)
+    if boards.push_lib(link) == "kept_newer":
+        return S.lib_kept_newer
     return f"contract v{classroom.CONTRACT_VERSION} and student app copied to ~/santolina/lib"
 
 

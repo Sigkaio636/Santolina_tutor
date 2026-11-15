@@ -31,6 +31,10 @@ class BoardLink(Protocol):
     def pull(self, rel: str, local: Path) -> None:
         """Copy one file from the board to the laptop."""
 
+    def pull_index(self, path: str, local: Path) -> None:
+        """Copy the retrieval index (`rag_index_path`, may start with ~/) to the laptop.
+        The only read outside the board root."""
+
     def move(self, rel_src: str, rel_dst: str) -> None:
         """Move a file on the board, creating the destination folder."""
 

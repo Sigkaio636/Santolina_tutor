@@ -116,6 +116,14 @@ class AdbLink:
         Path(local).parent.mkdir(parents=True, exist_ok=True)
         self._run("pull", self._abs(rel), str(local), timeout=600)
 
+    def pull_index(self, path, local):
+        if not path.endswith(".db") or ".." in Path(path).parts:
+            raise LinkError(f"not a retrieval index: {path}")
+        if path.startswith("~/"):
+            path = self.root.rsplit("/", 1)[0] + path[1:]
+        Path(local).parent.mkdir(parents=True, exist_ok=True)
+        self._run("pull", path, str(local), timeout=600)
+
     def move(self, rel_src, rel_dst):
         src, dst = self._abs(rel_src), self._abs(rel_dst)
         self._sh(

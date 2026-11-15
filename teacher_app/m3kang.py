@@ -13,6 +13,39 @@ from classroom.packs import write_pack
 from classroom.schemas import Exercise, PackManifest, now_iso
 
 
+def exercise_from(p: dict, media=None) -> Exercise:
+    """One prepared M3Kang problem as a pack exercise."""
+    return Exercise(
+        exercise_id=f"{p['id']}_{p['language']}",
+        kind="multiple_choice",
+        language=p.get("language", ""),
+        level=p.get("level"),
+        prompt=p.get("text", ""),
+        options=p.get("options") or None,
+        answer=p.get("label"),
+        media=media,
+        meta={
+            **({"topic": p["topic"]} if p.get("topic") else {}),
+            "source": "m3kang",
+            "m3kang_id": p["id"],
+            "year": p.get("year"),
+            "text_only": p.get("text_only"),
+        },
+    )
+
+
+def manifest_for(exercises: list, pack_id: str, title: str, version: int = 1) -> PackManifest:
+    return PackManifest(
+        pack_id=pack_id,
+        title=title,
+        version=version,
+        language=",".join(sorted({e.language for e in exercises})),
+        created_at=now_iso(),
+        count=len(exercises),
+        description="From M3Kang (research use only).",
+    )
+
+
 def convert(
     source: Path,
     out_dir: Path,
@@ -45,37 +78,10 @@ def convert(
                     media = [f"media/{image.name}"]
             if p.get("text_only") is False and not media:
                 continue  # the statement needs its picture, and we don't have it
-            exercises.append(
-                Exercise(
-                    exercise_id=exercise_id,
-                    kind="multiple_choice",
-                    language=p.get("language", ""),
-                    level=p.get("level"),
-                    prompt=p.get("text", ""),
-                    options=p.get("options") or None,
-                    answer=p.get("label"),
-                    media=media,
-                    meta={
-                        **({"topic": p["topic"]} if p.get("topic") else {}),
-                        "source": "m3kang",
-                        "m3kang_id": p["id"],
-                        "year": p.get("year"),
-                        "text_only": p.get("text_only"),
-                    },
-                )
-            )
+            exercises.append(exercise_from(p, media))
             if limit and len(exercises) >= limit:
                 break
-    langs = sorted({e.language for e in exercises})
-    manifest = PackManifest(
-        pack_id=pack_id,
-        title=title,
-        version=version,
-        language=",".join(langs),
-        created_at=now_iso(),
-        count=len(exercises),
-        description="From M3Kang (research use only).",
-    )
+    manifest = manifest_for(exercises, pack_id, title, version)
     folder = write_pack(Path(out_dir) / pack_id, manifest, exercises)
     for e in exercises:
         for m in e.media or []:

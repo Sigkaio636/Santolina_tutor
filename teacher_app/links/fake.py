@@ -64,6 +64,13 @@ class FakeLink:
         Path(local).parent.mkdir(parents=True, exist_ok=True)
         shutil.copy2(src, local)
 
+    def pull_index(self, path, local):
+        src = Path(path).expanduser()
+        if not src.is_file():
+            raise LinkError(f"{path} not found on {self.serial}")
+        Path(local).parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(src, local)
+
     def move(self, rel_src, rel_dst):
         dst = self._path(rel_dst)
         dst.parent.mkdir(parents=True, exist_ok=True)

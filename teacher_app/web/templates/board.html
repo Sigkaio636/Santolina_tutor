@@ -9,6 +9,7 @@
 {% elif live_error %}
   <p class="flash err">{{ S.error }}: {{ live_error }}</p>
 {% else %}
+{% if live.lib == "kept_newer" %}<p class="flash err">{{ S.lib_kept_newer }}</p>{% endif %}
 <div class="grid2">
   <section class="card">
     <h3>{{ S.board_status }}</h3>

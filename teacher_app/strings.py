@@ -98,6 +98,45 @@ S = SimpleNamespace(
     packs_import="Import a pack from a folder",
     packs_folder="Folder with manifest.json and exercises.json",
     packs_demo="Create a demo pack (synthetic)",
+    lib_kept_newer=(
+        "This board runs a newer student app than this teacher app, so the board keeps its "
+        "own. Update the teacher app on this laptop (git pull) before you change boards."
+    ),
+    # Kangaroo library
+    nav_library="Kangaroo library",
+    library_title="Kangaroo library",
+    library_help=(
+        "The solved Kangaroo problems that the board's copilot knows, by topic and level. "
+        "Click a number to see those problems, tick the ones you want and make a pack."
+    ),
+    library_empty="The library is empty. Plug in a board and copy its problems.",
+    library_refresh="Copy the problems of a connected board",
+    library_refresh_none="Plug in a board to copy its problems.",
+    library_refresh_button="Copy",
+    library_refreshed="Copied {problems} problems, {with_topic} with a topic.",
+    library_no_topics=(
+        "The board has no topics.jsonl, so the problems have no topic. Copy it to the "
+        "board's ~/santolina/ folder (see Run the teacher app)."
+    ),
+    library_count="{n} problems in the library",
+    library_language="Language",
+    library_search="Search the text",
+    library_filter="Show",
+    library_topic_any="All topics",
+    library_level_any="All levels",
+    library_no_topic="(no topic)",
+    library_level="L{level}",
+    library_shown="{n} problems",
+    library_shown_cut="{n} problems; the first 200 are shown. Narrow the search.",
+    library_none="No problem matches.",
+    library_pick="Click a number in the grid, or use the filters, to see problems.",
+    library_answer="Answer",
+    library_pack_title="Pack title (e.g. Fractions, level 2)",
+    library_pack_group="Then give it as homework to",
+    library_pack_no_group="(only make the pack)",
+    library_make="Make the pack",
+    library_missing="Give a title and tick at least one problem.",
+    library_select_all="Tick all",
     # Unassigned
     unassigned_title="Unassigned sessions",
     unassigned_help=(

@@ -49,6 +49,24 @@ uv run --group teacher python -m teacher_app m3kang-pack \
   --languages eng,cat --levels 0 --limit 30
 ```
 
+## Choose Kangaroo problems by topic
+
+**Kangaroo library** lists the solved Kangaroo problems that the board's copilot knows, in a grid of topics by level. Each cell gives the number of problems with text options in the chosen language.
+
+1. Plug in a board and click **Copy** under *Copy the problems of a connected board*. The app copies the board's retrieval index and its topic labels into its own folder. Do it again when the board's index changes.
+2. Click a number in the grid, or pick a topic, a level and a language and search the text. Each problem shows its options and its answer.
+3. Tick the problems you want, give the pack a title, pick a group and click **Make the pack**. The app opens **Homework** with the new pack. Tick the exercises to assign there, or none for the whole pack.
+
+A pack from the library keeps each problem's id and topic. The copilot then finds similar problems for a clue, and the student's **Practice** groups the exercises by topic.
+
+The topics come from `~/santolina/topics.jsonl` on the board: one line per problem, `{"id", "level", "topic"}`, made by `santolina_tutor/topics.py`. It is M3Kang data, so it never goes into Git. Copy it to each board once:
+
+```bash
+adb push topics.jsonl /home/arduino/santolina/topics.jsonl
+```
+
+Without it, the library still works, and every problem shows as *(no topic)*.
+
 ## Give homework
 
 On **Homework**, pick a title, a group, a pack and an optional due date, then tick the exercises (or none, for the whole pack). Boards of that group that are plugged in get it at once, with the pack if they don't have it. The others get it the next time you plug them in. **Homework done** shows how many students finished each one.
@@ -56,6 +74,12 @@ On **Homework**, pick a title, a group, a pack and an optional due date, then ti
 ## Print a board's sticker
 
 Setup also creates the board's own Wi-Fi. On the board page, **Print the sticker** gives a label with a QR code that joins that Wi-Fi, its password and the address of the student app. See [Use the student app](use-student-app.md).
+
+## Keep the board's code up to date
+
+Every time you set up a board or open a connected board's page, the app copies its own student app onto the board. The copy comes from the repository folder that the app runs from. To keep a laptop with an old checkout from putting old code back on a board, the student app carries a release number (`RELEASE` in `student_app/__init__.py`). The app never replaces a board's code with a lower release. It leaves the board as it is and shows a warning on the board page. Update that laptop's checkout (`git pull`) and open the page again.
+
+If you change the board code in a way that boards must keep, raise `RELEASE` by one.
 
 ## Unload student data
 
