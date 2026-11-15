@@ -58,6 +58,7 @@ Keep these rules:
 | Student app | `~/santolina/lib`, port 80, release 2 |
 | LED app | App Lab app `user:santolina-leds` |
 
+- The fine-tuned tutor model `qwen35-tutor-Q8_0.gguf` (812 MB) is not on GitHub or Hugging Face. B1 has a copy in `~/models/`. For another board, copy it from B1 (`adb pull /home/arduino/models/qwen35-tutor-Q8_0.gguf`), push it to the new board's `~/models/`, and run `board/08_install_tutor.sh` there.
 - Port 8084 is the tutor's. Run the router on 8085; the decider-2b guide now says so.
 - With all services running, B1 had 2.6 GB of RAM available. decider-2b Q4_K_M is about 1.3 GB and is not on the board yet: only `decider-0.8b-Q8_0.gguf` is in `~/models`. Check `free -m` after you start it.
 - The board asks for a sudo password. Ask Ferran for it, and never guess it.
