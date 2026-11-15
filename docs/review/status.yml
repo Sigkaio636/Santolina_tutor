@@ -529,3 +529,99 @@ documents:
         round 2 verdict SHIP, its 8 in-scope minors fixed
       signoff: user sign-off 2026-11-14 after S1-S6 (commit b9c84d2)
     last_sha: 3f7728095199bda04d26d84744c68d9ce723d22460351c81c30c8cd6e5a788da
+  docs/experiments/2026-11-decider-0.8b.md:
+    stages:
+      audit: validated
+      critique: validated
+      decisions: validated
+      repair: validated
+      language: validated
+      adversarial: validated
+      signoff: validated
+    validated_sha: 35b1a72925afb7e71accd623acb833ef65df846de757b46eb5e94e1c3d33a26a
+    notes:
+      audit: 'docsauditor: 4 findings (3 verified after resolving 2 suspected, 1 decision)'
+      critique: 'diataxis explanation/heavy; docs-critic: 32 findings F5-F36 (0 breaks, 11 misleading,
+        21 cosmetic; 8 decisions)'
+      decisions: 'grilling: 9 decisions settled (F4,F6,F11,F23,F28,F29,F32,F34,F36b); no GLOSSARY.md,
+        so no term entries'
+      repair: 'docsjanitor: 36/36 fixed; F29 via new laptop/compare_runs.py; mkdocs --strict ok, links
+        200, 0 val overlap'
+      language: 'asd-ste100 STE-flavored: 4 fixes (2 semicolons, 2 passives); ste-lint 0 violations'
+      adversarial: '2 rounds, 3 lenses hand-spawned (toolkit gate FATAL: PEP 668); r1 30 findings -> adjudicator
+        3 changes; r2 2 SHIP + 1 MAJOR wording, fixed after round; 7 deferred'
+    last_sha: 35b1a72925afb7e71accd623acb833ef65df846de757b46eb5e94e1c3d33a26a
+  docs/experiments/2026-11-ocr-text-vs-annotation.md:
+    stages:
+      audit: validated
+      critique: validated
+      decisions: validated
+      repair: validated
+      language: validated
+      adversarial: validated
+      signoff: validated
+    validated_sha: e9266d9fe34320659996e2928a65b3dfb59ca3143f410902c18cd388b142d2ac
+    notes:
+      audit: 'docsauditor: 8 findings (F3 suspected resolved by rerun, 4 verified F1 F5 F6 F8, 3 decision
+        F2 F4 F7)'
+      critique: 'docs-critic: 28 findings (0 breaks); C26 closed by rerun; 5 decisions C1 C11 C16 C18
+        C23, rest plain fixes; type explanation, heavy'
+      decisions: 'grilling: 8 decisions settled by the user (2 rounds); no GLOSSARY.md, no term settled'
+      repair: 'docsjanitor: 35 findings fixed (page rewritten, bootstrap added to script); mkdocs build:
+        no warning for this page (other pages warn); no structured-planning plan (one file, approved plan
+        covers it)'
+      language: 'asd-ste100 STE-flavored plus ste-lint.py: 17 findings fixed (passives, synonym rotation,
+        3 semicolons); final run 0 violations; hedges untouched'
+      adversarial: 'hand-spawned reviewers (user declined plugin toolchain): round 1 methodologist/popular-science/slop-hunter
+        + adjudicator, round 2 popular-science and methodologist SHIP; wording edits after round 2 not
+        re-reviewed; 8 deferred items in findings file'
+      signoff: signed off by the user after S1-S6; 8 deferred items in the findings file
+    last_sha: e9266d9fe34320659996e2928a65b3dfb59ca3143f410902c18cd388b142d2ac
+  docs/experiments/2026-11-option-extraction-consensus.md:
+    stages:
+      audit: validated
+      critique: validated
+      decisions: validated
+      repair: validated
+      language: validated
+      adversarial: validated
+      signoff: validated
+    validated_sha: c4498e95df83b8980cff614b6b6fe1b60d291d9e804f1203c6d3adb9fca94259
+    notes:
+      audit: 'docsauditor: 15 findings (12 verified, 1 suspected, 2 decision); F1 and F3 misleading, checked
+        in code'
+      critique: 'diataxis explanation/heavy; docs-critic: 46 findings F16-F61 (0 breaks, 13 misleading,
+        33 cosmetic; 3 decisions); F44 resolved by script check'
+      decisions: 'grilling: 5 decisions settled (F14,F15,F35,F42,F61), F13 and F44 resolved by agent;
+        no GLOSSARY.md, so no term entries'
+      repair: 'docsjanitor: 61/61 fixed; measurement fixes in laptop/option_consensus.py for F1, F3, F54;
+        OCR_FAILURE_MODES.md cut to a link (F61); mkdocs --strict ok, anchors ok'
+      language: 'asd-ste100 STE-flavored: 52 -> 1 lint violations (semicolons, long sentences, passives,
+        fix/set); kept ''C fix''/''A fix'' as names from OCR_FAILURE_MODES.md'
+      adversarial: 2 rounds, 3 lenses hand-spawned (user chose no plugin toolchain); r1 25 findings ->
+        adjudicator 3 changes, 8 declined; r2 4 findings from r1 edits, fixed after round; 0 open
+      signoff: user signed off after S1-S6; 0 open findings
+    last_sha: c4498e95df83b8980cff614b6b6fe1b60d291d9e804f1203c6d3adb9fca94259
+  docs/experiments/2026-11-ppformulanet.md:
+    stages:
+      audit: validated
+      critique: validated
+      decisions: validated
+      repair: validated
+      language: validated
+      adversarial: validated
+      signoff: validated
+    validated_sha: 1624de574e207c008d85622ae23fe5e51585e3e4c2bff2c7aaf6f711f0855024
+    notes:
+      audit: 'docsauditor: 0 findings (doc-authoring A5 already fixed F1-F11)'
+      critique: 'diataxis explanation/heavy; docs-critic: 36 findings C1-C36 (0 breaks, 6 misleading,
+        30 cosmetic; 1 decision C22)'
+      decisions: 'grilling: 1 decision settled (C22: reference value + right); no GLOSSARY.md, so no term
+        entry'
+      repair: 'docsjanitor: 35/36 fixed (C36 links to untested models left open); mkdocs no new warnings;
+        score unchanged'
+      language: 'asd-ste100 STE-flavored: 6 fixes (1 passive, 5 long sentences); ste-lint 0 violations'
+      adversarial: '2 rounds hand-spawned (toolkit gate FATAL: PEP 668); r1 methodologist SHIP, popular-science
+        FIX, slop-hunter FIX, 19 findings -> adjudicator 3 changes; r2 SHIP x3, 4 MINOR open'
+      signoff: user signed off; 5 cosmetic findings open (C36, R2-1..R2-4)
+    last_sha: 1624de574e207c008d85622ae23fe5e51585e3e4c2bff2c7aaf6f711f0855024

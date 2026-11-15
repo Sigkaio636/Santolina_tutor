@@ -44,6 +44,7 @@ def parse_args():
     p.add_argument("--val-years", default="", help="hold out these years instead, e.g. 2023,2024")
     p.add_argument("--out", default="data", help="output folder")
     p.add_argument("--no-ocr", action="store_true", help="skip OCR; options will be empty")
+    p.add_argument("--gpu", action="store_true", help="run OCR on CUDA (needs onnxruntime-gpu)")
     p.add_argument("--save-images", action="store_true", help="also save problem images as PNG")
     p.add_argument("--limit", type=int, default=0, help="only process the first N rows (for testing)")
     return p.parse_args()
@@ -111,27 +112,48 @@ def is_marker(text, letter, strict):
 def parse_options(boxes):
     """Return {"A": "12", ..., "E": "24"}, or {} when the options are not text."""
     items = reading_order(boxes)
-    starts = [i for i, it in enumerate(items) if is_marker(it["text"], "A", strict=True) is not None]
-    for start in reversed(starts):  # the options are the last A..E sequence
-        options, current, i = {}, None, start
-        expected = iter(LETTERS)
-        letter = next(expected)
-        while i < len(items):
-            text = items[i]["text"]
-            rest = is_marker(text, letter, strict=(letter == "A")) if letter else None
-            if rest is not None:
-                current = letter
-                options[current] = rest
-                letter = next(expected, None)
-            elif current:
-                options[current] = (options[current] + " " + text).strip()
-            i += 1
-        if len(options) == 5:
-            cleaned = {k: v.lstrip(")）] ").strip() for k, v in options.items()}
-            if all(cleaned.values()):
-                return cleaned
-            return {}  # five markers, but the options are pictures
+    # First "A)" with a sign, as always. Only if no A..E sequence completes, accept
+    # an "A" without sign (OCR often drops it): "A", "B) 20", ... A figure label
+    # "A" is accepted only if B..E follow it.
+    strict_starts = [i for i, it in enumerate(items) if is_marker(it["text"], "A", strict=True) is not None]
+    loose_starts = [i for i, it in enumerate(items)
+                    if i not in strict_starts and is_marker(it["text"], "A", strict=False) is not None]
+    for strict_a, starts in ((True, strict_starts), (False, loose_starts)):
+        for start in reversed(starts):  # the options are the last A..E sequence
+            options = read_sequence(items, start, strict_a)
+            if len(options) == 5:
+                cleaned = {k: " ".join(v).strip().lstrip(")）] ").strip() for k, v in options.items()}
+                if all(cleaned.values()):
+                    return cleaned
+                return {}  # five markers, but the options are pictures
     return {}
+
+
+def read_sequence(items, start, strict_a=True):
+    """Read the labels A..E from items[start]; return letter -> list of box texts."""
+    options, current = {}, None
+    expected = iter(LETTERS)
+    letter = next(expected)
+    for item in items[start:]:
+        text = item["text"]
+        rest = is_marker(text, letter, strict=(strict_a and letter == "A")) if letter else None
+        if rest is None and letter == "C":
+            # OCR often drops the "C)" label: "A) 10", "B) 20", "30", "D) 40".
+            # If a D label (with or without sign) comes with exactly two values
+            # after B, split them.
+            d_rest = is_marker(text, "D", strict=False)
+            values = [v for v in options.get("B", []) if v.strip()]
+            if d_rest is not None and len(values) == 2:
+                options["B"], options["C"] = [values[0]], [values[1]]
+                letter, rest = "D", d_rest
+                next(expected)  # skip C
+        if rest is not None:
+            current = letter
+            options[current] = [rest]
+            letter = next(expected, None)
+        elif current:
+            options[current].append(text)
+    return options
 
 
 def main():
@@ -146,8 +168,11 @@ def main():
 
     ocr = None
     if not args.no_ocr:
+        if args.gpu:
+            import onnxruntime
+            onnxruntime.preload_dlls()  # find the pip-installed CUDA and cuDNN
         from rapidocr_onnxruntime import RapidOCR
-        ocr = RapidOCR()
+        ocr = RapidOCR(det_use_cuda=args.gpu, cls_use_cuda=args.gpu, rec_use_cuda=args.gpu)
 
     cache_path = os.path.join(args.out, ".ocr_cache.jsonl")
     cache = {}
