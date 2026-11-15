@@ -26,6 +26,12 @@ clean:
 	find . -type d -name "__pycache__" -delete
 
 
+## Run only the copilot tests (standard library only, no model or M3Kang data needed)
+.PHONY: test-copilot
+test-copilot:
+	python3 -m unittest tests.test_pipeline -v
+
+
 ## Lint using ruff (use `make format` to do formatting)
 .PHONY: lint
 lint:
@@ -53,7 +59,7 @@ docs-status:
 teacher:
 	uv run --group teacher python -m teacher_app serve
 
-## Run the tests of the teacher app and the board data contract
+## Run all the tests: copilot, board data contract, student app, teacher app
 .PHONY: test
 test:
 	uv run --group teacher pytest

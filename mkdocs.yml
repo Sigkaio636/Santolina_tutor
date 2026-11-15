@@ -4,7 +4,37 @@ docs_dir: docs
 site_dir: site  # ignored by .gitignore (/site)
 dev_addr: 127.0.0.1:8001  # 8000 is the board explorer (docs/BOARD_SETUP.md)
 
-# No `nav:`: the navigation follows the folders in docs/, so new pages appear on their own.
+# The menu is in reading order. Add each new page here (see the docs-site skill).
+nav:
+  - Home: index.md
+  - Set up the board: BOARD_SETUP.md
+  - How-to guides:
+      - Deploy the copilot on the board: how-to/deploy-copilot-on-board.md
+      - Use the copilot on the board: how-to/use-copilot-on-board.md
+      - Try the prior solver on the board: how-to/try-prior-solver.md
+      - Time a 2B model on the board: how-to/time-2b-model-on-board.md
+      - Extract papers to Markdown with MinerU: how-to/mineru-ocr-papers.md
+  - Reference:
+      - UNO Q board reference: UNO_Q_BOARD_REFERENCE.md
+      - Board limits (interactive page): GUIA_RESTRICCIONES_UNOQ.html
+  - The challenge:
+      - What the challenge asks: GOAL_MUSTS.md
+      - The practice set and the final test: PRACTICE_SET.md
+      - Challenge context: CHALLENGE_CONTEXT.md
+      - Summary of the setup video: RESUMEN_QUALCOMM_UNO_Q.md
+  - Skills guide (interactive page): SKILLS_GUIDE.html
+  - Paper vault:
+      - Vault index: vault/papers/README.md
+      - Questions across folders: vault/papers/_junctions.md
+      - Benchmarks: vault/papers/benchmarks/_synthesis.md
+      - Surveys and model reports: vault/papers/surveys/_synthesis.md
+      - Inference on the board: vault/papers/inference/_synthesis.md
+      - Quantization: vault/papers/quantization/_synthesis.md
+      - Pruning: vault/papers/pruning/_synthesis.md
+      - Fine-tuning and distillation: vault/papers/finetuning_distillation/_synthesis.md
+      - Tutoring and pedagogy: vault/papers/tutoring_pedagogy/_synthesis.md
+      - Jev decision models: vault/papers/jev/_synthesis.md
+  - Review status: review/index.md
 
 exclude_docs: |
   .gitkeep
@@ -13,6 +43,8 @@ exclude_docs: |
   vault/papers/**/parsed/
   *.pdf
   vault/papers/download.sh
+  vault/papers/papers.tsv
+  UPC Datathon*.txt
   review/status.yml
   review/findings/
 
@@ -47,6 +79,9 @@ markdown_extensions:
   - toc:
       permalink: true
   - pymdownx.details
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.tilde
   - pymdownx.highlight
   - pymdownx.inlinehilite
   - pymdownx.superfences:
