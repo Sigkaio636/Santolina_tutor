@@ -27,10 +27,10 @@ Sources:
 
 - [ ] The copilot **runs entirely on the Arduino UNO Q**, without leaving the device. ([BOARD_SETUP, The challenge](BOARD_SETUP.md#the-challenge))
 - [ ] It **uses M3Kang** in its own way. ([BOARD_SETUP, The challenge](BOARD_SETUP.md#the-challenge))
-- [ ] It covers **at least one** of the two functions: ([BOARD_SETUP, The challenge](BOARD_SETUP.md#the-challenge))
+- [ ] It covers **both** functions. Until 2026-11-14 the challenge asked for one of the two. The organizers changed it to both in upstream commit `f1ae321`. ([BOARD_SETUP, The challenge](BOARD_SETUP.md#the-challenge))
     - [ ] **Teach**: it guides the student without giving the answer (hints, adaptive practice, error analysis, physical interaction, collaboration).
     - [ ] **Reason**: given a Kangaroo-style problem, it chooses the correct answer. The organizers measure this on a hidden test.
-- [ ] The root `predict.py` keeps the organizers' [contract](BOARD_SETUP.md#111-how-the-baseline-works), whichever function the team picks. The organizers score every team's `predict.py` on the hidden test. ([BOARD_SETUP 13.3](BOARD_SETUP.md#133-ideas-to-reason), [`CLAUDE.md`](https://github.com/Sigkaio636/Santolina_tutor/blob/main/CLAUDE.md))
+- [ ] The root `predict.py` keeps the organizers' [contract](BOARD_SETUP.md#111-how-the-baseline-works). The organizers score every team's `predict.py` on the hidden test. ([BOARD_SETUP 13.3](BOARD_SETUP.md#133-ideas-to-reason), [`CLAUDE.md`](https://github.com/Sigkaio636/Santolina_tutor/blob/main/CLAUDE.md))
 
 ### 1.2 Public GitHub repository
 
@@ -110,7 +110,7 @@ Here the sources set no result and no criterion. The team decides, and no source
 | Field | Why it is open | What the team decides | Suggestion (not a rule) |
 |---|---|---|---|
 | **Use of M3Kang** | "How you use M3Kang is up to you". Examples: a retrieval knowledge base, a training set, problem embeddings, a difficulty map, a multilingual bridge, "or something nobody has thought of yet". "The most original uses will score highest." ([BOARD_SETUP, The challenge](BOARD_SETUP.md#the-challenge)) | What role M3Kang plays, and why. | Explain it in the README architecture and in the pitch. Measure its effect with an experiment recorded in `ablations.csv`. |
-| **Teach or Reason** | One of the two is enough. The organizers score every team's `predict.py` on the hidden test anyway ([BOARD_SETUP 13.3](BOARD_SETUP.md#133-ideas-to-reason)). Teach has no defined metric. | Which one we cover, or both. | For Teach, decide first how to check that it "guides without giving the answer". |
+| **Teach and Reason** | Both are required since 2026-11-14 ([BOARD_SETUP, The challenge](BOARD_SETUP.md#the-challenge)). The organizers score every team's `predict.py` on the hidden test ([BOARD_SETUP 13.3](BOARD_SETUP.md#133-ideas-to-reason)). Teach has no defined metric. | How much of the work goes to each. | For Teach, decide first how to check that it "guides without giving the answer". |
 | **The idea and the experience** | The setup video proposes ideas. They include an easier similar problem, a classroom debate box, simpler problem statements, A–E by voice with the LED matrix, and problems with images. They are inspiration, not a closed list. | What the student experiences. | Pick one idea and take it all the way to the demo, rather than several half-done. |
 | **Technical approach** | The setup video demonstrates retrieval (RAG) on Qwen3.5 0.8B: the embedding model finds similar solved problems, and they go into the prompt. [`CHALLENGE_CONTEXT.md`](CHALLENGE_CONTEXT.md) plans to fine-tune, prune and quantize a Gemma model. The two do not exclude each other. The deployed language model is Qwen3.5 0.8B Q8_0 (`config.env`). The fine-tune base is not chosen yet. Gemma 3 is one candidate under study. | Which path, and in what order. | Decide it on purpose, and write down why. |
 | **Pedagogical quality** | There is no official benchmark. [`CHALLENGE_CONTEXT.md` §7](CHALLENGE_CONTEXT.md#7-evaluation) suggests MathTutorBench or MRBench, not verified. It is our own evaluation plan, not a requirement. | What a "good explanation" is, and how to measure it. | Evaluate open-ended generation, not only A–E accuracy. Pruning and quantization can break generation without lowering multiple-choice accuracy. |

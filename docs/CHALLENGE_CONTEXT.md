@@ -28,7 +28,7 @@
 | RAM | ✅ **Resolved: 4 GB variant (ABX00173)**: 3.6 GiB total, about 2.9 GiB available when idle, plus 1.8 GiB swap. See [UNO_Q_BOARD_REFERENCE.md](UNO_Q_BOARD_REFERENCE.md) |
 | Training data provided | **M3Kang**: 1,747 Kangaroo math contest problems, translated into 108 languages ([dataset card](https://huggingface.co/datasets/qualcomm/M3Kang), [BOARD_SETUP.md step 9](BOARD_SETUP.md#step-9-prepare-m3kang-on-your-laptop)) |
 | Answer format of data | Multiple choice, one letter **A to E** ([BOARD_SETUP.md](BOARD_SETUP.md), [`predict.py`](https://github.com/Sigkaio636/Santolina_tutor/blob/main/predict.py) contract) |
-| Key requirement | The copilot must do one of two things ([BOARD_SETUP.md, "The challenge"](BOARD_SETUP.md#the-challenge)). **Teach:** guide the student without giving away the answer. **Reason:** choose the correct letter for a Kangaroo-style problem |
+| Key requirement | The copilot must do both of two things ([BOARD_SETUP.md, "The challenge"](BOARD_SETUP.md#the-challenge)). Until 2026-11-14 it was one of the two. **Teach:** guide the student without giving away the answer. **Reason:** choose the correct letter for a Kangaroo-style problem |
 | Evaluation | The organizers run each team's `predict.py` on a hidden test and score the letters. For Teach, the team found a benchmark that evaluates **pedagogical explanation of answers**. It is better than multiple-choice benchmarks such as MMLU. Which one is open. Candidates are in §7 |
 | Language | M3Kang has all 1,747 problems in English and Catalan, and fewer in other languages (BOARD_SETUP.md step 9). If the copilot must speak Catalan or Spanish, base-model language coverage matters a lot (see §3) |
 | Framework | Not decided yet. PyTorch + Hugging Face is the default assumption |
@@ -239,13 +239,16 @@ MCQ benchmarks (MMLU-style A/B/C/D) **hide** generation damage from pruning/quan
   **8 pedagogical dimensions**, such as mistake identification, providing guidance, actionability,
   coherence, tutor tone and human-likeness.
 
-### First results on the board (2026-11-14)
-Qwen3.5 0.8B Q8_0, 50 validation problems (28 Catalan, 22 English), `docs/BOARD_SETUP.md` steps 11 and 12:
-- **Baseline: 10/50 (20.0%)**, mean 12.0 s per problem. This is below the 22.0% you get if you always answer `D`.
-- **Retrieval with one example (`--rag 1`): 7/50 (14.0%)**, mean 27.9 s. English goes up (3 → 5), Catalan goes down (7 → 2). The embedding model is English-only.
-- ⇒ A 0.8B model is weak at picking the letter. This supports the tutor goal in §1: put the effort into hints and explanations, not into letter accuracy. Details: `docs/UNO_Q_BOARD_REFERENCE.md` §14.6.
-
 The evaluation harness to build is in [What to try](#what-to-try).
+
+### Letter accuracy on the board
+On 2026-11-14 the team ran the first two evaluations on the board, on the same 50 validation rows.
+In both runs, the 0.8B model chose the letter. The model was weak at this task. The sample is
+small, but the result supports the **Teach** direction of [§1](#1-the-challenge-what-we-know):
+hints and explanations, not letter accuracy. Today the default is the prior solver
+(`SOLVER=prior`): it picks the letter from the options alone, and calls a model only for a request
+with an image. The numbers and a dated note are in
+[UNO_Q_BOARD_REFERENCE.md §14.6](UNO_Q_BOARD_REFERENCE.md#146-data-and-first-evaluations-board_setup-steps-10-to-12).
 
 ---
 

@@ -4,7 +4,7 @@ Este documento fija qué muestra la matriz LED 8x13 de la UNO Q y cómo se
 calcula. Va dirigido a quien implemente la interfaz (app de App Lab,
 `python/main.py` y `sketch/sketch.ino`). La parte técnica de la matriz (el
 Bridge, `Frame`, el sketch) está en la skill
-[`unoq-hardware-ui`](../.claude/skills/unoq-hardware-ui/SKILL.md).
+[`unoq-hardware-ui`](https://github.com/Sigkaio636/Santolina_tutor/blob/main/.claude/skills/unoq-hardware-ui/SKILL.md).
 
 La matriz tiene dos pantallas. En reposo muestra el mapa de dominio del alumno
 y el porcentaje de deberes hechos. Mientras el modelo trabaja muestra una barra

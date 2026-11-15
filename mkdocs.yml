@@ -10,20 +10,52 @@ nav:
   - Set up the board: BOARD_SETUP.md
   - How-to guides:
       - Deploy the copilot on the board: how-to/deploy-copilot-on-board.md
+      - Use the student app: how-to/use-student-app.md
+      - Run the teacher app: how-to/run-teacher-app.md
       - Use the copilot on the board: how-to/use-copilot-on-board.md
+      - Back up and restore a board: how-to/back-up-and-restore-a-board.md
       - Try the prior solver on the board: how-to/try-prior-solver.md
       - Time a 2B model on the board: how-to/time-2b-model-on-board.md
+      - Install decider-0.8b on the board: how-to/install-decider-0.8b.md
       - Use decider-2b as the intent router: how-to/use-decider-2b-router.md
+      - Read the options with the label-anchored reader: OPTION_READER_GUIDE.md
       - Extract papers to Markdown with MinerU: how-to/mineru-ocr-papers.md
   - Reference:
       - UNO Q board reference: UNO_Q_BOARD_REFERENCE.md
+      - Board data contract: reference/board-data-contract.md
       - LED matrix design: LED_MATRIX_DESIGN.md
+      - Tutor response types: TUTOR_RESPONSE_TYPES.md
+      - Student-message classifier prompt: TOOL_CALLER_PROMPT.md
+      - OCR failure modes: OCR_FAILURE_MODES.md
+      - "Model record: the tutor (Qwen3.5 0.8B fine-tune)": models/qwen35-tutor.md
+      - "Model record: decider-2b-vision": models/decider-2b-vision.md
+      - "Model record: InternVL3.5-1B": models/internvl3.5-1b.md
       - Board limits (interactive page): GUIA_RESTRICCIONES_UNOQ.html
+  - Explanation:
+      - "Student data: what a teacher may collect": explanation/student-data-privacy.md
+  - Experiments:
+      - "Solving: decider-0.8b against the baseline": experiments/2026-11-decider-0.8b.md
+      - "Figures: Qwen3.5-0.8B with the image": experiments/2026-11-vision-txto-no.md
+      - "Figures: no-model heuristics": experiments/2026-11-txto-no-heuristics.md
+      - "Figures: decider-2b-vision on figure logic": experiments/2026-11-decider-2b-vision-figure-logic.md
+      - "Figures: InternVL3.5-1B against decider-2b-vision": experiments/2026-11-internvl35-1b-vs-decider-2b-vision-txto-no.md
+      - "OCR: text against the annotated question": experiments/2026-11-ocr-text-vs-annotation.md
+      - "OCR: Tesseract against PP-OCR": experiments/2026-11-tesseract-text-only.md
+      - "OCR: PP-FormulaNet for the options": experiments/2026-11-ppformulanet.md
+      - "OCR: option crops with OpenCV": experiments/2026-11-option-crops-opencv.md
+      - "OCR: options checked across languages": experiments/2026-11-option-extraction-consensus.md
+      - "OCR: label-anchored option boxes": experiments/2026-11-option-boxes-intermediate-rec.md
+      - "Router: how we made the messages": experiments/2026-11-router-messages-method.md
+      - "Router: round 1": experiments/2026-11-router-bakeoff.md
+      - "Router: round 2": experiments/2026-11-router-bakeoff-2.md
+      - "Router: conclusion for 0.8B": experiments/2026-11-router-0.8b-conclusion.md
+      - "Router: round 3, decider-2b": experiments/2026-11-router-bakeoff-3.md
   - The challenge:
       - What the challenge asks: GOAL_MUSTS.md
       - The practice set and the final test: PRACTICE_SET.md
       - Challenge context: CHALLENGE_CONTEXT.md
       - Summary of the setup video: RESUMEN_QUALCOMM_UNO_Q.md
+  - Develop the project: DEVELOPING.md
   - Skills guide (interactive page): SKILLS_GUIDE.html
   - Paper vault:
       - Vault index: vault/papers/README.md

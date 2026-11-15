@@ -10,11 +10,23 @@
 > - This guide: this note; clone URLs and the board folder point at this repository
 >   (`~/Santolina_tutor`); step 9 runs `laptop/` through `uv run --no-project` instead of a
 >   `python3 -m venv .venv`, which would clash with this repository's uv `.venv`; step 14.1 points at
->   `.claude/skills/` instead of `.skills/` and its symlink.
-> - `config.env`, `explorer/server.py`, `board/05_smoke_test.sh`: "the README" -> `docs/BOARD_SETUP.md`.
+>   `.claude/skills/` instead of `.skills/` and its symlink. Links to a skill are full GitHub links,
+>   because the docs site cannot link outside `docs/`.
+> - This guide, added text: in step 9.3, the paragraph after the list (the missing `C)` label and a
+>   link to `OCR_FAILURE_MODES.md`). In steps 11.1 and 12.2, a local note on `SOLVER=prior`.
+> - `config.env`, `explorer/server.py`: "the README" -> `docs/BOARD_SETUP.md`.
+> - Changed after the import commit `ae8ecfa` (`git diff ae8ecfa -- <file>` shows each change):
+>   `config.env`, `copilot/llm.py`, `copilot/pipeline.py`, `copilot/rag.py`, `predict.py`, `eval.py`,
+>   `explorer/server.py`, `laptop/prepare_m3kang.py`, `data/README.md`. `board/05_smoke_test.sh` now
+>   points at `docs/how-to/use-copilot-on-board.md`.
+> - Files added after `ae8ecfa` are this repository's own, for example `copilot/prior.py`,
+>   `board/06`-`08`, `board/ocr_speed.sh`, `board/app-lab/`, most of `laptop/`, `student_app/`,
+>   `teacher_app/` and `classroom/`.
 > - Skills: see each `.claude/skills/<name>/PROVENANCE.md`.
-> - All other files in `board/`, `copilot/`, `explorer/`, `laptop/`, `data/`, `results/`,
->   `predict.py`, `eval.py` and `build_index.py` are byte-identical to the commit.
+> - Synced with the upstream commit `f1ae321` (2026-11-14), its only change after `d6e3f1b`:
+>   in "The challenge", the copilot must now do **both** things, not one of them.
+> - All other files in `board/`, `copilot/`, `explorer/`, `laptop/`, `data/`, `results/` and
+>   `build_index.py` are byte-identical to the commit.
 
 <img width="1526" height="927" alt="UPC-datathon" src="https://github.com/user-attachments/assets/daa7be34-b91a-4703-9581-7b5142f75d91" />
 
@@ -32,7 +44,7 @@ The challenge of the Datathon FME 2026 is:
 
 > Design and build a Math copilot that runs entirely on the Arduino UNO Q and uses M3Kang in an innovative way to help students learn to reason mathematically.
 
-Your copilot must do one of these two things:
+Your copilot must do both of these two things:
 
 * **Teach**: It must turn that ability into an experience that sparks curiosity and guides the student without giving away the answer, for example through hints, adaptive practice, error analysis, physical interaction or collaboration.
 * **Reason**: When given a Kangaroo-style problem, it must be able to choose the correct answer. Organizers will measure this objectively on a hidden test set.
@@ -772,9 +784,9 @@ OCR reads all five options for 62% of the problems. The rest have `"options": {}
 - Fractions and formulas come out garbled, such as `1/2` read as `12`
 - In a few problems, two options come out the same
 
-Better option reading is one of the easiest ways to improve your score. Look at the problems with empty options with `--save-images`.
+This list misses the most frequent failure of the organizers' parser. In most rows it leaves empty, the OCR text has no `C)` label in front of option C. [OCR failure modes: expected and measured](OCR_FAILURE_MODES.md) counts each failure mode.
 
-For counts of each failure mode, and one that this list misses, see [OCR failure modes: expected and measured](OCR_FAILURE_MODES.md).
+Better option reading is one of the easiest ways to improve your score. Look at the problems with empty options with `--save-images`.
 
 ### 9.4 The data format
 
@@ -825,6 +837,11 @@ wc -l data/train.jsonl data/val.jsonl
 ```bash
 python3 predict.py --input data/val.jsonl --output results/predictions.csv
 ```
+
+> **Local note.** This repository answers with the prior solver (`SOLVER=prior` in `config.env`).
+> It picks a letter with a fixed rule. With this solver, `eval.py` and `predict.py` do not call
+> the language model. To measure the language model as this step describes, set `SOLVER=letter`,
+> for example `SOLVER=letter python3 eval.py --limit 50 --name letter-baseline`.
 
 For each problem, `copilot/pipeline.py`:
 
@@ -892,6 +909,10 @@ It embeds every training problem with bge-small and stores the vectors in a SQLi
 python3 eval.py --limit 50 --rag 1 --name rag1
 python3 predict.py --input data/val.jsonl --output results/predictions.csv --rag 1
 ```
+
+> **Local note.** With `SOLVER=prior` (this repository's default), `--rag` changes no answer: the
+> prior solver does not call the language model, so it does not search the index. Set
+> `SOLVER=letter` to use retrieval, for example `SOLVER=letter python3 eval.py --limit 50 --rag 1 --name letter-rag1`.
 
 `--rag 1` adds the most similar training problem, with its answer, before the question. `--rag 2` adds two. `eval.py` never retrieves the problem it's answering (`exclude_id`), so the score stays honest.
 
@@ -1123,10 +1144,10 @@ The [`.claude/skills`](../.claude/skills) folder holds skills for Claude: instru
 
 | Skill | Use it to |
 | --- | --- |
-| [`unoq-board`](../.claude/skills/unoq-board/SKILL.md) | Connect, check the services and the RAM, and fix the board |
-| [`m3kang-copilot`](../.claude/skills/m3kang-copilot/SKILL.md) | Change the copilot, run experiments, and analyse the errors |
-| [`unoq-hardware-ui`](../.claude/skills/unoq-hardware-ui/SKILL.md) | Build an App Lab app with a web page and the LED matrix |
-| [`publish-project`](../.claude/skills/publish-project/SKILL.md) | Write your GitHub repository and your Project Hub write-up |
+| [`unoq-board`](https://github.com/Sigkaio636/Santolina_tutor/blob/main/.claude/skills/unoq-board/SKILL.md) | Connect, check the services and the RAM, and fix the board |
+| [`m3kang-copilot`](https://github.com/Sigkaio636/Santolina_tutor/blob/main/.claude/skills/m3kang-copilot/SKILL.md) | Change the copilot, run experiments, and analyse the errors |
+| [`unoq-hardware-ui`](https://github.com/Sigkaio636/Santolina_tutor/blob/main/.claude/skills/unoq-hardware-ui/SKILL.md) | Build an App Lab app with a web page and the LED matrix |
+| [`publish-project`](https://github.com/Sigkaio636/Santolina_tutor/blob/main/.claude/skills/publish-project/SKILL.md) | Write your GitHub repository and your Project Hub write-up |
 
 They're already in `.claude/skills/`, so Claude Code loads them when you start `claude` from your clone of the repository. It finds them on its own when they fit your request, or you can ask for one by name: "Use the m3kang-copilot skill to add a hint ladder."
 
@@ -1161,7 +1182,7 @@ M3Kang has no topic field, so you'll need to add one: cluster the embeddings, lo
 
 The datathon uses no external modules: the board's 8x13 LED matrix is the only hardware you add. Students answer on a web page, and the board answers on the matrix: a letter, a tick or a cross, a level, or vote counts.
 
-An App Lab app has two halves: `python/main.py` runs on Linux next to the model servers, and serves the web page with the `web_ui` brick. `sketch/sketch.ino` runs on the microcontroller and draws on the LED matrix. The Bridge connects them. The [`unoq-hardware-ui`](../.claude/skills/unoq-hardware-ui/SKILL.md) skill has a complete starting app.
+An App Lab app has two halves: `python/main.py` runs on Linux next to the model servers, and serves the web page with the `web_ui` brick. `sketch/sketch.ino` runs on the microcontroller and draws on the LED matrix. The Bridge connects them. The [`unoq-hardware-ui`](https://github.com/Sigkaio636/Santolina_tutor/blob/main/.claude/skills/unoq-hardware-ui/SKILL.md) skill has a complete starting app.
 
 Check two things early:
 
@@ -1226,7 +1247,7 @@ A structure that works:
 
 Cite M3Kang (Torres-Camps et al., 2026, [arXiv:2601.16218](https://arxiv.org/abs/2601.16218)), and don't upload its data. If you want to show an example problem, check the license on the dataset card first.
 
-The [`publish-project`](../.claude/skills/publish-project/SKILL.md) skill can check your README and your write-up against this list.
+The [`publish-project`](https://github.com/Sigkaio636/Santolina_tutor/blob/main/.claude/skills/publish-project/SKILL.md) skill can check your README and your write-up against this list.
 
 ---
 
