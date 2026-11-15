@@ -1,80 +1,43 @@
 # Santolina tutor
 
-Santolina tutor is a math copilot that runs entirely on the Arduino UNO Q 4 GB,
-for the Qualcomm challenge of [Datathon FME 2026](BOARD_SETUP.md#the-challenge). It works with the
-[M3Kang dataset](https://huggingface.co/datasets/qualcomm/M3Kang). The dataset
-is for research use only. Except for one example record in the organizers'
-setup guide, this site has no M3Kang problem text.
+Santolina is a math tutor that runs entirely on an Arduino UNO Q 4 GB, with no network. It is our entry to the Qualcomm challenge "Math on the Edge" of [Datathon FME 2026](BOARD_SETUP.md#the-challenge). The challenge asks for a copilot that does two jobs on the board:
 
-This site is the project's documentation, for the team and for anyone who
-wants to run the copilot on a board. Read the pages under "Start here" in order.
+- **Teach.** Each student gets a board. The board makes its own Wi-Fi, and the student opens the tutor on a phone. A fine-tuned Qwen3.5 0.8B guides the student through Kangaroo problems with short questions. Code blocks any reply that gives the answer away. A teacher app on a laptop loads homework onto the boards and unloads what each student did, over USB.
+- **Reason.** For the organizers' hidden test, `predict.py` answers each problem with one letter, A to E, in under 60 seconds.
 
-## The project
+This site is the project's documentation, for the team and for anyone who wants to rebuild the copilot on a board. The [README](https://github.com/Sigkaio636/Santolina_tutor#readme) is the submission page.
 
-Each student gets a board. The board makes its own Wi-Fi, and the student
-opens the tutor on a phone. A fine-tuned Qwen3.5 0.8B guides the student
-through Kangaroo problems with short questions, and code blocks any reply that
-gives the answer away. A teacher app on a laptop loads homework onto the boards
-and unloads what each student did, over USB. For the organizers' hidden test,
-`predict.py` answers one letter per problem: by default with a fixed rule on
-the option values (`SOLVER=prior`), or with one letter from Qwen3.5 0.8B
-(`SOLVER=letter`).
-
-The [README](https://github.com/Sigkaio636/Santolina_tutor#readme) is the
-project's submission page. It holds these sections:
-
-- [What it does](https://github.com/Sigkaio636/Santolina_tutor#what-it-does)
-- [Architecture](https://github.com/Sigkaio636/Santolina_tutor#architecture),
-  with how we use M3Kang
-- [How to replicate it](https://github.com/Sigkaio636/Santolina_tutor#how-to-replicate-it)
-- [Results](https://github.com/Sigkaio636/Santolina_tutor#results) and
-  [error analysis](https://github.com/Sigkaio636/Santolina_tutor#error-analysis)
-  by language and level
-- [What didn't work](https://github.com/Sigkaio636/Santolina_tutor#what-didnt-work-and-what-we-would-try-next)
-- [The team](https://github.com/Sigkaio636/Santolina_tutor#the-team)
+!!! info "What `main` ships"
+    `config.env` sets `SOLVER=prior`: a fixed rule on the option values, with no model call. It scored 16 of 100 on the organizers' practice set. `SOLVER=letter` scored 22. Our best pipeline, a Qwen2.5-Math program with Catalan translated first, scored 55 of 100 on the laptop, but it is on a branch. See [Experiments › Solving](experiments/solving/index.md).
 
 ## Start here
 
-1. [Board setup](BOARD_SETUP.md), steps 0 to 12: the organizers' guide to
-   prepare the board, the M3Kang files on your laptop (step 9) and the
-   retrieval index (step 12). It also defines the `predict.py` contract.
-2. [How to deploy the copilot on the UNO Q](how-to/deploy-copilot-on-board.md):
-   put the code and data on the board and check it.
-3. [Use the student app](how-to/use-student-app.md): install the student app,
-   the LED app and the tutor model on the board, and use them from a phone.
-4. [Run the teacher app](how-to/run-teacher-app.md): set up boards, load
-   homework and unload what students did.
-5. [How to use the copilot on the UNO Q](how-to/use-copilot-on-board.md):
-   answer problems with `predict.py`, measure results, and use retrieval.
+| I want to… | Go to |
+| --- | --- |
+| Rebuild the shipped build on a fresh board | [Tutorials](tutorials/index.md): five steps, each with a check at the end |
+| Do one task: back up a board, try a model, read the options | [How-to guides](how-to/index.md) |
+| Look up a fact about the board, the apps or the models | [Reference](reference/index.md) |
+| See what we tried, what worked and what we decided | [Experiments](experiments/index.md), by topic |
+| Check what the challenge asks and what is still open | [What the challenge asks](GOAL_MUSTS.md) |
+| Change the code or the docs | [Develop the project](DEVELOPING.md) |
 
-Developers: see [Develop the project](DEVELOPING.md) for the repository layout
-and its rules.
+## Where each deliverable is
 
-## Background
+The challenge asks for a README with set sections ([checklist 1.3](GOAL_MUSTS.md#13-readme-in-this-order)). This site holds the detail behind each one:
 
-- [UNO Q board reference](UNO_Q_BOARD_REFERENCE.md): the board's hardware and
-  limits. This is the canonical page for the board specs.
-- [What the challenge asks](GOAL_MUSTS.md): the only checklist of what the team
-  must deliver.
-- [Challenge context](CHALLENGE_CONTEXT.md): the team's planning notes and research
-  for the challenge.
-- [Summary of the setup video](RESUMEN_QUALCOMM_UNO_Q.md): a summary of the
-  organizers' setup video. The
-  [video transcript](https://github.com/Sigkaio636/Santolina_tutor/blob/main/docs/UPC%20Datathon%20-%20Qualcomm%20Challenge%20step%20by%20step%20Arduino%20UNO%20Q%20setup.txt)
-  is on GitHub only, not on this site.
-- [UNO Q constraints guide](GUIA_RESTRICCIONES_UNOQ.html): an HTML page with the
-  challenge constraints and a summary of the board specs. The board reference
-  above is the full copy.
+| README section | Detail on this site |
+| --- | --- |
+| [What it does](https://github.com/Sigkaio636/Santolina_tutor#what-it-does) | [Use the student app](how-to/use-student-app.md), [Run the teacher app](how-to/run-teacher-app.md) |
+| [Architecture](https://github.com/Sigkaio636/Santolina_tutor#architecture) | [UNO Q board reference](UNO_Q_BOARD_REFERENCE.md), [Board data contract](reference/board-data-contract.md), [Models](models/index.md) |
+| [How to replicate it](https://github.com/Sigkaio636/Santolina_tutor#how-to-replicate-it) | [Tutorials](tutorials/index.md) |
+| [Results](https://github.com/Sigkaio636/Santolina_tutor#results) and [error analysis](https://github.com/Sigkaio636/Santolina_tutor#error-analysis) | [Solving](experiments/solving/index.md), [Practice set and hidden test](PRACTICE_SET.md) |
+| [What didn't work](https://github.com/Sigkaio636/Santolina_tutor#what-didnt-work-and-what-we-would-try-next) | [Experiments](experiments/index.md#what-didnt-work) |
+| [The team](https://github.com/Sigkaio636/Santolina_tutor#the-team) | — |
 
-## Paper vault
+## M3Kang
 
-The paper vault is the folder `docs/vault/`: research papers and our notes on
-them. You can also open it in [Obsidian](https://obsidian.md), a Markdown
-note-taking app.
+The copilot works with the [M3Kang dataset](https://huggingface.co/datasets/qualcomm/M3Kang) (Torres-Camps et al., 2026, [arXiv:2601.16218](https://arxiv.org/abs/2601.16218)). The dataset is for research use only. Except for one example record in the organizers' setup guide, this site holds no M3Kang problem text. The experiment reports give problem IDs and scores only.
 
-- [Papers](vault/papers/README.md): the reading list. Its topics are benchmarks,
-  surveys and model reports, on-device inference, quantization, pruning, fine-tuning and
-  distillation, math tutoring and pedagogy, and Jev decision models.
-- [Extract papers to Markdown with MinerU](how-to/mineru-ocr-papers.md):
-  MinerU converts PDFs to Markdown. This guide converts the vault papers, so
-  you can read and search them.
+## Research
+
+The [paper vault](vault/papers/README.md) (`docs/vault/`) holds the research papers we read, with one synthesis note per topic. You can also open it in [Obsidian](https://obsidian.md), a Markdown note-taking app. To read the papers as text, see [Extract papers with MinerU](how-to/mineru-ocr-papers.md).

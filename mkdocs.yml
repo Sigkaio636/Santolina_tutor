@@ -7,60 +7,71 @@ dev_addr: 127.0.0.1:8001  # 8000 is the board explorer (docs/BOARD_SETUP.md)
 # The menu is in reading order. Add each new page here (see the docs-site skill).
 nav:
   - Home: index.md
-  - Get started:
-      - Set up the board: BOARD_SETUP.md
-      - Deploy the copilot: how-to/deploy-copilot-on-board.md
-      - Use the student app: how-to/use-student-app.md
-      - Run the teacher app: how-to/run-teacher-app.md
-      - Answer and measure problems: how-to/use-copilot-on-board.md
-  - Guides:
+  - Tutorials:
+      - tutorials/index.md
+      - 1. Set up the board: BOARD_SETUP.md
+      - 2. Deploy the copilot: how-to/deploy-copilot-on-board.md
+      - 3. Run the student app: how-to/use-student-app.md
+      - 4. Answer and score problems: how-to/use-copilot-on-board.md
+      - 5. Run the teacher app: how-to/run-teacher-app.md
+  - How-to guides:
+      - how-to/index.md
       - The board:
           - Back up and restore a board: how-to/back-up-and-restore-a-board.md
           - Time a 2B model: how-to/time-2b-model-on-board.md
-      - Solvers and models:
+      - Solvers:
           - Try the prior solver: how-to/try-prior-solver.md
           - Install decider-0.8b: how-to/install-decider-0.8b.md
+      - The tutor:
           - Use decider-2b as router: how-to/use-decider-2b-router.md
-      - Data:
+      - Data and research:
           - Read the answer options: OPTION_READER_GUIDE.md
           - Extract papers with MinerU: how-to/mineru-ocr-papers.md
+  - Experiments:
+      - experiments/index.md
+      - "Reason: predict.py":
+          - Solving the problem:
+              - experiments/solving/index.md
+              - decider-0.8b vs the baseline: experiments/2026-11-decider-0.8b.md
+          - Figure problems:
+              - experiments/figure-problems/index.md
+              - Qwen3.5 0.8B with the image: experiments/2026-11-vision-txto-no.md
+              - decider-2b-vision on figure logic: experiments/2026-11-decider-2b-vision-figure-logic.md
+              - InternVL3.5-1B vs decider-2b: experiments/2026-11-internvl35-1b-vs-decider-2b-vision-txto-no.md
+              - Heuristics, no model: experiments/2026-11-txto-no-heuristics.md
+          - Reading the options:
+              - experiments/option-reading/index.md
+              - OCR failure modes: OCR_FAILURE_MODES.md
+              - OCR text vs annotation: experiments/2026-11-ocr-text-vs-annotation.md
+              - PP-FormulaNet: experiments/2026-11-ppformulanet.md
+              - Checked across languages: experiments/2026-11-option-extraction-consensus.md
+              - Tesseract vs PP-OCR: experiments/2026-11-tesseract-text-only.md
+              - Option crops with OpenCV: experiments/2026-11-option-crops-opencv.md
+              - Label-anchored boxes: experiments/2026-11-option-boxes-intermediate-rec.md
+      - "Teach: student app":
+          - Intent router:
+              - experiments/intent-router/index.md
+              - How we made the messages: experiments/2026-11-router-messages-method.md
+              - Round 1: experiments/2026-11-router-bakeoff.md
+              - Round 2: experiments/2026-11-router-bakeoff-2.md
+              - Conclusion for 0.8B: experiments/2026-11-router-0.8b-conclusion.md
+              - "Round 3: decider-2b": experiments/2026-11-router-bakeoff-3.md
+              - First classifier prompt (superseded): TOOL_CALLER_PROMPT.md
   - Reference:
+      - reference/index.md
       - The board:
           - UNO Q board reference: UNO_Q_BOARD_REFERENCE.md
           - Board limits (interactive): GUIA_RESTRICCIONES_UNOQ.html
-          - LED matrix design: LED_MATRIX_DESIGN.md
+          - LED matrix design (Spanish): LED_MATRIX_DESIGN.md
           - Board data contract: reference/board-data-contract.md
       - The tutor:
-          - Tutor response types: TUTOR_RESPONSE_TYPES.md
-          - Message classifier prompt: TOOL_CALLER_PROMPT.md
+          - Tutor response types (Spanish): TUTOR_RESPONSE_TYPES.md
           - "Student data and privacy": explanation/student-data-privacy.md
       - Models:
+          - models/index.md
           - The tutor fine-tune: models/qwen35-tutor.md
           - decider-2b-vision: models/decider-2b-vision.md
           - InternVL3.5-1B: models/internvl3.5-1b.md
-      - Data:
-          - OCR failure modes: OCR_FAILURE_MODES.md
-  - Experiments:
-      - Solving:
-          - decider-0.8b vs the baseline: experiments/2026-11-decider-0.8b.md
-      - Figure problems:
-          - Qwen3.5 0.8B with the image: experiments/2026-11-vision-txto-no.md
-          - Heuristics, no model: experiments/2026-11-txto-no-heuristics.md
-          - decider-2b-vision on logic: experiments/2026-11-decider-2b-vision-figure-logic.md
-          - InternVL3.5-1B vs decider-2b: experiments/2026-11-internvl35-1b-vs-decider-2b-vision-txto-no.md
-      - Reading the options:
-          - OCR text vs annotation: experiments/2026-11-ocr-text-vs-annotation.md
-          - Tesseract vs PP-OCR: experiments/2026-11-tesseract-text-only.md
-          - PP-FormulaNet: experiments/2026-11-ppformulanet.md
-          - Option crops with OpenCV: experiments/2026-11-option-crops-opencv.md
-          - Checked across languages: experiments/2026-11-option-extraction-consensus.md
-          - Label-anchored boxes: experiments/2026-11-option-boxes-intermediate-rec.md
-      - Intent router:
-          - How we made the messages: experiments/2026-11-router-messages-method.md
-          - Round 1: experiments/2026-11-router-bakeoff.md
-          - Round 2: experiments/2026-11-router-bakeoff-2.md
-          - Conclusion for 0.8B: experiments/2026-11-router-0.8b-conclusion.md
-          - "Round 3: decider-2b": experiments/2026-11-router-bakeoff-3.md
   - Challenge:
       - What the challenge asks: GOAL_MUSTS.md
       - Practice set and hidden test: PRACTICE_SET.md

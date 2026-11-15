@@ -617,6 +617,61 @@ documents:
       signoff: pending
     validated_sha: null
     notes: {}
+  docs/experiments/figure-problems/index.md:
+    stages:
+      audit: pending
+      critique: pending
+      decisions: pending
+      repair: pending
+      language: pending
+      adversarial: pending
+      signoff: pending
+    validated_sha: null
+    notes: {}
+  docs/experiments/index.md:
+    stages:
+      audit: pending
+      critique: pending
+      decisions: pending
+      repair: pending
+      language: pending
+      adversarial: pending
+      signoff: pending
+    validated_sha: null
+    notes: {}
+  docs/experiments/intent-router/index.md:
+    stages:
+      audit: pending
+      critique: pending
+      decisions: pending
+      repair: pending
+      language: pending
+      adversarial: pending
+      signoff: pending
+    validated_sha: null
+    notes: {}
+  docs/experiments/option-reading/index.md:
+    stages:
+      audit: pending
+      critique: pending
+      decisions: pending
+      repair: pending
+      language: pending
+      adversarial: pending
+      signoff: pending
+    validated_sha: null
+    notes: {}
+  docs/experiments/solving/index.md:
+    stages:
+      audit: pending
+      critique: pending
+      decisions: pending
+      repair: pending
+      language: pending
+      adversarial: pending
+      signoff: pending
+    validated_sha: null
+    notes: {}
   docs/explanation/student-data-privacy.md:
     stages:
       audit: validated
@@ -667,6 +722,17 @@ documents:
         round
       signoff: 'user re-sign-off after merging PR #3'
     last_sha: bdac2e2693a641b4dff3f7485b9cd37d21ecadb7b5c83d60bbaf5355c89f8da2
+  docs/how-to/index.md:
+    stages:
+      audit: pending
+      critique: pending
+      decisions: pending
+      repair: pending
+      language: pending
+      adversarial: pending
+      signoff: pending
+    validated_sha: null
+    notes: {}
   docs/how-to/install-decider-0.8b.md:
     stages:
       audit: validated
@@ -839,6 +905,17 @@ documents:
       critique: '2026-11-15: user validated (counts in findings file)'
       decisions: grilling 2026-11-15 (see findings file; X31)
     last_sha: 41afff3a23e59eaa5a3923d82a78c24e1a5ce6fb54b79db7920c72dc5c9d0046
+  docs/models/index.md:
+    stages:
+      audit: pending
+      critique: pending
+      decisions: pending
+      repair: pending
+      language: pending
+      adversarial: pending
+      signoff: pending
+    validated_sha: null
+    notes: {}
   docs/models/internvl3.5-1b.md:
     stages:
       audit: validated
@@ -880,6 +957,28 @@ documents:
       critique: '2026-11-15: user validated (counts in findings file)'
       decisions: grilling 2026-11-15 (see findings file; X31)
     last_sha: 50a8fdf37d0707c6b3f73fb76f2993324f315f5d556cb3a63f9f43191f966199
+  docs/reference/index.md:
+    stages:
+      audit: pending
+      critique: pending
+      decisions: pending
+      repair: pending
+      language: pending
+      adversarial: pending
+      signoff: pending
+    validated_sha: null
+    notes: {}
+  docs/tutorials/index.md:
+    stages:
+      audit: pending
+      critique: pending
+      decisions: pending
+      repair: pending
+      language: pending
+      adversarial: pending
+      signoff: pending
+    validated_sha: null
+    notes: {}
   explorer/README.md:
     stages:
       audit: validated
