@@ -10,6 +10,9 @@ compare  parses two box files with parse_options (laptop/prepare_m3kang.py) and
 Engines:
     v4  rapidocr_onnxruntime (PP-OCRv4), the engine of prepare_m3kang.py
     v5  rapidocr >= 3 with PP-OCRv5: mobile detector, latin recognizer
+    tess  Tesseract 5 CLI, LSTM (--oem 1), automatic layout (--psm 3), on the CPU.
+          One box per word. Needs tessdata_best eng/cat/spa in --tessdata-dir
+          (docs/experiments/2026-11-tesseract-text-only.md). --workers runs images in parallel.
 
 Each engine needs its own environment (both use onnxruntime-gpu on CUDA).
 M3Kang is research-use only: the box files hold problem text, so keep them
@@ -20,17 +23,49 @@ Usage:
         --out data/interim/ocr_boxes_txto_yes_v5.jsonl data/raw_txto_yes/*.parquet
     python laptop/ocr_boxes.py compare data/interim/ocr_boxes_txto_yes.jsonl \\
         data/interim/ocr_boxes_txto_yes_v5.jsonl
+    python laptop/ocr_boxes.py dump --engine tess --workers 16 --languages eng,cat,esp \\
+        --out data/interim/ocr_boxes_txto_yes_tess.jsonl data/raw_txto_yes/*.parquet
 """
 import argparse
 import json
 import os
 import re
+import subprocess
 import sys
 import time
 from collections import Counter, defaultdict
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from prepare_m3kang import parse_options  # noqa: E402
+
+
+TESS_LANG = {"eng": "eng", "cat": "cat", "esp": "spa"}   # M3Kang language -> Tesseract model
+
+
+def make_tesseract(tessdata, threads=1):
+    """Tesseract on the image bytes; returns word boxes in the rapidocr format."""
+    # One thread by default: --workers runs images in parallel. ocr_speed.py times more threads.
+    env = dict(os.environ, OMP_THREAD_LIMIT=str(threads))
+
+    def run(image, lang):
+        out = subprocess.run(
+            ["tesseract", "stdin", "stdout", "--tessdata-dir", tessdata, "-l", TESS_LANG[lang],
+             "--oem", "1", "--psm", "3", "-c", "tessedit_create_tsv=1"],
+            input=image, capture_output=True, env=env, check=True).stdout.decode("utf-8")
+        return tsv_boxes(out)
+    return run
+
+
+def tsv_boxes(tsv):
+    """Word rows (level 5) of Tesseract TSV as [[4 points], text, conf / 100]."""
+    boxes = []
+    for line in tsv.splitlines()[1:]:
+        f = line.split("\t", 11)
+        if len(f) < 12 or f[0] != "5" or not f[11].strip() or float(f[10]) < 0:
+            continue
+        x, y, w, h = (float(v) for v in f[6:10])
+        boxes.append([[[x, y], [x + w, y], [x + w, y + h], [x, y + h]], f[11].strip(), float(f[10]) / 100])
+    return boxes
 
 
 def make_engine(name):
@@ -73,7 +108,12 @@ def dump(args):
     keys = {line.strip() for line in open(args.keys_file)} if args.keys_file else None
     if os.path.exists(args.out):
         done = {json.loads(line)["key"] for line in open(args.out)}
-    run = make_engine(args.engine)
+    tess = args.engine == "tess"
+    run = make_tesseract(args.tessdata_dir) if tess else make_engine(args.engine)
+    pool = None
+    if tess:
+        from concurrent.futures import ThreadPoolExecutor  # threads are enough: each runs a subprocess
+        pool = ThreadPoolExecutor(args.workers)
     languages = None if args.languages == "all" else pa.array(args.languages.split(","))
     exclude = pa.array(args.exclude_languages.split(",")) if args.exclude_languages else None
     n, t0 = 0, time.time()
@@ -84,11 +124,17 @@ def dump(args):
                 table = table.filter(pc.is_in(table.column("language"), value_set=languages))
             if exclude is not None:
                 table = table.filter(pc.invert(pc.is_in(table.column("language"), value_set=exclude)))
+            todo = []
             for i in range(table.num_rows):
                 key = f"{table.column('id')[i].as_py()}|{table.column('language')[i].as_py()}"
-                if key in done or (keys is not None and key not in keys):
-                    continue
-                boxes = run(table.column("image")[i].as_py()["bytes"])
+                if key not in done and (keys is None or key in keys):
+                    todo.append((i, key))
+            image = lambda i: table.column("image")[i].as_py()["bytes"]  # noqa: E731
+            if tess:
+                outs = pool.map(lambda ik: run(image(ik[0]), ik[1].split("|")[1]), todo)
+            else:
+                outs = (run(image(i)) for i, _ in todo)
+            for (i, key), boxes in zip(todo, outs):
                 boxes = [[[[float(x), float(y)] for x, y in box], text, float(score)]
                          for box, text, score in boxes]
                 f.write(json.dumps({"key": key, "boxes": boxes}, ensure_ascii=False) + "\n")
@@ -96,7 +142,9 @@ def dump(args):
                 if n % 200 == 0:
                     print(f"  {n} rows, {n / (time.time() - t0):.1f} rows/s", flush=True)
     if n:
-        print(f"{n} rows in {time.time() - t0:.0f} s ({n / (time.time() - t0):.1f} rows/s)")
+        dt = time.time() - t0
+        print(f"{n} rows in {dt:.0f} s ({n / dt:.1f} rows/s"
+              + (f", {args.workers} workers: about {dt * args.workers / n:.2f} CPU-thread s per image)" if tess else ")"))
 
 
 def norm(value):
@@ -138,7 +186,9 @@ def main():
     p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     sub = p.add_subparsers(dest="cmd", required=True)
     d = sub.add_parser("dump")
-    d.add_argument("--engine", choices=["v4", "v5"], required=True)
+    d.add_argument("--engine", choices=["v4", "v5", "tess"], required=True)
+    d.add_argument("--tessdata-dir", default="data/external/tessdata", help="tess only: traineddata folder")
+    d.add_argument("--workers", type=int, default=1, help="tess only: images run in parallel")
     d.add_argument("--languages", default="eng,cat,esp", help='comma list, or "all"')
     d.add_argument("--exclude-languages", default="", help="comma list of languages to skip")
     d.add_argument("--keys-file", help='only these keys, one "id|lang" per line')

@@ -17,6 +17,9 @@ score        score the arms: coverage, format checks, agreement with the other
 repair       write the options of arm 7 (cross-language repair) as JSONL.
 by-level     coverage, format checks and likely fractions per difficulty level
              (lvl-0 is grade 5), and accuracy on the gold sample per level.
+gold3-pick   choose the eng/cat/esp gold for the engine comparison with Tesseract.
+engines      v4, v5 and Tesseract on the eng/cat/esp text-only rows: coverage, format
+             checks, agreement between the three languages, and accuracy on gold3.
 
 It prints counts only: M3Kang is research-use only, so the box files, the gold
 file and every output stay under data/ (gitignored).
@@ -45,6 +48,13 @@ BOXES = {"v4": f"{DIR}/boxes_all_v4.jsonl", "v5": f"{DIR}/boxes_all_v5.jsonl"}
 PARQUETS = "data/raw_txto_yes/*.parquet"
 GOLD_PICK = f"{DIR}/gold_pick.json"
 GOLD = f"{DIR}/options_gold.json"
+GOLD2_PICK = f"{DIR}/gold2_pick.json"   # an older gold: gold3-pick leaves its rows out
+# Gold for the engine comparison with Tesseract (docs/experiments/2026-11-tesseract-text-only.md):
+# eng/cat/esp text-only rows, drawn before any engine is scored on options.
+TXTO = {"v4": "data/interim/ocr_boxes_txto_yes.jsonl", "v5": "data/interim/ocr_boxes_txto_yes_v5.jsonl",
+        "tess": "data/interim/ocr_boxes_txto_yes_tess.jsonl"}
+GOLD3_PICK = f"{DIR}/gold3_pick.json"
+GOLD3 = f"{DIR}/options_gold3.json"
 NON_LATIN = {"zho", "jpn", "kor", "arb"}
 MAX_LEN = 40
 
@@ -433,6 +443,56 @@ def cmd_pilot(args):
     print("languages with a failure:", ", ".join(f"{l} {n[l] - ok[l]}/{n[l]}" for l in sorted(n) if ok[l] < n[l]))
 
 
+def write_sheets(keys, meta, boxes, outdir, per_sheet=5, notes=None):
+    """Image sheets of the option band of each key, numbered #0, #1, ... in order.
+
+    notes: optional text lines drawn under each crop (dev review only; never for gold).
+    """
+    from PIL import Image, ImageDraw
+    import pyarrow.parquet as pq
+
+    os.makedirs(outdir, exist_ok=True)
+    wanted = defaultdict(list)
+    for n, k in enumerate(keys):
+        wanted[meta[k]["path"]].append((n, k))
+    crops = {}
+    for path, items in wanted.items():
+        t = pq.read_table(path, columns=["id", "language", "image"])
+        index = {f"{i}|{l}": j for j, (i, l) in enumerate(zip(t.column("id").to_pylist(), t.column("language").to_pylist()))}
+        for n, k in items:
+            img = Image.open(io.BytesIO(t.column("image")[index[k]].as_py()["bytes"])).convert("RGB")
+            w, h = img.size
+            # Top of the last "A" label, minus room for a stacked fraction above it.
+            labels = [(min(pt[1] for pt in b), max(pt[1] for pt in b)) for e in ("v5", "v4")
+                      for b, txt, _ in boxes[e][k] if is_marker(txt, "A", strict=False) is not None]
+            if labels:
+                y0, y1 = max(labels)
+                top = max(0, int(y0 - max(0.04 * h, 2.5 * (y1 - y0))))
+            else:
+                top = 0
+            crop = img.crop((0, top, w, h))
+            if crop.width > 1400:
+                crop = crop.resize((1400, int(crop.height * 1400 / crop.width)))
+            crops[n] = crop
+    for s in range(0, len(keys), per_sheet):
+        idx = list(range(s, min(s + per_sheet, len(keys))))
+        extra = [18 * len(notes[n]) if notes else 0 for n in idx]
+        width = max(crops[n].width for n in idx)
+        sheet = Image.new("RGB", (width, sum(crops[n].height + 40 + e for n, e in zip(idx, extra))), "white")
+        y = 0
+        draw = ImageDraw.Draw(sheet)
+        for n, e in zip(idx, extra):
+            draw.rectangle((0, y, width, y + 36), fill=(255, 230, 150))
+            draw.text((8, y + 8), f"#{n}", fill="black")
+            sheet.paste(crops[n], (0, y + 40))
+            y += crops[n].height + 40
+            for line in (notes[n] if notes else []):
+                draw.text((8, y + 2), line, fill=(180, 0, 0))
+                y += 18
+        sheet.save(f"{outdir}/sheet_{s // per_sheet:02d}.png")
+    print(f"sheets in {outdir}")
+
+
 def cmd_gold_pick(args):
     from PIL import Image, ImageDraw
     import pyarrow.parquet as pq
@@ -742,6 +802,111 @@ def cmd_by_level(args):
                   f"{gold_scores(arms['5 v5>v4 format fusion'], g)[0]:>10}{frac:>10}{expo:>10}")
 
 
+def cmd_gold3_pick(args):
+    """Random rows per language from the eng/cat/esp text-only rows, none from the older golds.
+
+    The pick reads no engine text: v4 and v5 boxes only place the crop of the option band.
+    """
+    meta = load_meta()
+    boxes = {e: load_boxes(TXTO[e]) for e in ("v4", "v5")}
+    old = {g["key"] for path in (GOLD_PICK, GOLD2_PICK) if os.path.exists(path) for g in json.load(open(path))}
+    rng = random.Random(args.seed)
+    pick = []
+    for lang in ("eng", "cat", "esp"):
+        pool = sorted(k for k in boxes["v5"].keys() & boxes["v4"].keys()
+                      if k in meta and meta[k]["lang"] == lang and k not in old)
+        pick += rng.sample(pool, args.per_language)
+    rng.shuffle(pick)
+    json.dump([{"n": n, "key": k} for n, k in enumerate(pick)], open(GOLD3_PICK, "w"), indent=1)
+    print(f"gold3: {len(pick)} rows, {Counter(k.split('|')[1] for k in pick)}; excluded {len(old)} older gold rows")
+    write_sheets(pick, meta, boxes, f"{DIR}/gold3_sheets", args.per_sheet)
+
+
+def cmd_engines(args):
+    """Options read by each engine on the eng/cat/esp text-only rows (counts only)."""
+    meta = load_meta()
+    boxes = {e: load_boxes(path) for e, path in TXTO.items() if os.path.exists(path)}
+    engines = list(boxes)
+    keys = sorted(set(meta).intersection(*(boxes[e].keys() for e in engines)))
+    print(f"{len(keys)} rows in every box file ({', '.join(f'{e} {len(boxes[e])}' for e in engines)})")
+    p = {e: {k: parse_options(boxes[e][k]) for k in keys} for e in engines}
+    arms = dict(p)
+    arms["v5>v4"] = {k: p["v5"][k] or p["v4"][k] for k in keys}
+    if "tess" in p:
+        arms["v5>tess"] = {k: p["v5"][k] or p["tess"][k] for k in keys}
+    langs = ("eng", "cat", "esp")
+
+    def agreement(arm):
+        """Language-free options that equal the same arm's option in the other languages of the problem."""
+        by_pid = defaultdict(dict)
+        for k in keys:
+            by_pid[meta[k]["id"]][meta[k]["lang"]] = arm[k]
+        tested = agree = 0
+        for k in keys:
+            others = [o for l, o in by_pid[meta[k]["id"]].items() if l != meta[k]["lang"]]
+            for x in LETTERS:
+                mine = canon(arm[k].get(x, "")) if arm[k].get(x) else None
+                theirs = [canon(o[x]) for o in others if o.get(x) and canon(o[x])]
+                if mine and theirs:
+                    tested += 1
+                    agree += all(t[0] == mine[0] for t in theirs)
+        return agree, tested
+
+    print(f"\n{'arm':10}{'lang':6}{'rows':>6}{'5 options':>11}{'pass format':>13}")
+    for name, arm in arms.items():
+        for lang in langs + ("all",):
+            ks = [k for k in keys if lang == "all" or meta[k]["lang"] == lang]
+            five = sum(len(arm[k]) == 5 and all(arm[k].get(x, "").strip() for x in LETTERS) for k in ks)
+            ok = sum(not row_flags(arm[k]) for k in ks)
+            print(f"{name:10}{lang:6}{len(ks):>6}{five / len(ks):>11.1%}{ok / len(ks):>13.1%}")
+    print("\nlanguage-free options that agree with the same arm in the other two languages")
+    for name, arm in arms.items():
+        a, t = agreement(arm)
+        print(f"  {name:10}{a:>6} of {t:<6}{a / max(1, t):.1%}")
+
+    def gold_report(label, gold):
+        gold = {k: g for k, g in gold.items() if k in set(keys)}
+        if not gold:
+            print(f"\n{label}: no rows")
+            return
+        print(f"\n{label}: {len(gold)} rows ({Counter(k.split('|')[1] for k in gold)})")
+        print(f"{'arm':10}{'rows all 5 right':>18}{'options right':>16}")
+        right = {}
+        for name, arm in arms.items():
+            r, n, o, on = gold_scores(arm, gold)
+            right[name] = [all(arm[k].get(x) and gold_norm(arm[k][x]) == gold_norm(g[x]) for x in LETTERS)
+                           for k, g in gold.items()]
+            print(f"{name:10}{f'{r} of {n}':>18}{f'{o} of {on}':>16}")
+        for a, b in (("tess", "v5"), ("tess", "v4"), ("v5", "v4"), ("v5>tess", "v5>v4")):
+            if a in right and b in right:
+                n01, n10, pv = mcnemar(right[a], right[b])
+                print(f"  McNemar {a} vs {b}: only {a} right {n01}, only {b} right {n10}, p = {pv:.3f}")
+        print("  wrong options by class (missing / stacked fraction as two numbers / exponent lost / other)")
+        for name in engines:
+            c = Counter()
+            for k, g in gold.items():
+                for x in LETTERS:
+                    o = p[name][k].get(x)
+                    if o and gold_norm(o) == gold_norm(g[x]):
+                        continue
+                    if not o:
+                        c["missing"] += 1
+                    elif "/" in g[x] and TWO_NUMBERS.match(o):
+                        c["fraction"] += 1
+                    elif "^" in g[x] and "^" not in basic(o):
+                        c["exponent"] += 1
+                    else:
+                        c["other"] += 1
+            print(f"  {name:10}{c['missing']:>4}{c['fraction']:>4}{c['exponent']:>4}{c['other']:>4}")
+
+    if os.path.exists(GOLD3):
+        gold_report("gold3 (eng/cat/esp, drawn for this comparison)",
+                    {g["key"]: g["options"] for g in json.load(open(GOLD3)) if g.get("options")})
+    if os.path.exists(GOLD):
+        gold_report("old gold, eng/cat/esp rows only (not a random sample)",
+                    {g["key"]: g["options"] for g in json.load(open(GOLD)) if g.get("options")})
+
+
 def selftest():
     # Made-up values only.
     assert canon("1,5") == canon("1.5") == ("1.5", "1.5")
@@ -795,11 +960,16 @@ def main():
     s = sub.add_parser("repair")
     s.add_argument("--out", default=f"{DIR}/options_repaired.jsonl")
     sub.add_parser("by-level")
+    s = sub.add_parser("gold3-pick")
+    s.add_argument("--seed", type=int, default=31)
+    s.add_argument("--per-language", type=int, default=20)
+    s.add_argument("--per-sheet", type=int, default=5)
+    sub.add_parser("engines")
     args = ap.parse_args()
     if args.selftest:
         return selftest()
     {"pilot": cmd_pilot, "gold-pick": cmd_gold_pick, "score": cmd_score, "repair": cmd_repair,
-     "by-level": cmd_by_level}[args.cmd](args)
+     "by-level": cmd_by_level, "gold3-pick": cmd_gold3_pick, "engines": cmd_engines}[args.cmd](args)
 
 
 if __name__ == "__main__":

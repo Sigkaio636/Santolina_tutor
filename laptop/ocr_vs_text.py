@@ -29,6 +29,9 @@ Usage:
     python3 laptop/ocr_vs_text.py --v4 data/interim/ocr_boxes_txto_yes.jsonl \\
         --v5 data/interim/ocr_boxes_txto_yes_v5.jsonl --out data/interim/ocr_vs_text.csv \\
         data/raw_txto_yes/*.parquet
+    # add Tesseract as a third engine (docs/experiments/2026-11-tesseract-text-only.md);
+    # the CSV then goes to data/interim/ocr_vs_text_tess.csv
+    python3 laptop/ocr_vs_text.py --tess data/interim/ocr_boxes_txto_yes_tess.jsonl
 """
 import argparse
 import csv
@@ -39,7 +42,7 @@ import re
 import statistics
 import sys
 import unicodedata
-from collections import defaultdict
+from collections import Counter, defaultdict
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from prepare_m3kang import is_marker, reading_order  # noqa: E402
@@ -93,6 +96,11 @@ def strip_accents(text):
 
 def ocr_text(boxes):
     """Boxes in reading order as one string, cut before the first A) label."""
+    return ocr_cut(boxes)[0]
+
+
+def ocr_cut(boxes):
+    """ocr_text, and whether the cut at an A) label fired."""
     items = reading_order(boxes)
     cut = len(items)
     for i, it in enumerate(items):
@@ -100,7 +108,7 @@ def ocr_text(boxes):
                 is_marker(j["text"], "B", strict=False) is not None for j in items[i + 1:]):
             cut = i
             break
-    return " ".join(it["text"] for it in items[:cut])
+    return " ".join(it["text"] for it in items[:cut]), cut < len(items)
 
 
 def words_to_chars(ref, hyp):
@@ -148,12 +156,12 @@ def pct(x):
     return f"{100 * x:5.1f}%"
 
 
-def summarize(rows, title):
+def summarize(rows, title, engines=("v4", "v5")):
     print(f"\n{title}")
     print(f"{'lang':5}{'engine':>7}{'rows':>6}{'cer':>8}{'cer_ns':>8}{'med_ns':>8}{'cer_na':>8}{'wer':>8}"
           f"{'ns<2%':>8}{'ns<5%':>8}{'nums':>8}")
     for lang in LANGS + ("all",):
-        for eng in ("v4", "v5"):
+        for eng in engines:
             rs = [r for r in rows if r["engine"] == eng and (lang == "all" or r["lang"] == lang)]
             if not rs:
                 continue
@@ -164,20 +172,22 @@ def summarize(rows, title):
                   f"{pct(sum(r['cer_ns'] < 0.05 for r in rs) / len(rs)):>8}{pct(m('nums')):>8}")
 
 
-def bootstrap(clean, times=2000, seed=0):
-    """95 % interval of the mean cer_ns of each engine, and of v4 minus v5.
+def bootstrap(clean, times=2000, seed=0, engines=("v4", "v5"), pairs=(("v4", "v5"),)):
+    """95 % interval of the mean cer_ns of each engine, and of each pair difference (a minus b).
 
     Resamples problems, not rows: the same problem in three languages stays together.
+    The draws do not depend on the engines, so v4 and v5 get the same intervals with or without tess.
     """
     import random
-    by_problem = defaultdict(list)  # problem id -> [(lang, cer_v4, cer_v5)]
+    by_problem = defaultdict(list)  # problem id -> [(lang, cer of each engine, ...)]
     cer = {(r["key"], r["engine"]): r["cer_ns"] for r in clean}
     for key in sorted({r["key"] for r in clean}):
-        by_problem[key.split("|")[0]].append((key.split("|")[1], cer[key, "v4"], cer[key, "v5"]))
+        by_problem[key.split("|")[0]].append((key.split("|")[1], *(cer[key, e] for e in engines)))
     ids = sorted(by_problem)
+    col = {e: 1 + i for i, e in enumerate(engines)}
     rnd = random.Random(seed)
     print(f"\n95 % bootstrap interval of the mean CER (no spaces), {times} resamples of {len(ids)} problems, seed {seed}")
-    print(f"{'lang':5}{'v4':>20}{'v5':>20}{'v4 minus v5 (points)':>30}")
+    print(f"{'lang':5}" + "".join(f"{e:>20}" for e in engines) + "".join(f"{f'{a} minus {b} (points)':>30}" for a, b in pairs))
     for lang in LANGS + ("all",):
         groups = [[row for row in by_problem[i] if lang in ("all", row[0])] for i in ids]
         groups = [g for g in groups if g]
@@ -185,20 +195,23 @@ def bootstrap(clean, times=2000, seed=0):
         for _ in range(times):
             sample = [row for g in (rnd.choice(groups) for _ in groups) for row in g]
             n = len(sample)
-            means.append((sum(r[1] for r in sample) / n, sum(r[2] for r in sample) / n))
+            means.append(tuple(sum(r[c] for r in sample) / n for c in range(1, len(engines) + 1)))
         rows = [row for g in groups for row in g]
-        point = (statistics.mean(r[1] for r in rows), statistics.mean(r[2] for r in rows))
+        point = tuple(statistics.mean(r[c] for r in rows) for c in range(1, len(engines) + 1))
 
         def interval(values):
             values = sorted(values)
             return values[int(0.025 * times)], values[int(0.975 * times) - 1]
 
-        lo4, hi4 = interval([m[0] for m in means])
-        lo5, hi5 = interval([m[1] for m in means])
-        lod, hid = interval([m[0] - m[1] for m in means])
-        print(f"{lang:5}{f'{pct(point[0])} [{lo4 * 100:.1f}, {hi4 * 100:.1f}]':>20}"
-              f"{f'{pct(point[1])} [{lo5 * 100:.1f}, {hi5 * 100:.1f}]':>20}"
-              f"{f'{100 * (point[0] - point[1]):.1f} [{lod * 100:.1f}, {hid * 100:.1f}]':>30}")
+        line = f"{lang:5}"
+        for e in engines:
+            lo, hi = interval([m[col[e] - 1] for m in means])
+            line += f"{f'{pct(point[col[e] - 1])} [{lo * 100:.1f}, {hi * 100:.1f}]':>20}"
+        for a, b in pairs:
+            ia, ib = col[a] - 1, col[b] - 1
+            lod, hid = interval([m[ia] - m[ib] for m in means])
+            line += f"{f'{100 * (point[ia] - point[ib]):.1f} [{lod * 100:.1f}, {hid * 100:.1f}]':>30}"
+        print(line)
 
 
 def selftest():
@@ -226,24 +239,39 @@ def main():
     p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     p.add_argument("--v4", default="data/interim/ocr_boxes_txto_yes.jsonl")
     p.add_argument("--v5", default="data/interim/ocr_boxes_txto_yes_v5.jsonl")
-    p.add_argument("--out", default="data/interim/ocr_vs_text.csv")
+    p.add_argument("--tess", help="Tesseract boxes: score it as a third engine")
+    p.add_argument("--out", help="default: data/interim/ocr_vs_text.csv, or ocr_vs_text_tess.csv with --tess")
     p.add_argument("--selftest", action="store_true", help="check the distance code and exit")
     p.add_argument("parquet", nargs="*", help="default: data/raw_txto_yes/*.parquet")
     args = p.parse_args()
     if args.selftest:
         return selftest()
 
+    engines = ("v4", "v5", "tess") if args.tess else ("v4", "v5")
+    args.out = args.out or ("data/interim/ocr_vs_text_tess.csv" if args.tess else "data/interim/ocr_vs_text.csv")
     ref = load_reference(args.parquet or sorted(glob.glob("data/raw_txto_yes/*.parquet")))
     boxes = {"v4": load_boxes(args.v4), "v5": load_boxes(args.v5)}
-    keys = sorted(ref.keys() & boxes["v4"].keys() & boxes["v5"].keys())
-    print(f"reference {len(ref)} rows, v4 {len(boxes['v4'])}, v5 {len(boxes['v5'])}, in all three {len(keys)}")
+    if args.tess:
+        boxes["tess"] = load_boxes(args.tess)
+    keys = sorted(set(ref).intersection(*(boxes[e].keys() for e in engines)))
+    if args.tess:
+        print(f"reference {len(ref)} rows, " + ", ".join(f"{e} {len(boxes[e])}" for e in engines)
+              + f", in all four {len(keys)}")
+    else:
+        print(f"reference {len(ref)} rows, v4 {len(boxes['v4'])}, v5 {len(boxes['v5'])}, in all three {len(keys)}")
 
-    rows = []
+    rows, cuts = [], defaultdict(int)
     for key in keys:
         flags = [n for n, rx in (("latex", LATEX), ("opts_in_text", OPTIONS_IN_TEXT)) if rx.search(ref[key])]
-        for eng in ("v4", "v5"):
+        for eng in engines:
+            text, cut = ocr_cut(boxes[eng][key])
+            cuts[eng] += cut
             rows.append(dict(key=key, lang=key.split("|")[1], engine=eng, flags="+".join(flags),
-                             **score(ref[key], ocr_text(boxes[eng][key]))))
+                             **score(ref[key], text)))
+    if args.tess:
+        # If the cut at the A) label fails, the options stay in the OCR text and raise the CER for a
+        # reason that is not reading: the counts must be close before the CERs can be compared.
+        print("rows where the cut at the A) label fired: " + ", ".join(f"{e} {cuts[e]}" for e in engines))
 
     os.makedirs(os.path.dirname(args.out), exist_ok=True)
     cols = ["key", "lang", "engine", "cer", "cer_ns", "cer_na", "wer", "nums", "ref_len", "len_ratio", "flags"]
@@ -253,9 +281,9 @@ def main():
         w.writerows({c: (round(r[c], 4) if isinstance(r[c], float) else r[c]) for c in cols} for r in rows)
 
     clean = [r for r in rows if not r["flags"]]
-    print(f"clean rows (no LaTeX, no options in text): {len(clean) // 2} of {len(keys)}")
-    summarize(clean, "CLEAN rows")
-    summarize([r for r in rows if r["flags"]], "FLAGGED rows (LaTeX or options inside the reference)")
+    print(f"clean rows (no LaTeX, no options in text): {len(clean) // len(engines)} of {len(keys)}")
+    summarize(clean, "CLEAN rows", engines)
+    summarize([r for r in rows if r["flags"]], "FLAGGED rows (LaTeX or options inside the reference)", engines)
 
     by = defaultdict(dict)
     for r in clean:
@@ -264,7 +292,13 @@ def main():
     for d in by.values():
         better["v5" if d["v5"] < d["v4"] else "v4" if d["v4"] < d["v5"] else "tie"] += 1
     print(f"\nclean rows, lower cer_ns: v5 {better['v5']}, v4 {better['v4']}, tie {better['tie']}")
-    bootstrap(clean)
+    pairs = (("v4", "v5"),)
+    if args.tess:
+        pairs = (("tess", "v5"), ("tess", "v4"))
+        for b in ("v5", "v4"):
+            w = Counter("tess" if d["tess"] < d[b] else b if d[b] < d["tess"] else "tie" for d in by.values())
+            print(f"clean rows, lower cer_ns: tess {w['tess']}, {b} {w[b]}, tie {w['tie']}")
+    bootstrap(clean, engines=engines, pairs=pairs)
 
     # Rows where the OCR text is much shorter than the reference: lines of the question are missing.
     # The length ratio is a sign, not proof: it can also come from a wrong read.
@@ -272,12 +306,20 @@ def main():
     for r in clean:
         ratio[r["key"]][r["engine"]] = r["len_ratio"]
     print(f"\nclean rows where the OCR text has under {PARTIAL:.0%} of the reference length (no spaces)")
-    for eng in ("v4", "v5"):
+    for eng in engines:
         print(f"  {eng}: {sum(d[eng] < PARTIAL for d in ratio.values())}")
     print(f"  v4 reaches {PARTIAL:.0%} and v5 does not: {sum(d['v4'] >= PARTIAL > d['v5'] for d in ratio.values())}")
     print(f"  v5 reaches {PARTIAL:.0%} and v4 does not: {sum(d['v5'] >= PARTIAL > d['v4'] for d in ratio.values())}")
-    print(f"  neither reaches it: {sum(max(d.values()) < PARTIAL for d in ratio.values())}")
-    for eng in ("v4", "v5"):
+    print(f"  neither reaches it: {sum(max(d['v4'], d['v5']) < PARTIAL for d in ratio.values())}")
+    if args.tess:
+        # Tesseract has no separate text detector: where it reaches 70 % and v5 does not, the lines
+        # that v5 misses are in the image.
+        print(f"  tess reaches {PARTIAL:.0%} and v5 does not: {sum(d['tess'] >= PARTIAL > d['v5'] for d in ratio.values())}")
+        print(f"  v5 reaches {PARTIAL:.0%} and tess does not: {sum(d['v5'] >= PARTIAL > d['tess'] for d in ratio.values())}")
+        print(f"  tess reaches it and neither v4 nor v5 does: "
+              f"{sum(d['tess'] >= PARTIAL > max(d['v4'], d['v5']) for d in ratio.values())}")
+        print(f"  none of the three reaches it: {sum(max(d.values()) < PARTIAL for d in ratio.values())}")
+    for eng in engines:
         cers = {r["key"]: r["cer_ns"] for r in clean if r["engine"] == eng}
         short = [cers[k] for k, d in ratio.items() if d[eng] < PARTIAL]
         rest = [cers[k] for k, d in ratio.items() if d[eng] >= PARTIAL]
