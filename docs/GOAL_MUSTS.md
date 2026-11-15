@@ -25,36 +25,36 @@ Sources:
 
 ### 1.1 The challenge
 
-- [ ] The copilot **runs entirely on the Arduino UNO Q**, without leaving the device. ([BOARD_SETUP, The challenge](BOARD_SETUP.md#the-challenge))
-- [ ] It **uses M3Kang** in its own way. ([BOARD_SETUP, The challenge](BOARD_SETUP.md#the-challenge))
-- [ ] It covers **both** functions. Until 2026-11-14 the challenge asked for one of the two. The organizers changed it to both in upstream commit `f1ae321`. ([BOARD_SETUP, The challenge](BOARD_SETUP.md#the-challenge))
-    - [ ] **Teach**: it guides the student without giving the answer (hints, adaptive practice, error analysis, physical interaction, collaboration).
-    - [ ] **Reason**: given a Kangaroo-style problem, it chooses the correct answer. The organizers measure this on a hidden test.
-- [ ] The root `predict.py` keeps the organizers' [contract](BOARD_SETUP.md#111-how-the-baseline-works). The organizers score every team's `predict.py` on the hidden test. ([BOARD_SETUP 13.3](BOARD_SETUP.md#133-ideas-to-reason), [`CLAUDE.md`](https://github.com/Sigkaio636/Santolina_tutor/blob/main/CLAUDE.md))
+- [x] The copilot **runs entirely on the Arduino UNO Q**, without leaving the device. ([BOARD_SETUP, The challenge](BOARD_SETUP.md#the-challenge))
+- [x] It **uses M3Kang** in its own way. ([BOARD_SETUP, The challenge](BOARD_SETUP.md#the-challenge))
+- [x] It covers **both** functions. Until 2026-11-14 the challenge asked for one of the two. The organizers changed it to both in upstream commit `f1ae321`. ([BOARD_SETUP, The challenge](BOARD_SETUP.md#the-challenge))
+    - [x] **Teach**: it guides the student without giving the answer (hints, adaptive practice, error analysis, physical interaction, collaboration).
+    - [x] **Reason**: given a Kangaroo-style problem, it chooses the correct answer. The organizers measure this on a hidden test.
+- [x] The root `predict.py` keeps the organizers' [contract](BOARD_SETUP.md#111-how-the-baseline-works). The organizers score every team's `predict.py` on the hidden test. ([BOARD_SETUP 13.3](BOARD_SETUP.md#133-ideas-to-reason), [`CLAUDE.md`](https://github.com/Sigkaio636/Santolina_tutor/blob/main/CLAUDE.md))
 
 ### 1.2 Public GitHub repository
 
-- [ ] The repository is **public** and open source. ([BOARD_SETUP 15.1](BOARD_SETUP.md#151-a-public-github-repository))
+- [x] The repository is **public** and open source. ([BOARD_SETUP 15.1](BOARD_SETUP.md#151-a-public-github-repository))
 - [ ] It holds **everything needed to run the copilot on a fresh UNO Q**: ([BOARD_SETUP 15.1](BOARD_SETUP.md#151-a-public-github-repository), [publish-project, The GitHub repository](https://github.com/Sigkaio636/Santolina_tutor/blob/main/.claude/skills/publish-project/SKILL.md#the-github-repository))
-    - [ ] `config.env` with the repository, revision, file and SHA256 of each model, and the llama.cpp commit.
-    - [ ] The service files.
-    - [ ] The App Lab app, if there is one. [App Lab](UNO_Q_BOARD_REFERENCE.md#72-arduino-app-lab) is Arduino's editor that builds and runs apps on the UNO Q.
-- [ ] It has a **license** for our own code (for example MIT), and credits for what we reused. ([BOARD_SETUP 15.1](BOARD_SETUP.md#151-a-public-github-repository), [publish-project](https://github.com/Sigkaio636/Santolina_tutor/blob/main/.claude/skills/publish-project/SKILL.md#the-github-repository))
-- [ ] It holds **no M3Kang data**: no `train.jsonl`, `val.jsonl`, images or `index.db`. Link the [dataset card](https://huggingface.co/datasets/qualcomm/M3Kang) instead. ([`CLAUDE.md`, red line 1](https://github.com/Sigkaio636/Santolina_tutor/blob/main/CLAUDE.md#red-lines), [BOARD_SETUP 15.1](BOARD_SETUP.md#151-a-public-github-repository))
-- [ ] It holds no `*.gguf` models either. ([BOARD_SETUP 15.1](BOARD_SETUP.md#151-a-public-github-repository), [`.gitignore`](https://github.com/Sigkaio636/Santolina_tutor/blob/main/.gitignore))
+    - [x] `config.env` with the repository, revision, file and SHA256 of each model, and the llama.cpp commit. The tutor model is the exception: it is private (trained on M3Kang data), so `config.env` names only its file, and the README gives its SHA256.
+    - [x] The service files.
+    - [x] The App Lab app, if there is one. [App Lab](UNO_Q_BOARD_REFERENCE.md#72-arduino-app-lab) is Arduino's editor that builds and runs apps on the UNO Q.
+- [x] It has a **license** for our own code (for example MIT), and credits for what we reused. ([BOARD_SETUP 15.1](BOARD_SETUP.md#151-a-public-github-repository), [publish-project](https://github.com/Sigkaio636/Santolina_tutor/blob/main/.claude/skills/publish-project/SKILL.md#the-github-repository))
+- [x] It holds **no M3Kang data**: no `train.jsonl`, `val.jsonl`, images or `index.db`. Link the [dataset card](https://huggingface.co/datasets/qualcomm/M3Kang) instead. ([`CLAUDE.md`, red line 1](https://github.com/Sigkaio636/Santolina_tutor/blob/main/CLAUDE.md#red-lines), [BOARD_SETUP 15.1](BOARD_SETUP.md#151-a-public-github-repository))
+- [x] It holds no `*.gguf` models either. ([BOARD_SETUP 15.1](BOARD_SETUP.md#151-a-public-github-repository), [`.gitignore`](https://github.com/Sigkaio636/Santolina_tutor/blob/main/.gitignore))
 - [ ] Check `git status` before every push. ([BOARD_SETUP 15.1](BOARD_SETUP.md#151-a-public-github-repository))
 
 ### 1.3 README (in this order)
 
 Source of the order: [publish-project, The GitHub repository](https://github.com/Sigkaio636/Santolina_tutor/blob/main/.claude/skills/publish-project/SKILL.md#the-github-repository). [BOARD_SETUP 15.1](BOARD_SETUP.md#151-a-public-github-repository) lists the same parts.
 
-- [ ] **What it does**, in two or three sentences, with a photo or a short video of it working on the board. (publish-project and BOARD_SETUP 15.1)
-- [ ] **Architecture**: what runs on Linux, what runs on the microcontroller, and how the Bridge connects them. Also which model servers it uses, and how it uses M3Kang. The [Bridge](UNO_Q_BOARD_REFERENCE.md#10-bridge-rpc-mcu-linux) is the link between the Linux side and the microcontroller. (publish-project and BOARD_SETUP 15.1)
-- [ ] **How to replicate it**, step by step, with the commands and what you should see. Start from a board prepared with [steps 0 to 8 of BOARD_SETUP](BOARD_SETUP.md#the-steps-at-a-glance), step 9 on the laptop, and the [deploy guide](how-to/deploy-copilot-on-board.md). (publish-project and BOARD_SETUP 15.1)
-- [ ] **Results**: a table from `results/ablations.csv`, each experiment against the baseline, with accuracy, mean and worst latency, and the number of problems. (publish-project)
-- [ ] **Error analysis** by **topic**, **language** and **difficulty (level)**, with the number of problems next to each accuracy. Explain a few wrong answers too. (publish-project and [BOARD_SETUP, Deliverables](BOARD_SETUP.md#deliverables))
-- [ ] **What didn't work**, and what we would try next. (publish-project and BOARD_SETUP 15.1)
-- [ ] **The team**. (publish-project and BOARD_SETUP 15.1)
+- [ ] **What it does**, in two or three sentences, with a photo or a short video of it working on the board. (publish-project and BOARD_SETUP 15.1) **Missing:** the README shows screenshots of the two apps, but no photo or video of the board.
+- [x] **Architecture**: what runs on Linux, what runs on the microcontroller, and how the Bridge connects them. Also which model servers it uses, and how it uses M3Kang. The [Bridge](UNO_Q_BOARD_REFERENCE.md#10-bridge-rpc-mcu-linux) is the link between the Linux side and the microcontroller. (publish-project and BOARD_SETUP 15.1)
+- [x] **How to replicate it**, step by step, with the commands and what you should see. Start from a board prepared with [steps 0 to 8 of BOARD_SETUP](BOARD_SETUP.md#the-steps-at-a-glance), step 9 on the laptop, and the [deploy guide](how-to/deploy-copilot-on-board.md). (publish-project and BOARD_SETUP 15.1)
+- [x] **Results**: a table from `results/ablations.csv`, each experiment against the baseline, with accuracy, mean and worst latency, and the number of problems. (publish-project) The README's tables come from the board reports it links, not from `ablations.csv`, which Git ignores.
+- [ ] **Error analysis** by **topic**, **language** and **difficulty (level)**, with the number of problems next to each accuracy. Explain a few wrong answers too. (publish-project and [BOARD_SETUP, Deliverables](BOARD_SETUP.md#deliverables)) **Missing: by topic.** Language, level and wrong answers are done.
+- [x] **What didn't work**, and what we would try next. (publish-project and BOARD_SETUP 15.1)
+- [x] **The team**. (publish-project and BOARD_SETUP 15.1)
 
 ### 1.4 Step-by-step write-up on Arduino Project Hub
 
@@ -98,7 +98,7 @@ Suggested demo preparation:
 - [ ] Every number in the README comes from an experiment recorded in `ablations.csv`, on stated problems. If they are 50 or fewer, say so. ([publish-project, The GitHub repository](https://github.com/Sigkaio636/Santolina_tutor/blob/main/.claude/skills/publish-project/SKILL.md#the-github-repository))
 - [ ] Baseline reference: **22.5% on 40 English text-only problems whose options OCR read**. OCR (optical character recognition) reads the A to E options from the problem image. For each experiment, compare with a baseline run of `eval.py` on the same problems (same `--input`, `--languages`, `--limit`). (publish-project and [BOARD_SETUP 14.5](BOARD_SETUP.md#145-prepare-the-demo-and-the-pitch))
 - [ ] Clone the repository into a new folder. Follow the README. Fix every step that fails. (publish-project and [BOARD_SETUP 15.1](BOARD_SETUP.md#151-a-public-github-repository))
-- [ ] Every link works. (publish-project)
+- [x] Every link works. (publish-project) Checked for the README on 2026-11-15.
 - [ ] **Both links go to the organizers**: the repository and the Project Hub write-up. ([BOARD_SETUP, Step 15](BOARD_SETUP.md#step-15-publish-your-project))
 
 ---
@@ -112,10 +112,10 @@ Here the sources set no result and no criterion. The team decides, and no source
 | **Use of M3Kang** | "How you use M3Kang is up to you". Examples: a retrieval knowledge base, a training set, problem embeddings, a difficulty map, a multilingual bridge, "or something nobody has thought of yet". "The most original uses will score highest." ([BOARD_SETUP, The challenge](BOARD_SETUP.md#the-challenge)) | What role M3Kang plays, and why. | Explain it in the README architecture and in the pitch. Measure its effect with an experiment recorded in `ablations.csv`. |
 | **Teach and Reason** | Both are required since 2026-11-14 ([BOARD_SETUP, The challenge](BOARD_SETUP.md#the-challenge)). The organizers score every team's `predict.py` on the hidden test ([BOARD_SETUP 13.3](BOARD_SETUP.md#133-ideas-to-reason)). Teach has no defined metric. | How much of the work goes to each. | For Teach, decide first how to check that it "guides without giving the answer". |
 | **The idea and the experience** | The setup video proposes ideas. They include an easier similar problem, a classroom debate box, simpler problem statements, A–E by voice with the LED matrix, and problems with images. They are inspiration, not a closed list. | What the student experiences. | Pick one idea and take it all the way to the demo, rather than several half-done. |
-| **Technical approach** | The setup video demonstrates retrieval (RAG) on Qwen3.5 0.8B: the embedding model finds similar solved problems, and they go into the prompt. [`CHALLENGE_CONTEXT.md`](CHALLENGE_CONTEXT.md) plans to fine-tune, prune and quantize a Gemma model. The two do not exclude each other. The deployed language model is Qwen3.5 0.8B Q8_0 (`config.env`). The fine-tune base is not chosen yet. Gemma 3 is one candidate under study. | Which path, and in what order. | Decide it on purpose, and write down why. |
+| **Technical approach** | The setup video demonstrates retrieval (RAG) on Qwen3.5 0.8B: the embedding model finds similar solved problems, and they go into the prompt. [`CHALLENGE_CONTEXT.md`](CHALLENGE_CONTEXT.md) plans to fine-tune, prune and quantize a Gemma model. The two do not exclude each other. The deployed language model is Qwen3.5 0.8B Q8_0 (`config.env`). The tutor is a LoRA fine-tune of Qwen3.5 0.8B ([fine-tune record](models/qwen35-tutor.md)). Gemma 3 was not used. | Which path, and in what order. | Decide it on purpose, and write down why. |
 | **Pedagogical quality** | There is no official benchmark. [`CHALLENGE_CONTEXT.md` §7](CHALLENGE_CONTEXT.md#7-evaluation) suggests MathTutorBench or MRBench, not verified. It is our own evaluation plan, not a requirement. | What a "good explanation" is, and how to measure it. | Evaluate open-ended generation, not only A–E accuracy. Pruning and quantization can break generation without lowering multiple-choice accuracy. |
 | **Hardware and interface** | The 8×13 LED matrix is the only hardware output ([BOARD_SETUP 14.4](BOARD_SETUP.md#144-add-the-led-matrix-and-a-web-page)). App Lab, a web page and voice are optional. | Whether there is an interface, and which kind. | Give priority to what works on the board without a laptop. |
-| **Language** | The response language is not confirmed. | Which languages the copilot speaks. | Confirm with the organizers, and measure the errors by language. |
+| **Language** | The hidden test comes in English or Catalan, with no Spanish ([practice set page](PRACTICE_SET.md)). The language of the tutor's replies is not set by the challenge. | Which languages the copilot speaks. | Confirm with the organizers, and measure the errors by language. |
 | **Story and writing** | Our [video summary](RESUMEN_QUALCOMM_UNO_Q.md#5-interpretive-reading) reads the speaker as valuing documentation almost as much as the result. That is an interpretation. The speaker does say that "anyone else can replicate your projects anywhere in the world" (transcript). | How we tell the project, including what failed. | Write for a student who was not at the datathon, in short sentences. Report what didn't work as clearly as what did. |
 | **Demo and pitch** | Judged live, by people. | Which problems, in what order, and what to highlight. | Rehearse with a timer, and bring the backup video. |
 
@@ -126,5 +126,5 @@ Here the sources set no result and no criterion. The team decides, and no source
 - [ ] ⚠️ **Rubric**: neither the setup video nor BOARD_SETUP gives one. ([video summary §3](RESUMEN_QUALCOMM_UNO_Q.md#3-evaluation-criteria))
 - [ ] ⚠️ **Weight of the demo against the repository**, and **rules on external and synthetic data**. ([video summary §3](RESUMEN_QUALCOMM_UNO_Q.md#3-evaluation-criteria), [`CHALLENGE_CONTEXT.md` §9](CHALLENGE_CONTEXT.md#9-open-questions-todo-checklist))
 - [ ] ⚠️ **Presentation date**: the setup video mentions "the presentation that you're going to do on Sundays". It also says "I will see your projects on Monday" (transcript).
-- [ ] ⚠️ **Response language(s)** of the copilot. ([`CHALLENGE_CONTEXT.md` §1](CHALLENGE_CONTEXT.md#1-the-challenge-what-we-know) and [§9](CHALLENGE_CONTEXT.md#9-open-questions-todo-checklist))
+- [x] **Response language(s)** of the copilot. Settled for the hidden test: English or Catalan ([practice set page](PRACTICE_SET.md)). ([`CHALLENGE_CONTEXT.md` §1](CHALLENGE_CONTEXT.md#1-the-challenge-what-we-know) and [§9](CHALLENGE_CONTEXT.md#9-open-questions-todo-checklist))
 - [ ] ⚠️ **Which pedagogical benchmark**, and whether there is an official evaluation script. ([`CHALLENGE_CONTEXT.md` §7](CHALLENGE_CONTEXT.md#7-evaluation) and [§9](CHALLENGE_CONTEXT.md#9-open-questions-todo-checklist))
