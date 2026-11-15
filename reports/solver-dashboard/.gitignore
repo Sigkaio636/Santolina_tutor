@@ -1,0 +1,6 @@
+# Inputs and previews stay local (M3Kang licence); solver_dashboard.html is committed
+data/
+check/
+inspect/
+*.png
+*.vl.json

@@ -1,0 +1,8 @@
+# Built from M3Kang (research-only licence): never commit
+data/
+img/
+check/
+inspect/
+*.html
+*.png
+*.vl.json
