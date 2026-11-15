@@ -606,16 +606,18 @@ documents:
       decisions: validated
       repair: validated
       language: validated
-      adversarial: pending
-      signoff: pending
-    validated_sha: null
+      adversarial: validated
+      signoff: validated
+    validated_sha: ae45c7a8fadd1e763af0c723ce27b4c14677f34d2c27bdb5549ee91af001c27d
     notes:
       audit: '2026-11-15: user validated (counts in findings file)'
       critique: '2026-11-15: user validated (counts in findings file)'
       decisions: user validated S3; PV6 row from committed code, decider-2b part open (X26)
       repair: user validated S4
       language: user validated S5
-    last_sha: 2328c1c54207c68fe17de883c383ca2881e5da69f5c4e8021684fc515cff78d5
+      adversarial: user validated S6
+      signoff: 'user signed off 2026-11-15; open: PV6 (X26), M2-1 DHCP leases, G1 GLOSSARY Tutor model'
+    last_sha: ae45c7a8fadd1e763af0c723ce27b4c14677f34d2c27bdb5549ee91af001c27d
   docs/explanation/tutor-response-policy.md:
     stages:
       audit: validated

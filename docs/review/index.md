@@ -47,7 +47,7 @@ Each document goes through the `/docs-review` stages. ✅ validated by the user,
 | [docs/experiments/2026-11-tesseract-text-only.md](../experiments/2026-11-tesseract-text-only.md) | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ |
 | [docs/experiments/2026-11-txto-no-heuristics.md](../experiments/2026-11-txto-no-heuristics.md) | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ |
 | [docs/experiments/2026-11-vision-txto-no.md](../experiments/2026-11-vision-txto-no.md) | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ |
-| [docs/explanation/student-data-privacy.md](../explanation/student-data-privacy.md) | ✅ | ✅ | ✅ | ✅ | ✅ | ⏳ | ⏳ |
+| [docs/explanation/student-data-privacy.md](../explanation/student-data-privacy.md) | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | [docs/explanation/tutor-response-policy.md](../explanation/tutor-response-policy.md) | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | [docs/explanation/tutor-response-types-evidence.md](../explanation/tutor-response-types-evidence.md) | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | [docs/how-to/back-up-and-restore-a-board.md](../how-to/back-up-and-restore-a-board.md) | ✅ | ✅ | 🟡 | ⏳ | ⏳ | ⏳ | ⏳ |
@@ -83,4 +83,4 @@ Each document goes through the `/docs-review` stages. ✅ validated by the user,
 | [docs/vault/papers/tutoring_pedagogy/_synthesis.md](../vault/papers/tutoring_pedagogy/_synthesis.md) | ✅ | ✅ | ✅ | ✅ | ✅ | – | ✅ |
 | mkdocs.yml | 🟡 | ✅ | 🟡 | ⏳ | – | ⏳ | ⏳ |
 
-Signed off: 43 of 70 documents.
+Signed off: 44 of 70 documents.
