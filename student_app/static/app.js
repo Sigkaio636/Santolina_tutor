@@ -86,11 +86,40 @@ window.addEventListener("popstate", (e) => {
   saveVisit();
   route();
 });
+// ---------------------------------------------------------------- accessibility
+// A reading preference kept on the phone. It is never sent to the board: nobody is labelled.
+const a11y = (() => {
+  try { const v = JSON.parse(localStorage.getItem("a11y")) || {}; return { font: !!v.font, easy: !!v.easy }; }
+  catch (e) { return { font: false, easy: false }; }
+})();
+// The screen's class and the two reading classes. Every screen change goes through here.
+function setBody(view) {
+  if (view) document.body.dataset.view = view;
+  document.body.className = [document.body.dataset.view, a11y.font && "a11y-font", a11y.easy && "a11y-easy"].filter(Boolean).join(" ");
+}
+// The "Aa" button and its panel with the two switches. Returns [button, panel].
+function a11yControls() {
+  const toggle = (key, label, sub) => {
+    const b = h("button", { class: "switch", role: "switch", "aria-checked": String(a11y[key]), onclick: () => {
+      a11y[key] = !a11y[key];
+      b.setAttribute("aria-checked", String(a11y[key]));
+      try { localStorage.setItem("a11y", JSON.stringify(a11y)); } catch (e) { /* private mode: lasts until reload */ }
+      setBody();
+    } }, h("span", {}, h("span", { class: "label" }, t(label)), h("span", { class: "sub" }, t(sub))), h("span", { class: "knob" }));
+    return b;
+  };
+  const panel = h("div", { class: "card a11y-panel", hidden: true },
+    h("h2", {}, t("a11y_title")), toggle("font", "a11y_font", "a11y_font_sub"), toggle("easy", "a11y_easy", "a11y_easy_sub"));
+  const button = h("button", { class: "link aa", title: t("a11y_title"), "aria-label": t("a11y_title"), "aria-expanded": "false",
+    onclick: () => { panel.hidden = !panel.hidden; button.setAttribute("aria-expanded", String(!panel.hidden)); } }, "Aa");
+  return [button, panel];
+}
 function topbar(backTo) {
-  return h("div", { class: "topbar" },
+  const [aa, panel] = a11yControls();
+  return [h("div", { class: "topbar" },
     backTo ? h("button", { class: "link", onclick: () => go(backTo) }, "← " + t("back"))
            : h("span", { class: "who" }, teacher ? "👩‍🏫" : "🎓 " + myCode),
-    h("button", { class: "link", onclick: logout }, t("not_you")));
+    h("span", { class: "top-actions" }, aa, h("button", { class: "link", onclick: logout }, t("not_you")))), panel];
 }
 function statusChip(status) {
   if (!status) return null;
@@ -109,8 +138,9 @@ function langButtons(onchange) {
     } }, name)));
 }
 function showLogin(message) {
-  document.body.className = "login";
+  setBody("login");
   store.clear();
+  const [aa, panel] = a11yControls();
   const input = h("input", { class: "code-input", maxlength: "12", autocomplete: "off",
     autocapitalize: "characters", spellcheck: "false", inputmode: "text", placeholder: t("code_placeholder") });
   const err = h("p", { class: "error" }, message || "");
@@ -128,6 +158,7 @@ function showLogin(message) {
   };
   input.addEventListener("keydown", (e) => { if (e.key === "Enter") start(false); });
   render(h("div", { class: "login" },
+    h("div", { class: "topbar" }, h("span", {}), aa), panel,
     info.board_name ? h("p", { class: "muted" }, "🎓 " + info.board_name) : null,
     h("h1", {}, t("welcome_title")),
     h("p", {}, t("welcome_text")),
@@ -256,7 +287,8 @@ function exerciseCard(ex, hooks) {
   });
   const card = h("div", { class: "card exercise" },
     h("div", { class: "meta" }, [ex.pack_title, ex.topic, ex.level !== null ? t("level", { level: ex.level }) : null].filter(Boolean).join(" · ")),
-    h("div", { class: "prompt" }, ex.prompt),
+    h("div", { class: "prompt plain" }, ex.prompt),
+    h("div", { class: "prompt easy" }, ex.prompt_easy || ex.prompt),
     h("div", { class: "images" }, ex.images.map((src) => h("img", { src, alt: "", loading: "lazy", onclick: () => zoom(src) }))),
     h("div", { class: "options" }, options),
     teacher && ex.answer ? h("p", { class: "muted small" }, t("answer_is", { answer: ex.answer })) : null,
@@ -402,7 +434,7 @@ async function showFree() {
 async function route() {
   if (!token) return showLogin();
   const view = currentView || "home";
-  document.body.className = view;
+  setBody(view);
   try {
     if (view === "homework") await showHomework();
     else if (view === "practice") await showPractice();

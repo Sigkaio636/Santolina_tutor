@@ -140,6 +140,7 @@ def test_full_student_visit_is_logged_and_unloaded(server, board, conn, tmp_path
     # Homework exercise: the answer never reaches the phone.
     _, ex = c.call("/api/exercise?key=demo-arithmetic/e01&mode=homework&assignment_id=hw1")
     assert "answer" not in ex and ex["state"]["can_show_solution"] is False
+    assert ex["prompt_easy"] == ex["prompt"]  # a one-sentence problem: easy read keeps it
     exercise = board.root / paths.EXERCISES / "demo-arithmetic" / "exercises.json"
     right = json.loads(exercise.read_text())["exercises"][0]["answer"]
     wrong = next(k for k in ex["options"] if k != right)
@@ -259,6 +260,16 @@ def test_idle_visit_is_closed(server, board):
     server.board.idle_seconds = 0
     time.sleep(0.01)
     assert c.call("/api/home")[0] == 401
+
+
+def test_the_readable_font_is_served_by_the_board(server):
+    c = _client(server)
+    for weight in ("Regular", "Bold"):
+        url = f"{c.base}/static/fonts/AtkinsonHyperlegible-{weight}.woff2"
+        with urllib.request.urlopen(url, timeout=5) as r:
+            assert r.headers["Content-Type"] == "font/woff2" and r.read(4) == b"wOF2"
+    _, strings = c.call("/api/strings?lang=cat")
+    assert strings["a11y_font"] and strings["a11y_easy"]
 
 
 def test_static_and_media_are_confined(server):

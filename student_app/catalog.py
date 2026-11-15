@@ -13,6 +13,8 @@ from classroom.packs import read_assignments, read_pack
 from classroom.progress import DONE, status
 from classroom.schemas import ContractError, Exercise, PackManifest
 
+from .easy_read import easy_read
+
 
 @dataclass
 class Item:
@@ -95,6 +97,7 @@ class Catalog:
             "level": e.level,
             "topic": item.topic,
             "prompt": e.prompt,
+            "prompt_easy": easy_read(e.prompt),
             "options": e.options or {},
             "images": [f"/media/{item.pack.pack_id}/{m.split('/', 1)[-1]}" for m in e.media or []],
         }

@@ -38,6 +38,13 @@ Each student gets a board. The board makes its own Wi-Fi, and the student uses i
 
 On an exercise the student taps an option and sees at once whether it's right. A wrong option is greyed out, and they can try again. **Clue** gives a hint. **Show the solution** appears after the first wrong answer: it gives the explanation and the right letter, and the exercise counts as "done with help". Below, they can ask questions about the problem, with a photo if they want.
 
+**Aa**, at the top of every screen, opens two reading switches. Both are off at first, and each works without the other:
+
+- **Easy-to-read font**: a larger, more spaced font (Atkinson Hyperlegible) in which similar characters such as 0 and O are hard to confuse. The board serves the font, so it needs no internet.
+- **Easy read**: the problem text with one sentence per line and the question last. The words and numbers don't change.
+
+The phone remembers the switches. The board doesn't save them, so the teacher can't see who uses them.
+
 **Tell the students:** turn mobile data off while using the board. Otherwise some phones leave the board's Wi-Fi because it has no internet.
 
 ## What is saved
