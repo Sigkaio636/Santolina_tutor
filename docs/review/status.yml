@@ -64,37 +64,49 @@ documents:
     last_sha: 4f97035942157f289397c92940ee7b29ba5d810a1d911f489174b22ab5052d10
   board/README.md:
     stages:
-      audit: pending
-      critique: pending
-      decisions: pending
+      audit: validated
+      critique: validated
+      decisions: validated
       repair: pending
       language: pending
       adversarial: pending
       signoff: pending
     validated_sha: null
-    notes: {}
+    notes:
+      audit: user validated S1 2026-11-15
+      critique: user validated S2 2026-11-15
+      decisions: user validated S3 2026-11-15
+    last_sha: 365a03dbd4480ec763985e560583d5202504ae7bf3a60cb5c78f267ca19926a9
   classroom/README.md:
     stages:
-      audit: pending
-      critique: pending
-      decisions: pending
+      audit: validated
+      critique: validated
+      decisions: validated
       repair: pending
       language: pending
       adversarial: pending
       signoff: pending
     validated_sha: null
-    notes: {}
+    notes:
+      audit: user validated S1 2026-11-15
+      critique: user validated S2 2026-11-15
+      decisions: user validated S3 2026-11-15
+    last_sha: ff0df03a997417bc39dab334a39acd83acf9ae6d89d33c9de159800f7f0722f7
   copilot/README.md:
     stages:
-      audit: pending
-      critique: pending
-      decisions: pending
+      audit: validated
+      critique: validated
+      decisions: validated
       repair: pending
       language: pending
       adversarial: pending
       signoff: pending
     validated_sha: null
-    notes: {}
+    notes:
+      audit: user validated S1 2026-11-15
+      critique: user validated S2 2026-11-15
+      decisions: user validated S3 2026-11-15
+    last_sha: c4ca733ec76cdafe9c270d18ba092bdf2e46a5608c310a0172376db241884903
   data/README.md:
     stages:
       audit: validated
@@ -236,18 +248,19 @@ documents:
       critique: validated
       decisions: validated
       repair: validated
-      language: done
-      adversarial: pending
-      signoff: pending
-    validated_sha: null
+      language: validated
+      adversarial: validated
+      signoff: validated
+    validated_sha: 01b7dde5c4dba28e77ec8cb6e8427aaeced8a98165ba2abe27aa78ba52c28422
     notes:
       audit: 'docsauditor: 10 findings (1 breaks; 3 decisions, 3 suspected); user validated'
       critique: 'diataxis: mixed; docs-critic: 36 findings (12 decisions); user validated'
       decisions: validated by the user 2026-11-15
       repair: validated by the user 2026-11-15; today's prior 12/50 reported, kept out of the doc by choice
-      language: asd-ste100 STE-flavored; ste-lint 5 -> 0 (1 passive, 1 semicolon, 1 long sentence, 1 synonym
-        'fixed letter')
-    last_sha: 95365820c9771b57fe779799f2d65b3609684c52e3040436295c37033986dbc3
+      language: validated by the user 2026-11-15
+      adversarial: validated by the user 2026-11-15
+      signoff: signed off by the user 2026-11-15
+    last_sha: 01b7dde5c4dba28e77ec8cb6e8427aaeced8a98165ba2abe27aa78ba52c28422
   docs/RESUMEN_QUALCOMM_UNO_Q.md:
     stages:
       audit: validated
@@ -589,15 +602,19 @@ documents:
     notes: {}
   docs/how-to/back-up-and-restore-a-board.md:
     stages:
-      audit: pending
-      critique: pending
-      decisions: pending
+      audit: validated
+      critique: validated
+      decisions: done
       repair: pending
       language: pending
       adversarial: pending
       signoff: pending
     validated_sha: null
-    notes: {}
+    notes:
+      audit: '2026-11-15: user validated (counts in findings file)'
+      critique: '2026-11-15: user validated (counts in findings file)'
+      decisions: 'grilling 2026-11-15: X26-X29 (see findings file)'
+    last_sha: b5001313f0df5fcbee7dcde505a8c18ff92f98d56c80c38e29600155632345b8
   docs/how-to/deploy-copilot-on-board.md:
     stages:
       audit: validated
@@ -660,45 +677,48 @@ documents:
     last_sha: afecc3fa3edaae865cff2750c9fe7b547985dcf716721d7b91f7e10752ba17f0
   docs/how-to/run-teacher-app.md:
     stages:
-      audit: done
-      critique: done
-      decisions: pending
+      audit: validated
+      critique: validated
+      decisions: done
       repair: pending
       language: pending
       adversarial: pending
       signoff: pending
     validated_sha: null
     notes:
-      audit: docsauditor 2026-11-15 (see findings file)
-      critique: 'diataxis: how-to; docs-critic 2026-11-15 (see findings file)'
+      audit: '2026-11-15: user validated (counts in findings file)'
+      critique: '2026-11-15: user validated (counts in findings file)'
+      decisions: 'grilling 2026-11-15: X26-X29 (see findings file)'
     last_sha: 42761357b2a5cd3f61006df6cc099d2e0b9486556179b901c41913e9b5f0c46b
   docs/how-to/time-2b-model-on-board.md:
     stages:
-      audit: done
-      critique: done
-      decisions: pending
+      audit: validated
+      critique: validated
+      decisions: done
       repair: pending
       language: pending
       adversarial: pending
       signoff: pending
     validated_sha: null
     notes:
-      audit: docsauditor 2026-11-15 (see findings file)
-      critique: 'diataxis: how-to; docs-critic 2026-11-15 (see findings file)'
+      audit: '2026-11-15: user validated (counts in findings file)'
+      critique: '2026-11-15: user validated (counts in findings file)'
+      decisions: 'grilling 2026-11-15: X26-X29 (see findings file)'
     last_sha: 26d2cbad6339359c01f9302e74c34fd82b66eba7f7b5ce390a542b79f40787dd
   docs/how-to/try-prior-solver.md:
     stages:
-      audit: done
-      critique: done
-      decisions: pending
+      audit: validated
+      critique: validated
+      decisions: done
       repair: pending
       language: pending
       adversarial: pending
       signoff: pending
     validated_sha: null
     notes:
-      audit: docsauditor 2026-11-15 (see findings file)
-      critique: 'diataxis: how-to; docs-critic 2026-11-15 (see findings file)'
+      audit: '2026-11-15: user validated (counts in findings file)'
+      critique: '2026-11-15: user validated (counts in findings file)'
+      decisions: 'grilling 2026-11-15: X26-X29 (see findings file)'
     last_sha: dbd68ad0f7e4636770d576ec3687188ffb222a050404dc03a53b4bee2115b0df
   docs/how-to/use-copilot-on-board.md:
     stages:
@@ -723,29 +743,34 @@ documents:
     last_sha: 0091182296eb8b48613c7cedf84f1d6ec59ff3d7a5b044d71a2d4a949bd68f27
   docs/how-to/use-decider-2b-router.md:
     stages:
-      audit: done
-      critique: done
-      decisions: pending
+      audit: validated
+      critique: validated
+      decisions: done
       repair: pending
       language: pending
       adversarial: pending
       signoff: pending
     validated_sha: null
     notes:
-      audit: docsauditor 2026-11-15 (see findings file)
-      critique: 'diataxis: how-to; docs-critic 2026-11-15 (see findings file)'
+      audit: '2026-11-15: user validated (counts in findings file)'
+      critique: '2026-11-15: user validated (counts in findings file)'
+      decisions: 'grilling 2026-11-15: X26-X29 (see findings file)'
     last_sha: b6bc18a0a54c2b9f60898b8de7857607c08b0017af97ea5dd413864f266ff3b3
   docs/how-to/use-student-app.md:
     stages:
-      audit: pending
-      critique: pending
-      decisions: pending
+      audit: validated
+      critique: validated
+      decisions: done
       repair: pending
       language: pending
       adversarial: pending
       signoff: pending
     validated_sha: null
-    notes: {}
+    notes:
+      audit: '2026-11-15: user validated (counts in findings file)'
+      critique: '2026-11-15: user validated (counts in findings file)'
+      decisions: 'grilling 2026-11-15: X26-X29 (see findings file)'
+    last_sha: cb243469e9d8fd90a0d108ac9b1586bf8a055a6e8123519b713def2b70ed5c7c
   docs/index.md:
     stages:
       audit: validated
@@ -802,59 +827,79 @@ documents:
     notes: {}
   explorer/README.md:
     stages:
-      audit: pending
-      critique: pending
-      decisions: pending
+      audit: validated
+      critique: validated
+      decisions: validated
       repair: pending
       language: pending
       adversarial: pending
       signoff: pending
     validated_sha: null
-    notes: {}
+    notes:
+      audit: user validated S1 2026-11-15
+      critique: user validated S2 2026-11-15
+      decisions: user validated S3 2026-11-15
+    last_sha: 4cc944cadd80dce1eea02908d7fc849fe36b699dd3ecdd7961369d2ab375cb91
   laptop/README.md:
     stages:
-      audit: pending
-      critique: pending
-      decisions: pending
+      audit: validated
+      critique: validated
+      decisions: validated
       repair: pending
       language: pending
       adversarial: pending
       signoff: pending
     validated_sha: null
-    notes: {}
+    notes:
+      audit: user validated S1 2026-11-15
+      critique: user validated S2 2026-11-15
+      decisions: user validated S3 2026-11-15
+    last_sha: e187a1a5e04baa14c32bcdd11760beb12111ab7f2cb8a12b3692f7fedfbf655f
   student_app/README.md:
     stages:
-      audit: pending
-      critique: pending
-      decisions: pending
+      audit: validated
+      critique: validated
+      decisions: validated
       repair: pending
       language: pending
       adversarial: pending
       signoff: pending
     validated_sha: null
-    notes: {}
+    notes:
+      audit: user validated S1 2026-11-15
+      critique: user validated S2 2026-11-15
+      decisions: user validated S3 2026-11-15
+    last_sha: e89d16b330d489e11f1ebbf29e1f8ed5619206ccff8c4eafa28964770963aaa5
   teacher_app/README.md:
     stages:
-      audit: pending
-      critique: pending
-      decisions: pending
+      audit: validated
+      critique: validated
+      decisions: validated
       repair: pending
       language: pending
       adversarial: pending
       signoff: pending
     validated_sha: null
-    notes: {}
+    notes:
+      audit: user validated S1 2026-11-15
+      critique: user validated S2 2026-11-15
+      decisions: user validated S3 2026-11-15
+    last_sha: 4d5142a394b3da03e029d8e6f7ee22c6854ed17ce2c688133283b7c25cc3519e
   tests/README.md:
     stages:
-      audit: pending
-      critique: pending
-      decisions: pending
+      audit: validated
+      critique: validated
+      decisions: validated
       repair: pending
       language: pending
       adversarial: pending
       signoff: pending
     validated_sha: null
-    notes: {}
+    notes:
+      audit: user validated S1 2026-11-15
+      critique: user validated S2 2026-11-15
+      decisions: user validated S3 2026-11-15
+    last_sha: 4b4d175a440818e8b69ce8efa7069500608e0e3fc26dd88dfb4261539cd455c5
   docs/vault/papers/README.md:
     stages:
       audit: validated
@@ -1067,20 +1112,18 @@ documents:
     last_sha: cfb07799e8013b095d87f100eb8d9dc10cbe5ba01402eb43e133486a8f447188
   mkdocs.yml:
     stages:
-      audit: done
-      critique: done
-      decisions: pending
+      audit: validated
+      critique: validated
+      decisions: done
       repair: pending
       language: n/a
       adversarial: pending
       signoff: pending
     validated_sha: null
     notes:
-      audit: 'round 2026-11-15: mkdocs build: 29 orphan pages, 1 new warning (LED link); nav names pages
-        being renamed'
-      critique: 'docs-critic: 28 findings (5 misleading; 11 decisions); target nav proposed'
-      decisions: 'grilling Q1-Q23: 15 findings settled (1 wontfix, 0 dismissed); 14 verified left for
-        S4'
+      audit: '2026-11-15: user validated (counts in findings file)'
+      critique: '2026-11-15: user validated (counts in findings file)'
+      decisions: 'grilling 2026-11-15: proposed nav accepted (X27); applied after the repairs land'
       repair: 'docsjanitor: all verified findings fixed or settled; 0 open'
       language: configuration file
       adversarial: 2 rounds, 9 lenses by hand (adversarial-reviewer, no plugin toolchain) + adjudicator;
