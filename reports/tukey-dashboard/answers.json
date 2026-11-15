@@ -1,0 +1,34 @@
+{
+  "title": "Which solver to ship for the 20-problem final test",
+  "language": "en",
+  "problem": {
+    "archetype": "uncertainty-of-estimate-or-forecast",
+    "catalog_functions": ["comparisons", "range"],
+    "statement": "Which solver should predict.py use for the final test, given accuracy against chance, the 60 s limit, English vs Catalan and RAM?",
+    "mode": "analysis"
+  },
+  "user": {"profile": "scientist-reviewer", "modifiers": ["cvd"]},
+  "tasks": {
+    "why": {"goal": "present", "search": "locate", "query": "compare"},
+    "low_level": ["compare", "find-extremum", "determine-range", "retrieve-value"],
+    "temporal": [],
+    "shneiderman": ["overview", "details-on-demand"]
+  },
+  "data": {
+    "dataset_type": "table",
+    "source_file": "solvers.csv",
+    "keys": [{"role": "category", "type": "categorical", "cardinality": 8, "source_column": "solver"}],
+    "values": [
+      {"role": "measure", "type": "quantitative", "semantics": "proportion", "derived": true,
+       "derivation": "right / n with Wilson 95% interval", "unit": "% of rows"},
+      {"role": "measure", "type": "quantitative", "semantics": "duration", "derived": false, "unit": "s"}
+    ],
+    "items": "tiny",
+    "filters": [],
+    "normalization": "right / n"
+  },
+  "constraints": [],
+  "library": "altair",
+  "host": "script",
+  "stage_validation": {"stage1": "confirmed", "stage2": "assumed"}
+}

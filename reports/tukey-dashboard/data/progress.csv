@@ -1,0 +1,13 @@
+time,run,eval_set,measured_on,n,problems,right,source,short
+2026-11-14T14:58,Qwen3.5-0.8B baseline,M3Kang validation,board,50,50,10,UNO_Q_BOARD_REFERENCE.md 14.6,baseline
+2026-11-14T16:19,decider-0.8b,M3Kang validation,laptop,789,263,189,docs/experiments/2026-11-decider-0.8b.md,decider-0.8b
+2026-11-14T17:21,Retrieval (rag 1),M3Kang validation,board,50,50,7,UNO_Q_BOARD_REFERENCE.md 14.6,retrieval
+2026-11-14T22:09,Prior solver,M3Kang validation,board,562,281,154,docs/experiments/2026-11-prior-on-board.md,prior
+2026-11-15T01:05,Prior solver,Practice set,board,100,50,16,docs/experiments/2026-11-practice-set-on-board.md,
+2026-11-15T01:05,decider-0.8b,Practice set,board,100,50,15,docs/experiments/2026-11-practice-set-on-board.md,
+2026-11-15T01:05,Qwen3.5-0.8B baseline,Practice set,board,100,50,22,docs/experiments/2026-11-practice-set-on-board.md,
+2026-11-15T01:05,Noema-2B letter,Practice set,board,100,50,24,docs/experiments/2026-11-practice-set-on-board.md,letter-only and prior (4 runs)
+2026-11-15T01:49,Noema-2B program,Practice set,laptop,100,50,34,docs/how-to/try-program-solver.md,Noema program
+2026-11-15T03:10,Qwen2.5-Math program,Practice set,laptop,100,50,43,commit 44988b6,Qwen2.5-Math program
+2026-11-15T03:30,Noema-2B program,Practice set,board,100,50,37,docs/experiments/2026-11-program-solver-and-vision-on-board.md,Noema program
+2026-11-15T03:44,Qwen2.5-Math program + NMT,Practice set,laptop,100,50,55,docs/how-to/try-qwen-math-nmt.md,Qwen2.5-Math + translation

@@ -1,0 +1,6 @@
+step,order,coverage_pct,rows_with_options
+Old parser (PP-OCRv4),1,75.8,1725
+Rebuild missing C) label,2,87.1,1984
+Accept A label with no sign,3,89.2,2032
+Switch to PP-OCRv5,4,93.5,2130
+PP-OCRv5 with v4 fallback,5,98.5,2243

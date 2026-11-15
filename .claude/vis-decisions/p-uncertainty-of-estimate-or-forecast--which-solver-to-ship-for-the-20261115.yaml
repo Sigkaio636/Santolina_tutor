@@ -1,0 +1,195 @@
+# vis-design decision record (project)
+title: Which solver to ship for the 20-problem final test
+language: en
+problem:
+  archetype: uncertainty-of-estimate-or-forecast
+  catalog_functions:
+  - comparisons
+  - range
+  statement: Which solver should predict.py use for the final test, given accuracy against chance, the
+    60 s limit, English vs Catalan and RAM?
+  mode: analysis
+user:
+  profile: scientist-reviewer
+  modifiers:
+  - cvd
+tasks:
+  why:
+    goal: present
+    search: locate
+    query: compare
+  low_level:
+  - compare
+  - find-extremum
+  - determine-range
+  - retrieve-value
+  temporal: []
+  shneiderman:
+  - overview
+  - details-on-demand
+data:
+  dataset_type: table
+  source_file: solvers.csv
+  keys:
+  - role: category
+    type: categorical
+    cardinality: some
+    source_column: solver
+    n_levels: 9
+  - role: category2
+    type: categorical
+    cardinality: few
+    source_column: measured_on
+    n_levels: 3
+  values:
+  - role: measure
+    type: quantitative
+    semantics: rate
+    derived: true
+    derivation: right / n with Wilson 95% interval
+    unit: '% of rows'
+  - role: lower
+    type: quantitative
+    semantics: rate
+    derived: true
+    derivation: Wilson lower bound by problem
+  - role: upper
+    type: quantitative
+    semantics: rate
+    derived: true
+    derivation: Wilson upper bound by problem
+  - role: measure2
+    type: quantitative
+    semantics: duration
+    derived: false
+    unit: s
+  items: tiny
+  filters: []
+  normalization: right / n
+  signature: table|k:categorical:few+k:categorical:some|v:quantitative:duration+v:quantitative:rate+v:quantitative:rate+v:quantitative:rate
+constraints:
+- uncertainty
+library: altair
+host: script
+stage_validation:
+  stage1: confirmed
+  stage2: confirmed
+solution:
+  idiom: gradient_interval
+  family: uncertainty
+  mark: rect
+  encodings:
+  - attribute: category
+    channel: position-y
+    scale: ordinal
+    note: sorted by accuracy; shared order in four juxtaposed columns
+  - attribute: measure
+    channel: position-x
+    scale: linear
+    zero: true
+    note: dot = estimate
+  - attribute: lower
+    channel: color-luminance
+    scale: ordinal
+    note: 50/80/95% Wilson bands as solid tints, counted by problem (n=50)
+  - attribute: category2
+    channel: color-hue
+    scale: nominal
+    note: 'blue board, orange laptop, grey chance reference; second cue: shape (circle/diamond/square)'
+  - attribute: upper
+    channel: position-x
+    scale: linear
+    note: upper edge of each band
+  derived_data:
+  - Wilson intervals with k_eff = accuracy x problems
+  - Beta-binomial predictive of right answers in 20 new problems
+  - exact binomial(20,0.2) chance row
+  ordering: by accuracy descending
+  color:
+    purpose: distinguish
+    palette_type: qualitative
+    suggested:
+    - '#0072b2'
+    - '#e69f00'
+    - '#8c8c8c'
+    cvd_safe: true
+  text:
+    title: takeaway
+    axis_units: true
+    direct_labels: true
+    annotations:
+    - chance rule
+    - 60 s limit
+    source_line: true
+  interaction:
+    level: optional
+    default_state_answers_task: true
+    intents:
+    - select
+    - abstract-elaborate
+  layout:
+    small_multiples: false
+    facet_by: null
+    aspect: wide
+  composition:
+    type: juxtapose
+    relation: multiform
+    data_sharing: all
+    encoding_sharing: different
+    views:
+    - id: accuracy
+      idiom: gradient_interval
+      role: focus
+    - id: final
+      idiom: gradient_interval
+      role: context
+    - id: language
+      idiom: dumbbell_plot
+      role: context
+    - id: time
+      idiom: span_chart
+      role: context
+    links:
+    - from: accuracy
+      to: final
+      type: highlight
+    - from: accuracy
+      to: language
+      type: highlight
+    - from: accuracy
+      to: time
+      type: highlight
+  rejected_alternatives:
+  - idiom: error_bars
+    reason: hard bar ends read as limits
+    rule: DAT-11
+  - idiom: quantile_dotplot
+    reason: needs a sentence per dot; judges are statistics literate, bands suffice
+    rule: PUR-14
+  - idiom: small_multiples
+    reason: one row per solver across four measures is a shared-key juxtaposition, not panels per category
+    rule: CMP-13
+  validation:
+    stage3_checks:
+    - DAT-03
+    - DAT-11
+    - DAT-13
+    - TXT-07
+    - SCL-02
+    - CMP-09
+    - INT-09
+    critique_skill: required
+rationale: One row per solver keeps the decision (which solver clears chance, fits 60 s and handles Catalan)
+  on one shared y order across four linked columns; graded bands counted by problem keep uncertainty honest
+  for a 20-problem test.
+confidence: high
+schema_version: 1
+provenance:
+  origin: project
+  author: vis-design
+  created: '2026-11-15'
+  updated: '2026-11-15'
+  times_used: 1
+  last_used: '2026-11-15'
+status: superseded
+id: p-uncertainty-of-estimate-or-forecast--which-solver-to-ship-for-the-20261115

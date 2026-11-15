@@ -1,0 +1,9 @@
+solver,measured_on,n,problems,right,eng_right,cat_right,mean_s,worst_s,timeouts,server_rss_mb,source
+Qwen2.5-Math program + Catalan→English,laptop,100,50,55,29,26,,,,,docs/how-to/try-qwen-math-nmt.md (exp/noema-finetune 43d1d92)
+Qwen2.5-Math program,laptop,100,50,43,29,14,,,,,docs/how-to/try-qwen-math-nmt.md (exp/noema-finetune 43d1d92)
+Noema-2B program,board,100,50,37,20,17,43.3,57.1,17,1510,docs/experiments/2026-11-program-solver-and-vision-on-board.md (b956cf0)
+Noema-2B program,laptop,100,50,34,19,15,,,,,docs/how-to/try-program-solver.md (exp/program-solver aa9fa17)
+Noema-2B letter,board,100,50,24,12,12,17.7,28.1,0,1382,docs/experiments/2026-11-practice-set-on-board.md (1049459)
+Qwen3.5-0.8B letter (baseline),board,100,50,22,12,10,7.6,13.6,0,900,docs/experiments/2026-11-practice-set-on-board.md (1049459)
+Prior (shipped default),board,100,50,16,8,8,0.0,0.0,0,0,docs/experiments/2026-11-practice-set-on-board.md (1049459)
+decider-0.8b letter,board,100,50,15,9,6,7.7,12.0,0,,docs/experiments/2026-11-practice-set-on-board.md (1049459)

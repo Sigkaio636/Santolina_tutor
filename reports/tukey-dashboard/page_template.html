@@ -1,0 +1,141 @@
+<title>Santolina Solver Results</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=JetBrains+Mono:wght@500&display=swap">
+<style>
+/* Layout: a plain results sheet. Numbers row, charts in reading order, one table.
+   Blue = measured on the board, orange = laptop, grey = chance, everywhere. */
+:root {
+  --bg: #fbfbfa;
+  --fg: #1b1f24;
+  --muted: #5d6570;
+  --line: #e1e4e8;
+  --board: #0072b2;
+  --laptop: #b06f00;
+  --body: "Atkinson Hyperlegible", "Segoe UI", system-ui, sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) { --bg: #131518; --fg: #e6e8eb; --muted: #9aa3ae; --line: #2b3038; --board: #4ea3dc; --laptop: #e6a23a; color-scheme: dark; }
+}
+:root[data-theme="dark"] { --bg: #131518; --fg: #e6e8eb; --muted: #9aa3ae; --line: #2b3038; --board: #4ea3dc; --laptop: #e6a23a; color-scheme: dark; }
+* { box-sizing: border-box; }
+body {
+  background: var(--bg); color: var(--fg); font: 15px/1.5 var(--body);
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 28px 40px;
+}
+.wrap { max-width: 1180px; margin: 0 auto; display: grid; gap: 34px; }
+h1 { font-size: 26px; line-height: 1.2; margin: 0 0 4px; }
+.meta { color: var(--muted); margin: 0; }
+.nums { display: flex; flex-wrap: wrap; gap: 14px 44px; margin-top: 18px; }
+.nums div { display: grid; }
+.nums b { font: 500 26px/1.1 var(--mono); font-variant-numeric: tabular-nums; }
+.nums span { font-size: 13px; color: var(--muted); }
+.nums .b b { color: var(--board); } .nums .l b { color: var(--laptop); }
+.chart { overflow-x: auto; min-width: 0; padding-top: 22px; border-top: 1px solid var(--line); }
+.grid2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 34px 40px; }
+h2 { font-size: 17px; margin: 0 0 10px; }
+.tbl { overflow-x: auto; border-top: 1px solid var(--line); padding-top: 22px; }
+table { border-collapse: collapse; width: 100%; font-size: 14px; }
+th, td { text-align: left; padding: 7px 10px 7px 0; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { font-size: 13px; color: var(--muted); font-weight: 400; }
+td:last-child { white-space: nowrap; color: var(--muted); }
+.notes { font-size: 12.5px; color: var(--muted); display: grid; gap: 4px; max-width: 100ch; }
+.notes p { margin: 0; }
+code { font: 12px var(--mono); }
+@media (max-width: 900px) { .grid2 { grid-template-columns: minmax(0, 1fr); } }
+</style>
+
+<div class="wrap">
+  <header>
+    <h1>Santolina solver results</h1>
+    <p class="meta">Qualcomm challenge, Datathon FME 2026 · final test: 20 problems, English or Catalan, 60 s each, run on the Arduino UNO Q · runs from Sat 14 Nov 14:00 to Sun 15 Nov 06:40</p>
+    <div class="nums">
+      <div class="b"><b>{{best_board}}</b><span>best on the board</span></div>
+      <div class="l"><b>{{best_lap}}</b><span>best on the laptop</span></div>
+      <div><b>{{prior}}</b><span>default today (prior)</span></div>
+      <div><b>20%</b><span>any fixed letter</span></div>
+      <div><b>{{worst}}</b><span>slowest problem (program)</span></div>
+    </div>
+  </header>
+
+  <div class="chart" id="v-core"></div>
+  <div class="chart" id="v-progress"></div>
+
+  <div class="grid2">
+    <div class="chart" id="v-paths"></div>
+    <div class="chart" id="v-levels"></div>
+    <div class="chart" id="v-ram"></div>
+    <div class="chart" id="v-ocr"></div>
+  </div>
+
+  <div class="chart" id="v-router"></div>
+  <div class="chart" id="v-activity"></div>
+
+  <div class="tbl">
+    <h2>Decisions</h2>
+    <table>
+      <thead><tr><th>Decision</th><th>Evidence</th><th>When</th></tr></thead>
+      <tbody>
+        <tr><td>Change the default solver from <code>prior</code> to <code>program</code></td><td>prior {{prior}}, program {{best_board}} (board, same 50 problems)</td><td>now</td></tr>
+        <tr><td>Run Qwen2.5-Math with Catalan→English translation on the board</td><td>{{best_lap}} on the laptop; board time not measured</td><td>next run</td></tr>
+        <tr><td>Stop the program before the 60 s limit</td><td>slowest {{worst}}; {{timeouts}} of 100 rows timed out</td><td>next run</td></tr>
+        <tr><td>Drop vision, retrieval and letter-only solvers</td><td>retrieval 14% vs baseline 20%; letter-only 15–24%; vision 17% vs 23% text only (laptop report, not plotted)</td><td>done</td></tr>
+        <tr><td>Route tutor messages with decider-0.8b</td><td>79% vs 37% for Qwen3.5-0.8B, 150 messages</td><td>adopted</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="notes">
+    <p>Intervals are Wilson intervals counted by problem (the practice set asks 50 problems in two languages). The predicted score is Beta-binomial for 20 new problems; the grey row is a fixed letter, binomial(20, 0.2).</p>
+    <p>Sources: the team's reports in <code>docs/experiments/</code>, <code>docs/how-to/</code> and <code>docs/UNO_Q_BOARD_REFERENCE.md</code>, shown per row in the tooltips. Aggregates only, no problem text. Commits: all branches, merges excluded.</p>
+    <p>Built with <code>reports/tukey-dashboard/tukey_dashboard.py</code> (Altair 5.5).</p>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/vega@5.30.0/build/vega.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vega-lite@5.20.1/build/vega-lite.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vega-embed@6.26.0/build/vega-embed.min.js"></script>
+<script>
+const SPECS = /*__SPECS__*/null;
+const DARK_SWAP = { "#0072b2": "#4ea3dc", "#1b1f24": "#e6e8eb",
+  "#e3e6ea": "#262b33", "#c7ccd2": "#3a414b",
+  "#cfe3f0": "#1d3240", "#8cbfdf": "#2c5877", "#3d8fc4": "#4ea3dc",
+  "#f8e6c4": "#3b2f1c", "#f0c878": "#7a5a22", "#e69f00": "#e6a23a",
+  "#e4e6e9": "#2a2e34", "#c9cdd2": "#3c424a", "#a3a9b1": "#6b737d",
+  "\"white\"": "\"#131518\"" };
+function isDark() {
+  const t = document.documentElement.getAttribute("data-theme");
+  if (t) return t === "dark";
+  return window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+}
+function themed(spec, dark) {
+  let s = JSON.stringify(spec);
+  if (dark) for (const [a, b] of Object.entries(DARK_SWAP)) s = s.split(a).join(b);
+  const o = JSON.parse(s);
+  const fg = dark ? "#e6e8eb" : "#1b1f24", mute = dark ? "#9aa3ae" : "#5d6570";
+  o.config = Object.assign({}, o.config, { background: null });
+  o.config.axis = Object.assign({}, o.config.axis, { labelColor: fg, titleColor: mute });
+  o.config.title = Object.assign({}, o.config.title, { color: fg, subtitleColor: mute });
+  o.config.legend = Object.assign({}, o.config.legend, { labelColor: fg, titleColor: mute });
+  o.config.text = Object.assign({}, o.config.text, { color: fg });
+  return o;
+}
+function render() {
+  const dark = isDark();
+  for (const [k, spec] of Object.entries(SPECS)) {
+    const el = document.getElementById("v-" + k);
+    if (!el) continue;
+    vegaEmbed(el, themed(spec, dark), { actions: false, renderer: "svg" })
+      .catch(e => { el.textContent = "This chart could not load: " + e.message; });
+  }
+}
+render();
+try {
+  window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", render);
+  new MutationObserver(render).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+} catch (e) { /* keep the first render */ }
+</script>

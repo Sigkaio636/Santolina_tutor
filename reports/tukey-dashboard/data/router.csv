@@ -1,0 +1,6 @@
+model,round,n,right
+decider-0.8b,Round 2 (150 new messages),150,118
+Qwen3.5-0.8B,Round 2 (150 new messages),150,55
+decider-0.8b,Round 1 (100 messages),100,84
+Intern-Decision-0.8B,Round 1 (100 messages),100,51
+Qwen3.5-0.8B,Round 1 (100 messages),100,39

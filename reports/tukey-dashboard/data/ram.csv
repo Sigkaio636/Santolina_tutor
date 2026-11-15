@@ -1,0 +1,6 @@
+config,rss_mb,measured,note
+Qwen3.5-0.8B (default service),900,board,about 900 MB (board reference 14.4)
+Qwen3.5-0.8B vision + projector,1286,board,after 6 figure problems
+Noema-2B (program solver),1510,board,after the 100 practice rows
+Noema-2B + vision together,2622,board,"sum of RSS; free -m still showed 2,359 MB available, 106 MB in swap"
+Qwen2.5-Math + translation,1059,estimate,file sizes only (986 MB model + 73 MB NMT); not measured on the board
