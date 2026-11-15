@@ -13,6 +13,7 @@ nav:
       - Use the copilot on the board: how-to/use-copilot-on-board.md
       - Try the prior solver on the board: how-to/try-prior-solver.md
       - Time a 2B model on the board: how-to/time-2b-model-on-board.md
+      - Use decider-2b as the intent router: how-to/use-decider-2b-router.md
       - Extract papers to Markdown with MinerU: how-to/mineru-ocr-papers.md
   - Reference:
       - UNO Q board reference: UNO_Q_BOARD_REFERENCE.md
