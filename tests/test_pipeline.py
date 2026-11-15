@@ -17,7 +17,7 @@ import time
 import unittest
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 
-from copilot import rag
+from copilot import pipeline, rag
 from copilot.pipeline import FALLBACK, solve
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -93,6 +93,12 @@ def free_port():
 
 
 class SolveFallsBack(unittest.TestCase):
+    # These tests check the model path; the default solver ("prior") never calls it.
+    def setUp(self):
+        original = pipeline.SOLVER
+        pipeline.SOLVER = "letter"
+        self.addCleanup(setattr, pipeline, "SOLVER", original)
+
     def ask(self, mode, time_limit=60):
         server = FakeServer(mode)
         self.addCleanup(server.close)
@@ -150,7 +156,7 @@ class PredictKeepsGoing(unittest.TestCase):
         out = os.path.join(tmpdir(self), "x.csv")
         done = subprocess.run(
             [sys.executable, "predict.py", "--input", SAMPLES, "--output", out, *extra],
-            cwd=ROOT, env={**os.environ, "LLM_PORT": str(port)},
+            cwd=ROOT, env={**os.environ, "LLM_PORT": str(port), "SOLVER": "letter"},
             capture_output=True, text=True, timeout=120)
         return done, out
 
