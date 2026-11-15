@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>{{ S.unassigned_title }}</h1>
+<p class="muted">{{ S.unassigned_help }}</p>
+{% if rows %}
+<table>
+  <thead><tr><th>{{ S.students_code }}</th><th>{{ S.students_sessions }}</th><th>{{ S.nav_boards }}</th><th>From</th><th>To</th><th></th></tr></thead>
+  <tbody>
+  {% for r in rows %}
+    <tr>
+      <td><code class="code">{{ r.code or S.unassigned_no_code }}</code></td><td>{{ r.n }}</td><td>{{ r.boards }}</td>
+      <td>{{ r.first | when }}</td><td>{{ r.last | when }}</td>
+      <td>
+        <form method="post" action="/unassigned/assign" class="inline">
+          <input type="hidden" name="code" value="{{ r.code }}">
+          <select name="student_id" required>
+            {% for s in students %}<option value="{{ s.id }}">{{ s.display_name }} ({{ s.code }}{% if s.group_name %}, {{ s.group_name }}{% endif %})</option>{% endfor %}
+          </select>
+          <button>{{ S.unassigned_assign }}</button>
+        </form>
+      </td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% else %}<p class="muted">{{ S.unassigned_none }}</p>{% endif %}
+{% endblock %}

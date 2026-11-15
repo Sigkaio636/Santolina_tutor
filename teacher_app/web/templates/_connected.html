@@ -1,0 +1,24 @@
+<h2 class="strip-title">{{ S.connected_title }}</h2>
+{% if not items %}
+  <p class="muted">{{ S.connected_none }}</p>
+{% else %}
+<div class="cards">
+  {% for it in items %}
+  <div class="card board-card {% if not it.board %}new{% endif %}">
+    {% if it.c.state != "device" %}
+      <strong>{{ it.c.serial }}</strong>
+      <p class="muted">{% if it.c.state == "unauthorized" %}{{ S.connected_state_unauthorized }}{% else %}{{ S.connected_state_other.format(state=it.c.state) }}{% endif %}</p>
+    {% elif it.board %}
+      <strong>{{ it.board.name }}</strong>
+      <span class="badge {{ it.board.mode }}">{{ it.board.mode }}</span>
+      <div class="muted small">{{ it.c.serial }}{% if it.c.link.kind == "fake" %} · {{ S.simulated }}{% endif %}{% if it.board.group_name %} · {{ it.board.group_name }}{% endif %}</div>
+      <a class="button" href="/boards/{{ it.c.serial }}">{{ S.connected_open }}</a>
+    {% else %}
+      <strong>{{ S.connected_new }}</strong>
+      <div class="muted small">{{ it.c.serial }}{% if it.c.link.kind == "fake" %} · {{ S.simulated }}{% endif %}</div>
+      <a class="button primary" href="/setup/{{ it.c.serial }}">{{ S.connected_setup }}</a>
+    {% endif %}
+  </div>
+  {% endfor %}
+</div>
+{% endif %}

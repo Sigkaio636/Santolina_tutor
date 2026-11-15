@@ -17,6 +17,7 @@ nav:
       - Extract papers to Markdown with MinerU: how-to/mineru-ocr-papers.md
   - Reference:
       - UNO Q board reference: UNO_Q_BOARD_REFERENCE.md
+      - LED matrix design: LED_MATRIX_DESIGN.md
       - Board limits (interactive page): GUIA_RESTRICCIONES_UNOQ.html
   - The challenge:
       - What the challenge asks: GOAL_MUSTS.md

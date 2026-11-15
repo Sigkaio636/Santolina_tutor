@@ -1,0 +1,13 @@
+[Unit]
+Description=Santolina: fine-tuned tutor model for the student app (llama.cpp, port @TUTOR_PORT@)
+After=local-fs.target
+
+[Service]
+Type=simple
+User=@USER@
+ExecStart=@LLAMA_SERVER@ -m @TUTOR_PATH@ --host 127.0.0.1 --port @TUTOR_PORT@ --threads @TUTOR_THREADS@ --ctx-size @TUTOR_CTX@ --parallel 1 --cache-ram 0 --ctx-checkpoints 2 --jinja --reasoning off --reasoning-budget 0 --alias qwen35-tutor
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

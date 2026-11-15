@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>{{ S.students_title }}</h1>
+{% if students %}
+<table>
+  <thead><tr><th>{{ S.students_name }}</th><th>{{ S.students_group }}</th><th>{{ S.students_code }}</th><th>{{ S.students_sessions }}</th></tr></thead>
+  <tbody>
+  {% for s in students %}
+    <tr>
+      <td><a href="/students/{{ s.id }}">{{ s.display_name }}</a></td>
+      <td>{{ s.group_name or S.no_group }}</td>
+      <td><code class="code">{{ s.code }}</code></td>
+      <td>{{ s.n_sessions }}</td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% else %}<p class="muted">{{ S.students_none }}</p>{% endif %}
+<form class="card inline" method="post" action="/students">
+  <h3>{{ S.students_add }}</h3>
+  <input name="display_name" placeholder="{{ S.students_name }}" required>
+  <select name="group_id">
+    <option value="">{{ S.no_group }}</option>
+    {% for g in groups %}<option value="{{ g.id }}">{{ g.name }}</option>{% endfor %}
+  </select>
+  <input name="notes" placeholder="{{ S.students_notes }}">
+  <button class="primary">{{ S.add }}</button>
+  <p class="muted small">{{ S.students_code_help }}</p>
+</form>
+{% endblock %}

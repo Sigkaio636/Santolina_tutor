@@ -1,0 +1,17 @@
+[Unit]
+Description=Santolina: student interface on the board's Wi-Fi (port 80)
+After=network.target
+
+[Service]
+Type=simple
+User=@USER@
+WorkingDirectory=@HOME@/santolina/lib
+ExecStart=/usr/bin/python3 -B -m student_app.server --root @HOME@/santolina --port 80 --public-host 10.42.0.1
+# Port 80 without running as root
+AmbientCapabilities=CAP_NET_BIND_SERVICE
+# The server exits when the teacher app pushes new code; start it again with that code
+Restart=always
+RestartSec=2
+
+[Install]
+WantedBy=multi-user.target

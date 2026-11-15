@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>{{ S.packs_title }}</h1>
+{% if packs %}
+<table>
+  <thead><tr><th>Title</th><th>Pack</th><th>Language</th><th>Exercises</th><th>{{ S.nav_boards }}</th></tr></thead>
+  <tbody>
+  {% for p in packs %}
+    <tr><td>{{ p.title }}</td><td><code>{{ p.pack_id }}</code> v{{ p.version }}</td><td>{{ p.language }}</td><td>{{ p.count }}</td><td>{{ p.n_boards }}</td></tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% else %}<p class="muted">{{ S.packs_none }}</p>{% endif %}
+<div class="row">
+  <form class="card inline" method="post" action="/packs/import">
+    <h3>{{ S.packs_import }}</h3>
+    <input name="folder" placeholder="{{ S.packs_folder }}" size="50" required>
+    <button class="primary">{{ S.add }}</button>
+  </form>
+  <form class="card inline" method="post" action="/packs/demo">
+    <h3>{{ S.packs_demo }}</h3>
+    <button>{{ S.add }}</button>
+  </form>
+</div>
+{% endblock %}

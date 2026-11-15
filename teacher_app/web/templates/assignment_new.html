@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block content %}
+<p><a href="/assignments">← {{ S.assignments_title }}</a></p>
+<h1>{{ title or S.assignments_new }}</h1>
+<form class="card" method="post" action="/assignments">
+  <input type="hidden" name="title" value="{{ title }}">
+  <input type="hidden" name="group_id" value="{{ group_id }}">
+  <input type="hidden" name="pack_id" value="{{ pack.pack_id }}">
+  <input type="hidden" name="due" value="{{ due }}">
+  <h3>{{ pack.title }}</h3>
+  <p class="muted small">{{ S.assignments_all }}</p>
+  <table>
+    <tbody>
+    {% for e in exercises %}
+      <tr>
+        <td><input type="checkbox" name="exercise_ids" value="{{ e.exercise_id }}" id="x{{ loop.index }}"></td>
+        <td><label for="x{{ loop.index }}" style="font-weight:400;margin:0">{{ e.prompt[:140] }}{% if e.prompt|length > 140 %}…{% endif %}</label></td>
+        <td class="muted small">{% if e.level is not none %}L{{ e.level }}{% endif %} {{ e.meta.get("topic", "") if e.meta else "" }}</td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  <p><button class="primary big">{{ S.assignments_create }}</button></p>
+</form>
+{% endblock %}
