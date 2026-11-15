@@ -13,15 +13,15 @@ Each document goes through the `/docs-review` stages. ✅ validated by the user,
 | Document | audit | critique | decisions | repair | language | adversarial | signoff |
 | --- | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
 | README.md | 🟡 | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ |
-| [docs/BOARD_SETUP.md](../BOARD_SETUP.md) | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ |
+| [docs/BOARD_SETUP.md](../BOARD_SETUP.md) | ✅ | ✅ | ✅ | – | – | – | ✅ |
 | CLAUDE.md | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | board/README.md | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | classroom/README.md | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | copilot/README.md | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | data/README.md | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| [docs/CHALLENGE_CONTEXT.md](../CHALLENGE_CONTEXT.md) | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ |
+| [docs/CHALLENGE_CONTEXT.md](../CHALLENGE_CONTEXT.md) | ✅ | ✅ | ✅ | – | – | – | ✅ |
 | [docs/DEVELOPING.md](../DEVELOPING.md) | 🟡 | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ |
-| [docs/GOAL_MUSTS.md](../GOAL_MUSTS.md) | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ |
+| [docs/GOAL_MUSTS.md](../GOAL_MUSTS.md) | ✅ | ✅ | ✅ | – | – | – | ✅ |
 | [docs/GUIA_RESTRICCIONES_UNOQ.html](../GUIA_RESTRICCIONES_UNOQ.html) | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | [docs/LED_MATRIX_DESIGN.md](../LED_MATRIX_DESIGN.md) | ✅ | ✅ | 🟡 | ⏳ | ⏳ | ⏳ | ⏳ |
 | [docs/OCR_FAILURE_MODES.md](../OCR_FAILURE_MODES.md) | ✅ | ✅ | 🟡 | ⏳ | ⏳ | ⏳ | ⏳ |
@@ -81,6 +81,6 @@ Each document goes through the `/docs-review` stages. ✅ validated by the user,
 | [docs/vault/papers/quantization/_synthesis.md](../vault/papers/quantization/_synthesis.md) | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | [docs/vault/papers/surveys/_synthesis.md](../vault/papers/surveys/_synthesis.md) | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | [docs/vault/papers/tutoring_pedagogy/_synthesis.md](../vault/papers/tutoring_pedagogy/_synthesis.md) | ✅ | ✅ | ✅ | ✅ | ✅ | – | ✅ |
-| mkdocs.yml | ✅ | ✅ | 🟡 | ⏳ | – | ⏳ | ⏳ |
+| mkdocs.yml | 🟡 | ✅ | 🟡 | ⏳ | – | ⏳ | ⏳ |
 
-Signed off: 40 of 70 documents.
+Signed off: 43 of 70 documents.
