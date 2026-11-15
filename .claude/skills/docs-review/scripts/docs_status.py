@@ -42,7 +42,12 @@ MKDOCS = ROOT / "mkdocs.yml"
 STAGES = ["audit", "critique", "decisions", "repair", "language", "adversarial", "signoff"]
 STATUSES = ["pending", "done", "validated", "n/a"]
 ICON = {"pending": "⏳", "done": "🟡", "validated": "✅", "n/a": "–"}
-ROOT_DOCS = ["README.md", "data/README.md", "CLAUDE.md", "mkdocs.yml"]
+ROOT_DOCS = [
+    "README.md", "data/README.md", "CLAUDE.md", "mkdocs.yml",
+    # Folder READMEs (decision X7 of the 2026-11-15 review)
+    "board/README.md", "copilot/README.md", "laptop/README.md", "student_app/README.md",
+    "teacher_app/README.md", "classroom/README.md", "explorer/README.md", "tests/README.md",
+]
 
 # Review order when /docs-review gets no path: lower comes first.
 PRIORITY = {"README.md": 0, "docs/BOARD_SETUP.md": 1, "CLAUDE.md": 2, "mkdocs.yml": 9}
