@@ -67,7 +67,7 @@ What each request does:
 | Request | What the student gets | Model call |
 | --- | --- | --- |
 | Clue 1 | Where to start | Yes |
-| Clue 2 | A more concrete hint, and a similar easier problem from the retrieval index when there is one | Yes |
+| Clue 2 | A more concrete hint, and a similar easier problem from the retrieval index (never a homework problem) when there is one | Yes |
 | Clue 3 and later | The next step | Yes |
 | A chat message | A guiding reply. `student_app/router.py` first labels the message `STUCK`, `CONCEPT`, `ATTEMPT`, `SOLUTION` or `OTHER` | Yes |
 | A message that names an option ("is it D?") | A request to send it with the answer button, which counts the attempt | No |
@@ -83,7 +83,8 @@ Limits to know before a demo:
 - It does not write worked solutions, and the base model writes wrong ones, so the app generates none. To show a worked solution, write it into the pack as `meta.solution` on the laptop.
 - It cannot read photos. A photo gets a note that asks for the problem in words.
 - The router is a keyword rule. The decision model will replace `router.classify` and keep the same five labels.
-- A reply takes 14 to 17 seconds on the board for a one-line problem: the board reads the prompt at about 11.5 tokens per second and writes at about 5.7. A long Kangaroo statement takes longer to read. On a laptop a reply takes 2 to 8 seconds.
+- On board B1 the first word of a reply comes after 2.5 to 7 seconds, and a reply takes 8 to 18 seconds in all: the board writes about 5.7 tokens per second. The board reads a prompt at about 11.5 tokens per second, so each call only reads what is new. The problem goes in the system message, and the tutor reads it when the exercise opens, while the student reads it too (about 16 seconds for a long statement). On a laptop a reply takes 2 to 8 seconds.
+- After **Show the solution**, the leak check is off for that exercise: the student knows the answer, so the copilot can talk about it.
 - `08_install_tutor.sh` makes the service start at boot. A tutor server started by hand stops when the board restarts, and the board restarts when its USB power drops.
 
 While the model writes, `GET /api/board-state` returns `"thinking": {"tokens": n, "max": m}` and the LED matrix fills its "thinking" bar. The rest of the time `thinking` is `null`.
@@ -97,7 +98,9 @@ SANTOLINA_TUTOR_URL=http://127.0.0.1:8095 uv run --group teacher python -m teach
 
 ## How free mode picks the next problem
 
-Free mode uses a fixed rule (`student_app/planner.py`). The rule uses no language model, so the next problem comes at once.
+Free mode picks from the solved Kangaroo problems of the board's retrieval index that a phone can show (text options, no picture needed). It skips every problem of a loaded pack, so it never gives away homework. A board without an index uses its packs instead.
+
+It picks with a fixed rule (`student_app/planner.py`). The rule uses no language model, so the next problem comes at once.
 
 | The last problem | Level of the next | Topic of the next | `path_reason` |
 | --- | --- | --- | --- |

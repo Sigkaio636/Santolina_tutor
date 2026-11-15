@@ -7,7 +7,8 @@
 //                then a happy face stays, blinking now and then
 // Over any mode, Bridge.call("set_thinking", n) shows the "thinking" bar while the tutor model
 // writes (docs/LED_MATRIX_DESIGN.md): n LEDs lit in reading order, 0 to 104. With n = 0 (the
-// model still reads the prompt) the top row breathes, once a second. n = -1 hides the bar.
+// model still reads the prompt) a spinner turns: a light with a fading tail runs round an
+// oval, about once a second. n = -1 hides the bar.
 
 #include <Arduino_RouterBridge.h>
 #include <Arduino_LED_Matrix.h>
@@ -40,6 +41,12 @@ const Pixel EYES_OPEN[] = {{1, 3}, {1, 4}, {2, 3}, {2, 4}, {1, 8}, {1, 9}, {2, 8
 const Pixel EYES_SHUT[] = {{2, 3}, {2, 4}, {2, 8}, {2, 9}};
 const Pixel SMILE[] = {{4, 1}, {4, 11}, {5, 2}, {5, 10}, {6, 3}, {6, 4}, {6, 5}, {6, 6},
                        {6, 7}, {6, 8}, {6, 9}};
+
+// The spinner's track: an oval round the middle of the matrix, clockwise from the top.
+const Pixel RING[] = {{0, 6}, {0, 7}, {1, 8}, {2, 9}, {3, 9}, {4, 9}, {5, 9}, {6, 8}, {7, 7},
+                      {7, 6}, {7, 5}, {6, 4}, {5, 3}, {4, 3}, {3, 3}, {2, 3}, {1, 4}, {0, 5}};
+const unsigned long SPIN_STEP_MS = 60;  // 18 steps: one turn in about 1.1 s
+const int SPIN_TAIL = 6;
 
 const unsigned long CHECK_MS = 4000;  // how long the check mark shows before the face
 
@@ -84,13 +91,21 @@ void drawConnected(unsigned long t) {
   put(SMILE, LEN(SMILE), 7);
 }
 
-// Thinking: one LED per step of the reply. Before the first token, the top row breathes.
+// Thinking: one LED per step of the reply. Before the first token, a spinner turns.
+void drawSpinner(unsigned long now) {
+  const int n = LEN(RING);
+  int head = (now / SPIN_STEP_MS) % n;
+  put(RING, n, 1);  // the dim track
+  for (int k = 0; k < SPIN_TAIL; k++) {
+    const Pixel &p = RING[(head - k + n) % n];
+    frame[p.r * COLS + p.c] = 7 - k;  // 7 at the head, fading to 2
+  }
+}
+
 void drawThinking(int leds, unsigned long now) {
   clearFrame();
   if (leds <= 0) {
-    int phase = now % 1000;  // up for 500 ms, down for 500 ms
-    uint8_t level = 1 + (phase < 500 ? phase : 1000 - phase) * 6 / 500;
-    for (uint8_t c = 0; c < COLS; c++) frame[c] = level;
+    drawSpinner(now);
     return;
   }
   if (leds > ROWS * COLS) leds = ROWS * COLS;

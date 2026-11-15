@@ -90,8 +90,7 @@ class PathPlanner:
         last: history[-1]. progress: the student's classroom.progress data.
         language: the visit's language; exercises in it are preferred.
         """
-        self.catalog.refresh()
-        items = self.catalog.items
+        items = self.catalog.free_items()
         if not items:
             return None, "empty"
         pool = self._pool(items, history, progress or {}, language)

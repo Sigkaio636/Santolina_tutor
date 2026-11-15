@@ -306,15 +306,27 @@ def homework_completion(conn, scope, ref):
             done_cell = {"bar": pct(n, total) or 0, "text": f"{n} of {total}"}
             out.append([a["title"], a["due"] or "–", done_cell])
         else:
+            n_students = a["n_students"]
             complete = sum(1 for n in done.values() if total and n >= total)
-            done_cell = {
-                "bar": pct(complete, a["n_students"]) or 0,
-                "text": f"{complete} of {a['n_students']}",
+            finished_cell = {
+                "bar": pct(complete, n_students) or 0,
+                "text": f"{complete} of {n_students}",
             }
-            out.append([a["title"], a["group_name"], a["due"] or "–", done_cell])
+            # Exercises done per student, capped at the homework size, averaged over the group
+            solved = sum(min(n, total) for n in done.values())
+            mean = solved / n_students if n_students else 0
+            exercises_cell = {
+                "bar": pct(solved, n_students * total) or 0,
+                "text": f"{mean:.0f} of {total}"
+                if n_students == 1 or mean == int(mean)
+                else f"{mean:.1f} of {total} on average",
+            }
+            out.append(
+                [a["title"], a["group_name"], a["due"] or "–", exercises_cell, finished_cell]
+            )
     columns = (
         ["Homework", "Due", "Exercises done"]
         if scope == "student"
-        else ["Homework", "Group", "Due", "Students finished"]
+        else ["Homework", "Group", "Due", "Exercises done", "Students finished"]
     )
     return {"kind": "table", "columns": columns, "rows": out}

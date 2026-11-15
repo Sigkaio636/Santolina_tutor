@@ -287,6 +287,10 @@ class Board:
         if mode == "free" and (not v.free_history or v.free_history[-1]["key"] != key):
             v.free_history.append({"key": key, "outcome": "open", "reason": path_reason})
         self.log(v, "exercise_shown", item, path_reason=path_reason)
+        warm = getattr(self.tutor, "warm", None)
+        if warm and not (st.hints or st.solution_shown):  # read the problem while the student does
+            thread = self._thread(v, item)
+            self.jobs.submit(warm, self._context(v, item, thread))
         prog = self._progress(v)
         prog["last"] = {
             "mode": mode,
@@ -352,6 +356,9 @@ class Board:
             "exercise": self.catalog.public(item, with_answer=True) if item else None,
             "history": list(v.chats.get(thread, [])),
             "seen": list(v.exercises),  # keys opened in this visit
+            "solution_shown": bool(
+                item and item.key in v.exercises and v.exercises[item.key].solution_shown
+            ),
         }
 
     def _thread(self, v: Visit, item) -> str:
@@ -392,6 +399,8 @@ class Board:
         self.log(v, "hint_requested", item, hint_number=st.hints)
         thread = self._thread(v, item)
         ctx = self._context(v, item, thread)
+        # The button press stays in the chat, so later prompts repeat it word for word
+        v.chats.setdefault(thread, []).append(("clue", str(st.hints)))
         return self.jobs.submit(
             self._reply_job,
             v,
@@ -417,6 +426,7 @@ class Board:
             self._save_progress(v, prog)
         thread = self._thread(v, item)
         ctx = self._context(v, item, thread)
+        v.chats.setdefault(thread, []).append(("solution", ""))
         return self.jobs.submit(
             self._reply_job,
             v,

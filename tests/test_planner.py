@@ -24,6 +24,9 @@ class FakeCatalog:
     def refresh(self):
         pass
 
+    def free_items(self):
+        return self.items
+
 
 def item(key, level, language="eng", **meta):
     e = Exercise(

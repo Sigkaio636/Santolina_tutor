@@ -13,4 +13,5 @@ message router of `router.py`) and the learning path behind `planner.PathPlanner
 # board's code with a lower release (teacher_app/services/boards.py, push_lib), so a laptop
 # with an old checkout can't put old code back on a board. Code from before this line is 0.
 #   1: the real tutor (fine-tuned model, leak check, router)
-RELEASE = 1
+#   2: prompts that reuse the model's cache, free mode from the index
+RELEASE = 2

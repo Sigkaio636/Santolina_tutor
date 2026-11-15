@@ -170,16 +170,58 @@ def test_a_model_label_alone_never_unlocks_the_solution(monkeypatch, catalog):
 
 
 # ---------------------------------------------------------------- prompts
-def test_messages_put_the_problem_first_and_alternate(catalog):
-    history = [("copilot", "What is 4 × 3?"), ("student", "12"), ("student", "then?")]
+def test_messages_put_the_problem_in_the_system_message(catalog):
+    history = [
+        ("clue", "1"),
+        ("copilot", "What is 4 × 3?"),
+        ("student", "12"),
+        ("student", "then?"),
+    ]
     msgs = Tutor(catalog).messages(ctx(history=history, language="cat"), "next step?")
-    assert msgs[0] == {
-        "role": "system",
-        "content": "You are a Socratic math tutor. Reply in Catalan.",
-    }
+    system = msgs[0]["content"]
+    assert system.startswith("You are a Socratic math tutor. Reply in Catalan.\n\nThe problem:\n")
+    assert PENS["prompt"] in system and "B) 8" in system
     assert [m["role"] for m in msgs[1:]] == ["user", "assistant", "user"]
-    assert msgs[1]["content"].startswith(PENS["prompt"]) and "B) 8" in msgs[1]["content"]
-    assert msgs[-1]["content"] == "12\nthen?\nnext step?\n(Reply in Catalan.)"
+    assert msgs[1]["content"] == "I'm stuck. How do I start?\n(Reply in Catalan.)"
+    assert msgs[-1]["content"] == (
+        "12\n(Reply in Catalan.)\nthen?\n(Reply in Catalan.)\nnext step?\n(Reply in Catalan.)"
+    )
+
+
+def test_each_prompt_starts_with_the_previous_one(catalog):
+    """The server reuses its cache only when a prompt extends the last one (hybrid model)."""
+    tutor = Tutor(catalog)
+    calls = [
+        ([], "I'm stuck. How do I start?"),  # clue 1
+        ([("clue", "1"), ("copilot", "What is 4 × 3?")], "12?"),  # a chat message
+        (
+            [
+                ("clue", "1"),
+                ("copilot", "What is 4 × 3?"),
+                ("student", "12?"),
+                ("copilot", "Good. And then?"),
+            ],
+            "I'm still stuck. Can you give me a more concrete hint?",
+        ),
+    ]
+    previous = None
+    for history, request in calls:
+        msgs = tutor.messages(ctx(history=history), request)
+        if previous is not None:
+            assert msgs[: len(previous)] == previous
+        previous = msgs
+
+
+def test_no_leak_check_once_the_solution_is_shown(catalog):
+    chat = FakeChat("She gets 8 euros back.")
+    out = Tutor(catalog, chat=chat).reply({**ctx(), "solution_shown": True}, "why?")
+    assert out["text"] == "She gets 8 euros back." and "leak_blocked" not in out["log"]
+
+
+def test_warm_reads_the_problem_with_one_token(catalog):
+    chat = FakeChat()
+    Tutor(catalog, chat=chat).warm(ctx())
+    assert len(chat.calls) == 1 and PENS["prompt"] in chat.calls[0][0]["content"]
 
 
 # ---------------------------------------------------------------- tutor
@@ -286,3 +328,58 @@ def test_chat_streams_and_counts_tokens_for_the_leds():
     assert out["text"] == "What is 4 × 3?" and out["tokens"] == 3 and out["prompt_tokens"] == 40
     assert all(s is not None and s["max"] == 50 for s in seen)
     assert llm.THINKING.state() is None
+
+
+# ---------------------------------------------------------------- free mode from the index
+def test_free_mode_draws_from_the_index_but_never_from_homework(tmp_path):
+    root = tmp_path / "board"
+    pack = [
+        Exercise(
+            "hw",
+            "multiple_choice",
+            "cat",
+            1,
+            "Homework problem.",
+            {"A": "1", "B": "2"},
+            "A",
+            meta={"m3kang_id": "lvl-1_2015_1"},
+        )
+    ]
+    write_pack(
+        root / paths.EXERCISES / "p",
+        PackManifest(
+            pack_id="p", title="P", version=1, language="cat", created_at=now_iso(), count=1
+        ),
+        pack,
+    )
+    db_path = tmp_path / "index.db"
+    db = sqlite3.connect(db_path)
+    db.execute("CREATE TABLE problems (key TEXT PRIMARY KEY, problem TEXT, vec BLOB)")
+    for pid, options, text_only in [
+        ("lvl-1_2015_1", {"A": "1", "B": "2"}, True),  # homework
+        ("lvl-1_2015_2", {"A": "3", "B": "4"}, True),
+        ("lvl-2_2016_3", {}, True),  # options in a picture
+        ("lvl-2_2016_4", {"A": "5", "B": "6"}, False),
+    ]:  # needs a figure
+        problem = {
+            "id": pid,
+            "language": "cat",
+            "level": 1,
+            "text": f"Problem {pid}.",
+            "options": options,
+            "label": "B",
+            "text_only": text_only,
+        }
+        db.execute(
+            "INSERT INTO problems VALUES (?, ?, ?)",
+            (f"{pid}|cat", json.dumps(problem), array("f", [1.0, 0.0]).tobytes()),
+        )
+    db.commit()
+    db.close()
+    write_json(root / paths.IDENTITY, {"rag_index_path": str(db_path)})
+    (root / paths.TOPICS).write_text(json.dumps({"id": "lvl-1_2015_2", "topic": "logic"}) + "\n")
+    c = Catalog(root)
+    assert list(c.free_items()) == ["kangaroo-index/lvl-1_2015_2_cat"]
+    item = c.get("kangaroo-index/lvl-1_2015_2_cat")
+    assert item.exercise.answer == "B" and item.topic == "logic"
+    assert list(c.items) == ["p/hw"]  # homework and practice still show only the packs
