@@ -26,7 +26,28 @@ READ_TPS = float(CONFIG.get("READ_TPS", "4.86"))  # board reading speed of the m
 PROGRAM_PROMPT = CONFIG.get("PROGRAM_PROMPT", "zero_shot")
 # "nmt": translate Catalan problems to English first, inside the clock (copilot/nmt.py)
 TRANSLATE = CONFIG.get("TRANSLATE", "")
-_warm = {"done": False, "error": ""}
+# Options read from problem["image"] (copilot/options_ocr.py), inside the clock:
+# "always": the reader's options replace the given ones when it finds five (it reads better
+#   than the PP-OCRv4 of prepare_m3kang.py); "missing": only when there are not five; "off".
+OCR_OPTIONS = CONFIG.get("OCR_OPTIONS", "always")
+_warm = {"done": False, "error": "", "ocr": False}
+
+
+def _read_options(problem, result):
+    """The problem with the options read from its image, if the reader finds five."""
+    if not problem.get("image") or OCR_OPTIONS == "off":
+        return problem
+    if OCR_OPTIONS == "missing" and len(problem.get("options") or {}) == 5:
+        return problem
+    from .options_ocr import read_options
+    start = time.perf_counter()
+    try:
+        options = read_options(problem["image"])
+    except Exception as error:  # noqa: BLE001 - a failed read keeps the given options
+        options, result["ocr"] = {}, f"error: {type(error).__name__}: {error}"
+    result["ocr_seconds"] = round(time.perf_counter() - start, 2)
+    result.setdefault("ocr", "read" if options else "none")
+    return {**problem, "options": options} if options else problem
 
 
 def solve(problem, index=None, k=0, exclude_id=None, image_b64=None, llm_url=URL,
@@ -37,6 +58,10 @@ def solve(problem, index=None, k=0, exclude_id=None, image_b64=None, llm_url=URL
     added to the prompt as examples. Each example costs reading time.
     image_b64 and llm_url send the problem image to a vision server.
     """
+    if problem.get("image") and OCR_OPTIONS != "off" and not _warm["ocr"]:
+        _warm["ocr"] = True  # load the reader before the first problem's clock starts
+        from .options_ocr import available
+        available()
     if SOLVER == "program" and not _warm["done"]:
         # read the fixed prompt prefix once, before the first problem's clock starts
         _warm["done"] = True
@@ -49,6 +74,8 @@ def solve(problem, index=None, k=0, exclude_id=None, image_b64=None, llm_url=URL
             _warm["error"] = f"{type(error).__name__}: {error}"
     start = time.perf_counter()
     result = {"answer": FALLBACK, "status": "ok", "prompt_tokens": 0, "retrieved": "", "examples": []}
+    problem = _read_options(problem, result)
+    result["options"] = problem.get("options") or {}
     try:
         result["answer"] = best(problem)
     except (ArithmeticError, AttributeError, KeyError, TypeError, ValueError) as error:

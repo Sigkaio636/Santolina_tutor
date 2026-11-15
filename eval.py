@@ -10,7 +10,6 @@ results/ablations.csv, so you can build your ablation table as you go.
 """
 import argparse
 import csv
-import json
 import os
 import random
 import statistics
@@ -21,6 +20,7 @@ from collections import Counter, defaultdict
 
 from copilot.config import CONFIG
 from copilot.pipeline import TIME_LIMIT, solve
+from copilot.problems import load
 
 
 def git_commit():
@@ -45,11 +45,11 @@ def main():
     p.add_argument("--languages", default="", help="e.g. eng,cat")
     p.add_argument("--rag", type=int, default=0, metavar="K")
     p.add_argument("--index", default="data/index.db")
+    p.add_argument("--images", default=None, help="folder of <id>_<language>.png images")
     p.add_argument("--name", default="", help="a label for this experiment in ablations.csv")
     args = p.parse_args()
 
-    with open(args.input) as f:
-        problems = [json.loads(line) for line in f if line.strip()]
+    problems = load(args.input, args.images)
     languages = set(filter(None, args.languages.split(",")))
     if languages:
         problems = [x for x in problems if x["language"] in languages]
@@ -78,7 +78,7 @@ def main():
         for n, problem in enumerate(problems, 1):
             result = solve(problem, index=index, k=args.rag, exclude_id=problem["id"])
             correct = result["answer"] == problem["label"]
-            row = {**problem, **result, "correct": correct, "has_options": bool(problem.get("options"))}
+            row = {**problem, **result, "correct": correct, "has_options": len(result.get("options") or {}) == 5}
             rows.append(row)
             writer.writerow([problem["id"], problem["language"], problem["level"], row["has_options"],
                              problem["label"], result["answer"], int(correct), result["seconds"],

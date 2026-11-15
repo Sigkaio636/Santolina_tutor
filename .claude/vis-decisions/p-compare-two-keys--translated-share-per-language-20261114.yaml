@@ -1,0 +1,125 @@
+# vis-design decision record (project)
+language: en
+user:
+  profile: data-analyst
+  modifiers: []
+constraints:
+- interactive-required
+stage_validation:
+  stage1: confirmed
+  stage2: confirmed
+title: Translated share per language and level
+problem:
+  archetype: compare-two-keys
+  catalog_functions:
+  - comparisons
+  statement: Which languages cover which levels?
+  mode: exploration
+tasks:
+  why:
+    goal: discover
+    search: browse
+    query: compare
+  low_level:
+  - compare
+  - find-extremum
+  - retrieve-value
+  temporal: []
+  shneiderman:
+  - overview
+  - details-on-demand
+data:
+  dataset_type: table
+  source_file: ../../data/m3kang_rows.csv
+  keys:
+  - role: category
+    type: categorical
+    cardinality: some
+    source_column: language
+    n_levels: 14
+  - role: category2
+    type: ordinal
+    cardinality: some
+    source_column: level
+    n_levels: 8
+  values:
+  - role: measure
+    type: quantitative
+    semantics: share
+    derived: true
+    derivation: problems available in language / eng problems, per level
+    unit: '% of problems'
+  items: small
+  filters: []
+  normalization: eng problems per level
+  signature: table|k:categorical:some+k:ordinal:some|v:quantitative:share
+solution:
+  idiom: heatmap
+  family: heatmap
+  mark: rect
+  encodings:
+  - attribute: category
+    channel: position-y
+    scale: nominal
+    sort: total coverage descending
+  - attribute: category2
+    channel: position-x
+    scale: ordinal
+  - attribute: measure
+    channel: color-luminance
+    scale: sequential
+  - attribute: measure
+    channel: text
+  derived_data:
+  - share = problems in language per level / English problems per level
+  ordering: languages by total coverage descending, levels ascending
+  color:
+    purpose: encode-value
+    palette_type: sequential
+    suggested:
+    - blues
+    cvd_safe: true
+    second_cue: percent printed in each cell
+  text:
+    title: takeaway
+    axis_units: true
+    direct_labels: true
+    annotations: []
+    source_line: true
+  interaction:
+    level: optional
+    default_state_answers_task: true
+    intents:
+    - select
+  layout:
+    small_multiples: false
+    facet_by: null
+    aspect: square
+  rejected_alternatives:
+  - idiom: multiset_barchart
+    reason: 14 x 8 = 112 bars with 8 hues exceeds the grouped-bar limit
+    rule: EFF-19
+  validation:
+    stage3_checks:
+    - IDM-HEATMAP
+    - COL-02
+    - CMP-01
+    - TXT-08
+    critique_skill: required
+  library_notes:
+    altair: shares the colour scale with the coverage heatmap (resolve_scale color shared)
+rationale: Coverage per language and level is a lookup/compare task over 112 cells; a sorted heatmap sharing
+  the completeness colour scale reads in one pass and shows which languages are usable for which grades.
+confidence: high
+library: altair
+host: script
+schema_version: 1
+provenance:
+  origin: project
+  author: vis-design
+  created: '2026-11-14'
+  updated: '2026-11-14'
+  times_used: 1
+  last_used: '2026-11-14'
+status: declared
+id: p-compare-two-keys--translated-share-per-language-20261114

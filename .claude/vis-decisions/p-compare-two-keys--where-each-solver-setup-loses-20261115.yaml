@@ -1,0 +1,184 @@
+# vis-design decision record (project)
+title: Where each solver setup loses problems
+language: en
+problem:
+  archetype: compare-two-keys
+  catalog_functions:
+  - proportions
+  - comparisons
+  statement: Where does each solver setup lose problems (cut at the token cap, crashed, no option matched,
+    wrong option), on the practice set and on M3Kang?
+  mode: analysis
+user:
+  profile: data-analyst
+  modifiers: []
+tasks:
+  why:
+    goal: discover
+    search: browse
+    query: compare
+  low_level:
+  - compare
+  - find-extremum
+  - characterize-distribution
+  - retrieve-value
+  temporal: []
+  shneiderman:
+  - overview
+  - filter
+  - details-on-demand
+data:
+  dataset_type: table
+  source_file: data/solver_rows.csv
+  keys:
+  - role: category
+    type: categorical
+    cardinality: some
+    source_column: setup+input+dataset
+    n_levels: 22
+  - role: category
+    type: ordinal
+    cardinality: few
+    source_column: stage
+    n_levels: 5
+  values:
+  - role: measure
+    type: quantitative
+    semantics: share
+    derived: true
+    derivation: problems of the run at each stage / problems of the run
+    unit: '% of the run''s problems'
+  items: small
+  filters: []
+  normalization: share of the run's problems
+  parse:
+    delimiter: ','
+    decimal: .
+  signature: table|k:categorical:some+k:ordinal:few|v:quantitative:share
+constraints:
+- interactive-required
+stage_validation:
+  stage1: confirmed
+  stage2: confirmed
+  stage3: confirmed
+schema_version: 1
+solution:
+  idiom: heatmap
+  family: heatmap
+  mark: rect
+  encodings:
+  - attribute: category
+    channel: position-y
+    scale: nominal
+    sort: dataset, then share right descending
+    note: one row per run (setup · input), one panel per dataset
+  - attribute: category
+    channel: position-x
+    scale: ordinal
+    sort: 'funnel order: cap, crashed, no option matched, wrong option, right'
+  - attribute: measure
+    channel: color-luminance
+    scale: sequential
+    note: blues for the four loss outcomes, oranges for right; fixed domain 0-80 %
+  - attribute: measure
+    channel: text
+    note: '% in every cell'
+  - attribute: highlight
+    channel: containment
+    note: dark outline on the picked run's row
+  derived_data:
+  - share = problems of the run at the outcome / problems of the run
+  - 'outcome = furthest funnel step: cut at cap (written >= token cap) > crashed (error) > no option matched
+    > wrong > right'
+  - board seconds = extra + read_tokens / read_tps + written_tokens / write_tps + 1, limit 57 s
+  ordering: datasets practice then M3Kang; runs by share right descending; outcomes in funnel order
+  color:
+    purpose: encode-value
+    palette_type: sequential
+    suggested:
+    - blues
+    - oranges
+    - '#d55e00'
+    cvd_safe: true
+    second_cue: '% text in heatmap cells; shape per outcome in the scatter; shape per dataset in the proxy
+      panel'
+  text:
+    title: takeaway
+    axis_units: true
+    direct_labels: true
+    annotations:
+    - 57 s limit line
+    - fit counts above each scatter
+    source_line: true
+  interaction:
+    level: required
+    default_state_answers_task: true
+    intents:
+    - select
+    - reconfigure
+    - connect
+  layout:
+    small_multiples: false
+    facet_by: null
+    aspect: tall
+  composition:
+    type: juxtapose
+    relation: multiform
+    data_sharing: subset
+    encoding_sharing: different
+    views:
+    - id: funnel
+      idiom: heatmap
+      role: overview
+    - id: board_time
+      idiom: scatterplot
+      role: detail
+    - id: proxy
+      idiom: dot_plot
+      role: detail
+    links:
+    - from: funnel
+      to: board_time
+      type: filter
+    - from: funnel
+      to: proxy
+      type: filter
+  rejected_alternatives:
+  - idiom: stacked_bar_graph
+    reason: middle outcomes compare by length only and lose a common baseline; the stored heatmap carries
+      the same shares with % text
+    rule: EXP-05
+  - idiom: dot_plot
+    reason: one panel per outcome spreads a run's whole picture over five panels
+    rule: CMP-09
+  validation:
+    stage3_checks:
+    - CMP-01
+    - EXP-08
+    - COL-02
+    - COL-04
+    - COL-05
+    - SCL-06
+    - TXT-01
+    - TXT-08
+    - INT-09
+    - INT-10
+    - CMP-09
+    - SCL-08
+    critique_skill: optional
+  library_notes:
+    altair: 'the top outline layer gets fill #fff with fillOpacity 0 so clicks pass the % labels; inline=True
+      for offline HTML; sticky .vega-bindings CSS injected after <head>'
+rationale: The team compares runs and needs to see which outcome eats each run's problems. A heatmap with
+  % text gives every share at once, keeps the project's established idiom, and the linked board-time scatter
+  and proxy panel answer the follow-up questions for the run the reader picks.
+confidence: medium
+provenance:
+  origin: project
+  author: vis-design
+  created: '2026-11-15'
+  updated: '2026-11-15'
+  times_used: 1
+  last_used: '2026-11-15'
+status: declared
+id: p-compare-two-keys--where-each-solver-setup-loses-20261115

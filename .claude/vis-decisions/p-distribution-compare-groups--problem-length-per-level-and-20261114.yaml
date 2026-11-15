@@ -1,0 +1,138 @@
+# vis-design decision record (project)
+language: en
+user:
+  profile: data-analyst
+  modifiers: []
+constraints:
+- interactive-required
+stage_validation:
+  stage1: confirmed
+  stage2: confirmed
+title: Problem length per level and block
+problem:
+  archetype: distribution-compare-groups
+  catalog_functions:
+  - distribution
+  statement: How long are problems per level and question block, and which exceed the board's reading
+    budget?
+  mode: exploration
+tasks:
+  why:
+    goal: discover
+    search: browse
+    query: compare
+  low_level:
+  - characterize-distribution
+  - compare
+  - find-anomalies
+  temporal: []
+  shneiderman:
+  - overview
+  - details-on-demand
+data:
+  dataset_type: table
+  source_file: ../../data/m3kang_rows.csv
+  keys:
+  - role: category
+    type: ordinal
+    cardinality: some
+    source_column: level
+    n_levels: 8
+  values:
+  - role: measure
+    type: quantitative
+    semantics: amount
+    derived: false
+    source_column: text_words
+    unit: words
+  items: medium
+  filters:
+  - language == eng
+  normalization: null
+  signature: table|k:ordinal:some|v:quantitative:amount
+solution:
+  idiom: strip_plot
+  family: distribution
+  mark: line
+  encodings:
+  - attribute: measure
+    channel: position-x
+    scale: linear
+    zero: true
+  - attribute: category
+    channel: position-y
+    scale: ordinal
+  - attribute: derived
+    channel: position-y
+    note: yOffset sub-row needs image / text only
+  - attribute: derived
+    channel: color-hue
+    scale: nominal
+    note: needs image vs text only
+  - attribute: highlight
+    channel: color-saturation
+    note: 'opacity: all selections AND-ed'
+  derived_data:
+  - est_tokens = words * 1.35
+  - read_s = est_tokens / 11 tok/s
+  - median words per level
+  ordering: levels ascending; one tick per problem, no jitter
+  color:
+    purpose: distinguish
+    palette_type: qualitative
+    suggested:
+    - '#0072b2'
+    - '#56b4e9'
+    cvd_safe: true
+    second_cue: sub-row position
+  text:
+    title: takeaway
+    axis_units: true
+    direct_labels: true
+    annotations:
+    - n per level at the right
+    - median tick
+    source_line: true
+  interaction:
+    level: required
+    default_state_answers_task: true
+    intents:
+    - select
+    - filter
+    - abstract-elaborate
+  layout:
+    small_multiples: false
+    facet_by: null
+    aspect: wide
+  rejected_alternatives:
+  - idiom: violin_plot
+    reason: stored REUSE default; hides individual problems the browser needs and adds a bandwidth choice
+    rule: EXP-22
+  - idiom: histogram
+    reason: per-level small multiples lose per-problem detail-on-demand
+    rule: INT-02
+  validation:
+    stage3_checks:
+    - EXP-21
+    - EXP-16
+    - DAT-03
+    - INT-09
+    critique_skill: required
+  library_notes:
+    altair: mark_tick with yOffset; brush selection_interval encodings x read by the external browser
+rationale: Analysts need the whole distribution and individual problems for details on demand; a jitter-free
+  tick strip with medians shows spread and outliers, and the sub-row separates figure problems without
+  relying on hue.
+confidence: medium
+library: altair
+host: script
+schema_version: 1
+provenance:
+  origin: project
+  author: vis-design
+  created: '2026-11-14'
+  updated: '2026-11-14'
+  times_used: 1
+  last_used: '2026-11-14'
+status: declared
+id: p-distribution-compare-groups--problem-length-per-level-and-20261114

@@ -1,0 +1,212 @@
+# vis-design decision record (project)
+language: en
+user:
+  profile: data-analyst
+  modifiers: []
+constraints:
+- interactive-required
+stage_validation:
+  stage1: confirmed
+  stage2: confirmed
+title: Exam completeness per level and year
+problem:
+  archetype: matrix-pattern-two-keys
+  catalog_functions:
+  - patterns
+  - data-over-time
+  statement: Which level × year exams are well covered and where is the data thin?
+  mode: exploration
+tasks:
+  why:
+    goal: discover
+    search: browse
+    query: identify
+  low_level:
+  - find-anomalies
+  - find-extremum
+  - retrieve-value
+  temporal:
+  - existence
+  - pattern
+  shneiderman:
+  - overview
+  - details-on-demand
+data:
+  dataset_type: table
+  source_file: ../../data/m3kang_rows.csv
+  keys:
+  - role: time
+    type: temporal
+    grain: year
+    cardinality: some
+    source_column: year
+    n_levels: 18
+  - role: category
+    type: ordinal
+    cardinality: some
+    source_column: level
+    n_levels: 8
+  values:
+  - role: measure
+    type: quantitative
+    semantics: share
+    derived: true
+    derivation: count of eng problems per (level, year) / exam size (24 for levels 0-1, 30 otherwise)
+    unit: '% of exam'
+  items: small
+  filters:
+  - language == eng
+  normalization: exam size
+  signature: table|k:ordinal:some+k:temporal:some|v:quantitative:share
+solution:
+  idiom: heatmap
+  family: heatmap
+  mark: rect
+  encodings:
+  - attribute: time
+    channel: position-x
+    scale: ordinal
+    sort: chronological
+  - attribute: category
+    channel: position-y
+    scale: ordinal
+    sort: ascending
+  - attribute: measure
+    channel: color-luminance
+    scale: sequential
+  - attribute: measure
+    channel: text
+    note: problems kept printed in cell
+  - attribute: highlight
+    channel: texture
+    note: 'selected level: others faded; selected cell: accent stroke'
+  derived_data:
+  - completeness = n problems (eng) per (level, year) / exam size (24 levels 0-1, 30 otherwise)
+  - missing_q = question numbers absent from the exam
+  ordering: years chronological, levels ascending (ordinal, not clustered)
+  color:
+    purpose: encode-value
+    palette_type: sequential
+    suggested:
+    - blues
+    cvd_safe: true
+    second_cue: value printed in each cell
+  text:
+    title: takeaway
+    axis_units: true
+    direct_labels: true
+    annotations: []
+    source_line: true
+  interaction:
+    level: required
+    default_state_answers_task: true
+    intents:
+    - select
+    - filter
+    - abstract-elaborate
+  layout:
+    small_multiples: false
+    facet_by: null
+    aspect: wide
+  composition:
+    type: juxtapose
+    relation: multiform
+    data_sharing: subset
+    encoding_sharing: different
+    views:
+    - id: picker
+      idiom: bar_chart
+      role: control
+    - id: cov
+      idiom: heatmap
+      role: overview
+    - id: lang
+      idiom: heatmap
+      role: context
+    - id: bias
+      idiom: heatmap
+      role: focus
+    - id: fig
+      idiom: dot_plot
+      role: focus
+    - id: strip
+      idiom: strip_plot
+      role: detail
+    - id: browser
+      idiom: data_table
+      role: detail
+    links:
+    - from: picker
+      to: cov
+      type: highlight
+    - from: picker
+      to: lang
+      type: highlight
+    - from: picker
+      to: bias
+      type: highlight
+    - from: picker
+      to: fig
+      type: highlight
+    - from: picker
+      to: strip
+      type: highlight
+    - from: cov
+      to: strip
+      type: highlight
+    - from: bias
+      to: strip
+      type: highlight
+    - from: fig
+      to: strip
+      type: highlight
+    - from: picker
+      to: browser
+      type: filter
+    - from: cov
+      to: browser
+      type: filter
+    - from: bias
+      to: browser
+      type: filter
+    - from: fig
+      to: browser
+      type: filter
+    - from: strip
+      to: browser
+      type: filter
+  rejected_alternatives:
+  - idiom: bubble_chart
+    reason: area for a 0-1 rate is less accurate than luminance with printed values
+    rule: EFF-02
+  - idiom: small_multiples
+    reason: 8 panels of 18 points cost more space than one matrix for an existence/completeness task
+    rule: CMP-13
+  validation:
+    stage3_checks:
+    - IDM-HEATMAP
+    - COL-02
+    - DAT-02
+    - TXT-08
+    - INT-09
+    - CMP-09
+    critique_skill: required
+  library_notes:
+    altair: mark_rect + mark_text layer; opacity reads sel_level; CSS pointer-events:none on .mark-text
+      so labels pass clicks
+rationale: 'Analysts need to spot missing exams and thin cells at a glance: a level x year matrix with
+  luminance for completeness and printed counts makes gaps (levels 0-3 before 2015) and half-kept exams
+  pre-attentive, and normalising by exam size makes 24- and 30-question exams comparable.'
+confidence: high
+library: altair
+host: script
+schema_version: 1
+provenance:
+  origin: project
+  author: vis-design
+  created: '2026-11-14'
+  updated: '2026-11-14'
+  times_used: 1
+  last_used: '2026-11-14'
+status: declared
+id: p-matrix-pattern-two-keys--exam-completeness-per-level-20261114

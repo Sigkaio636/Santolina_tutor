@@ -1,0 +1,139 @@
+# vis-design decision record (project)
+language: en
+user:
+  profile: data-analyst
+  modifiers: []
+constraints:
+- interactive-required
+stage_validation:
+  stage1: confirmed
+  stage2: confirmed
+title: Share of problems needing the image
+problem:
+  archetype: compare-two-keys
+  catalog_functions:
+  - comparisons
+  - proportions
+  statement: How much does each level and question block depend on the image?
+  mode: exploration
+tasks:
+  why:
+    goal: discover
+    search: browse
+    query: compare
+  low_level:
+  - compare
+  - find-extremum
+  - trend
+  temporal: []
+  shneiderman:
+  - overview
+  - filter
+data:
+  dataset_type: table
+  source_file: ../../data/m3kang_rows.csv
+  keys:
+  - role: category
+    type: ordinal
+    cardinality: some
+    source_column: level
+    n_levels: 8
+  - role: category2
+    type: ordinal
+    cardinality: few
+    source_column: points_block
+    n_levels: 3
+  values:
+  - role: measure
+    type: quantitative
+    semantics: rate
+    derived: true
+    derivation: count(text_only == false) / count per (level, block)
+    unit: '% of problems'
+  items: tiny
+  filters:
+  - language == eng
+  normalization: problems per cell
+  signature: table|k:ordinal:few+k:ordinal:some|v:quantitative:rate
+solution:
+  idiom: dot_plot
+  family: dot-plot
+  mark: point
+  encodings:
+  - attribute: measure
+    channel: position-x
+    scale: linear
+    zero: true
+  - attribute: category
+    channel: position-y
+    scale: ordinal
+  - attribute: category2
+    channel: color-luminance
+    scale: ordinal
+  - attribute: category2
+    channel: shape
+    scale: nominal
+  - attribute: category
+    channel: connection
+    note: line joins the 3 blocks of a level
+  derived_data:
+  - points = 3 + (qnum-1) // (exam_size/3)
+  - rate = count(text_only false)/count per (level, points)
+  ordering: levels ascending; x fixed 0-100%
+  color:
+    purpose: encode-value
+    palette_type: sequential
+    suggested:
+    - '#9ecae1'
+    - '#4292c6'
+    - '#08306b'
+    cvd_safe: true
+    second_cue: shape per block
+  text:
+    title: takeaway
+    axis_units: true
+    direct_labels: true
+    annotations: []
+    source_line: true
+  interaction:
+    level: required
+    default_state_answers_task: true
+    intents:
+    - select
+    - filter
+    - abstract-elaborate
+  layout:
+    small_multiples: false
+    facet_by: null
+    aspect: square
+  rejected_alternatives:
+  - idiom: heatmap
+    reason: luminance is a weaker channel than position for comparing rates
+    rule: EFF-01
+  - idiom: multiset_barchart
+    reason: 24 bars carry the same information with more ink
+    rule: CLT-03
+  validation:
+    stage3_checks:
+    - EXP-02
+    - COL-05
+    - SCL-06
+    - INT-09
+    critique_skill: required
+  library_notes:
+    altair: mark_line detail=level order=points under mark_point
+rationale: Rates of image dependence are compared across levels and blocks; position on a common 0-100%
+  scale is the most accurate channel, and the connecting line shows whether harder blocks need more figures.
+confidence: high
+library: altair
+host: script
+schema_version: 1
+provenance:
+  origin: project
+  author: vis-design
+  created: '2026-11-14'
+  updated: '2026-11-14'
+  times_used: 1
+  last_used: '2026-11-14'
+status: declared
+id: p-compare-two-keys--share-of-problems-needing-the-20261114

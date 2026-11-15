@@ -1,0 +1,5 @@
+# vis-design project preferences (library is asked every run and stored here)
+library: altair
+host: script
+output_dir: claude_workspace/explore/solver
+updated: '2026-11-15'

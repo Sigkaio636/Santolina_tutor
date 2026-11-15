@@ -4,18 +4,21 @@
     python3 predict.py --input problems.jsonl --output predictions.csv
     python3 predict.py --input problems.jsonl --output predictions.csv --rag 1
 
-Input: one JSON object per line with at least "id" and "text", plus
-"options" ({"A": ..., "E": ...}) and "language" when available.
+Input: the organizers' parquet (with the image column), or one JSON object per line with
+at least "id" and "text", plus "options" ({"A": ..., "E": ...}) and "language" when
+available. A JSONL problem's image is <images>/<id>_<language>.png (default: the "images"
+folder next to the input). With an image, the board reads the options itself
+(copilot/options_ocr.py).
 Output: a CSV with id, language, answer, seconds, status.
 
 Rules: runs offline, at most 60 seconds per problem, deterministic.
 """
 import argparse
 import csv
-import json
 import sys
 
 from copilot.pipeline import solve
+from copilot.problems import load
 
 
 def main():
@@ -24,6 +27,7 @@ def main():
     p.add_argument("--output", required=True)
     p.add_argument("--rag", type=int, default=0, metavar="K", help="add K similar solved problems")
     p.add_argument("--index", default="data/index.db")
+    p.add_argument("--images", default=None, help="folder of <id>_<language>.png images")
     args = p.parse_args()
 
     index = None
@@ -34,8 +38,7 @@ def main():
             sys.exit(problem)
         index = rag.Index(args.index)
 
-    with open(args.input) as f:
-        problems = [json.loads(line) for line in f if line.strip()]
+    problems = load(args.input, args.images)
 
     with open(args.output, "w", newline="") as out:
         writer = csv.writer(out)

@@ -1,0 +1,142 @@
+# vis-design decision record (project)
+language: en
+user:
+  profile: data-analyst
+  modifiers: []
+constraints:
+- interactive-required
+stage_validation:
+  stage1: confirmed
+  stage2: confirmed
+title: Correct-letter share per level
+problem:
+  archetype: compare-two-keys
+  catalog_functions:
+  - proportions
+  - comparisons
+  statement: How does the correct letter A–E split by level and question block, and which constant guess
+    beats the baseline?
+  mode: exploration
+tasks:
+  why:
+    goal: discover
+    search: browse
+    query: compare
+  low_level:
+  - compare
+  - find-extremum
+  - compute-derived
+  temporal: []
+  shneiderman:
+  - overview
+  - filter
+  - details-on-demand
+data:
+  dataset_type: table
+  source_file: ../../data/m3kang_rows.csv
+  keys:
+  - role: category
+    type: ordinal
+    cardinality: some
+    source_column: level
+    n_levels: 8
+  - role: category2
+    type: categorical
+    cardinality: few
+    source_column: label
+    n_levels: 5
+  values:
+  - role: measure
+    type: quantitative
+    semantics: share
+    derived: true
+    derivation: count per (level,label) / count per level
+    unit: '% of problems'
+  items: tiny
+  filters:
+  - language == eng
+  normalization: problems per level
+  signature: table|k:categorical:few+k:ordinal:some|v:quantitative:share
+solution:
+  idiom: heatmap
+  family: heatmap
+  mark: rect
+  encodings:
+  - attribute: category2
+    channel: position-x
+    scale: nominal
+    sort: A-E
+  - attribute: category
+    channel: position-y
+    scale: ordinal
+  - attribute: measure
+    channel: color-luminance
+    scale: diverging
+    note: midpoint 20% = chance
+  - attribute: measure
+    channel: text
+    note: share + bullet when 95% Wilson interval excludes 20%
+  derived_data:
+  - share = n(level,label)/n(level)
+  - best guess = argmax share per level, with 95% Wilson interval
+  - clear = interval excludes 0.20
+  ordering: letters A-E, levels ascending
+  color:
+    purpose: encode-value
+    palette_type: diverging
+    suggested:
+    - blueorange
+    cvd_safe: true
+    second_cue: printed value and significance bullet
+    midpoint: 20% (uniform answer key)
+  text:
+    title: takeaway
+    axis_units: true
+    direct_labels: true
+    annotations:
+    - chance 20% and baseline 22.5% reference rules on the guess plot
+    - in-sample caveat
+    source_line: true
+  interaction:
+    level: required
+    default_state_answers_task: true
+    intents:
+    - select
+    - filter
+    - abstract-elaborate
+  layout:
+    small_multiples: false
+    facet_by: null
+    aspect: square
+  rejected_alternatives:
+  - idiom: stacked_bar_graph
+    reason: only A and E share a baseline; B-D comparisons across levels become slow
+    rule: EFF-06
+  - idiom: multiset_barchart
+    reason: stored default; 40 bars with 5 hues, crowded for 8 x 5
+    rule: EFF-16
+  validation:
+    stage3_checks:
+    - COL-02
+    - DAT-03
+    - EXP-08
+    - INT-09
+    critique_skill: required
+  library_notes:
+    altair: scale domain [0,0.4] domainMid 0.2 clamp; separate dot+rule layer for best guess
+rationale: The question is deviation from a uniform key, so a diverging scale centred on chance makes
+  over- and under-represented letters pop out; printed shares, a significance bullet and Wilson intervals
+  on the best guess keep the reader from chasing noise.
+confidence: high
+library: altair
+host: script
+schema_version: 1
+provenance:
+  origin: project
+  author: vis-design
+  created: '2026-11-14'
+  updated: '2026-11-14'
+  times_used: 1
+  last_used: '2026-11-14'
+status: declared
+id: p-compare-two-keys--correct-letter-share-per-level-20261114
