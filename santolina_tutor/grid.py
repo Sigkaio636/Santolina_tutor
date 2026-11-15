@@ -28,6 +28,7 @@ from copilot.program_head import (
     letter_turn,
     matches,
     program_turn,
+    translate,
 )
 
 LETTERS = "ABCDE"
@@ -74,7 +75,8 @@ def last_option_value(text, options):
     return None
 
 
-def run_one(problem, config, base, cap, read_tps=READ_TPS, write_tps=WRITE_TPS, program_prompt="zero_shot"):
+def run_one(problem, config, base, cap, read_tps=READ_TPS, write_tps=WRITE_TPS, program_prompt="zero_shot",
+            translate_cat=False):
     user = format_problem(problem) + "\nAnswer:"
     row = {"id": problem["id"], "language": problem["language"], "level": problem["level"],
            "label": problem["label"], "config": config,
@@ -88,12 +90,19 @@ def run_one(problem, config, base, cap, read_tps=READ_TPS, write_tps=WRITE_TPS, 
     if config == "program":  # exactly the board's SOLVER=program requests (copilot/program_head.py)
         # the system prompt and examples are cached after warm-up, so only the problem's own
         # tokens cost reading time. Board deadline: 57 s; 1 s kept for running the program.
+        spent = 0.0  # board seconds before the program request
+        if translate_cat and problem["language"] == "cat":
+            n_text = len(post(base + "/tokenize", {"content": problem["text"]}, timeout=60)["tokens"])
+            english, t = translate(base, problem["text"], int(n_text * 1.5) + 10)
+            spent = (n_text + 15) / read_tps + t.get("predicted_n", 0) / write_tps
+            problem = {**problem, "text": english}
+            row.update(translation_written=t.get("predicted_n", 0))
         tokens = len(post(base + "/tokenize", {"content": format_problem(problem)}, timeout=60)["tokens"]) + 25
-        budget = int(min(cap, max(0.0, LIMIT + 2 - tokens / read_tps - 1) * write_tps))
+        budget = int(min(cap, max(0.0, LIMIT + 2 - spent - tokens / read_tps - 1) * write_tps))
         prompt, raw, timings = program_turn(base, problem, max(budget, 1), prompt=program_prompt)
         program = code_from_reply(raw)
         result = judge(program, problem.get("options") or {})
-        used = tokens / read_tps + timings.get("predicted_n", 0) / write_tps + 0.5
+        used = spent + tokens / read_tps + timings.get("predicted_n", 0) / write_tps + 0.5
         if not result["letter"]:  # the board asks the letter only if 30 tokens of reading still fit
             follow, second = letter_turn(base, prompt, raw)
             fits = used + 30 / read_tps + 1.0 <= LIMIT + 2
@@ -101,7 +110,7 @@ def run_one(problem, config, base, cap, read_tps=READ_TPS, write_tps=WRITE_TPS, 
                        follow_fits=fits, prior=best(problem))
         row.update(answer=result["letter"] or "", value=str(result["value"])[:60], error=result["error"],
                    program=program, budget=budget, prompt_n=tokens, predicted_n=timings.get("predicted_n", 0),
-                   board_seconds=round(tokens / read_tps + timings.get("predicted_n", 0) / write_tps + 1, 1))
+                   board_seconds=round(used + 0.5, 1))
         return row
     # cot / think: write some work inside the time budget, then one forced letter
     system = COT_SYSTEM if config == "cot" else SYSTEM
@@ -142,6 +151,8 @@ def main():
     parser.add_argument("--cap", type=int, default=220, help="most tokens of written work")
     parser.add_argument("--prompt", default="zero_shot", choices=["zero_shot", "tuned"],
                         help="program: the untuned prompt with examples, or the fine-tuned one")
+    parser.add_argument("--translate", action="store_true",
+                        help="program: translate Catalan statements to English first, inside the time budget")
     parser.add_argument("--workers", type=int, default=4)
     parser.add_argument("--read-tps", type=float, default=READ_TPS, help="board tokens/s read")
     parser.add_argument("--write-tps", type=float, default=WRITE_TPS, help="board tokens/s written")
@@ -151,7 +162,8 @@ def main():
     out = Path("data/grid") / f"{args.name or args.config}.jsonl"
     out.parent.mkdir(parents=True, exist_ok=True)
     with ThreadPoolExecutor(args.workers) as pool:
-        rows = list(pool.map(lambda p: run_one(p, args.config, base, args.cap, args.read_tps, args.write_tps, args.prompt), problems))
+        rows = list(pool.map(lambda p: run_one(p, args.config, base, args.cap, args.read_tps, args.write_tps, args.prompt,
+                                                      args.translate), problems))
     with open(out, "w", encoding="utf-8") as handle:
         handle.writelines(json.dumps(row, ensure_ascii=False) + "\n" for row in rows)
     n = len(rows)

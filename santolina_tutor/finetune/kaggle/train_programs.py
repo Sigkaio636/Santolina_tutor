@@ -410,13 +410,16 @@ if CFG["gguf"]:
 
     del merged, model
     torch.cuda.empty_cache()
+    # Qwen3.5 expects an MTP head that the merged model lacks; other models refuse the flag
+    NO_MTP = " --no-mtp" if any(a.startswith("Qwen3_5") for a in
+                               AutoConfig.from_pretrained(BASE, revision=REVISION).architectures) else ""
     src = "/kaggle/temp/llama.cpp"
     sh(f"git clone -q https://github.com/ggml-org/llama.cpp {src}")
     sh(f"git checkout -q {CFG['llama_cpp']}", cwd=src)
     sh(f"{sys.executable} -m pip install -q --no-deps {src}/gguf-py sentencepiece")
     f16 = f"/kaggle/temp/{CFG['gguf']}-f16.gguf"
     sh(f"{sys.executable} {src}/convert_hf_to_gguf.py {OUT}/merged --outtype f16 "
-       f"--model-name {CFG['gguf']} --outfile {f16} --no-mtp")  # the merged model has no MTP head
+       f"--model-name {CFG['gguf']} --outfile {f16}{NO_MTP}")
     sh("cmake -B build -DGGML_CUDA=OFF -DLLAMA_CURL=OFF -DLLAMA_BUILD_TESTS=OFF > /dev/null", cwd=src)
     sh("cmake --build build --target llama-quantize -j4 > /dev/null", cwd=src)
     # Q4_K_M is the one timed on the board; Q4_0 has repacked ARM kernels and Q3_K_M is

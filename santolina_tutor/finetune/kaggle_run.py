@@ -91,7 +91,8 @@ def push(args):
             overrides[key] = json.loads(value)
         if not OVERRIDES_LINE.search(code):
             sys.exit(f"{code_file} has no 'CFG_OVERRIDES = {{}}' line for --set")
-        code = OVERRIDES_LINE.sub(lambda _: f"CFG_OVERRIDES = {json.dumps(overrides)}", code, count=1)
+        # repr, not json.dumps: the line is Python source, where JSON's true/null are not defined
+        code = OVERRIDES_LINE.sub(lambda _: f"CFG_OVERRIDES = {overrides!r}", code, count=1)
     with open(os.path.join(stage, code_file), "w") as f:
         f.write(code)
     name = kernel_name(args)

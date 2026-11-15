@@ -25,6 +25,14 @@ LETTERS = "ABCDE"
 SYSTEM = ("Write a short Python function solve() that computes the answer to the problem. "
           "Use only the standard library. Return the answer's value, not a letter.")
 
+# Small models often use math or itertools without importing them; this header makes
+# those programs run. Only standard-library names, and a program's own names still win.
+HEADER = """import math, itertools, functools, collections
+from math import *
+from itertools import *
+from fractions import Fraction
+"""
+
 RUNNER = """
 import json
 from fractions import Fraction
@@ -72,7 +80,7 @@ SHOTS = [
 ]
 ASK_LETTER = "Which option is correct? Reply with the letter."
 NO_THINKING = {"enable_thinking": False}  # 2B models think by default and never reach the code
-_FENCE = re.compile(r"^\s*```[a-zA-Z]*\n")
+_FENCE = re.compile(r"```[a-zA-Z]*\n")
 
 
 def zero_shot_messages(problem):
@@ -84,8 +92,12 @@ def zero_shot_messages(problem):
 
 
 def code_from_reply(text):
-    """The program in a reply: drop an opening fence and anything after a closing one."""
-    return _FENCE.sub("", text, count=1).split("```")[0].strip()
+    """The program in a reply: the first fenced block (also unclosed), else the whole reply.
+
+    Text before the opening fence is dropped: some models write a sentence first.
+    """
+    fence = _FENCE.search(text)
+    return (text[fence.end():] if fence else text).split("```")[0].strip()
 
 
 def extract_program(text):
@@ -107,7 +119,7 @@ def run_program(source, seconds=2):
     with tempfile.TemporaryDirectory() as d:
         path = os.path.join(d, "prog.py")
         with open(path, "w") as f:
-            f.write(source + "\n" + RUNNER)
+            f.write(HEADER + source + "\n" + RUNNER)
         try:
             run = subprocess.run([sys.executable, "-I", path], cwd=d, capture_output=True,
                                  text=True, timeout=seconds + 1, env={},
@@ -241,6 +253,27 @@ def letter_turn(url, prompt, raw, seed=42, timeout=600):
         "prompt": prompt + raw + _follow_suffix(base), "n_predict": 1, "temperature": 0,
         "seed": seed, "cache_prompt": True, "grammar": "root ::= [A-E]"}, timeout=timeout)
     return response.get("content", "").strip(), response.get("timings", {})
+
+
+TRANSLATE_SYSTEM = ("Translate the math problem from Catalan to English. Keep every number, name, "
+                    "unit and symbol. Reply with only the translation.")
+
+
+def translate(url, text, n_predict, seed=42, timeout=600, slot=None):
+    """English text of a Catalan statement. Returns (text, timings).
+
+    slot: on the board, give translation its own server slot (--parallel 2), so its
+    prompt does not push the program prompt out of the cache of the other slot.
+    """
+    from .client import post
+    body = {"messages": [{"role": "system", "content": TRANSLATE_SYSTEM},
+                         {"role": "user", "content": text.strip()}],
+            "max_tokens": n_predict, "temperature": 0, "seed": seed, "cache_prompt": True,
+            "chat_template_kwargs": NO_THINKING}
+    if slot is not None:
+        body["id_slot"] = slot
+    response = post(_base(url) + "/v1/chat/completions", body, timeout=timeout)
+    return (response["choices"][0]["message"].get("content") or "").strip(), response.get("timings", {})
 
 
 def warm_up(url, timeout=180, prompt="zero_shot"):
