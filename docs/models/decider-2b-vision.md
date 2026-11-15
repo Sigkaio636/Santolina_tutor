@@ -80,7 +80,8 @@ Paired tests on the same rows (exact McNemar): image (128 tokens) against blind,
 against blind, p = 0.61.
 
 These runs used commits `474f99c` and `9107889`, plus the changes to `copilot/llm.py` and
-`laptop/eval_vision.py` that were not committed yet when they ran.
+`laptop/eval_vision.py` that were not committed yet when they ran. Those changes were committed later in
+`5566a4e`.
 
 The reference model on the same 160 rows is Qwen3.5-0.8B: 24.4 % with a 128-token image and 22.5 % blind.
 It differs in size, vision tower, training and prompt, so compare it only with care. See the
