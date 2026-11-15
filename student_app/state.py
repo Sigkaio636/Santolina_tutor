@@ -262,6 +262,7 @@ class Board:
             entry = v.free_history[-1]
             if entry["outcome"] == "open":
                 entry["outcome"] = self._free_outcome(st)
+                entry["wrong"], entry["hints"] = len(st.wrong), st.hints
         v.current = None
 
     @staticmethod
@@ -281,7 +282,7 @@ class Board:
         st.shown_at = time.monotonic()
         v.current = key
         if mode == "free" and (not v.free_history or v.free_history[-1]["key"] != key):
-            v.free_history.append({"key": key, "outcome": "open"})
+            v.free_history.append({"key": key, "outcome": "open", "reason": path_reason})
         self.log(v, "exercise_shown", item, path_reason=path_reason)
         prog = self._progress(v)
         prog["last"] = {
@@ -448,7 +449,7 @@ class Board:
         if v.current:
             self._leave_current(v)
         last = v.free_history[-1] if v.free_history else None
-        key, reason = self.planner.next(v.free_history, last)
+        key, reason = self.planner.next(v.free_history, last, self._progress(v), v.language)
         if key is None:
             raise Refused("no exercises")
         return self.open_exercise(v, key, "free", path_reason=reason)

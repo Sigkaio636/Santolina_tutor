@@ -55,7 +55,26 @@ The teacher unloads it by plugging the board in. Each session has a timeline on 
 
 ## The copilot is not connected yet
 
-Clues, solutions and chat replies come from a stand-in (`student_app/tutor.py`), and free mode picks problems with a simple rule (`student_app/planner.py`): a random one, or an easier one after a failure. Replace those two classes to connect the real copilot. The interface doesn't change.
+Clues, solutions and chat replies come from a stand-in (`student_app/tutor.py`). Replace that class to connect the real copilot. The interface doesn't change.
+
+## How free mode picks the next problem
+
+Free mode uses a fixed rule (`student_app/planner.py`). The rule uses no language model, so the next problem comes at once.
+
+| The last problem | Level of the next | Topic of the next | `path_reason` |
+| --- | --- | --- | --- |
+| None yet | Start level | Any | `start` |
+| Solved with no wrong answer and no clue | One level up | Same | `harder_after_solve` |
+| The same, three times in a row | Same | Other | `new_topic_after_mastery` |
+| Solved after a wrong answer or a clue | Same | Same | `same_level_after_help` |
+| Failed: two wrong answers, or the solution shown | One level down | Same | `easier_after_fail` |
+| Skipped | Same | Other | `other_topic_after_skip` |
+
+The start level is the highest level that the student solved at the first try on this board. For a new student, it is the middle level of the packs.
+
+The same topic means the nearest problem in the retrieval index (`build_index.py`). The other topic means the problem farthest from the last five problems. The rule finds a problem in the index by its M3Kang ID. An exercise that is not in the index uses the topic of its pack instead. If the pack gives no topic, the rule picks a problem of the correct level by chance.
+
+The rule does not show a problem twice, and it prefers problems in the language of the visit.
 
 ## Stop, start and check the app on a board
 

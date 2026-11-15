@@ -182,7 +182,7 @@ def test_full_student_visit_is_logged_and_unloaded(server, board, conn, tmp_path
 
     # Free mode: next problem, open chat with a suggestion, page hidden and back.
     _, free = c.call("/api/free/next", {})
-    assert free["mode"] == "free" and free["path_reason"] == "random"
+    assert free["mode"] == "free" and free["path_reason"] == "start"
     for _ in range(2):
         wrong_f = next(k for k in free["options"] if k not in free["state"]["wrong"])
         _, a = c.call("/api/answer", {"key": free["key"], "answer": wrong_f})
