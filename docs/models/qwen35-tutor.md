@@ -18,13 +18,13 @@ Last updated: 2026-11-15.
 | | |
 | --- | --- |
 | Name | `qwen35-tutor` (llama-server alias) |
-| What it is | A chat model that tutors one student on one Kangaroo problem. It writes hints, a solution, and short guiding replies. In training, the system prompt gave it the problem and the answer key; the board gives it less (see [the prompt](#the-prompt-in-training-and-on-the-board)). |
+| What it is | A chat model that tutors one student on one Kangaroo problem. It writes hints, a solution, and short guiding replies. |
 | Base model | [Qwen/Qwen3.5-0.8B](https://huggingface.co/Qwen/Qwen3.5-0.8B). The revision was not pinned: the run took the latest one on 2026-11-15. |
 | Method | LoRA on every linear layer, merged into the base weights, then converted to GGUF Q8_0 |
 | Training language | English only |
 | Where it runs | The board, `math-tutor.service`, port 8084 |
 | Who calls it | `student_app/tutor.py`: clues, chat replies |
-| Availability | **Private.** The training data comes from M3Kang, which is for research use only. The data and the model stay off any public site. |
+| Availability | **Private.** The data and the model stay off any public site. |
 
 ## Files
 
@@ -33,8 +33,8 @@ Last updated: 2026-11-15.
 | `qwen35-tutor-Q8_0.gguf` | 811,843,232 bytes (812 MB) | `fa4bdb3bc91a89ec2964a1c2ef8d9344fe5ca98f8d00e7c1768dbe9a7740ad43` |
 
 What the GGUF header says: architecture `qwen35`, size label `752M`, 25
-blocks, file type Q8_0, `nextn_predict_layers = 1` (the converter kept the
-multi-token prediction head). The file came from the Kaggle output of the
+blocks, file type Q8_0, `nextn_predict_layers = 1`. The file holds no multi-token prediction
+tensors: only blocks 0 to 23 have weights. The file came from the Kaggle output of the
 [short run](#run-log), which wrote it at 05:23 UTC on 2026-11-15.
 
 The file is not downloadable. On the board it goes in `~/models/`
@@ -45,13 +45,13 @@ The file is not downloadable. On the board it goes in `~/models/`
 - Install: [Use the student app](../how-to/use-student-app.md#the-copilot)
   gives the copy command and `board/08_install_tutor.sh`, which installs and
   starts `math-tutor.service`.
-- The service runs `llama-server` with these options
-  ([`board/systemd/math-tutor.service`](https://github.com/Sigkaio636/Santolina_tutor/blob/main/board/systemd/math-tutor.service)):
-  `--ctx-size 2048 --parallel 1 --cache-ram 0 --ctx-checkpoints 2 --jinja --reasoning off --reasoning-budget 0`.
-- `--reasoning off` matters: the model was trained without reasoning
-  ("thinking") output.
-- The board sends a different system prompt than the training data: see
-  [the prompt](#the-prompt-in-training-and-on-the-board).
+- The service options are in
+  [`board/systemd/math-tutor.service`](https://github.com/Sigkaio636/Santolina_tutor/blob/main/board/systemd/math-tutor.service).
+  `--reasoning off` matters: training rendered every prompt with thinking
+  off (`enable_thinking=False`), so a request must never turn thinking on.
+- Training kept examples up to 3,072 tokens, more than the service's
+  2,048-token context. The docstring of the branch's
+  `copilot/tutor_backend.py` gives a server command with `--ctx-size 4096`.
 
 ## Resources
 
@@ -63,18 +63,25 @@ The file is not downloadable. On the board it goes in `~/models/`
 
 ## Verdict
 
-**In use** as the tutor model of the student app on the board. What is not
-known yet:
+**In use** as the tutor model of the student app on the board.
 
-- No tutoring quality score exists: only the validation loss and the replies
-  to five held-out problems that the notebook prints for a check by hand.
-  Those replies stay in Kaggle, because they hold problem text.
-- It was trained in English only. The app also runs in Catalan and Spanish,
+Known limits:
+
+- No tutoring quality score exists. The only checks are the validation loss
+  and five held-out examples (one for each of five tasks) that the notebook answers for a
+  check by hand. The notebook uses the merged model before the GGUF
+  conversion, with the training prompt. The file on the board, with the board
+  prompt, has no quality check. Those replies stay in Kaggle, because they
+  hold problem text.
+- We trained it in English only. The app also runs in Catalan and Spanish,
   and asks the model to reply in the language of the session. We did not
   measure the quality of those replies.
-- The board sends a shorter prompt than the training prompt
+- The board sends a shorter prompt than the training prompt, on purpose. We
+  did not measure the effect on reply quality
   ([details](#the-prompt-in-training-and-on-the-board)).
-- The validation loss was still going down when the run stopped.
+- The time limit stopped the run at step 178 of 197. The validation loss was
+  still going down, but slowly: the cosine learning rate was then about 2.5 %
+  of its peak.
 
 The limits that a demo shows (arithmetic, worked solutions, photos) are in
 [Use the student app](../how-to/use-student-app.md#the-copilot).
@@ -85,7 +92,13 @@ The limits that a demo shows (arithmetic, worked solutions, photos) are in
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | 2026-11-15 | Short run, `tutor_finetune_small.ipynb` | `tutor_sft_small` | 178 of 197 (0.90 epoch), stopped by `MAX_MINUTES=70` | `checkpoint-178` | 0.9692 | 4,293 s | `qwen35-tutor-Q8_0.gguf`, on the board |
 
-The full set (`tutor_sft`) was built but not trained.
+We built the full set (`tutor_sft`) but did not train on it.
+
+"Val loss (weighted)" is the mean of task weight × example loss over the
+held-out examples. It is not a cross-entropy, and it changes with the task
+mix. Compare runs on it only when they use the same set. Otherwise compare the
+per-task losses, which are not weighted. For the short run, the unweighted
+mean, computed from the per-task losses and the held-out counts, is about 1.30.
 
 ### Results of the short run
 
@@ -99,7 +112,6 @@ started on 2026-11-15 at 04:04 UTC and ended at 05:23 UTC (4,778 s in all).
 | Held-out examples | 320, 158,441 tokens. None dropped for length. |
 | Trainable parameters | 21,645,312 of 774,038,336 (2.80 %) |
 | Speed | About 18 s per step, 0.663 examples/s |
-| Where it stopped | Step 178 of 197: the 70-minute limit came first |
 | Mean training loss | 1.069 |
 | Checkpoint kept | `checkpoint-178`, the last one, which also had the lowest validation loss |
 
@@ -112,9 +124,6 @@ Weighted validation loss at each evaluation, on all 320 held-out examples:
 | Step | 49 | 98 | 147 | 178 |
 | --- | --- | --- | --- | --- |
 | Validation loss | 1.049 | 1.003 | 0.9772 | 0.9692 |
-
-The loss was still going down at the last evaluation, so the run stopped
-before it flattened.
 
 Validation loss per task of the kept checkpoint (not weighted, lower is
 better):
@@ -134,25 +143,28 @@ better):
 | `correction` | 1.5808 |
 | `free` | 1.7218 |
 
-`check_right` has the lowest loss, then the long, structured answers
-(`solution`, `prepare`). The short live replies (`free`, `correction`, the
-error stages) have the highest. The run did not measure the base model's loss
+Each task has 8 to 75 held-out examples. In about half of the examples the
+system prompt also holds a short justification of the answer, as "Teacher's
+notes". The `check_right` reply repeats that justification, so part of its low
+loss is copying.
+The run did not measure the base model's loss
 on the same examples, so these numbers show progress inside the run, not the
 gain over Qwen3.5 0.8B.
 
 **Conversion.** The GGUF writer reported 320 tensors and 800.9M bytes, and
 "Model successfully exported". During the Q8_0 step, gguf-py printed
 `RuntimeWarning: overflow encountered in divide` and `invalid value
-encountered in cast` (`quants.py`). We did not check which tensors caused
-them. The model runs on the board with the reply times in
-[Use the student app](../how-to/use-student-app.md#the-copilot).
+encountered in cast` (`quants.py`). A later check of the file found no
+values that are not finite. The only odd values are 448 blocks of
+`blk.0.attn_qkv.weight` with a zero scale, which explain the warnings.
 
 ## How the training data was made
 
 All the code is on the branch `feat/tutor-finetune`, commit
 [`64e56f5`](https://github.com/Sigkaio636/Santolina_tutor/tree/64e56f5337819ef1e43d66f8a32605a8f5899eb9).
-That branch is not merged. The data stays in `data/processed/`, which Git
-ignores.
+That branch is not merged. The commits on it were made after the run
+(05:56 UTC and later): the run used the copy of `train_tutor.py` in its Kaggle
+dataset. The data stays in `data/processed/`, which Git ignores.
 
 ```mermaid
 flowchart LR
@@ -173,9 +185,9 @@ flowchart LR
 sends each problem to large models (the data models) through the Helmcode
 API, an OpenAI-compatible service that hosts them. Each call gets:
 
-- the problem text;
-- its image (the options are only in the image);
-- the answer key (the official letter).
+- the problem text
+- its image (the options are only in the image)
+- the answer key (the official letter)
 
 The model returns one JSON object: the options, the topic, the key idea,
 three hints from gentle to concrete, the solution steps, the final letter,
@@ -187,7 +199,7 @@ common mistakes, and whether it agrees with the answer key.
 | Problems per level, 0 to 7 | 142, 106, 146, 123, 339, 296, 305, 290 |
 | Data models that wrote training text | glm5.3-flash (first choice), deepseek-v4-flash |
 | Other data models that only voted | qwen3.6 (60 problems), gemma4 (37 problems) |
-| Trust rule | A problem is kept only if a strict majority of the data models that answered reached the answer key on their own. This drops problems with a wrong key or a broken text. |
+| Trust rule | A data model agrees when its final letter equals the answer key, which the call also gives it. Keep a problem only if a strict majority of the data models that answered agree. This can drop problems with a wrong key or a broken text. |
 | Problems with a disputed key | 19, always excluded |
 | **Trusted problems** | **1,553** |
 | Examples written | 4,670 hint examples and 1,553 solution examples: 5,886 from glm5.3-flash, 337 from deepseek-v4-flash |
@@ -201,18 +213,20 @@ The hint count is as reported by the generation run: three hints for each of
 asks glm5.3-flash to write short tutor-student exchanges for each trusted
 problem. The writer gets the answer key and the checked solution, and does
 not solve the problem again. The exchange types come from
-[Tutor response types](../TUTOR_RESPONSE_TYPES.md). The table below lists
-them.
+[Tutor response types](../reference/tutor-response-types.md).
 
 Each item then goes through two checks:
 
-1. **Code filters.** They drop a tutor message that names the correct option,
-   holds the correct value, refers to a solution the student has not seen,
-   thinks aloud, is too long, is empty, or does not end with a question.
+1. **Code filters.** They drop an item when the tutor message names the
+   correct option, holds the correct value, refers to a solution the student
+   has not seen, thinks aloud, is too long, or is empty. They also drop it for
+   non-English characters, for a student message that already holds the
+   answer, and, for most item types, for a tutor message that does not end
+   with a question.
 2. **A judge model,** deepseek-v4-flash, scores each item against the rules
    of the tutoring guide.
 
-Final report of the generation run (2026-11-15, 06:05; the time zone was not
+Final report of the generation run, 2026-11-15 at 06:05 (the time zone was not
 recorded):
 
 | Item | Training task | Kept | Code-filtered | Judge failed |
@@ -231,15 +245,15 @@ The counts are as reported by the generation run. Two rows do not add up:
 
 The most common reasons to filter: "refers to the solution the student has
 not seen" (769), "does not end with a question" (719), "empty" (440), "contains
-the correct value" (244), "too long" (207). An error dialogue is used only
-when all three of its stages pass.
+the correct value" (244), "too long" (207). The training set uses an error
+dialogue only when all three of its stages pass.
 
-`tutor_sft_small` was built at 04:55, before the judge finished (the time zone
-was not recorded; training started at 04:04 UTC). At that time:
+The team built `tutor_sft_small` at 04:55, before the judge finished. The time
+zone of 04:55 was not recorded. At 04:55:
 
-- 1,137 problems had judged dialogues;
-- 412 had dialogues that passed the code filters only (`--allow-unjudged`);
-- 4 had none.
+- 1,137 problems had judged dialogues.
+- 412 had dialogues that passed the code filters only (`--allow-unjudged`).
+- 4 had no dialogues.
 
 ### 3. Training examples
 
@@ -257,12 +271,17 @@ builds it, and
 uses it at inference. Both exist only on the `feat/tutor-finetune` branch,
 which is not merged.
 
-The student app on the board does not use this prompt yet.
+The student app on the board does not use this prompt.
 `student_app/tutor.py` sends a shorter one: "You are a Socratic math tutor.",
 the reply language and the problem, without the answer or the rules. So the
 model sees a different prompt on the board than in training. The validation
 losses on this page were measured with the training prompt, not with the
 board's prompt.
+
+The short prompt on the board is deliberate: the tutor model does not see the
+exercise's answer until the student asks for the solution, and the leak check in `student_app/tutor.py` stays the
+guard. We did not measure how the different prompt changes the quality of the
+replies.
 
 #### Tasks
 
@@ -270,7 +289,7 @@ Tasks, their loss weights, and their examples in `tutor_sft_small`:
 
 | Task | What the tutor does | Weight | Training | Held-out |
 | --- | --- | --- | --- | --- |
-| `prepare` | Writes all hints and the solution in one go. On the branch, `copilot/tutor_backend.py` sends it once per exercise; the student app on the board does not use it. | 1.0 | 262 | 28 |
+| `prepare` | Writes all hints and the solution in one go. On the branch, `copilot/tutor_backend.py` sends it once per exercise. The student app on the board does not use it. | 1.0 | 262 | 28 |
 | `error_question` | Answers a wrong attempt with a question that shows the contradiction | 1.0 | 233 | 21 |
 | `free` | Answers a specific question about a step | 1.0 | 292 | 24 |
 | `diagnostic` | Answers a vague message with one question about the problem | 0.8 | 266 | 25 |
@@ -280,13 +299,17 @@ Tasks, their loss weights, and their examples in `tutor_sft_small`:
 | `hint` | Gives hint *k* after hints 1 to *k*−1 | 0.6 | 563 | 75 |
 | `solution` | Gives the full solution when asked | 0.6 | 269 | 26 |
 | `manipulation` | Refuses "just tell me the letter", and goes back to the problem | 0.5 | 269 | 29 |
-| `check_right` | Confirms a correct answer and asks why | 0.5 | 150 | 14 |
+| `check_right` | Says that a correct answer is right, and gives the justification | 0.5 | 150 | 14 |
 | `key_idea` | Names the main idea | 0.4 | 147 | 8 |
 | `solve_nokey` | Solves without the answer key | 0.3 | — | — |
 
 The held-out problems are 155 problems (10 %, seed 42), chosen by problem and
-the same in every set. They are not `data/val.jsonl`. No held-out problem is
-in the training examples.
+the same in every set. They are not `data/val.jsonl`. The training problems
+include the English problems of both `data/train.jsonl` and `data/val.jsonl`,
+and the Catalan and Spanish versions of a problem share its id. So the 155
+held-out ids (`val_ids.txt` next to the set) are the only ones guaranteed
+unseen, in any language.
+Evaluate the model on those.
 
 | Set | Built with | Training examples | Held-out examples |
 | --- | --- | --- | --- |
@@ -307,23 +330,21 @@ Script:
 [`kaggle/train_tutor.py`](https://github.com/Sigkaio636/Santolina_tutor/blob/64e56f5337819ef1e43d66f8a32605a8f5899eb9/kaggle/train_tutor.py).
 Notebook of the short run:
 [`kaggle/tutor_finetune_small.ipynb`](https://github.com/Sigkaio636/Santolina_tutor/blob/64e56f5337819ef1e43d66f8a32605a8f5899eb9/kaggle/tutor_finetune_small.ipynb).
-The data went to Kaggle as a private dataset.
 
 | Setting | Short run (on the board) | Script default |
 | --- | --- | --- |
 | Hardware | Kaggle, 2 × T4 (`torchrun`, 2 processes) | |
-| Precision | fp32 weights, fp16 autocast (the T4 has no bf16) | bf16 where the GPU has it |
+| Precision | fp32 weights, fp16 autocast, as reported. The script picks bf16 when `torch.cuda.is_bf16_supported()` is true, which a recent PyTorch can report on a T4, so check this in the run log. | same rule |
 | LoRA | r = 32, alpha = 64, dropout 0.05, every linear layer (attention, the Gated DeltaNet layers of Qwen3.5, MLP). Embeddings and the output layer (LM head) frozen. | same |
 | Loss | Cross-entropy on the last reply only, averaged per example, times the task weight | same |
-| Epochs | 1, stopped after 70 min at most (`MAX_MINUTES=70`) | 2 |
+| Epochs | 1 (197 steps), stopped after 70 min at most (`MAX_MINUTES=70`) | 2 |
 | Batch | 4 per GPU × 2 gradient-accumulation steps × 2 GPUs = 16 examples per step | 4 × 4 accumulation |
-| Steps planned | 197 (one epoch), fewer if the 70 min ran out | |
 | Learning rate | 2e-4, cosine decay, 9 warm-up steps, no weight decay, gradient clip 1.0 | same |
-| Longest example | 3,072 tokens; longer examples dropped | same |
+| Longest example | 3,072 tokens. The script drops longer examples. | same |
 | Evaluations | 4, each saving a LoRA checkpoint | 2 |
 | Checkpoint kept | The one with the lowest weighted validation loss | same |
 | Seed | 42 | 42 |
-| Libraries | `transformers>=5`, `peft`, `accelerate`, `flash-linear-attention` | |
+| Libraries | `transformers>=5`, `peft`, `accelerate`, `flash-linear-attention`. Not pinned: the latest versions on 2026-11-15. | |
 
 After training, the script merges the best LoRA adapter into the base model
 and saves it in bf16. The notebook converts it with `convert_hf_to_gguf.py` of
@@ -333,12 +354,13 @@ llama.cpp `2cbe0ec` (the commit pinned in `config.env`), `--outtype q8_0`.
 
 You need access to M3Kang, a Helmcode API key, and a Kaggle account with GPUs.
 The API models change over time, so a new run gives different data. The exact
-options of steps 3 and 4 in the original run were not recorded; the values
+options of steps 3 and 4 in the original run were not recorded. The values
 below match its data.
 
 1. On the laptop, switch to the branch with the code:
    `git switch feat/tutor-finetune`.
-   Check: `git log -1 --format=%h` shows `64e56f5` or a later commit.
+   Check: `git log -1 --format=%h` shows `64e56f5`. A later commit can change
+   the options below.
 2. Put the M3Kang parquet files in `data/raw/` (see the
    [dataset card](https://huggingface.co/datasets/qualcomm/M3Kang)), then run
    `uv run python -m santolina_tutor.dataset`.
@@ -349,9 +371,13 @@ below match its data.
    uv run python -m santolina_tutor.generate_explanations --n 1747 --languages eng --no-text-only --models glm5.3-flash,deepseek-v4-flash
    ```
 
-   To get the same vote as the original run, also add qwen3.6 and gemma4
-   with `--tiebreak` or `--models`.
-   Check: `wc -l data/processed/explanations/sample.jsonl` gives 1747.
+   `--tiebreak` takes one model, which votes but writes no text. The original
+   run also had votes from qwen3.6 (60 problems) and gemma4 (37 problems), but
+   the commands that gave them were not recorded. So the original vote cannot
+   be rebuilt exactly.
+   Check: a log line says
+   "combined.jsonl: N examples from M trusted problems". The original run had
+   1,553 trusted problems.
 4. Write the dialogues for every trusted problem:
 
    ```bash
@@ -367,11 +393,13 @@ below match its data.
    uv run python laptop/build_tutor_sft.py --allow-unjudged --lean --sample 0.2 --out data/processed/tutor_sft_small
    ```
 
-   Check: the script prints the examples per task. Compare them with the
-   [Tasks](#tasks) table.
+   Check: the script prints the examples per task. They match the
+   [Tasks](#tasks) table only roughly: the original set mixed judged and
+   unjudged problems at a judge state that cannot be rebuilt.
 6. Upload `data/processed/tutor_sft_small/` (it holds a copy of
    `train_tutor.py`) to Kaggle as a **private** dataset.
-7. Attach it to `kaggle/tutor_finetune_small.ipynb`. Set **GPU T4 x2** and
+7. Attach only that dataset to `kaggle/tutor_finetune_small.ipynb`: the
+   notebook takes the first `train_tutor.py` it finds. Set **GPU T4 x2** and
    **Internet on**.
 8. Run **Save Version → Save & Run All (Commit)**.
    Check: the output holds `qwen35-tutor-Q8_0.gguf`, and the log says

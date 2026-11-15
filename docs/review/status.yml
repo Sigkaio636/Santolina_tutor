@@ -910,16 +910,18 @@ documents:
       decisions: validated
       repair: validated
       language: validated
-      adversarial: pending
-      signoff: pending
-    validated_sha: null
+      adversarial: validated
+      signoff: validated
+    validated_sha: ddeba3fbdaf28777ae7a8105f4fad75edd25ba48ec5c5648d7f194ddc0ed9b6a
     notes:
       audit: carried over (validated 2026-11-15 before the first commit)
       critique: carried over (validated 2026-11-15 before the first commit)
       decisions: carried over (validated 2026-11-15 before the first commit)
       repair: carried over (validated 2026-11-15 before the first commit)
       language: user validated 2026-11-15
-    last_sha: a7bfc2f2198c2591e5f210afb486283751ae3c89b50c3d41151c6495eeaac338
+      adversarial: user validated 2026-11-15
+      signoff: user signed off 2026-11-15
+    last_sha: ddeba3fbdaf28777ae7a8105f4fad75edd25ba48ec5c5648d7f194ddc0ed9b6a
   docs/reference/board-data-contract.md:
     stages:
       audit: validated
