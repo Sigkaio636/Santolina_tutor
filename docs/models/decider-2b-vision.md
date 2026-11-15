@@ -75,6 +75,7 @@ interval lies entirely above the floor.
 | 2026-11-15 | `fl-decider2bv-blind` | 160, figure logic, levels 0–2, eng/cat/esp | no image | 23.8 % [17.8–30.9] | 30.0 % (D) | 3.2 | [figure logic](../experiments/2026-11-decider-2b-vision-figure-logic.md) |
 | 2026-11-15 | `fl-decider2bv-img` | same 160 | image, at most 128 tokens | 24.4 % [18.4–31.6] | 30.0 % (D) | 8.2 | [figure logic](../experiments/2026-11-decider-2b-vision-figure-logic.md) |
 | 2026-11-15 | `fl-decider2bv-imgfull` | same 160 | image, no token limit | 26.2 % [20.0–33.6] | 30.0 % (D) | 21.1 | [figure logic](../experiments/2026-11-decider-2b-vision-figure-logic.md) |
+| 2026-11-15 | `txno-dec-img128` | 175, stratified sample of the 440 figure rows, eng/cat/esp | image, at most 128 tokens | 22.3 % [16.8–29.0] | 25.1 % (D) | 3.2 | [InternVL3.5-1B vs decider](../experiments/2026-11-internvl35-1b-vs-decider-2b-vision-txto-no.md) |
 
 Paired tests on the same rows (exact McNemar): image (128 tokens) against blind, p = 1.0; image (no token limit)
 against blind, p = 0.61.
