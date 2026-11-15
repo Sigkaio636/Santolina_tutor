@@ -88,3 +88,7 @@ uv run --group teacher python -m teacher_app simulate --dir $SANTOLINA_FAKE_BOAR
 ## Add a statistic
 
 Statistics are widgets in `teacher_app/widgets/`. Write one function that queries the teacher store and returns `kpis`, `bar`, `line` or `table` data, and decorate it with `@widget(...)`. It appears on the pages whose scope it lists (`global`, `group`, `student`, `board`). See `teacher_app/widgets/base.py`.
+
+Read events through `event_filter()`. It also applies the period that the teacher chose on the page (last 7 days, last 30 days or all). A table cell can be a bar: return `{"bar": 0-100, "text": ...}` in place of a value. Add a `title` to the data to show one sentence with the finding over the widget.
+
+The learning-progress widgets are in `teacher_app/widgets/learning.py`: the class map, the spread by topic, and on the student page the progress by session, the comparison with the class and the last exercises. They use the events that the boards already write.

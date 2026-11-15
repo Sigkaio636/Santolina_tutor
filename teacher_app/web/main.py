@@ -17,7 +17,7 @@ from .. import config, db, links
 from ..services import assignments, boards, hotspot, packs, setup, unload
 from ..simulate import demo_pack
 from ..strings import S
-from ..widgets import render_all
+from ..widgets import PERIODS, render_all
 
 HERE = Path(__file__).parent
 
@@ -75,13 +75,22 @@ def create_app(settings: config.Settings | None = None) -> FastAPI:
             raise HTTPException(409, S.board_not_connected)
         return link
 
+    def stats(conn, scope, ref, period) -> dict:
+        """The widgets of a page and its period control. An unknown period means 30 days."""
+        period = period if period in PERIODS else "30"
+        return {
+            "widgets": render_all(conn, scope, ref, period=period),
+            "period": period,
+            "periods": PERIODS,
+        }
+
     def groups_list(conn):
         return conn.execute("SELECT * FROM groups ORDER BY name").fetchall()
 
     # ---------------------------------------------------------------- dashboard
     @app.get("/", response_class=HTMLResponse)
-    def dashboard(request: Request, conn=Depends(get_conn)):
-        return page(request, "dashboard.html", widgets=render_all(conn, "global"))
+    def dashboard(request: Request, period: str = "30", conn=Depends(get_conn)):
+        return page(request, "dashboard.html", **stats(conn, "global", None, period))
 
     @app.get("/fragments/connected", response_class=HTMLResponse)
     def connected(request: Request, conn=Depends(get_conn)):
@@ -111,13 +120,11 @@ def create_app(settings: config.Settings | None = None) -> FastAPI:
         return back("/groups")
 
     @app.get("/groups/{group_id}", response_class=HTMLResponse)
-    def group_page(request: Request, group_id: int, conn=Depends(get_conn)):
+    def group_page(request: Request, group_id: int, period: str = "30", conn=Depends(get_conn)):
         group = conn.execute("SELECT * FROM groups WHERE id = ?", (group_id,)).fetchone()
         if not group:
             raise HTTPException(404)
-        return page(
-            request, "group.html", group=group, widgets=render_all(conn, "group", group_id)
-        )
+        return page(request, "group.html", group=group, **stats(conn, "group", group_id, period))
 
     # ---------------------------------------------------------------- students
     @app.get("/students", response_class=HTMLResponse)
@@ -152,7 +159,9 @@ def create_app(settings: config.Settings | None = None) -> FastAPI:
         return back("/students")
 
     @app.get("/students/{student_id}", response_class=HTMLResponse)
-    def student_page(request: Request, student_id: int, conn=Depends(get_conn)):
+    def student_page(
+        request: Request, student_id: int, period: str = "30", conn=Depends(get_conn)
+    ):
         student = conn.execute(
             "SELECT s.*, g.name group_name FROM students s "
             "LEFT JOIN groups g ON g.id = s.group_id WHERE s.id = ?",
@@ -174,7 +183,7 @@ def create_app(settings: config.Settings | None = None) -> FastAPI:
             student=student,
             sessions=sessions,
             groups=groups_list(conn),
-            widgets=render_all(conn, "student", student_id),
+            **stats(conn, "student", student_id, period),
         )
 
     @app.get("/sessions/{session_id}", response_class=HTMLResponse)

@@ -3,9 +3,14 @@ answer_submitted carries exercise_id, level, correct and attempt; hint_requested
 exercise_id. Students may retry, so accuracy counts first tries only (attempt 1).
 """
 
+from datetime import date
 import json
+from math import ceil
+
+from markupsafe import escape
 
 from .base import event_filter, widget
+from .learning import FEW, _class_of, pct
 
 CORRECT = "json_extract(e.payload_json, '$.correct')"
 LEVEL = "json_extract(e.payload_json, '$.level')"
@@ -16,8 +21,41 @@ EXERCISE = (
 )
 
 
-def _empty(message="No data yet. Unload a board to see this."):
+def _empty(message="No data in this period. Unload a board or choose a longer period."):
     return {"kind": "empty", "message": message}
+
+
+def _levels(conn, scope, ref):
+    """First tries per level: rows with level, n and ok."""
+    where, params = event_filter(scope, ref)
+    return conn.execute(
+        f"SELECT {LEVEL} level, COUNT(*) n, SUM({CORRECT} = 1) ok FROM events e "
+        f"WHERE e.type = 'answer_submitted' AND {FIRST_TRY} AND {where} "
+        f"GROUP BY level ORDER BY level",
+        params,
+    ).fetchall()
+
+
+def _lead(conn, scope, ref, ok, first) -> str | None:
+    """The finding of the page in one sentence."""
+    if not first:
+        return None
+    who = "Students"
+    if scope == "student":
+        name = conn.execute("SELECT display_name FROM students WHERE id = ?", (ref,)).fetchone()
+        who = escape(name[0])
+    text = f"{who} got <b>{pct(ok, first)}% right at the first try</b> ({ok} of {first})."
+    if scope == "student":
+        rows = _levels(conn, *_class_of(conn, ref))
+        gap = pct(ok, first) - pct(sum(r["ok"] or 0 for r in rows), sum(r["n"] for r in rows))
+        if gap:
+            text += f" That is {abs(gap)} points {'under' if gap < 0 else 'over'} the class."
+        return text
+    levels = [r for r in _levels(conn, scope, ref) if r["n"] >= FEW and r["level"] is not None]
+    if len(levels) > 1:
+        weak = min(levels, key=lambda r: (r["ok"] or 0) / r["n"])
+        text += f" Level {weak['level']} is the weak point at {pct(weak['ok'] or 0, weak['n'])}%."
+    return text
 
 
 @widget("counts", "Overview", order=10)
@@ -57,7 +95,11 @@ def counts(conn, scope, ref):
         ] + items
     elif scope == "student":
         items.append({"label": "Boards used", "value": row["boards"] or 0})
-    return {"kind": "kpis", "items": items}
+    return {
+        "kind": "kpis",
+        "items": items,
+        "lead": _lead(conn, scope, ref, row["correct"] or 0, first),
+    }
 
 
 @widget("activity", "Answers per day", order=20)
@@ -71,35 +113,63 @@ def activity(conn, scope, ref):
     ).fetchall()
     if not rows:
         return _empty()
-    return {
-        "kind": "line",
-        "labels": [r["day"] for r in rows],
-        "series": [
-            {"label": "Answers", "data": [r["n"] for r in rows]},
-            {"label": "Correct", "data": [r["ok"] or 0 for r in rows]},
-        ],
-    }
+    bars = [
+        {"label": r["day"][8:] + "/" + r["day"][5:7], "n": r["n"], "ok": r["ok"] or 0}
+        for r in rows
+    ]
+    unit = "days"
+    if len(bars) > 14:  # too many days to read: one bar per week
+        weeks: dict = {}
+        for r in rows:
+            year, week, _ = date.fromisoformat(r["day"]).isocalendar()
+            bar = weeks.setdefault((year, week), {"label": f"Wk {week}", "n": 0, "ok": 0})
+            bar["n"] += r["n"]
+            bar["ok"] += r["ok"] or 0
+        bars, unit = list(weeks.values())[-14:], "weeks"
+    for bar in bars:
+        bar["pct"] = pct(bar["ok"], bar["n"])
+    first, last = bars[0]["pct"], bars[-1]["pct"]
+    change = (
+        "stayed at" if first == last else f"{'rose' if last > first else 'fell'} from {first}% to"
+    )
+    title = (
+        f"The share of correct answers {change} {last}% in {len(bars)} {unit}"
+        if len(bars) > 1
+        else f"{last}% of the answers were correct"
+    )
+    most = max(b["n"] for b in bars)
+    step = 10 ** (len(str(most)) - 1)  # the axis ends on a round number
+    return {"kind": "daybars", "title": title, "bars": bars, "top": ceil(most / step) * step}
 
 
 @widget("accuracy_by_level", "Right first time, by level", order=30)
 def accuracy_by_level(conn, scope, ref):
-    where, params = event_filter(scope, ref)
-    rows = conn.execute(
-        f"SELECT {LEVEL} level, COUNT(*) n, SUM({CORRECT} = 1) ok FROM events e "
-        f"WHERE e.type = 'answer_submitted' AND {FIRST_TRY} AND {where} "
-        f"GROUP BY level ORDER BY level",
-        params,
-    ).fetchall()
+    rows = _levels(conn, scope, ref)
     if not rows:
         return _empty()
+    bars = [
+        {
+            "label": f"Level {r['level']}" if r["level"] is not None else "No level",
+            "pct": pct(r["ok"] or 0, r["n"]),
+            "n": r["n"],
+            "few": r["n"] < FEW,
+        }
+        for r in rows
+    ]
+    solid = [b for b in bars if not b["few"]]
+    title = None
+    if len(solid) > 1:
+        low = min(solid, key=lambda b: b["pct"])
+        high = max(solid, key=lambda b: b["pct"])
+        title = f"From {high['pct']}% at {high['label'].lower()} to {low['pct']}% at {low['label'].lower()}"
     return {
-        "kind": "bar",
-        "unit": "%",
-        "labels": [f"Level {r['level']}" if r["level"] is not None else "No level" for r in rows],
-        "series": [
-            {"label": "% correct", "data": [round(100 * (r["ok"] or 0) / r["n"]) for r in rows]}
-        ],
-        "notes": [f"{r['n']} answers" for r in rows],
+        "kind": "hbars",
+        "title": title,
+        "bars": bars,
+        "avg": pct(sum(r["ok"] or 0 for r in rows), sum(r["n"] for r in rows)),
+        "avg_label": "all levels",
+        "unit": "first tries",
+        "few": FEW,
     }
 
 
@@ -114,10 +184,19 @@ def most_missed(conn, scope, ref):
     ).fetchall()
     if not rows:
         return _empty()
+    solid = [r for r in rows if r["n"] >= FEW]
     return {
         "kind": "table",
+        "title": f"{solid[0]['exercise']} is the most missed: "
+        f"{pct(solid[0]['ok'] or 0, solid[0]['n'])}% right at the first try"
+        if solid
+        else None,
         "columns": ["Exercise", "First tries", "% right first time"],
-        "rows": [[r["exercise"], r["n"], f"{100 * (r['ok'] or 0) / r['n']:.0f}%"] for r in rows],
+        "rows": [
+            [r["exercise"], r["n"], {"bar": pct(r["ok"] or 0, r["n"]), "few": r["n"] < FEW}]
+            for r in rows
+        ],
+        "few": FEW,
     }
 
 
@@ -136,37 +215,6 @@ def hints_per_exercise(conn, scope, ref):
         "kind": "table",
         "columns": ["Exercise", "Hints", "Sessions"],
         "rows": [[r["exercise"], r["n"], r["sessions"]] for r in rows],
-    }
-
-
-@widget("students_table", "Students", scopes=("global", "group"), order=60)
-def students_table(conn, scope, ref):
-    group_clause = "WHERE s.group_id = ?" if scope == "group" else ""
-    rows = conn.execute(
-        f"SELECT s.display_name, s.code, "
-        f"(SELECT COUNT(*) FROM events e WHERE e.student_id = s.id "
-        f" AND e.type = 'answer_submitted') n, "
-        f"(SELECT SUM({CORRECT} = 1) FROM events e WHERE e.student_id = s.id "
-        f" AND e.type = 'answer_submitted') ok, "
-        f"(SELECT MAX(e.ts_corrected) FROM events e WHERE e.student_id = s.id) last "
-        f"FROM students s {group_clause} ORDER BY s.display_name",
-        (ref,) if scope == "group" else (),
-    ).fetchall()
-    if not rows:
-        return _empty("No students yet.")
-    return {
-        "kind": "table",
-        "columns": ["Student", "Code", "Answers", "% correct", "Last activity"],
-        "rows": [
-            [
-                r["display_name"],
-                r["code"],
-                r["n"],
-                f"{100 * (r['ok'] or 0) / r['n']:.0f}%" if r["n"] else "–",
-                (r["last"] or "–")[:16].replace("T", " "),
-            ]
-            for r in rows
-        ],
     }
 
 
@@ -218,7 +266,7 @@ def help_per_exercise(conn, scope, ref):
     }
 
 
-@widget("homework_completion", "Homework done", scopes=("global", "group", "student"), order=15)
+@widget("homework_completion", "Homework done", scopes=("global", "group", "student"), order=45)
 def homework_completion(conn, scope, ref):
     """Per assignment: students who solved every exercise, alone or with help."""
     group_clause = {
@@ -255,14 +303,17 @@ def homework_completion(conn, scope, ref):
         done = {r["student_id"]: r["n"] for r in solved}
         if scope == "student":
             n = done.get(ref, 0)
-            out.append([a["title"], a["due"] or "–", f"{n}/{total} exercises"])
+            done_cell = {"bar": pct(n, total) or 0, "text": f"{n} of {total}"}
+            out.append([a["title"], a["due"] or "–", done_cell])
         else:
             complete = sum(1 for n in done.values() if total and n >= total)
-            out.append(
-                [a["title"], a["group_name"], a["due"] or "–", f"{complete}/{a['n_students']}"]
-            )
+            done_cell = {
+                "bar": pct(complete, a["n_students"]) or 0,
+                "text": f"{complete} of {a['n_students']}",
+            }
+            out.append([a["title"], a["group_name"], a["due"] or "–", done_cell])
     columns = (
-        ["Homework", "Due", "Done"]
+        ["Homework", "Due", "Exercises done"]
         if scope == "student"
         else ["Homework", "Group", "Due", "Students finished"]
     )

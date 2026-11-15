@@ -4,6 +4,7 @@
 <h1>{{ student.display_name }} <code class="code big">{{ student.code }}</code></h1>
 <p class="muted">{{ student.group_name or S.no_group }}{% if student.notes %} · {{ student.notes }}{% endif %}</p>
 <p class="muted small">{{ S.students_code_help }}</p>
+{% include "_period.html" %}
 {% include "_widgets.html" %}
 <section class="card">
   <h3>{{ S.students_sessions }}</h3>

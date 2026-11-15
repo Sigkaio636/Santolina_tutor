@@ -59,12 +59,18 @@ def _fake_index(path: Path, rows: int = 20) -> None:
 
 
 def demo_pack(folder: Path, pack_id: str = "demo-arithmetic", n: int = 12, version: int = 1):
-    """A synthetic multiple-choice arithmetic pack."""
+    """A synthetic multiple-choice arithmetic pack: four operations, one topic each."""
     rng = random.Random(pack_id)
     exercises = []
     for i in range(1, n + 1):
         a, b = rng.randint(2, 20 * (1 + i // 4)), rng.randint(2, 12)
-        right = a * b
+        topic, sign, right = [
+            ("Multiplication", "×", a * b),
+            ("Addition", "+", a + b),
+            ("Subtraction", "−", a * b - b),
+            ("Division", "÷", a),
+        ][i % 4]
+        left = {"Subtraction": a * b, "Division": a * b}.get(topic, a)
         wrong = {right + d for d in (-b, b, 1, -1, 10)} - {right}
         values = [right] + rng.sample(sorted(wrong), 4)
         rng.shuffle(values)
@@ -75,15 +81,15 @@ def demo_pack(folder: Path, pack_id: str = "demo-arithmetic", n: int = 12, versi
                 kind="multiple_choice",
                 language="eng",
                 level=min(5, i // 3),
-                prompt=f"What is {a} × {b}?",
+                prompt=f"What is {left} {sign} {b}?",
                 options={letters[k]: str(v) for k, v in enumerate(values)},
                 answer=letters[values.index(right)],
-                meta={"source": "synthetic"},
+                meta={"source": "synthetic", "topic": topic},
             )
         )
     manifest = PackManifest(
         pack_id=pack_id,
-        title="Demo: multiplication",
+        title="Demo: arithmetic",
         version=version,
         language="eng",
         created_at=now_iso(),
