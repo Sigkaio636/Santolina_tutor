@@ -28,7 +28,7 @@
 | RAM | ✅ **Resolved: 4 GB variant (ABX00173)**: 3.6 GiB total, about 2.9 GiB available when idle, plus 1.8 GiB swap. See [UNO_Q_BOARD_REFERENCE.md](UNO_Q_BOARD_REFERENCE.md) |
 | Training data provided | **M3Kang**: 1,747 Kangaroo math contest problems, translated into 108 languages ([dataset card](https://huggingface.co/datasets/qualcomm/M3Kang), [BOARD_SETUP.md step 9](BOARD_SETUP.md#step-9-prepare-m3kang-on-your-laptop)) |
 | Answer format of data | Multiple choice, one letter **A to E** ([BOARD_SETUP.md](BOARD_SETUP.md), [`predict.py`](https://github.com/Sigkaio636/Santolina_tutor/blob/main/predict.py) contract) |
-| Key requirement | The copilot must do one of two things ([BOARD_SETUP.md, "The challenge"](BOARD_SETUP.md#the-challenge)). **Teach:** guide the student without giving away the answer. **Reason:** choose the correct letter for a Kangaroo-style problem |
+| Key requirement | The copilot must do both of two things ([BOARD_SETUP.md, "The challenge"](BOARD_SETUP.md#the-challenge)). Until 2026-11-14 it was one of the two. **Teach:** guide the student without giving away the answer. **Reason:** choose the correct letter for a Kangaroo-style problem |
 | Evaluation | The organizers run each team's `predict.py` on a hidden test and score the letters. For Teach, the team found a benchmark that evaluates **pedagogical explanation of answers**. It is better than multiple-choice benchmarks such as MMLU. Which one is open. Candidates are in §7 |
 | Language | M3Kang has all 1,747 problems in English and Catalan, and fewer in other languages (BOARD_SETUP.md step 9). If the copilot must speak Catalan or Spanish, base-model language coverage matters a lot (see §3) |
 | Framework | Not decided yet. PyTorch + Hugging Face is the default assumption |
