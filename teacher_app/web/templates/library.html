@@ -44,17 +44,18 @@
 </table>
 
 {% if shown %}
-<form class="card" method="post" action="/library/pack">
+<div class="card">
   <p class="muted small">{% if n_shown > shown|length %}{{ S.library_shown_cut.format(n=n_shown) }}{% else %}{{ S.library_shown.format(n=n_shown) }}{% endif %}</p>
   <table>
     <thead><tr>
-      <th><input type="checkbox" id="all" onclick="document.querySelectorAll('input[name=keys]').forEach(c => c.checked = this.checked)"></th>
+      <th><input type="checkbox" id="all"></th>
       <th colspan="3" class="muted small" style="font-weight:400"><label for="all" style="display:inline;font-weight:400;margin:0">{{ S.library_select_all }}</label></th>
     </tr></thead>
     <tbody>
     {% for p in shown %}
       <tr>
-        <td><input type="checkbox" name="keys" value="{{ p.key }}" id="k{{ loop.index }}"></td>
+        <td><input type="checkbox" class="pick" value="{{ p.key }}" id="k{{ loop.index }}"
+          data-label="{{ S.library_level.format(level=p.level) }} {{ (p.topic or '').replace('_', ' ') }} · {{ p.text[:70] }}{% if p.text|length > 70 %}…{% endif %}"></td>
         <td><label for="k{{ loop.index }}" style="font-weight:400;margin:0">{{ p.text[:180] }}{% if p.text|length > 180 %}…{% endif %}</label>
           <div class="muted small">{% for k, v in p.options.items() %}{{ k }}) {{ v }}&nbsp;&nbsp; {% endfor %}</div></td>
         <td class="muted small">{{ S.library_level.format(level=p.level) }} {{ (p.topic or "").replace("_", " ") }}<br>{{ p.year }}</td>
@@ -63,18 +64,81 @@
     {% endfor %}
     </tbody>
   </table>
-  <p>
-    <input name="title" placeholder="{{ S.library_pack_title }}" size="40" required>
-    <label style="display:inline;font-weight:400">{{ S.library_pack_group }}
-      <select name="group_id"><option value="">{{ S.library_pack_no_group }}</option>
-      {% for g in groups %}<option value="{{ g.id }}">{{ g.name }}</option>{% endfor %}</select></label>
-    <button class="primary">{{ S.library_make }}</button>
-  </p>
-</form>
+</div>
 {% elif topic or level is not none or q %}
 <p class="muted">{{ S.library_none }}</p>
 {% else %}
 <p class="muted">{{ S.library_pick }}</p>
 {% endif %}
+
+{# The selection: kept in the browser while the teacher moves between topics and levels #}
+<form class="card lib-selection" id="pack" method="post" action="/library/pack">
+  <h3 id="sel-count" data-template="{{ S.library_selected }}">{{ S.library_selected.format(n=0) }}</h3>
+  <p class="muted small" id="sel-empty">{{ S.library_selected_none }}</p>
+  <ol class="small" id="sel-list"></ol>
+  <p id="sel-actions" hidden>
+    <input name="title" placeholder="{{ S.library_pack_title }}" size="40" required>
+    <label style="display:inline;font-weight:400">{{ S.library_pack_group }}
+      <select name="group_id"><option value="">{{ S.library_pack_no_group }}</option>
+      {% for g in groups %}<option value="{{ g.id }}" {% if loop.first %}selected{% endif %}>{{ g.name }}</option>{% endfor %}</select></label>
+    <button class="primary">{{ S.library_make }}</button>
+    <button type="button" id="sel-clear">{{ S.library_clear }}</button>
+  </p>
+</form>
+<script>
+(function () {
+  const KEY = "santolina.library.selection";
+  let memory = {};
+  function load() {
+    try { return JSON.parse(localStorage.getItem(KEY) || "{}") || {}; } catch (e) { return memory; }
+  }
+  function save(sel) {
+    memory = sel;
+    try { localStorage.setItem(KEY, JSON.stringify(sel)); } catch (e) { /* kept in memory */ }
+  }
+  const picks = Array.from(document.querySelectorAll("input.pick"));
+  const all = document.getElementById("all");
+  const count = document.getElementById("sel-count");
+  const list = document.getElementById("sel-list");
+  function render() {
+    const sel = load();
+    const keys = Object.keys(sel);
+    count.textContent = count.dataset.template.replace("{n}", keys.length);
+    document.getElementById("sel-empty").hidden = keys.length > 0;
+    document.getElementById("sel-actions").hidden = keys.length === 0;
+    list.replaceChildren(...keys.map(function (k) {
+      const li = document.createElement("li");
+      li.textContent = sel[k] + " ";
+      const x = document.createElement("a");
+      x.href = "#"; x.textContent = "×"; x.title = "remove";
+      x.onclick = function (ev) { ev.preventDefault(); const s = load(); delete s[k]; save(s); render(); };
+      li.appendChild(x);
+      return li;
+    }));
+    picks.forEach(function (c) { c.checked = c.value in sel; });
+    if (all) all.checked = picks.length > 0 && picks.every(function (c) { return c.checked; });
+  }
+  function set(c, on) {
+    const sel = load();
+    if (on) sel[c.value] = c.dataset.label; else delete sel[c.value];
+    save(sel);
+  }
+  picks.forEach(function (c) { c.addEventListener("change", function () { set(c, c.checked); render(); }); });
+  if (all) all.addEventListener("change", function () {
+    picks.forEach(function (c) { set(c, all.checked); });
+    render();
+  });
+  document.getElementById("sel-clear").onclick = function () { save({}); render(); };
+  document.getElementById("pack").addEventListener("submit", function () {
+    Object.keys(load()).forEach(function (k) {
+      const i = document.createElement("input");
+      i.type = "hidden"; i.name = "keys"; i.value = k;
+      this.appendChild(i);
+    }, this);
+    save({});  // the pack holds them now
+  });
+  render();
+})();
+</script>
 {% endif %}
 {% endblock %}

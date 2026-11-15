@@ -137,6 +137,11 @@ S = SimpleNamespace(
     library_make="Make the pack",
     library_missing="Give a title and tick at least one problem.",
     library_select_all="Tick all",
+    library_selected="Selected for the pack: {n}",
+    library_selected_none=(
+        "Tick problems to add them here. The ticks stay when you change topic or level."
+    ),
+    library_clear="Clear the selection",
     # Unassigned
     unassigned_title="Unassigned sessions",
     unassigned_help=(

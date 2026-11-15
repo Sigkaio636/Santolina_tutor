@@ -122,7 +122,7 @@ def test_library_pages_and_pack_to_homework(tmp_path):
     r = client.post("/library/refresh", data={"serial": link.serial})
     assert "Copied 6 problems, 6 with a topic." in r.text
     page = client.get("/library?language=cat").text
-    assert "arithmetic" in page and "level=1" in page
+    assert "arithmetic" in page and "level=1" in page and "Selected for the pack: 0" in page
 
     page = client.get("/library?language=cat&topic=arithmetic&level=1").text
     assert "lvl-1_2015_2|cat" in page and "lvl-2_2016_5|cat" not in page
