@@ -17,6 +17,7 @@ nav:
       - Extract papers to Markdown with MinerU: how-to/mineru-ocr-papers.md
   - Experiments:
       - Noema-2B speed on the board: experiments/2026-11-noema-2b-board-timing.md
+      - Program solver and figure path on the board: experiments/2026-11-program-solver-and-vision-on-board.md
   - Reference:
       - UNO Q board reference: UNO_Q_BOARD_REFERENCE.md
       - Board limits (interactive page): GUIA_RESTRICCIONES_UNOQ.html
