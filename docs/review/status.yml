@@ -329,24 +329,24 @@ documents:
       audit: validated
       critique: validated
       decisions: validated
-      repair: validated
-      language: validated
-      adversarial: validated
-      signoff: validated
-    validated_sha: e273e22bd2716b0bf2d0013794bba641850100751a90dbd03d8af446cbcf60cd
+      repair: done
+      language: pending
+      adversarial: pending
+      signoff: pending
+    validated_sha: null
     notes:
       audit: 'docsauditor: 20 findings (1 breaks; 4 decisions); user validated'
       critique: 'diataxis: reference + history + backlog; docs-critic: 26 findings (11 decisions); user
         validated'
       decisions: 'user validated S3: superseded note, body kept, F20 fix, rest wontfix'
-      repair: superseded note at top (F1,T1-T3,F19,F18,T4,T11), trailing blanks removed (F20,T26); 36
-        findings wontfix
+      repair: '2026-11-15: one link repointed to reference/tutor-response-types.md (TUTOR_RESPONSE_TYPES
+        split)'
       language: 'asd-ste100 (STE-flavored) on the note: ste-lint 0 violations; 1 manual fix (model name
         split from the ''different model'' sentence)'
       adversarial: 2 rounds, reviewers by hand (toolchain FATAL, PEP 668); 4 fixed in the note, 2 open
         outside it (ship ordering, how-to)
       signoff: user signed off 2026-11-15
-    last_sha: e273e22bd2716b0bf2d0013794bba641850100751a90dbd03d8af446cbcf60cd
+    last_sha: 0e7dd00905d084d6cf0fb6868729fc84ce666bbc75bb4c54ad3ddfc89f4e8d55
   docs/UNO_Q_BOARD_REFERENCE.md:
     stages:
       audit: validated
@@ -887,9 +887,9 @@ documents:
       decisions: validated
       repair: validated
       language: validated
-      adversarial: pending
-      signoff: pending
-    validated_sha: null
+      adversarial: validated
+      signoff: validated
+    validated_sha: 8486d6680820e2ae4f1887fb0464f56425dcff39f2b58ecdab044cda85d7ab1e
     notes:
       audit: '2026-11-15: user validated (counts in findings file)'
       critique: '2026-11-15: user validated (counts in findings file)'
@@ -900,7 +900,10 @@ documents:
         and SHA check, X3, MathVista checked in Table 3; 16 findings fixed, 1 open (GLOSSARY on main)
       language: asd-ste100 STE-flavored; ste-lint 2 -> 0 (Identity row split, semicolon); one clause added
         on the converter's source
-    last_sha: 7a47b23991632301b6e295adf98c54206ca6f42ffa9a581998f4ffdf1f2e8ace
+      adversarial: reviewers by hand (methodologist, ai-engineer, slop-hunter), adjudicator not run; R1
+        18 findings (2 major) fixed, R2 SHIP + 3 fixed; 1 open (RSS source)
+      signoff: 'S4-S6 validated; open: G1 GLOSSARY entries not on main, B13 RSS source'
+    last_sha: 8486d6680820e2ae4f1887fb0464f56425dcff39f2b58ecdab044cda85d7ab1e
   docs/models/qwen35-tutor.md:
     stages:
       audit: validated
@@ -1005,20 +1008,21 @@ documents:
       audit: validated
       critique: validated
       decisions: validated
-      repair: validated
-      language: validated
-      adversarial: validated
-      signoff: validated
-    validated_sha: 763812ec4b89cf14b02e1c776fafbd4167aec7677c6932cd4991665a0a62948b
+      repair: done
+      language: pending
+      adversarial: pending
+      signoff: pending
+    validated_sha: null
     notes:
       audit: user validated S1 2026-11-15
       critique: user validated S2 2026-11-15
       decisions: user validated S3 2026-11-15
-      repair: user validated S4 2026-11-15
+      repair: '2026-11-15: one link repointed to reference/tutor-response-types.md (TUTOR_RESPONSE_TYPES
+        split)'
       language: user validated S5 2026-11-15
       adversarial: user validated S6 2026-11-15
       signoff: user signed off 2026-11-15
-    last_sha: 763812ec4b89cf14b02e1c776fafbd4167aec7677c6932cd4991665a0a62948b
+    last_sha: ebb86b6d77c06f6b0f62593c1d7d465ff1dfc16043ec3c4dc2535227eb8c89f8
   teacher_app/README.md:
     stages:
       audit: validated
