@@ -24,6 +24,8 @@ READ_TPS = float(CONFIG.get("READ_TPS", "4.86"))  # board reading speed of the m
 # "zero_shot" for an untuned model (two worked examples), "tuned" for a model fine-tuned on
 # santolina_tutor/finetune/program_data.py (short system prompt, no example)
 PROGRAM_PROMPT = CONFIG.get("PROGRAM_PROMPT", "zero_shot")
+# "nmt": translate Catalan problems to English first, inside the clock (copilot/nmt.py)
+TRANSLATE = CONFIG.get("TRANSLATE", "")
 _warm = {"done": False, "error": ""}
 
 
@@ -39,6 +41,9 @@ def solve(problem, index=None, k=0, exclude_id=None, image_b64=None, llm_url=URL
         # read the fixed prompt prefix once, before the first problem's clock starts
         _warm["done"] = True
         try:
+            if TRANSLATE == "nmt":  # load the NMT model before the clock too
+                from .nmt import available
+                available()
             warm_up(llm_url, prompt=PROGRAM_PROMPT)
         except Exception as error:  # noqa: BLE001 - a failed warm-up only makes the first problem slower
             _warm["error"] = f"{type(error).__name__}: {error}"
@@ -61,6 +66,9 @@ def solve(problem, index=None, k=0, exclude_id=None, image_b64=None, llm_url=URL
             result["retrieved"] = ";".join(f"{p['id']}:{s:.2f}" for s, p in hits)
         remaining = time_limit - (time.perf_counter() - start) - MARGIN
         if SOLVER == "program" and image_b64 is None:
+            if TRANSLATE == "nmt":
+                from .nmt import translate_problem
+                problem = translate_problem(problem)
             letter, info = solve_board(problem, llm_url, start + time_limit - MARGIN,
                                        seed=int(CONFIG["SEED"]), read_tps=READ_TPS,
                                        prompt=PROGRAM_PROMPT)

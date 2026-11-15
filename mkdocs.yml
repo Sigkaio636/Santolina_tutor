@@ -14,6 +14,7 @@ nav:
       - Try the prior solver on the board: how-to/try-prior-solver.md
       - Time a 2B model on the board: how-to/time-2b-model-on-board.md
       - Try the program solver on the board: how-to/try-program-solver.md
+      - Try Qwen2.5-Math with Catalan translation: how-to/try-qwen-math-nmt.md
       - Extract papers to Markdown with MinerU: how-to/mineru-ocr-papers.md
   - Experiments:
       - Noema-2B speed on the board: experiments/2026-11-noema-2b-board-timing.md

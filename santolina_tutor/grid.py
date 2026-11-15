@@ -76,7 +76,7 @@ def last_option_value(text, options):
 
 
 def run_one(problem, config, base, cap, read_tps=READ_TPS, write_tps=WRITE_TPS, program_prompt="zero_shot",
-            translate_cat=False):
+            translate_cat=False, extra_seconds=0.0):
     user = format_problem(problem) + "\nAnswer:"
     row = {"id": problem["id"], "language": problem["language"], "level": problem["level"],
            "label": problem["label"], "config": config,
@@ -90,7 +90,7 @@ def run_one(problem, config, base, cap, read_tps=READ_TPS, write_tps=WRITE_TPS, 
     if config == "program":  # exactly the board's SOLVER=program requests (copilot/program_head.py)
         # the system prompt and examples are cached after warm-up, so only the problem's own
         # tokens cost reading time. Board deadline: 57 s; 1 s kept for running the program.
-        spent = 0.0  # board seconds before the program request
+        spent = extra_seconds  # board seconds before the program request (e.g. a translation)
         if translate_cat and problem["language"] == "cat":
             n_text = len(post(base + "/tokenize", {"content": problem["text"]}, timeout=60)["tokens"])
             english, t = translate(base, problem["text"], int(n_text * 1.5) + 10)
@@ -153,6 +153,8 @@ def main():
                         help="program: the untuned prompt with examples, or the fine-tuned one")
     parser.add_argument("--translate", action="store_true",
                         help="program: translate Catalan statements to English first, inside the time budget")
+    parser.add_argument("--extra-seconds", type=float, default=0.0,
+                        help="program: board seconds spent before the program request, e.g. NMT translation")
     parser.add_argument("--workers", type=int, default=4)
     parser.add_argument("--read-tps", type=float, default=READ_TPS, help="board tokens/s read")
     parser.add_argument("--write-tps", type=float, default=WRITE_TPS, help="board tokens/s written")
@@ -163,7 +165,7 @@ def main():
     out.parent.mkdir(parents=True, exist_ok=True)
     with ThreadPoolExecutor(args.workers) as pool:
         rows = list(pool.map(lambda p: run_one(p, args.config, base, args.cap, args.read_tps, args.write_tps, args.prompt,
-                                                      args.translate), problems))
+                                                      args.translate, args.extra_seconds), problems))
     with open(out, "w", encoding="utf-8") as handle:
         handle.writelines(json.dumps(row, ensure_ascii=False) + "\n" for row in rows)
     n = len(rows)
