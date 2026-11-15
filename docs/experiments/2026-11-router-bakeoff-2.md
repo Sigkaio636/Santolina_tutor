@@ -23,7 +23,7 @@ written after round 1 and never used to tune anything.
   message repeats a round-1 message word for word, but many are paraphrases
   of round-1 forms, so this is not a fully independent sample. No M3Kang
   text. One author (Claude) wrote messages and labels again, which stays a
-  limitation.
+  limitation. See [how the messages were made](2026-11-router-messages-method.md).
 - **Models:** decider-0.8b (candidate) and Qwen3.5-0.8B (reference, already on
   the board). Intern-Decision-0.8B was rejected in round 1 and is not rerun.
 - **Same everything else:** the five labels and their descriptions, the

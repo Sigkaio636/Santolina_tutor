@@ -34,7 +34,7 @@ The 250 messages of rounds 1 and 2: `laptop/router_messages.json` (100) and
 `laptop/router_messages_r2.json` (150), 80 of them in Catalan. Nothing was
 tuned on decider-2b, so both sets are new to it. The decider-0.8b results on
 the same messages already exist from rounds 1 and 2, on the same llama.cpp
-build `2cbe0ec`. We compare the two models message by message.
+build `2cbe0ec`. We compare the two models message by message. See [how the messages were made](2026-11-router-messages-method.md).
 
 Limitations:
 
