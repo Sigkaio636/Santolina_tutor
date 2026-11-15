@@ -145,3 +145,5 @@ label input, label select { display: block; margin-top: .25rem; font-weight: 400
   background: color-mix(in srgb, var(--accent) calc(var(--n) * 2.5%), var(--panel)); }
 .lib-grid td.on a, .lib-grid tr.on th a { outline: 2px solid var(--accent); }
 .lib-grid tr.on th a { border-radius: 4px; }
+.lib-selection { position: sticky; bottom: 0; box-shadow: 0 -4px 12px rgba(0, 0, 0, .08); }
+.lib-selection ol { max-height: 9rem; overflow-y: auto; margin: .25rem 0; }
