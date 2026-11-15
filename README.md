@@ -53,9 +53,34 @@ problem they can:
 - see the solution, but only after a wrong answer.
 
 Code checks every reply of the model before the student sees it. If a reply
-names the right option or its value, a fixed hint replaces it. In free mode,
-the next problem follows a fixed rule: one level up after a clean solve, one
-level down after a failure, another topic after three clean solves in a row.
+names the right option or its value, a fixed hint replaces it.
+
+In free mode, a fixed rule picks the next problem from the retrieval index,
+with no model call (`student_app/planner.py`):
+
+```mermaid
+flowchart LR
+  classDef decision fill:#F3E8FD,stroke:#A142F4,color:#4A1E7A;
+  classDef internal fill:#E8F0FE,stroke:#1A73E8,color:#10367A;
+
+  last{"How did the<br/>last problem go?"}:::decision
+  streak{"Third clean solve<br/>in a row?"}:::decision
+  up["One level up<br/>same topic"]:::internal
+  same["Same level<br/>same topic"]:::internal
+  other["Same level<br/>other topic"]:::internal
+  down["One level down<br/>same topic"]:::internal
+
+  last -- "solved, no wrong answer, no clue" --> streak
+  streak -- "no" --> up
+  streak -- "yes" --> other
+  last -- "solved after a wrong answer or a clue" --> same
+  last -- "skipped" --> other
+  last -- "failed: two wrong answers,<br/>or the solution shown" --> down
+```
+
+"Same topic" is the nearest problem in the index. "Other topic" is the
+problem farthest from the last five. The rule never shows a problem twice,
+and never gives a homework problem.
 
 Two reading switches make a problem easier to read: a font in which similar
 characters such as 0 and O are hard to confuse (Atkinson Hyperlegible), and an
@@ -70,6 +95,29 @@ names.
 **Reason.** `predict.py` is the program the organizers run on the hidden test:
 one letter, A to E, per problem, in at most 60 seconds, with no network.
 `config.env` chooses how it answers:
+
+```mermaid
+flowchart LR
+  classDef decision fill:#F3E8FD,stroke:#A142F4,color:#4A1E7A;
+  classDef internal fill:#E8F0FE,stroke:#1A73E8,color:#10367A;
+  classDef success  fill:#E6F4EA,stroke:#34A853,color:#1E4620;
+  classDef failure  fill:#FCE8E6,stroke:#EA4335,color:#8C1D18;
+
+  problem["One problem<br/>from the input file"]:::internal
+  solver{"SOLVER in<br/>config.env"}:::decision
+  prior["Prior rule:<br/>middle option value"]:::internal
+  llm["Qwen3.5 0.8B, port 8081<br/>one letter, forced A to E"]:::internal
+  out["One CSV row:<br/>id, language, answer,<br/>seconds, status"]:::success
+  fallback["Answer D<br/>status timeout or error"]:::failure
+
+  problem --> solver
+  solver -- "prior, the default" --> prior
+  solver -- "letter" --> llm
+  prior -- "letter, in under a second" --> out
+  llm -- "letter, within 60 s" --> out
+  llm -- "too slow or failed" --> fallback
+  fallback --> out
+```
 
 - `SOLVER=prior` (the default): a fixed rule picks the option where the right
   answer tends to sit. Kangaroo distractors are built around the right value,
@@ -88,23 +136,27 @@ for the problem. It scored best on the practice set, but it is not in
 
 ```mermaid
 flowchart TB
-  phone["Student's phone<br/>browser, no app"]
-  laptop["Teacher's laptop<br/>teacher app"]
-  jury["Organizers<br/>hidden test"]
+  classDef internal fill:#E8F0FE,stroke:#1A73E8,color:#10367A;
+  classDef external fill:#F1F3F4,stroke:#9AA0A6,color:#3C4043;
+  classDef store    fill:#FEF7E0,stroke:#F9AB00,color:#7A5900;
+
+  phone["Student's phone<br/>browser, no app"]:::external
+  laptop["Teacher's laptop<br/>teacher app"]:::external
+  jury["Organizers<br/>hidden test"]:::external
 
   subgraph board["Arduino UNO Q 4 GB"]
     subgraph linux["Linux on the Qualcomm QRB2210"]
-      app["Student app<br/>port 80"]
-      tutor["llama-server, port 8084<br/>tutor: Qwen3.5 0.8B fine-tuned"]
-      embed["llama-server, port 8082<br/>bge-small embeddings"]
-      index[("index.db<br/>M3Kang problem vectors")]
-      store[("events and progress<br/>per student code")]
-      predict["predict.py<br/>prior rule, default"]
-      llm["llama-server, port 8081<br/>Qwen3.5 0.8B"]
-      ledpy["LED app, App Lab<br/>Python"]
+      app["Student app<br/>port 80"]:::internal
+      tutor["llama-server, port 8084<br/>tutor: Qwen3.5 0.8B fine-tuned"]:::internal
+      embed["llama-server, port 8082<br/>bge-small embeddings"]:::internal
+      index[("index.db<br/>M3Kang problem vectors")]:::store
+      store[("events and progress<br/>per student code")]:::store
+      predict["predict.py<br/>prior rule, default"]:::internal
+      llm["llama-server, port 8081<br/>Qwen3.5 0.8B"]:::internal
+      ledpy["LED app, App Lab<br/>Python"]:::internal
     end
-    subgraph mcu["Microcontroller: STM32U585"]
-      sketch["sketch.ino<br/>8x13 LED matrix"]
+    subgraph mcu["STM32U585 microcontroller"]
+      sketch["sketch.ino<br/>8x13 LED matrix"]:::internal
     end
   end
 
@@ -119,6 +171,10 @@ flowchart TB
   ledpy -- "reads board state" --> app
   ledpy -- "Bridge: set_mode,<br/>set_thinking" --> sketch
 ```
+
+Blue: our code and the models on the board. Yellow: data stored on the
+board. Grey: people and devices outside the board. The dotted arrows are
+optional (`SOLVER=letter`) or done once (building the index).
 
 ### What runs where
 
@@ -144,6 +200,36 @@ Linux is doing.
 ### How the parts work together
 
 **A chat message, step by step** (`student_app/tutor.py`):
+
+```mermaid
+flowchart TB
+  classDef decision fill:#F3E8FD,stroke:#A142F4,color:#4A1E7A;
+  classDef internal fill:#E8F0FE,stroke:#1A73E8,color:#10367A;
+  classDef success  fill:#E6F4EA,stroke:#34A853,color:#1E4620;
+
+  msg(["Student's message"]):::decision
+  option{"Names one option?"}:::decision
+  button["Use the answer button<br/>no model call"]:::success
+  router["Router labels the message<br/>keyword rule"]:::internal
+  isother{"Label is OTHER?"}:::decision
+  redirect["Fixed reply:<br/>back to the problem"]:::success
+  tutor["Tutor model writes a reply<br/>port 8084"]:::internal
+  leak{"Leak check:<br/>gives the answer away?"}:::decision
+  hint["Fixed hint"]:::success
+  reply["The model's reply"]:::success
+
+  msg --> option
+  option -- "yes" --> button
+  option -- "no" --> router
+  router -- "STUCK, CONCEPT, ATTEMPT,<br/>SOLUTION or OTHER" --> isother
+  isother -- "yes" --> redirect
+  isother -- "no" --> tutor
+  tutor -- "reply text" --> leak
+  leak -- "yes" --> hint
+  leak -- "no" --> reply
+```
+
+Green boxes are what the student sees. Only the blue tutor box calls a model.
 
 1. A message that names one option ("is it C?") never reaches a model. The
    app asks the student to use the answer button, which counts the attempt.
@@ -353,14 +439,27 @@ numbers below come from a laptop that charges the board's estimated speeds.
 
 ```mermaid
 flowchart LR
-  input["Problem<br/>statement and options"] --> lang{"Catalan?"}
-  lang -- "yes" --> nmt["Softcatalà NMT<br/>Catalan to English<br/>CTranslate2, 71 MB"]
+  classDef decision fill:#F3E8FD,stroke:#A142F4,color:#4A1E7A;
+  classDef internal fill:#E8F0FE,stroke:#1A73E8,color:#10367A;
+  classDef success  fill:#E6F4EA,stroke:#34A853,color:#1E4620;
+
+  input["Problem<br/>statement and options"]:::internal
+  lang{"Catalan?"}:::decision
+  nmt["Softcatalà NMT<br/>Catalan to English<br/>CTranslate2, 71 MB"]:::internal
+  model["Qwen2.5-Math-1.5B<br/>llama-server<br/>writes solve()"]:::internal
+  run["Run solve()<br/>separate process, 2 s"]:::internal
+  match{"Value equals<br/>one option?"}:::decision
+  answer["That letter"]:::success
+  fallback["One letter from the model,<br/>or the prior rule"]:::success
+
+  input --> lang
+  lang -- "yes" --> nmt
   lang -- "no" --> model
-  nmt --> model["Qwen2.5-Math-1.5B<br/>llama-server<br/>writes solve()"]
-  model --> run["Run solve()<br/>separate process, 2 s"]
-  run --> match{"Value equals<br/>one option?"}
-  match -- "yes" --> answer["That letter"]
-  match -- "no" --> fallback["One letter from the model,<br/>or the prior rule"]
+  nmt -- "English text" --> model
+  model -- "program" --> run
+  run -- "value" --> match
+  match -- "yes" --> answer
+  match -- "no" --> fallback
 ```
 
 How it answers one problem:
