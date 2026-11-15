@@ -12,6 +12,10 @@ the labels.
 Usage:
     python3 laptop/router_bakeoff.py run --name qwen --url http://127.0.0.1:8090
     python3 laptop/router_bakeoff.py summary results/router-*.csv
+    python3 laptop/router_bakeoff.py summary --ref decider/plain results/router*-decider*.csv
+
+Files of one model from several rounds (router-x.csv, router2-x.csv) pool
+into one cell.
 """
 
 import argparse
@@ -96,8 +100,15 @@ def letter_probs(url, prompt):
     request = urllib.request.Request(
         f"{url}/completion", json.dumps(body).encode(), {"Content-Type": "application/json"}
     )
-    start = time.perf_counter()
-    out = json.load(urllib.request.urlopen(request, timeout=120))
+    for attempt in range(3):  # a busy machine can stall one request
+        start = time.perf_counter()
+        try:
+            out = json.load(urllib.request.urlopen(request, timeout=300))
+            break
+        except TimeoutError:
+            if attempt == 2:
+                raise
+            print(f"timeout, retry {attempt + 1}", flush=True)
     ms = 1000 * (time.perf_counter() - start)
     top = out["completion_probabilities"][0]["top_logprobs"]
     probs = {t["token"]: math.exp(t["logprob"]) for t in top if t["token"] in set("ABCDE")}
@@ -132,11 +143,12 @@ def run(args):
 
 
 def summary(args):
-    cells = defaultdict(dict)  # (model, format) -> {(id, order): row}
+    cells = defaultdict(dict)  # (model, format) -> {(round:id, order): row}
     for path in args.csvs:
-        model = Path(path).stem.split("-", 1)[1]  # router-qwen, router2-qwen
+        rnd, model = Path(path).stem.split("-", 1)  # router-qwen, router2-qwen
         with open(path) as f:
             for r in csv.DictReader(f):
+                r["id"] = f"{rnd}:{r['id']}"  # ids repeat across rounds
                 cells[(model, r["format"])][(r["id"], r["order"])] = r
 
     def picks(cell, mode):
@@ -156,8 +168,11 @@ def summary(args):
     def accuracy(p):
         return sum(lab == pick for lab, pick in p.values())
 
-    qwen = [k for k in cells if k[0] == "qwen"]
-    ref = max(qwen, key=lambda k: accuracy(picks(cells[k], "canonical"))) if qwen else None
+    if args.ref:
+        ref = tuple(args.ref.split("/"))
+    else:
+        qwen = [k for k in cells if k[0] == "qwen"]
+        ref = max(qwen, key=lambda k: accuracy(picks(cells[k], "canonical"))) if qwen else None
     if ref:
         print(f"reference for McNemar: {ref[0]}/{ref[1]} (canonical order)")
 
@@ -183,6 +198,11 @@ def summary(args):
             ids = {r["id"] for r in rows if r["lang"] == lang}
             by_lang.append(f"{lang} {sum(canon[i][0] == canon[i][1] for i in ids)}/{len(ids)}")
         print("   by language (canonical): " + ", ".join(by_lang))
+        rounds = sorted({i.split(":")[0] for i in canon})
+        if len(rounds) > 1:
+            by_round = [f"{x} {sum(lab == pick for i, (lab, pick) in canon.items() if i.startswith(x + ':'))}"
+                        f"/{sum(i.startswith(x + ':') for i in canon)}" for x in rounds]
+            print("   by round (canonical): " + ", ".join(by_round))
         print("   recall and confusion (rows = true label, canonical order):")
         print("   " + " " * 15 + " ".join(f"{x[:7]:>7}" for x in LABELS) + "  recall")
         for true in LABELS:
@@ -206,6 +226,7 @@ def main():
     p_run.add_argument("--out")
     p_run.add_argument("--messages", default=str(HERE / "router_messages.json"))
     p_sum = sub.add_parser("summary")
+    p_sum.add_argument("--ref", help="McNemar reference as model/format (default: best qwen format)")
     p_sum.add_argument("csvs", nargs="+")
     args = parser.parse_args()
     run(args) if args.cmd == "run" else summary(args)
