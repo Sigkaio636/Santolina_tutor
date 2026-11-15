@@ -22,7 +22,7 @@ EVENT_TYPES = (
     "session_start",  # client_ts (the phone's clock, ISO 8601), language
     "session_end",  # reason: logout | idle | new_login
     "view_opened",  # view: home | homework | practice | free | exercise
-    "exercise_shown",  # path_reason (free mode: random | easier_after_fail | suggested)
+    "exercise_shown",  # path_reason (free mode: see student_app/planner.py, or "suggested")
     "answer_submitted",  # answer, correct (bool), attempt, seconds_since_shown, with_help
     "hint_requested",  # hint_number
     "solution_requested",  # attempts_before

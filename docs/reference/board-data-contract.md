@@ -67,7 +67,7 @@ These types are known today. New types need no change to the contract. Most even
 | `session_start` | `client_ts` (the phone's clock), `language` |
 | `session_end` | `reason`: `logout`, `idle` (30 min), `new_login`, `restart` |
 | `view_opened` | `view`: `home`, `homework`, `practice`, `free`, `exercise` |
-| `exercise_shown` | `path_reason` in free mode: `random`, `easier_after_fail`, `suggested` |
+| `exercise_shown` | `path_reason` in free mode: `start`, `harder_after_solve`, `new_topic_after_mastery`, `same_level_after_help`, `easier_after_fail`, `other_topic_after_skip`, `suggested` |
 | `answer_submitted` | `answer`, `correct`, `attempt`, `seconds_since_shown`, `with_help` (after the solution) |
 | `hint_requested` | `hint_number` |
 | `solution_requested` | `attempts_before` |
