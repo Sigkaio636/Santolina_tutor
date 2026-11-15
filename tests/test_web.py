@@ -120,3 +120,31 @@ def test_homework_sticker_and_session_pages(tmp_path):
         r = client.get(url)
         assert r.status_code == 200, url
         assert "Error:" not in r.text, url
+
+
+def test_students_added_after_setup_reach_the_board(tmp_path):
+    import json
+
+    from classroom import paths
+
+    boards_dir = tmp_path / "boards"
+    create_fake_boards(boards_dir, n=1)
+    settings = config.Settings(
+        home=tmp_path / "home", port=0, fake_boards=boards_dir, adb="adb-not-installed"
+    )
+    client = TestClient(create_app(settings))
+    client.post("/groups", data={"name": "Demo"})
+    client.post("/setup/FAKE0001", data={"name": "Board 1", "group_id": "1"})
+    roster = boards_dir / "FAKE0001" / "santolina" / paths.ROSTER
+
+    def codes():
+        return json.loads(roster.read_text())["codes"]
+
+    assert codes() == []
+    client.post("/students", data={"display_name": "Ada", "group_id": "1"})
+    assert len(codes()) == 1
+    client.post("/students/1/group", data={"group_id": ""})
+    assert codes() == []
+    client.post("/students/1/group", data={"group_id": "1"})
+    client.post("/students/1/delete")
+    assert codes() == []

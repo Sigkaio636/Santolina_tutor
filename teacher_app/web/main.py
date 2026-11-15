@@ -2,6 +2,7 @@
 
 from datetime import UTC, datetime
 import json
+import logging
 from pathlib import Path
 import tempfile
 from urllib.parse import quote
@@ -18,6 +19,8 @@ from ..services import assignments, boards, hotspot, packs, setup, unload
 from ..simulate import demo_pack
 from ..strings import S
 from ..widgets import PERIODS, render_all
+
+log = logging.getLogger(__name__)
 
 HERE = Path(__file__).parent
 
@@ -86,6 +89,16 @@ def create_app(settings: config.Settings | None = None) -> FastAPI:
 
     def groups_list(conn):
         return conn.execute("SELECT * FROM groups ORDER BY name").fetchall()
+
+    def push_rosters(conn):
+        """Send the student codes to every registered board plugged in now. A student added
+        after setup could not log in until the board page was opened."""
+        for c in links.connected(settings):
+            if c.link and boards.get_board(conn, c.serial):
+                try:
+                    boards.push_roster(conn, c.link)
+                except Exception:  # an unplugged board gets it next time
+                    log.exception("roster not sent to %s", c.serial)
 
     # ---------------------------------------------------------------- dashboard
     @app.get("/", response_class=HTMLResponse)
@@ -156,6 +169,7 @@ def create_app(settings: config.Settings | None = None) -> FastAPI:
                     notes.strip(),
                 ),
             )
+        push_rosters(conn)
         return back("/students")
 
     @app.get("/students/{student_id}", response_class=HTMLResponse)
@@ -212,6 +226,7 @@ def create_app(settings: config.Settings | None = None) -> FastAPI:
                 "UPDATE students SET group_id = ? WHERE id = ?",
                 (int(group_id) if group_id else None, student_id),
             )
+        push_rosters(conn)
         return back(f"/students/{student_id}")
 
     @app.post("/students/{student_id}/delete")
@@ -222,6 +237,7 @@ def create_app(settings: config.Settings | None = None) -> FastAPI:
             )
             conn.execute("UPDATE events SET student_id = NULL WHERE student_id = ?", (student_id,))
             conn.execute("DELETE FROM students WHERE id = ?", (student_id,))
+        push_rosters(conn)
         return back("/students")
 
     # ---------------------------------------------------------------- boards

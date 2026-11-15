@@ -121,6 +121,13 @@ class Board:
                 code = (code or "").strip().upper()
                 if code not in self.roster():
                     raise Refused("bad_code")
+                # The same student again (the Wi-Fi sign-in window, then the browser): share
+                # the visit, so neither window throws the other out.
+                self.close_idle()
+                v = self.visit
+                if v and not v.teacher and v.code == code:
+                    v.last_activity = time.monotonic()
+                    return v
                 session = EventWriter.from_root(self.root).start_session(
                     code, client_ts=client_ts, language=language
                 )

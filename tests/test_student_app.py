@@ -242,9 +242,9 @@ def test_full_student_visit_is_logged_and_unloaded(server, board, conn, tmp_path
 
 def test_new_login_ends_previous_session(server, board):
     a, b = _client(server), _client(server)
-    code = _code(board)
-    a.token = a.call("/api/login", {"code": code})[1]["token"]
-    b.token = b.call("/api/login", {"code": code})[1]["token"]
+    first, second = json.loads(board.read_text(paths.ROSTER))["codes"][:2]
+    a.token = a.call("/api/login", {"code": first})[1]["token"]
+    b.token = b.call("/api/login", {"code": second})[1]["token"]
     assert a.call("/api/home")[0] == 401 and b.call("/api/home")[0] == 200
     ended = [
         read_events(f)[-1]
@@ -252,6 +252,21 @@ def test_new_login_ends_previous_session(server, board):
         if read_events(f)[-1].type == "session_end"
     ]
     assert [e.payload["reason"] for e in ended] == ["new_login"]
+
+
+def test_same_code_again_keeps_the_visit(server, board):
+    """The Wi-Fi sign-in window and the browser both log in: neither is thrown out."""
+    a, b = _client(server), _client(server)
+    code = _code(board)
+    a.token = a.call("/api/login", {"code": code})[1]["token"]
+    b.token = b.call("/api/login", {"code": code.lower()})[1]["token"]
+    assert a.call("/api/home")[0] == 200 and b.call("/api/home")[0] == 200
+    starts = [
+        f
+        for f in (board.root / paths.OUTBOX).glob("*.jsonl")
+        if read_events(f)[0].type == "session_start"
+    ]
+    assert len(starts) == 1
 
 
 def test_idle_visit_is_closed(server, board):

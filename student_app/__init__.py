@@ -14,4 +14,4 @@ message router of `router.py`) and the learning path behind `planner.PathPlanner
 # with an old checkout can't put old code back on a board. Code from before this line is 0.
 #   1: the real tutor (fine-tuned model, leak check, router)
 #   2: prompts that reuse the model's cache, free mode from the index
-RELEASE = 2
+RELEASE = 3
