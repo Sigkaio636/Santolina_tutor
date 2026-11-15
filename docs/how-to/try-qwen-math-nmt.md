@@ -145,4 +145,4 @@ Stop the server with `Ctrl+C` in terminal 1, then `sudo systemctl start math-llm
 - The speeds of the model and of the translation are laptop estimates until step 3 and step 2 give board numbers.
 - If the translation takes much longer than 3 seconds on the board, Catalan problems get less time to write their program. Set `NMT_THREADS` in `config.env` to try fewer threads.
 - Problems with a figure go through the same path, with the statement and the OCR'd options only.
-- The model was not fine-tuned. A fine-tuned version is training. It will use the same files and settings, with another GGUF.
+- The model was not fine-tuned. Both program fine-tunes (Noema-2B and Qwen2.5-Math) scored lower on the practice set than this untuned model, so use this GGUF.
