@@ -20,6 +20,7 @@ nav:
       - Noema-2B speed on the board: experiments/2026-11-noema-2b-board-timing.md
   - Reference:
       - UNO Q board reference: UNO_Q_BOARD_REFERENCE.md
+      - LED matrix design: LED_MATRIX_DESIGN.md
       - Board limits (interactive page): GUIA_RESTRICCIONES_UNOQ.html
   - The challenge:
       - What the challenge asks: GOAL_MUSTS.md
