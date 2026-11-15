@@ -95,7 +95,7 @@ this repository, so its commands and its skills work unchanged.
 | `predict.py` | Board | **The organizers' contract.** `python3 predict.py --input X.jsonl --output Y.csv`: one letter A to E per problem, at most 60 s each |
 | `eval.py`, `build_index.py` | Board | Measure accuracy and latency (writes `results/`), and build the RAG index |
 | `explorer/` | Board | A web page to try problems one by one (port 8000) |
-| `laptop/` | Laptop | `prepare_m3kang.py`: download M3Kang and read the options with OCR |
+| `laptop/` | Laptop | `prepare_m3kang.py`: download M3Kang and read the options with OCR. New option reader (not in `prepare_m3kang.py` yet): [docs/OPTION_READER_GUIDE.md](docs/OPTION_READER_GUIDE.md) |
 | `data/sample_problems.jsonl` | Both | The only data file in Git |
 
 Clone this repository on the board as `~/Santolina_tutor`, then follow

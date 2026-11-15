@@ -48,7 +48,10 @@ BOXES = {"v4": f"{DIR}/boxes_all_v4.jsonl", "v5": f"{DIR}/boxes_all_v5.jsonl"}
 PARQUETS = "data/raw_txto_yes/*.parquet"
 GOLD_PICK = f"{DIR}/gold_pick.json"
 GOLD = f"{DIR}/options_gold.json"
-GOLD2_PICK = f"{DIR}/gold2_pick.json"   # an older gold: gold3-pick leaves its rows out
+BOXES_CHARS = f"{DIR}/boxes_all_v5_chars.jsonl"   # v5 with char ink and bars (ocr_boxes.py --chars)
+GOLD2_PICK = f"{DIR}/gold2_pick.json"
+GOLD2 = f"{DIR}/options_gold2.json"
+DEV_PICK = f"{DIR}/math_dev_pick.json"
 # Gold for the engine comparison with Tesseract (docs/experiments/2026-11-tesseract-text-only.md):
 # eng/cat/esp text-only rows, drawn before any engine is scored on options.
 TXTO = {"v4": "data/interim/ocr_boxes_txto_yes.jsonl", "v5": "data/interim/ocr_boxes_txto_yes_v5.jsonl",
@@ -407,6 +410,13 @@ def gold_norm(value):
     return re.sub(r"(?<=\d),(?=\d)", ".", v)
 
 
+def pick_norm(value):
+    """The gold normalization as it was when gold_pick.json was drawn (comma before
+    spaces). gold-pick keeps it, so seed 7 still reproduces the stored sample."""
+    v = basic(value or "")
+    return re.sub(r"(?<=\d),(?=\d)", ".", v).replace(" ", "")
+
+
 def gold_lenient(value):
     """Value without unit; one sign for products (×, ·, *, x between digits)."""
     c = canon(value or "")
@@ -510,7 +520,7 @@ def cmd_gold_pick(args):
     pick = [(rng.choice(by_lang[l]), "random") for l in langs[:args.random]]
     taken = {k for k, _ in pick}
     differ = [k for k in keys if p["v4"][k] and p["v5"][k] and k not in taken
-              and any(gold_norm(p["v4"][k][x]) != gold_norm(p["v5"][k][x]) for x in LETTERS)]
+              and any(pick_norm(p["v4"][k][x]) != pick_norm(p["v5"][k][x]) for x in LETTERS)]
     fallback = [k for k in keys if p["v4"][k] and not p["v5"][k] and k not in taken]
     pick += [(k, "v4_v5_differ") for k in rng.sample(differ, args.differ)]
     pick += [(k, "v4_fallback") for k in rng.sample(fallback, args.fallback)]
@@ -519,42 +529,7 @@ def cmd_gold_pick(args):
     print(f"{len(pick)} rows: {Counter(s for _, s in pick)}; strata sizes: differ {len(differ)}, fallback {len(fallback)}")
 
     # Sheets: the bottom part of each image, where the options are. No engine text.
-    os.makedirs(f"{DIR}/gold_sheets", exist_ok=True)
-    wanted = defaultdict(list)
-    for n, (k, _) in enumerate(pick):
-        wanted[meta[k]["path"]].append((n, k))
-    crops = {}
-    for path, items in wanted.items():
-        t = pq.read_table(path, columns=["id", "language", "image"])
-        index = {f"{i}|{l}": j for j, (i, l) in enumerate(zip(t.column("id").to_pylist(), t.column("language").to_pylist()))}
-        for n, k in items:
-            img = Image.open(io.BytesIO(t.column("image")[index[k]].as_py()["bytes"])).convert("RGB")
-            w, h = img.size
-            # Top of the last "A" label, minus room for a stacked fraction above it.
-            labels = [(min(pt[1] for pt in b), max(pt[1] for pt in b)) for e in ("v5", "v4")
-                      for b, txt, _ in boxes[e][k] if is_marker(txt, "A", strict=False) is not None]
-            if labels:
-                y0, y1 = max(labels)
-                top = max(0, int(y0 - max(0.04 * h, 2.5 * (y1 - y0))))
-            else:
-                top = 0
-            crop = img.crop((0, top, w, h))
-            if crop.width > 1400:
-                crop = crop.resize((1400, int(crop.height * 1400 / crop.width)))
-            crops[n] = crop
-    for s in range(0, len(pick), args.per_sheet):
-        group = [crops[n] for n in range(s, min(s + args.per_sheet, len(pick)))]
-        width = max(c.width for c in group)
-        sheet = Image.new("RGB", (width, sum(c.height + 40 for c in group)), "white")
-        y = 0
-        draw = ImageDraw.Draw(sheet)
-        for j, c in enumerate(group):
-            draw.rectangle((0, y, width, y + 36), fill=(255, 230, 150))
-            draw.text((8, y + 8), f"#{s + j}", fill="black")
-            sheet.paste(c, (0, y + 40))
-            y += c.height + 40
-        sheet.save(f"{DIR}/gold_sheets/sheet_{s // args.per_sheet:02d}.png")
-    print(f"sheets in {DIR}/gold_sheets")
+    write_sheets([k for k, _ in pick], meta, boxes, f"{DIR}/gold_sheets", args.per_sheet)
 
 
 def summarize(name, arm, keys, meta, votes, flags_cache, show_fmt=True):
@@ -748,58 +723,118 @@ def cmd_score(args):
               f"agree&wrong {fp}, disagree&right {fn}, disagree&wrong {tn}")
 
 
-def cmd_repair(args):
-    meta = load_meta()
-    boxes = {e: load_boxes(path) for e, path in BOXES.items()}
-    keys = sorted(k for k in meta if k in boxes["v4"] and k in boxes["v5"])
-    arms, p = build_arms(boxes, keys)
-    votes = votes_by_problem(p, meta, keys)
-    out, changed = repair(arms["3 v5>v4 (baseline)"], p, votes, meta, keys)
-    with open(args.out, "w") as f:
-        for k in keys:
-            f.write(json.dumps({"key": k, "options": out[k]}, ensure_ascii=False) + "\n")
-    print(f"{len(keys)} rows, {changed} options repaired -> {args.out}")
+# --- Math layout arms (report not written yet) ---------------
+
+def load_records(path):
+    return {r["key"]: r for r in map(json.loads, open(path))}
 
 
-def cmd_by_level(args):
-    """Counts per level, all text-only rows: is OCR worse on harder problems, and why?"""
+def math_arms(recs, boxes, keys):
+    """Arms 8-10b on top of arm 5. Only arm 10b touches the v4 options (stacked pairs)."""
+    from math_layout import parse_options_math
+    o4 = {k: parse_options(boxes["v4"].get(k, [])) for k in keys}
+    o4f = {k: parse_options_math({"boxes": boxes["v4"].get(k, [])}, fractions=True) for k in keys}
+    flags = {"8 arm5+stacked": dict(fractions=True),
+             "9 arm5+stacked+tall": dict(fractions=True, tall=True),
+             "10 arm5+fractions+exponents": dict(fractions=True, tall=True, exponents=True)}
+    arms = {}
+    for name, f in flags.items():
+        o5 = {k: parse_options_math(recs[k], **f) for k in keys}
+        arms[name] = {k: format_fusion(o5[k], o4[k]) for k in keys}
+    arms["10b arm10+stacked on v4"] = {k: format_fusion(parse_options_math(recs[k], fractions=True, tall=True, exponents=True), o4f[k]) for k in keys}
+    return arms
+
+
+def candidate_kinds(rec, v5_opts):
+    """Loose, fixed criteria for rows that may hold a fraction or an exponent.
+
+    Looser than the rules in math_layout.py on purpose, so the gold can see misses.
+    """
+    from math_layout import char_ink, items_of
+    kinds = set()
+    items = items_of(rec)
+    starts = [i for i, it in enumerate(items) if is_marker(it["text"], "A", strict=False) is not None]
+    if not starts:
+        return kinds
+    tail = items[starts[-1]:]
+    lab = [it["h"] for it in tail if re.match(r"^\s*[A-E]\s*[\)）]", it["text"])]
+    if not lab:
+        return kinds
+    lh = sorted(lab)[len(lab) // 2]
+    for a, b in zip(tail, tail[1:]):
+        if a["row"] == b["row"] and abs(a["x"] - b["x"]) < 0.6 * lh and abs(a["y"] - b["y"]) > 0.5 * min(a["h"], b["h"]):
+            kinds.add("stacked")
+    if any(it["h"] > 1.6 * lh and not re.match(r"^\s*[A-E]\s*[\)）]", it["text"]) for it in tail):
+        kinds.add("tall")
+    if any(re.search(r"[A-Za-z)]\d", v) or re.search(r"[⁰¹²³⁴⁵⁶⁷⁸⁹]", v) for v in v5_opts.values()):
+        kinds.add("exp_text")
+    for it in tail:
+        chs = [c for c in char_ink(it["chars"] or [], it["comps"]) if c[3] is not None]
+        base = [c for c in chs if re.match(r"[0-9A-Z]", c[0])]
+        if len(base) >= 2:
+            bl = sorted(c[4] for c in base)[len(base) // 2]
+            ref = sorted(c[4] - c[3] for c in base)[len(base) // 2]
+            if ref > 0 and any(bl - c[4] > 0.15 * ref for c in chs if re.match(r"[0-9a-z]", c[0])):
+                kinds.add("raised")
+    return kinds
+
+
+def candidates_by_problem(recs, meta, keys):
+    """problem id -> set of candidate kinds (union over its rows)."""
+    out = defaultdict(set)
+    for k in keys:
+        out[meta[k]["id"]] |= candidate_kinds(recs[k], parse_options(recs[k]["boxes"]))
+    return {pid: kinds for pid, kinds in out.items() if kinds}
+
+
+def cmd_math_dev(args):
+    """Dev rows for tuning: candidate problems already in the old gold, plus a few new ones."""
     meta = load_meta()
+    recs = load_records(BOXES_CHARS)
     boxes = {e: load_boxes(path) for e, path in BOXES.items()}
-    keys = sorted(k for k in meta if k in boxes["v4"] and k in boxes["v5"])
-    arms, _ = build_arms(boxes, keys)
-    level = lambda k: int(re.match(r"lvl-(\d+)", k).group(1))
-    levels = sorted({level(k) for k in keys})
-    two = lambda v: bool(TWO_NUMBERS.match(v)) and not THOUSANDS.match(basic(v))
-    for name in ("3 v5>v4 (baseline)", "5 v5>v4 format fusion"):
-        arm = arms[name]
-        print(f"\n== {name}, all {len(keys)} rows ==")
-        print(f"{'level':>5}{'rows':>7}{'probs':>6}{'5 opts':>9}{'format ok':>10}{'math opts':>10}"
-              f"{'text opts':>10}{'two nums':>10}{'%':>6}")
-        tot = 0
-        for lv in levels:
-            ks = [k for k in keys if level(k) == lv]
-            five = [k for k in ks if row_flags(arm[k]) != {"incomplete"}]
-            ok = sum(not row_flags(arm[k]) for k in five)
-            kinds = Counter(kind(v) for k in ks for v in arm[k].values() if v)
-            n_opts = max(sum(kinds.values()), 1)
-            n_two = sum(any(two(v) for v in arm[k].values()) for k in ks)
-            tot += n_two
-            print(f"{lv:>5}{len(ks):>7}{len({meta[k]['id'] for k in ks}):>6}{100 * len(five) / len(ks):8.1f}%"
-                  f"{100 * ok / len(ks):9.1f}%{100 * kinds['math'] / n_opts:9.1f}%{100 * kinds['text'] / n_opts:9.1f}%"
-                  f"{n_two:>10}{100 * n_two / len(ks):5.1f}%")
-        print(f"rows with two bare numbers, all levels: {tot}")
-    if os.path.exists(GOLD):
-        gold = {g["key"]: g["options"] for g in json.load(open(GOLD)) if g.get("options")}
-        print(f"\ngold, {len(gold)} rows (Claude, no person checked; 40 rows chosen as hard cases)")
-        print(f"{'level':>5}{'rows':>6}{'base 5/5':>10}{'arm5 5/5':>10}{'fraction':>10}{'exponent':>10}")
-        for lv in levels:
-            g = {k: v for k, v in gold.items() if level(k) == lv}
-            if not g:
-                continue
-            frac = sum(any("/" in v and not v.lstrip().startswith("{") for v in o.values()) for o in g.values())
-            expo = sum(any("^" in basic(v) for v in o.values()) for o in g.values())
-            print(f"{lv:>5}{len(g):>6}{gold_scores(arms['3 v5>v4 (baseline)'], g)[0]:>10}"
-                  f"{gold_scores(arms['5 v5>v4 format fusion'], g)[0]:>10}{frac:>10}{expo:>10}")
+    keys = sorted(k for k in recs if k in meta)
+    cand = candidates_by_problem(recs, meta, keys)
+    old_ids = {meta[g["key"]]["id"] for g in json.load(open(GOLD_PICK))}
+    rng = random.Random(args.seed)
+    new = sorted(set(cand) - old_ids)
+    dev_ids = sorted(set(cand) & old_ids) + rng.sample(new, min(args.extra, len(new)))
+    by_pid = defaultdict(list)
+    for k in keys:
+        by_pid[meta[k]["id"]].append(k)
+    pick = [rng.choice(sorted(by_pid[pid])) for pid in dev_ids]
+    json.dump({"problems": dev_ids, "keys": pick}, open(DEV_PICK, "w"), indent=1)
+    arms = math_arms(recs, boxes, pick)
+    base = {k: format_fusion(parse_options(recs[k]["boxes"]), parse_options(boxes["v4"].get(k, []))) for k in pick}
+    notes = []
+    for k in pick:
+        notes.append([f"arm5:  {' | '.join(base[k].get(x, '') for x in LETTERS)}",
+                      f"arm10: {' | '.join(arms['10 arm5+fractions+exponents'][k].get(x, '') for x in LETTERS)}",
+                      f"kinds: {sorted(cand[meta[k]['id']])}"])
+    write_sheets(pick, meta, boxes, f"{DIR}/math_dev_sheets", args.per_sheet, notes)
+    print(f"dev: {len(dev_ids)} problems ({len(set(cand) & old_ids)} from the old gold); candidates {len(cand)}")
+
+
+def cmd_gold2_pick(args):
+    """Blind test gold: one row per candidate problem not in dev, plus random non-candidate rows."""
+    meta = load_meta()
+    recs = load_records(BOXES_CHARS)
+    boxes = {e: load_boxes(path) for e, path in BOXES.items()}
+    keys = sorted(k for k in recs if k in meta)
+    cand = candidates_by_problem(recs, meta, keys)
+    dev = set(json.load(open(DEV_PICK))["problems"])
+    old_ids = {meta[g["key"]]["id"] for g in json.load(open(GOLD_PICK))}
+    rng = random.Random(args.seed)
+    by_pid = defaultdict(list)
+    for k in keys:
+        by_pid[meta[k]["id"]].append(k)
+    test_ids = sorted(set(cand) - dev)
+    pick = [(rng.choice(sorted(by_pid[pid])), "candidate") for pid in test_ids]
+    others = sorted(pid for pid in by_pid if pid not in cand and pid not in dev and pid not in old_ids)
+    pick += [(rng.choice(sorted(by_pid[pid])), "random") for pid in rng.sample(others, args.random)]
+    rng.shuffle(pick)
+    json.dump([{"n": n, "key": k, "stratum": s} for n, (k, s) in enumerate(pick)], open(GOLD2_PICK, "w"), indent=1)
+    print(f"gold2: {len(pick)} rows, {Counter(s for _, s in pick)}; candidate problems {len(cand)}, dev {len(dev)}")
+    write_sheets([k for k, _ in pick], meta, boxes, f"{DIR}/gold2_sheets", args.per_sheet)
 
 
 def cmd_gold3_pick(args):
@@ -907,6 +942,107 @@ def cmd_engines(args):
                     {g["key"]: g["options"] for g in json.load(open(GOLD)) if g.get("options")})
 
 
+def cmd_math_score(args):
+    meta = load_meta()
+    recs = load_records(BOXES_CHARS)
+    boxes = {e: load_boxes(path) for e, path in BOXES.items()}
+    keys = sorted(k for k in recs if k in meta and k in boxes["v4"] and k in boxes["v5"])
+    print(f"{len(keys)} rows with char measurements (of {len(meta)})")
+    o5 = {k: parse_options(recs[k]["boxes"]) for k in keys}
+    o4 = {k: parse_options(boxes["v4"][k]) for k in keys}
+    arms = {"5 v5>v4 format fusion": {k: format_fusion(o5[k], o4[k]) for k in keys}}
+    arms.update(math_arms(recs, boxes, keys))
+    base = "5 v5>v4 format fusion"
+    changed = {name: [k for k in keys if arm[k] != arms[base][k]] for name, arm in arms.items()}
+    print("\nrows changed vs arm 5 (descriptive, not evidence):")
+    for name in arms:
+        print(f"  {name:30} rows {len(changed[name]):6}  problems {len({meta[k]['id'] for k in changed[name]}):4}")
+    pair = re.compile(r"^\s*\d+\s+\d+\s*$")
+    for name in arms:
+        n = sum(any(pair.match(v) and not THOUSANDS.match(basic(v)) for v in arms[name][k].values()) for k in keys)
+        print(f"  two bare numbers: {name:30} {n} rows")
+
+    for label, pick_path, gold_path in (("gold2 (blind, deciding)", GOLD2_PICK, GOLD2), ("old gold (regression only)", GOLD_PICK, GOLD)):
+        if not os.path.exists(gold_path):
+            print(f"\n{label}: {gold_path} missing")
+            continue
+        gold = {g["key"]: g["options"] for g in json.load(open(gold_path)) if g.get("options")}
+        strata = {g["key"]: g["stratum"] for g in json.load(open(pick_path))}
+        gold = {k: v for k, v in gold.items() if k in arms[base]}
+        print(f"\n{label}: {len(gold)} rows, {len({meta[k]['id'] for k in gold})} problems")
+        names = sorted(set(strata[k] for k in gold))
+        print(f"{'arm':30}{'all':>10}" + "".join(f"{n:>14}" for n in names) + f"{'vs arm 5':>22}")
+        ok_base = {k: gold_scores(arms[base], {k: gold[k]})[0] == 1 for k in gold}
+        for name, arm in arms.items():
+            ok = {k: gold_scores(arm, {k: gold[k]})[0] == 1 for k in gold}
+            cells = []
+            for st in names:
+                ks = [k for k in gold if strata[k] == st]
+                cells.append(f"{sum(ok[k] for k in ks)}/{len(ks)}")
+            ks = list(gold)
+            n01, n10, pv = mcnemar([ok[k] for k in ks], [ok_base[k] for k in ks])
+            print(f"{name:30}{f'{sum(ok.values())}/{len(ok)}':>10}" + "".join(f"{c:>14}" for c in cells)
+                  + f"   +{n01} -{n10} p={pv:.3f}")
+            if "candidate" in names:
+                kc = [k for k in gold if strata[k] == "candidate"]
+                a, b, pc = mcnemar([ok[k] for k in kc], [ok_base[k] for k in kc])
+                print(f"{'':30}candidate stratum: +{a} -{b} p={pc:.4f}")
+
+
+def cmd_repair(args):
+    meta = load_meta()
+    boxes = {e: load_boxes(path) for e, path in BOXES.items()}
+    keys = sorted(k for k in meta if k in boxes["v4"] and k in boxes["v5"])
+    arms, p = build_arms(boxes, keys)
+    votes = votes_by_problem(p, meta, keys)
+    out, changed = repair(arms["3 v5>v4 (baseline)"], p, votes, meta, keys)
+    with open(args.out, "w") as f:
+        for k in keys:
+            f.write(json.dumps({"key": k, "options": out[k]}, ensure_ascii=False) + "\n")
+    print(f"{len(keys)} rows, {changed} options repaired -> {args.out}")
+
+
+def cmd_by_level(args):
+    """Counts per level, all text-only rows: is OCR worse on harder problems, and why?"""
+    meta = load_meta()
+    boxes = {e: load_boxes(path) for e, path in BOXES.items()}
+    keys = sorted(k for k in meta if k in boxes["v4"] and k in boxes["v5"])
+    arms, _ = build_arms(boxes, keys)
+    level = lambda k: int(re.match(r"lvl-(\d+)", k).group(1))
+    levels = sorted({level(k) for k in keys})
+    two = lambda v: bool(TWO_NUMBERS.match(v)) and not THOUSANDS.match(basic(v))
+    for name in ("3 v5>v4 (baseline)", "5 v5>v4 format fusion"):
+        arm = arms[name]
+        print(f"\n== {name}, all {len(keys)} rows ==")
+        print(f"{'level':>5}{'rows':>7}{'probs':>6}{'5 opts':>9}{'format ok':>10}{'math opts':>10}"
+              f"{'text opts':>10}{'two nums':>10}{'%':>6}")
+        tot = 0
+        for lv in levels:
+            ks = [k for k in keys if level(k) == lv]
+            five = [k for k in ks if row_flags(arm[k]) != {"incomplete"}]
+            ok = sum(not row_flags(arm[k]) for k in five)
+            kinds = Counter(kind(v) for k in ks for v in arm[k].values() if v)
+            n_opts = max(sum(kinds.values()), 1)
+            n_two = sum(any(two(v) for v in arm[k].values()) for k in ks)
+            tot += n_two
+            print(f"{lv:>5}{len(ks):>7}{len({meta[k]['id'] for k in ks}):>6}{100 * len(five) / len(ks):8.1f}%"
+                  f"{100 * ok / len(ks):9.1f}%{100 * kinds['math'] / n_opts:9.1f}%{100 * kinds['text'] / n_opts:9.1f}%"
+                  f"{n_two:>10}{100 * n_two / len(ks):5.1f}%")
+        print(f"rows with two bare numbers, all levels: {tot}")
+    if os.path.exists(GOLD):
+        gold = {g["key"]: g["options"] for g in json.load(open(GOLD)) if g.get("options")}
+        print(f"\ngold, {len(gold)} rows (Claude, no person checked; 40 rows chosen as hard cases)")
+        print(f"{'level':>5}{'rows':>6}{'base 5/5':>10}{'arm5 5/5':>10}{'fraction':>10}{'exponent':>10}")
+        for lv in levels:
+            g = {k: v for k, v in gold.items() if level(k) == lv}
+            if not g:
+                continue
+            frac = sum(any("/" in v and not v.lstrip().startswith("{") for v in o.values()) for o in g.values())
+            expo = sum(any("^" in basic(v) for v in o.values()) for o in g.values())
+            print(f"{lv:>5}{len(g):>6}{gold_scores(arms['3 v5>v4 (baseline)'], g)[0]:>10}"
+                  f"{gold_scores(arms['5 v5>v4 format fusion'], g)[0]:>10}{frac:>10}{expo:>10}")
+
+
 def selftest():
     # Made-up values only.
     assert canon("1,5") == canon("1.5") == ("1.5", "1.5")
@@ -957,19 +1093,29 @@ def main():
     s.add_argument("--languages", help="only these languages (comma list)")
     s.add_argument("--shard0", action="store_true", help="only the first parquet file")
     s.add_argument("--per-language", action="store_true")
-    s = sub.add_parser("repair")
-    s.add_argument("--out", default=f"{DIR}/options_repaired.jsonl")
-    sub.add_parser("by-level")
+    s = sub.add_parser("math-dev")
+    s.add_argument("--seed", type=int, default=11)
+    s.add_argument("--extra", type=int, default=10)
+    s.add_argument("--per-sheet", type=int, default=4)
+    s = sub.add_parser("gold2-pick")
+    s.add_argument("--seed", type=int, default=23)
+    s.add_argument("--random", type=int, default=30)
+    s.add_argument("--per-sheet", type=int, default=5)
     s = sub.add_parser("gold3-pick")
     s.add_argument("--seed", type=int, default=31)
     s.add_argument("--per-language", type=int, default=20)
     s.add_argument("--per-sheet", type=int, default=5)
+    sub.add_parser("math-score")
     sub.add_parser("engines")
+    s = sub.add_parser("repair")
+    s.add_argument("--out", default=f"{DIR}/options_repaired.jsonl")
+    sub.add_parser("by-level")
     args = ap.parse_args()
     if args.selftest:
         return selftest()
     {"pilot": cmd_pilot, "gold-pick": cmd_gold_pick, "score": cmd_score, "repair": cmd_repair,
-     "by-level": cmd_by_level, "gold3-pick": cmd_gold3_pick, "engines": cmd_engines}[args.cmd](args)
+     "by-level": cmd_by_level, "math-dev": cmd_math_dev, "gold2-pick": cmd_gold2_pick, "gold3-pick": cmd_gold3_pick, "engines": cmd_engines,
+     "math-score": cmd_math_score}[args.cmd](args)
 
 
 if __name__ == "__main__":

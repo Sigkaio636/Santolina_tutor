@@ -68,7 +68,7 @@ def tsv_boxes(tsv):
     return boxes
 
 
-def make_engine(name):
+def make_engine(name, chars=False):
     import onnxruntime
     onnxruntime.preload_dlls()  # find the pip-installed CUDA and cuDNN
     if name == "v4":
@@ -96,7 +96,99 @@ def make_engine(name):
         if r.boxes is None:
             return []
         return list(zip(r.boxes.tolist(), r.txts, r.scores))
-    return run
+
+    def run_chars(image):
+        # rapidocr keeps call options between calls, and bar_search turns det off: set all.
+        r = ocr(image, use_det=True, use_cls=True, use_rec=True,
+                return_word_box=True, return_single_char_box=True)
+        if r.boxes is None:
+            return [], {}
+        boxes = list(zip(r.boxes.tolist(), r.txts, r.scores))
+        return boxes, measure(image, r.boxes.tolist(), r.word_results, ocr)
+    return run_chars if chars else run
+
+
+# --- Measurements for math layout (report not written yet) -----
+#
+# Stored raw, so the rules in laptop/math_layout.py can change without another
+# GPU run. The char x-ranges come from rapidocr's CTC columns; their y is the
+# whole line, so the vertical ink extent of each char is measured on the image.
+
+INK = 140          # gray level below which a pixel is ink
+TALL = 1.5         # a box taller than TALL x the median box height gets a bar search
+
+
+def measure(image, boxes, word_results, ocr):
+    import cv2
+    import numpy as np
+
+    img = cv2.imdecode(np.frombuffer(image, np.uint8), cv2.IMREAD_GRAYSCALE)
+    ink = img < INK
+    H, W = ink.shape
+    heights = [max(p[1] for p in b) - min(p[1] for p in b) for b in boxes]
+    median_h = float(np.median(heights)) if heights else 0.0
+    chars, comps, bars = [], [], []
+    for box, words, h in zip(boxes, word_results, heights):
+        y0 = max(0, int(min(p[1] for p in box) - 0.15 * h))
+        y1 = min(H, int(max(p[1] for p in box) + 0.15 * h) + 1)
+        row = []
+        bx0 = max(0, int(min(p[0] for p in box)))
+        bx1 = min(W, int(max(p[0] for p in box)) + 1)
+        for c, _score, cbox in words or ():
+            x0, x1 = min(p[0] for p in cbox), max(p[0] for p in cbox)
+            # Central third: ink in the middle columns only.
+            a, b = int(x0 + (x1 - x0) / 3), int(x1 - (x1 - x0) / 3) + 1
+            cols = ink[y0:y1, max(0, a):min(W, max(a + 1, b))]
+            ys = np.where(cols.any(axis=1))[0]
+            mid = [float(y0 + ys[0]), float(y0 + ys[-1])] if len(ys) else [None, None]
+            row.append([c, float(x0), float(x1), *mid])
+        comps.append(components(ink[y0:y1, bx0:bx1], bx0, y0))
+        chars.append(row)
+        bars.append(bar_search(img, ink, box, ocr) if median_h and h > TALL * median_h else None)
+    return {"chars": chars, "comps": comps, "bars": bars}
+
+
+def components(crop, ox, oy):
+    """Ink blobs of a crop as [x0, x1, top, bottom] in image coordinates; specks dropped."""
+    import cv2
+    import numpy as np
+
+    if crop.size == 0:
+        return []
+    n, _labels, stats, cents = cv2.connectedComponentsWithStats(crop.astype(np.uint8), connectivity=8)
+    out = []
+    for k in range(1, n):
+        x, y, w, h, area = stats[k]
+        if area >= 3:
+            out.append([float(ox + x), float(ox + x + w - 1), float(oy + y), float(oy + y + h - 1)])
+    return out
+
+
+def bar_search(img, ink, box, ocr):
+    """Best horizontal-bar row in the middle half of a tall box, and the text above and below it."""
+    import numpy as np
+
+    x0, x1 = int(min(p[0] for p in box)), int(max(p[0] for p in box)) + 1
+    y0, y1 = int(min(p[1] for p in box)), int(max(p[1] for p in box)) + 1
+    crop = ink[y0:y1, x0:x1]
+    h = crop.shape[0]
+    if h < 8 or crop.shape[1] < 4:
+        return None
+    ratio = crop.mean(axis=1)
+    lo, hi = h // 4, 3 * h // 4
+    r = int(lo + np.argmax(ratio[lo:hi]))
+    out = {"y": float(y0 + r), "ratio": round(float(ratio[r]), 3), "halves": None}
+    if ratio[r] > 0.3:
+        top, bottom = img[y0:y0 + max(1, r - 1), x0:x1], img[y0 + r + 2:y1, x0:x1]
+        halves = []
+        for part in (top, bottom):
+            if part.shape[0] < 4:
+                halves.append("")
+                continue
+            res = ocr(np.dstack([part] * 3), use_det=False, use_cls=False)
+            halves.append(res.txts[0] if getattr(res, "txts", None) else "")
+        out["halves"] = halves
+    return out
 
 
 def dump(args):
@@ -108,8 +200,10 @@ def dump(args):
     keys = {line.strip() for line in open(args.keys_file)} if args.keys_file else None
     if os.path.exists(args.out):
         done = {json.loads(line)["key"] for line in open(args.out)}
+    if args.chars and args.engine != "v5":
+        sys.exit("--chars needs --engine v5")
     tess = args.engine == "tess"
-    run = make_tesseract(args.tessdata_dir) if tess else make_engine(args.engine)
+    run = make_tesseract(args.tessdata_dir) if tess else make_engine(args.engine, chars=args.chars)
     pool = None
     if tess:
         from concurrent.futures import ThreadPoolExecutor  # threads are enough: each runs a subprocess
@@ -134,10 +228,11 @@ def dump(args):
                 outs = pool.map(lambda ik: run(image(ik[0]), ik[1].split("|")[1]), todo)
             else:
                 outs = (run(image(i)) for i, _ in todo)
-            for (i, key), boxes in zip(todo, outs):
+            for (i, key), out in zip(todo, outs):
+                boxes, extra = out if args.chars else (out, {})
                 boxes = [[[[float(x), float(y)] for x, y in box], text, float(score)]
                          for box, text, score in boxes]
-                f.write(json.dumps({"key": key, "boxes": boxes}, ensure_ascii=False) + "\n")
+                f.write(json.dumps({"key": key, "boxes": boxes, **extra}, ensure_ascii=False) + "\n")
                 n += 1
                 if n % 200 == 0:
                     print(f"  {n} rows, {n / (time.time() - t0):.1f} rows/s", flush=True)
@@ -192,6 +287,8 @@ def main():
     d.add_argument("--languages", default="eng,cat,esp", help='comma list, or "all"')
     d.add_argument("--exclude-languages", default="", help="comma list of languages to skip")
     d.add_argument("--keys-file", help='only these keys, one "id|lang" per line')
+    d.add_argument("--chars", action="store_true",
+                   help="v5 only: also store per-char x-ranges with ink extent, and bars in tall boxes")
     d.add_argument("--out", required=True)
     d.add_argument("parquet", nargs="+")
     c = sub.add_parser("compare")

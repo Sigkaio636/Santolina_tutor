@@ -266,6 +266,55 @@ None of the 5 rows has picture options. The last row matters: it shows that the 
 
 The images of the reviewed rows are in `data/interim/manual_review/`, which Git ignores.
 
+## Option errors by difficulty level
+
+M3Kang has 8 levels. Level 0 is grade 5, and level 7 is the hardest. Do harder problems have more wrong options? And if so, is it because their options hold more maths?
+
+We counted per level, on all 21,181 text-only rows, with the [option experiment](experiments/2026-11-option-extraction-consensus.md) baseline: PP-OCRv5, and PP-OCRv4 when PP-OCRv5 reads no options.
+
+- **Five options read**: the parser finds all five options.
+- **Format OK**: the row passes every format check of the experiment (no empty option, no label inside a value, no duplicate, no stray characters, one kind of option).
+- **Maths options**: the share of options that are a number, a formula or a value with a unit, not words.
+- **Two bare numbers**: rows with an option that is two numbers and nothing else, such as (made up) `4 9`. This is most likely a stacked fraction, 4/9, read as two numbers.
+
+| Level | Rows | Five options read | Format OK | Maths options | Two bare numbers |
+| --- | --- | --- | --- | --- | --- |
+| 0 | 758 | 96.8% | 96.6% | 99.7% | 7 (0.9%) |
+| 1 | 667 | 100.0% | 100.0% | 99.9% | 2 (0.3%) |
+| 2 | 892 | 99.9% | 99.9% | 96.1% | 8 (0.9%) |
+| 3 | 1,502 | 98.3% | 96.9% | 99.6% | 12 (0.8%) |
+| 4 | 3,659 | 99.5% | 96.0% | 95.8% | 108 (3.0%) |
+| 5 | 4,164 | 98.9% | 95.9% | 93.5% | 117 (2.8%) |
+| 6 | 4,820 | 98.7% | 97.2% | 99.6% | 85 (1.8%) |
+| 7 | 4,719 | 98.6% | 90.7% | 95.1% | 372 (7.9%) |
+| All | 21,181 | | | | 711 |
+
+On the gold sample of the experiment (100 rows whose options Claude wrote down from the image), we also counted the rows whose correct options hold a fraction or an exponent:
+
+| Level | Gold rows | All five options right | With a fraction | With an exponent |
+| --- | --- | --- | --- | --- |
+| 0 to 5 | 48 | 46 | 2 | 0 |
+| 6 | 26 | 21 | 1 | 2 |
+| 7 | 26 | 14 | 5 | 8 |
+
+What this shows:
+
+- **Coverage does not depend on the level.** The parser finds five options in 97% to 100% of the rows at every level.
+- **The hardest level has the most wrong options.** At level 7, only 14 of 26 gold rows have all five options right, and the share of rows that pass the format checks drops to 90.7%. At the other levels, it is 96% or more.
+- **The cause is maths layout, not more maths.** Options are numbers or formulas at every level (94% to 100%). What changes is the layout: at level 7, 7.9% of the rows have two bare numbers, and 13 of the 26 gold rows hold a fraction or an exponent. At levels 0 to 3, these are 1% or less, and no gold row holds one. Level 7 has 372 of the 711 rows with two bare numbers.
+
+Limits of this breakdown:
+
+- The gold sample is not a random draw per level. 40 of its 100 rows were chosen as hard cases (both engines disagree, or only PP-OCRv4 reads options). Levels 0 to 2 have only 10 gold rows together.
+- Claude wrote the gold options. No person checked them.
+- Two bare numbers is a proxy for a fraction. An exponent read as a normal digit, such as (made up) `27` for 2⁷, looks like any other number in the OCR text, so only the gold sample can count it.
+
+To repeat the counts (they print no option value):
+
+```bash
+~/.venvs/ocr-v5/bin/python laptop/option_consensus.py by-level
+```
+
 ## What this means for improving option reading
 
 On the text-only rows in English, Catalan and Spanish (2,277 rows), the measured steps add up:
@@ -284,8 +333,21 @@ A later experiment checks these options for correctness in all 108 languages, an
 
 The other improvements are not measured yet:
 
-- **Read stacked fractions and exponents from the box positions.** Both engines read a fraction as two numbers, and PP-OCRv5 sometimes swaps them. An exponent becomes a normal digit.
+- **Read stacked fractions and exponents from the box positions.** Both engines read a fraction as two numbers, and PP-OCRv5 sometimes swaps them. An exponent becomes a normal digit. This fix matters most at level 7, which has about half of the rows with two bare numbers (see [Option errors by difficulty level](#option-errors-by-difficulty-level)).
 - **Crop the image before OCR**, as the guide suggests. This removes figure text that can be added to an option.
+
+Cropping is now measured on the text-only rows. OpenCV finds the five option regions in almost
+every row. Giving the parser the crop alone lowers coverage. Using the OpenCV regions as a fallback
+after the whole image reaches 99.1 % coverage, but the rows it recovers are less reliable, and
+their correctness is not measured yet. See the
+[experiment report](experiments/2026-11-option-crops-opencv.md).
+
+Reading fractions and exponents is now measured too, on the text-only rows in English, Catalan
+and Spanish. A new reader finds the labels with OpenCV, splits stacked fractions and exponents,
+and reads each piece with a small recognizer. It reads all five options right in 60 of 60 gold
+rows, against 56 for today's pipeline. See the
+[experiment report](experiments/2026-11-option-boxes-intermediate-rec.md) and the
+[option reader guide](OPTION_READER_GUIDE.md).
 
 A LaTeX OCR, PP-FormulaNet, was tested on options with words, units and simple formulas, not on fractions, and was not adopted: see the [experiment report](experiments/2026-11-ppformulanet.md).
 
@@ -295,5 +357,6 @@ A LaTeX OCR, PP-FormulaNet, was tested on options with words, units and simple f
 - The empty-row results come from a sample of 300, not from all 1,779 empty rows.
 - There is no correct list of options to compare against. The comparison between languages misses an error that is the same in all three languages. So the fraction mode (one case) can be more common than it looks.
 - The manual review covers 20 images. It shows the kinds of error, not their exact rates.
+- The breakdown by level uses a gold sample of 100 rows that is not random per level, and a proxy (two bare numbers) for fractions. It shows where the errors cluster, not exact rates per level.
 - `prepare_m3kang.py` reuses the OCR cache, `data/.ocr_cache.jsonl`. Rows cached by an earlier run keep that run's result, which can come from the CPU or from an older parser.
 - One sampled row reaches all five labels when we run OCR again, but its stored result is empty. We ran the script three times on the GPU and got the same counts each time, so this difference most likely comes from the cache, not from the OCR.

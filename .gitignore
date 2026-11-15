@@ -4,6 +4,9 @@
 !/data/sample_problems.jsonl
 !/data/README.md
 
+# Notebook whose outputs show M3Kang images (kept local)
+/notebooks/option_crops_opencv.ipynb
+
 # Session uploads and outputs; can hold M3Kang problem images
 /output/
 
@@ -213,3 +216,6 @@ docs/vault/**/parsed/
 
 # MinerU config + weights (machine-specific, ~1.6 GB)
 /models/mineru-home/
+
+# Hugging Face model weights (large; download them again with huggingface-cli)
+/models/hf-*/
