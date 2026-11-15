@@ -36,7 +36,7 @@ Each student gets a board. The board makes its own Wi-Fi, and the student uses i
     - **Practice**: every exercise on the board, grouped by topic (or by level when a pack has no topics).
     - **Free mode**: a conversation. Problems appear in it one by one, the student can ask anything, and the copilot can suggest other problems.
 
-On an exercise the student taps an option and sees at once whether it's right. A wrong option is greyed out, and they can try again. **Clue** gives a hint. **Show the solution** appears after the first wrong answer: it gives the explanation and the right letter, and the exercise counts as "done with help". Below, they can ask questions about the problem, with a photo if they want.
+On an exercise the student taps an option and sees at once whether it's right. A wrong option is greyed out, and they can try again. **Clue** gives a hint. **Show the solution** appears after the first wrong answer: it gives the right letter, with the pack's worked solution when there is one, and the exercise counts as "done with help". Below, they can ask questions about the problem, with a photo if they want.
 
 **Aa**, at the top of every screen, opens two reading switches. Both are off at first, and each works without the other:
 
@@ -53,9 +53,46 @@ Every action is saved on the board as events: answers (which option, which try, 
 
 The teacher unloads it by plugging the board in. Each session has a timeline on the student's page in the teacher app.
 
-## The copilot is not connected yet
+## The copilot
 
-Clues, solutions and chat replies come from a stand-in (`student_app/tutor.py`). Replace that class to connect the real copilot. The interface doesn't change.
+Clues, solutions and chat replies come from `student_app/tutor.py`. It runs the fine-tuned tutor model (Qwen3.5 0.8B, `qwen35-tutor-Q8_0.gguf`) as `math-tutor.service` on port 8084. The model answers with one short question that guides the student, in the language of the visit.
+
+To install it on a board:
+
+1. On the laptop: `adb push qwen35-tutor-Q8_0.gguf /home/arduino/models/`
+2. On the board, from the repository: `./board/08_install_tutor.sh`. It starts the service and asks the model for one clue.
+
+What each request does:
+
+| Request | What the student gets | Model call |
+| --- | --- | --- |
+| Clue 1 | Where to start | Yes |
+| Clue 2 | A more concrete hint, and a similar easier problem from the retrieval index when there is one | Yes |
+| Clue 3 and later | The next step | Yes |
+| A chat message | A guiding reply. `student_app/router.py` first labels the message `STUCK`, `CONCEPT`, `ATTEMPT`, `SOLUTION` or `OTHER` | Yes |
+| A message that names an option ("is it D?") | A request to send it with the answer button, which counts the attempt | No |
+| An empty or unreadable message | A request to talk about the problem | No |
+| "Another problem" in free mode | A problem the student has not opened in this visit | No |
+| Show the solution | The pack's `meta.solution` when it has one, else the right option and a request to explain it back | No |
+
+Code checks every model reply for leaks. A fixed hint replaces any reply that names the right option, points at any option as the answer, or holds the right value when the statement does not. The same fixed hints keep the app working when the model service is down. Each `copilot_reply` event records how the reply was made: `route`, `label`, `tokens`, `prompt_tokens`, `model_seconds`, `first_token_seconds`, and `leak_blocked` when the check replaced a reply.
+
+Limits to know before a demo:
+
+- The model cannot check the student's arithmetic. It accepts a wrong intermediate step, and it sometimes gets a step wrong itself.
+- It does not write worked solutions, and the base model writes wrong ones, so the app generates none. To show a worked solution, write it into the pack as `meta.solution` on the laptop.
+- It cannot read photos. A photo gets a note that asks for the problem in words.
+- The router is a keyword rule. The decision model will replace `router.classify` and keep the same five labels.
+- The time per reply on the board is not measured yet. On a laptop it is 2 to 8 seconds.
+
+While the model writes, `GET /api/board-state` returns `"thinking": {"tokens": n, "max": m}` and the LED matrix fills its "thinking" bar. The rest of the time `thinking` is `null`.
+
+To try the copilot on the laptop, start the model on any free port and point the app at it with `SANTOLINA_TUTOR_URL`:
+
+```bash
+~/llama.cpp/build/bin/llama-server -m qwen35-tutor-Q8_0.gguf --port 8095 --ctx-size 2048 --jinja --reasoning off
+SANTOLINA_TUTOR_URL=http://127.0.0.1:8095 uv run --group teacher python -m teacher_app demo
+```
 
 ## How free mode picks the next problem
 

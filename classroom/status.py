@@ -19,7 +19,7 @@ from .events import is_closed
 from .packs import list_packs
 from .schemas import ContractError, Identity, Mode, Roster, read_json
 
-DEFAULT_PORTS = {"llm": 8081, "embed": 8082}
+DEFAULT_PORTS = {"llm": 8081, "embed": 8082, "tutor": 8084}
 
 
 def _read(path, cls):

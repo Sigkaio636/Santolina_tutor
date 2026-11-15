@@ -42,7 +42,7 @@ def test_endpoint_answers_any_host_despite_the_captive_portal(tmp_path):
             headers={"Host": "172.17.0.1"},
         )
         with urllib.request.urlopen(req, timeout=5) as r:
-            assert json.loads(r.read()) == {"wifi": "waiting"}
+            assert json.loads(r.read()) == {"wifi": "waiting", "thinking": None}
     finally:
         srv.shutdown()
         srv.server_close()

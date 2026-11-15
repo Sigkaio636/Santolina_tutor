@@ -5,6 +5,6 @@ Standard library only (the board has no pip). The teacher app copies this packag
 
     cd ~/santolina/lib && python3 -m student_app.server --port 80 --public-host 10.42.0.1
 
-The copilot is behind `tutor.Tutor` and the learning path behind `planner.PathPlanner`.
-Both are stubs for now: replace them without touching the interface.
+The copilot is behind `tutor.Tutor` (the fine-tuned tutor model, `llm.py`, with the
+message router of `router.py`) and the learning path behind `planner.PathPlanner`.
 """

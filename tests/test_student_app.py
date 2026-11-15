@@ -12,12 +12,12 @@ import pytest
 from classroom import paths
 from classroom.events import read_events
 from classroom.schemas import Assignment, now_iso, to_dict, write_json
-from student_app import tutor
+from student_app import llm
 from student_app.server import make_server
 from teacher_app.services import boards, packs, setup, unload
 from teacher_app.simulate import demo_pack
 
-tutor.STUB_DELAY_SECONDS = 0.05
+llm.URL = "http://127.0.0.1:9"  # no tutor model in tests: every reply takes its fixed fallback
 
 
 class Client:

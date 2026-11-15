@@ -72,7 +72,7 @@ These types are known today. New types need no change to the contract. Most even
 | `hint_requested` | `hint_number` |
 | `solution_requested` | `attempts_before` |
 | `question_asked` | `text`, `has_photo`, `photo_bytes`, `photo_type` (the photo itself is not stored) |
-| `copilot_reply` | `text`, `seconds`, `kind` (`chat`, `clue`, `solution`), `suggestions` |
+| `copilot_reply` | `text`, `seconds`, `kind` (`chat`, `clue`, `solution`), `suggestions`; from the tutor also `route`, `label`, `clue_number`, `tokens`, `prompt_tokens`, `model_seconds`, `first_token_seconds`, `leak_blocked`, `error` when present |
 | `exercise_left` | `seconds`, `attempts` (left without solving) |
 | `page_hidden`, `page_visible` | `seconds_hidden` (the student was in another app) |
 | `language_changed` | `language` |

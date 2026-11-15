@@ -21,6 +21,7 @@ from urllib.parse import parse_qs, urlsplit
 
 from classroom import paths
 
+from . import llm
 from .board_state import BoardState
 from .state import Board, Expired, Refused
 from .strings import LANGUAGES, strings
@@ -112,7 +113,8 @@ class Handler(BaseHTTPRequestHandler):
         # The LED matrix app asks from its container, under whatever host name: answer it
         # before the captive portal would redirect it.
         if urlsplit(self.path).path == "/api/board-state":
-            return self._json({"wifi": self.board_state.state})
+            # thinking: {"tokens", "max"} while the tutor model writes, else null
+            return self._json({"wifi": self.board_state.state, "thinking": llm.THINKING.state()})
         if self._captive():
             return
         url = urlsplit(self.path)

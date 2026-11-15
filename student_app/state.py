@@ -74,6 +74,9 @@ class Visit:
         self.hidden_since = None
 
 
+RESERVED_LOG = {"text", "seconds", "kind", "suggestions", "type", "item", "v"}
+
+
 class Board:
     def __init__(
         self, root=None, tutor_cls=Tutor, planner_cls=PathPlanner, idle_seconds=IDLE_SECONDS
@@ -348,6 +351,7 @@ class Board:
             "language": v.language,
             "exercise": self.catalog.public(item, with_answer=True) if item else None,
             "history": list(v.chats.get(thread, [])),
+            "seen": list(v.exercises),  # keys opened in this visit
         }
 
     def _thread(self, v: Visit, item) -> str:
@@ -369,6 +373,8 @@ class Board:
             seconds=seconds,
             kind=kind,
             suggestions=suggestions,
+            # How the tutor answered: route, label, tokens, model and first-token seconds
+            **{k: v for k, v in (reply.get("log") or {}).items() if k not in RESERVED_LOG},
         )
         v.chats.setdefault(thread, []).append(("copilot", reply["text"]))
         out = {"text": reply["text"], "kind": kind, "suggestions": []}
