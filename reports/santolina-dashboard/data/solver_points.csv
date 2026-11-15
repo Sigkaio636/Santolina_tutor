@@ -1,0 +1,1380 @@
+run,dataset,setup,input,id,level,outcome,read_tokens,written_tokens,budget,extra_s,program_right
+practice · Noema-2B · examples prompt · eng,practice,Noema-2B · examples prompt,eng,lvl-6_2026_7,6,cut at the token cap,85,93,93,0,0
+practice · Noema-2B · examples prompt · eng,practice,Noema-2B · examples prompt,eng,lvl-0_2026_15,0,cut at the token cap,83,94,94,0,0
+practice · Noema-2B · examples prompt · eng,practice,Noema-2B · examples prompt,eng,lvl-3_2026_6,3,wrong option,97,15,87,0,0
+practice · Noema-2B · examples prompt · eng,practice,Noema-2B · examples prompt,eng,lvl-1_2026_8,1,right,96,70,87,0,1
+practice · Noema-2B · examples prompt · eng,practice,Noema-2B · examples prompt,eng,lvl-5_2026_10,5,cut at the token cap,88,91,91,0,0
+practice · Noema-2B · examples prompt · eng,practice,Noema-2B · examples prompt,eng,lvl-1_2026_2,1,wrong option,84,41,93,0,0
+practice · Noema-2B · examples prompt · eng,practice,Noema-2B · examples prompt,eng,lvl-0_2026_10,0,wrong option,87,43,92,0,0
+practice · Noema-2B · examples prompt · eng,practice,Noema-2B · examples prompt,eng,lvl-3_2026_5,3,right,95,71,88,0,1
+practice · Noema-2B · examples prompt · eng,practice,Noema-2B · examples prompt,eng,lvl-7_2026_4,7,cut at the token cap,82,94,94,0,0
+practice · Noema-2B · examples prompt · eng,practice,Noema-2B · examples prompt,eng,lvl-0_2026_9,0,cut at the token cap,106,82,82,0,0
+practice · Noema-2B · examples prompt · eng,practice,Noema-2B · examples prompt,eng,lvl-4_2026_6,4,cut at the token cap,88,91,91,0,0
+practice · Noema-2B · examples prompt · eng,practice,Noema-2B · examples prompt,eng,lvl-4_2026_9,4,right,81,81,95,0,1
+practice · Noema-2B · examples prompt · eng,practice,Noema-2B · examples prompt,eng,lvl-2_2026_5,2,right,66,43,102,0,1
+practice · Noema-2B · examples prompt · eng,practice,Noema-2B · examples prompt,eng,lvl-7_2026_9,7,right,77,59,97,0,1
+practice · Noema-2B · examples prompt · eng,practice,Noema-2B · examples prompt,eng,lvl-0_2026_7,0,cut at the token cap,126,72,72,0,0
+practice · Noema-2B · examples prompt · eng,practice,Noema-2B · examples prompt,eng,lvl-5_2026_8,5,no option matched,81,69,95,0,0
+practice · Noema-2B · examples prompt · eng,practice,Noema-2B · examples prompt,eng,lvl-1_2026_15,1,right,107,71,82,0,1
+practice · Noema-2B · examples prompt · eng,practice,Noema-2B · examples prompt,eng,lvl-3_2026_1,3,right,77,14,97,0,1
+practice · Noema-2B · examples prompt · eng,practice,Noema-2B · examples prompt,eng,lvl-6_2026_10,6,wrong option,80,14,95,0,0
+practice · Noema-2B · examples prompt · eng,practice,Noema-2B · examples prompt,eng,lvl-1_2026_9,1,no option matched,78,19,96,0,0
+practice · Noema-2B · examples prompt · eng,practice,Noema-2B · examples prompt,eng,lvl-1_2026_14,1,wrong option,88,48,91,0,0
+practice · Noema-2B · examples prompt · eng,practice,Noema-2B · examples prompt,eng,lvl-2_2026_6,2,crashed,95,77,88,0,0
+practice · Noema-2B · examples prompt · eng,practice,Noema-2B · examples prompt,eng,lvl-7_2026_3,7,right,109,42,81,0,1
+practice · Noema-2B · examples prompt · eng,practice,Noema-2B · examples prompt,eng,lvl-0_2026_2,0,no option matched,106,41,82,0,0
+practice · Noema-2B · examples prompt · eng,practice,Noema-2B · examples prompt,eng,lvl-1_2026_13,1,cut at the token cap,79,96,96,0,0
+practice · Noema-2B · examples prompt · eng,practice,Noema-2B · examples prompt,eng,lvl-0_2026_3,0,wrong option,66,49,102,0,0
+practice · Noema-2B · examples prompt · eng,practice,Noema-2B · examples prompt,eng,lvl-6_2026_3,6,no option matched,89,29,91,0,0
+practice · Noema-2B · examples prompt · eng,practice,Noema-2B · examples prompt,eng,lvl-6_2026_4,6,right,76,66,97,0,1
+practice · Noema-2B · examples prompt · eng,practice,Noema-2B · examples prompt,eng,lvl-5_2026_9,5,no option matched,109,65,81,0,0
+practice · Noema-2B · examples prompt · eng,practice,Noema-2B · examples prompt,eng,lvl-2_2026_13,2,cut at the token cap,112,79,79,0,0
+practice · Noema-2B · examples prompt · eng,practice,Noema-2B · examples prompt,eng,lvl-4_2026_10,4,cut at the token cap,82,94,94,0,0
+practice · Noema-2B · examples prompt · eng,practice,Noema-2B · examples prompt,eng,lvl-7_2026_10,7,no option matched,105,73,83,0,0
+practice · Noema-2B · examples prompt · eng,practice,Noema-2B · examples prompt,eng,lvl-0_2026_8,0,no option matched,88,66,91,0,0
+practice · Noema-2B · examples prompt · eng,practice,Noema-2B · examples prompt,eng,lvl-5_2026_1,5,cut at the token cap,88,91,91,0,0
+practice · Noema-2B · examples prompt · eng,practice,Noema-2B · examples prompt,eng,lvl-2_2026_14,2,crashed,87,69,92,0,0
+practice · Noema-2B · examples prompt · eng,practice,Noema-2B · examples prompt,eng,lvl-1_2026_1,1,cut at the token cap,110,80,80,0,0
+practice · Noema-2B · examples prompt · eng,practice,Noema-2B · examples prompt,eng,lvl-6_2026_8,6,no option matched,82,42,94,0,0
+practice · Noema-2B · examples prompt · eng,practice,Noema-2B · examples prompt,eng,lvl-1_2026_7,1,right,88,55,91,0,1
+practice · Noema-2B · examples prompt · eng,practice,Noema-2B · examples prompt,eng,lvl-5_2026_3,5,right,83,79,94,0,1
+practice · Noema-2B · examples prompt · eng,practice,Noema-2B · examples prompt,eng,lvl-2_2026_7,2,wrong option,75,15,98,0,0
+practice · Noema-2B · examples prompt · eng,practice,Noema-2B · examples prompt,eng,lvl-4_2026_11,4,cut at the token cap,106,82,82,0,0
+practice · Noema-2B · examples prompt · eng,practice,Noema-2B · examples prompt,eng,lvl-2_2026_2,2,wrong option,86,15,92,0,0
+practice · Noema-2B · examples prompt · eng,practice,Noema-2B · examples prompt,eng,lvl-3_2026_11,3,right,80,83,95,0,1
+practice · Noema-2B · examples prompt · eng,practice,Noema-2B · examples prompt,eng,lvl-4_2026_4,4,right,84,71,93,0,1
+practice · Noema-2B · examples prompt · eng,practice,Noema-2B · examples prompt,eng,lvl-4_2026_5,4,no option matched,105,81,83,0,0
+practice · Noema-2B · examples prompt · eng,practice,Noema-2B · examples prompt,eng,lvl-2_2026_12,2,no option matched,89,42,91,0,0
+practice · Noema-2B · examples prompt · eng,practice,Noema-2B · examples prompt,eng,lvl-0_2026_16,0,right,114,65,78,0,1
+practice · Noema-2B · examples prompt · eng,practice,Noema-2B · examples prompt,eng,lvl-3_2026_12,3,wrong option,89,14,91,0,0
+practice · Noema-2B · examples prompt · eng,practice,Noema-2B · examples prompt,eng,lvl-7_2026_8,7,right,81,59,95,0,1
+practice · Noema-2B · examples prompt · eng,practice,Noema-2B · examples prompt,eng,lvl-3_2026_10,3,right,76,72,97,0,1
+practice · Noema-2B · examples prompt · cat,practice,Noema-2B · examples prompt,cat,lvl-6_2026_7,6,no option matched,90,32,90,0,0
+practice · Noema-2B · examples prompt · cat,practice,Noema-2B · examples prompt,cat,lvl-0_2026_15,0,no option matched,119,40,76,0,0
+practice · Noema-2B · examples prompt · cat,practice,Noema-2B · examples prompt,cat,lvl-3_2026_6,3,wrong option,111,15,80,0,0
+practice · Noema-2B · examples prompt · cat,practice,Noema-2B · examples prompt,cat,lvl-1_2026_8,1,right,98,70,86,0,1
+practice · Noema-2B · examples prompt · cat,practice,Noema-2B · examples prompt,cat,lvl-5_2026_10,5,wrong option,94,77,88,0,0
+practice · Noema-2B · examples prompt · cat,practice,Noema-2B · examples prompt,cat,lvl-1_2026_2,1,no option matched,101,52,85,0,0
+practice · Noema-2B · examples prompt · cat,practice,Noema-2B · examples prompt,cat,lvl-0_2026_10,0,wrong option,101,38,85,0,0
+practice · Noema-2B · examples prompt · cat,practice,Noema-2B · examples prompt,cat,lvl-3_2026_5,3,right,105,72,83,0,1
+practice · Noema-2B · examples prompt · cat,practice,Noema-2B · examples prompt,cat,lvl-7_2026_4,7,no option matched,92,47,89,0,0
+practice · Noema-2B · examples prompt · cat,practice,Noema-2B · examples prompt,cat,lvl-0_2026_9,0,cut at the token cap,123,74,74,0,0
+practice · Noema-2B · examples prompt · cat,practice,Noema-2B · examples prompt,cat,lvl-4_2026_6,4,cut at the token cap,89,91,91,0,0
+practice · Noema-2B · examples prompt · cat,practice,Noema-2B · examples prompt,cat,lvl-4_2026_9,4,wrong option,86,80,92,0,0
+practice · Noema-2B · examples prompt · cat,practice,Noema-2B · examples prompt,cat,lvl-2_2026_5,2,right,71,25,100,0,1
+practice · Noema-2B · examples prompt · cat,practice,Noema-2B · examples prompt,cat,lvl-7_2026_9,7,right,85,60,93,0,1
+practice · Noema-2B · examples prompt · cat,practice,Noema-2B · examples prompt,cat,lvl-0_2026_7,0,cut at the token cap,145,63,63,0,0
+practice · Noema-2B · examples prompt · cat,practice,Noema-2B · examples prompt,cat,lvl-5_2026_8,5,cut at the token cap,87,92,92,0,0
+practice · Noema-2B · examples prompt · cat,practice,Noema-2B · examples prompt,cat,lvl-1_2026_15,1,wrong option,116,49,77,0,0
+practice · Noema-2B · examples prompt · cat,practice,Noema-2B · examples prompt,cat,lvl-3_2026_1,3,cut at the token cap,85,93,93,0,0
+practice · Noema-2B · examples prompt · cat,practice,Noema-2B · examples prompt,cat,lvl-6_2026_10,6,wrong option,85,14,93,0,0
+practice · Noema-2B · examples prompt · cat,practice,Noema-2B · examples prompt,cat,lvl-1_2026_9,1,no option matched,87,61,92,0,0
+practice · Noema-2B · examples prompt · cat,practice,Noema-2B · examples prompt,cat,lvl-1_2026_14,1,cut at the token cap,99,86,86,0,0
+practice · Noema-2B · examples prompt · cat,practice,Noema-2B · examples prompt,cat,lvl-2_2026_6,2,cut at the token cap,110,80,80,0,0
+practice · Noema-2B · examples prompt · cat,practice,Noema-2B · examples prompt,cat,lvl-7_2026_3,7,right,117,46,77,0,1
+practice · Noema-2B · examples prompt · cat,practice,Noema-2B · examples prompt,cat,lvl-0_2026_2,0,no option matched,116,41,77,0,0
+practice · Noema-2B · examples prompt · cat,practice,Noema-2B · examples prompt,cat,lvl-1_2026_13,1,crashed,85,49,93,0,0
+practice · Noema-2B · examples prompt · cat,practice,Noema-2B · examples prompt,cat,lvl-0_2026_3,0,right,68,15,101,0,1
+practice · Noema-2B · examples prompt · cat,practice,Noema-2B · examples prompt,cat,lvl-6_2026_3,6,no option matched,97,56,87,0,0
+practice · Noema-2B · examples prompt · cat,practice,Noema-2B · examples prompt,cat,lvl-6_2026_4,6,cut at the token cap,79,96,96,0,0
+practice · Noema-2B · examples prompt · cat,practice,Noema-2B · examples prompt,cat,lvl-5_2026_9,5,no option matched,124,46,73,0,0
+practice · Noema-2B · examples prompt · cat,practice,Noema-2B · examples prompt,cat,lvl-2_2026_13,2,cut at the token cap,139,66,66,0,0
+practice · Noema-2B · examples prompt · cat,practice,Noema-2B · examples prompt,cat,lvl-4_2026_10,4,no option matched,91,42,90,0,0
+practice · Noema-2B · examples prompt · cat,practice,Noema-2B · examples prompt,cat,lvl-7_2026_10,7,no option matched,109,62,81,0,0
+practice · Noema-2B · examples prompt · cat,practice,Noema-2B · examples prompt,cat,lvl-0_2026_8,0,wrong option,97,58,87,0,0
+practice · Noema-2B · examples prompt · cat,practice,Noema-2B · examples prompt,cat,lvl-5_2026_1,5,right,96,15,87,0,1
+practice · Noema-2B · examples prompt · cat,practice,Noema-2B · examples prompt,cat,lvl-2_2026_14,2,no option matched,108,40,81,0,0
+practice · Noema-2B · examples prompt · cat,practice,Noema-2B · examples prompt,cat,lvl-1_2026_1,1,cut at the token cap,119,76,76,0,0
+practice · Noema-2B · examples prompt · cat,practice,Noema-2B · examples prompt,cat,lvl-6_2026_8,6,crashed,83,44,94,0,0
+practice · Noema-2B · examples prompt · cat,practice,Noema-2B · examples prompt,cat,lvl-1_2026_7,1,no option matched,95,42,88,0,0
+practice · Noema-2B · examples prompt · cat,practice,Noema-2B · examples prompt,cat,lvl-5_2026_3,5,no option matched,85,58,93,0,0
+practice · Noema-2B · examples prompt · cat,practice,Noema-2B · examples prompt,cat,lvl-2_2026_7,2,wrong option,82,15,94,0,0
+practice · Noema-2B · examples prompt · cat,practice,Noema-2B · examples prompt,cat,lvl-4_2026_11,4,cut at the token cap,111,80,80,0,0
+practice · Noema-2B · examples prompt · cat,practice,Noema-2B · examples prompt,cat,lvl-2_2026_2,2,wrong option,98,15,86,0,0
+practice · Noema-2B · examples prompt · cat,practice,Noema-2B · examples prompt,cat,lvl-3_2026_11,3,no option matched,88,78,91,0,0
+practice · Noema-2B · examples prompt · cat,practice,Noema-2B · examples prompt,cat,lvl-4_2026_4,4,cut at the token cap,90,90,90,0,0
+practice · Noema-2B · examples prompt · cat,practice,Noema-2B · examples prompt,cat,lvl-4_2026_5,4,cut at the token cap,120,75,75,0,0
+practice · Noema-2B · examples prompt · cat,practice,Noema-2B · examples prompt,cat,lvl-2_2026_12,2,wrong option,104,14,83,0,0
+practice · Noema-2B · examples prompt · cat,practice,Noema-2B · examples prompt,cat,lvl-0_2026_16,0,right,127,65,72,0,1
+practice · Noema-2B · examples prompt · cat,practice,Noema-2B · examples prompt,cat,lvl-3_2026_12,3,cut at the token cap,102,84,84,0,0
+practice · Noema-2B · examples prompt · cat,practice,Noema-2B · examples prompt,cat,lvl-7_2026_8,7,right,85,59,93,0,1
+practice · Noema-2B · examples prompt · cat,practice,Noema-2B · examples prompt,cat,lvl-3_2026_10,3,crashed,82,63,94,0,0
+practice · Qwen-Math · examples prompt · eng,practice,Qwen-Math · examples prompt,eng,lvl-6_2026_7,6,cut at the token cap,84,119,119,0,0
+practice · Qwen-Math · examples prompt · eng,practice,Qwen-Math · examples prompt,eng,lvl-0_2026_15,0,cut at the token cap,84,119,119,0,0
+practice · Qwen-Math · examples prompt · eng,practice,Qwen-Math · examples prompt,eng,lvl-3_2026_6,3,cut at the token cap,96,112,112,0,0
+practice · Qwen-Math · examples prompt · eng,practice,Qwen-Math · examples prompt,eng,lvl-1_2026_8,1,right,95,67,113,0,1
+practice · Qwen-Math · examples prompt · eng,practice,Qwen-Math · examples prompt,eng,lvl-5_2026_10,5,wrong option,87,66,117,0,0
+practice · Qwen-Math · examples prompt · eng,practice,Qwen-Math · examples prompt,eng,lvl-1_2026_2,1,wrong option,83,37,120,0,0
+practice · Qwen-Math · examples prompt · eng,practice,Qwen-Math · examples prompt,eng,lvl-0_2026_10,0,right,86,54,118,0,1
+practice · Qwen-Math · examples prompt · eng,practice,Qwen-Math · examples prompt,eng,lvl-3_2026_5,3,right,94,59,113,0,1
+practice · Qwen-Math · examples prompt · eng,practice,Qwen-Math · examples prompt,eng,lvl-7_2026_4,7,no option matched,81,81,121,0,0
+practice · Qwen-Math · examples prompt · eng,practice,Qwen-Math · examples prompt,eng,lvl-0_2026_9,0,right,105,73,107,0,1
+practice · Qwen-Math · examples prompt · eng,practice,Qwen-Math · examples prompt,eng,lvl-4_2026_6,4,cut at the token cap,87,117,117,0,0
+practice · Qwen-Math · examples prompt · eng,practice,Qwen-Math · examples prompt,eng,lvl-4_2026_9,4,right,80,67,121,0,1
+practice · Qwen-Math · examples prompt · eng,practice,Qwen-Math · examples prompt,eng,lvl-2_2026_5,2,cut at the token cap,65,130,130,0,0
+practice · Qwen-Math · examples prompt · eng,practice,Qwen-Math · examples prompt,eng,lvl-7_2026_9,7,right,76,58,124,0,1
+practice · Qwen-Math · examples prompt · eng,practice,Qwen-Math · examples prompt,eng,lvl-0_2026_7,0,right,125,65,95,0,1
+practice · Qwen-Math · examples prompt · eng,practice,Qwen-Math · examples prompt,eng,lvl-5_2026_8,5,right,80,66,121,0,1
+practice · Qwen-Math · examples prompt · eng,practice,Qwen-Math · examples prompt,eng,lvl-1_2026_15,1,cut at the token cap,106,106,106,0,0
+practice · Qwen-Math · examples prompt · eng,practice,Qwen-Math · examples prompt,eng,lvl-3_2026_1,3,wrong option,76,119,124,0,0
+practice · Qwen-Math · examples prompt · eng,practice,Qwen-Math · examples prompt,eng,lvl-6_2026_10,6,cut at the token cap,79,122,122,0,0
+practice · Qwen-Math · examples prompt · eng,practice,Qwen-Math · examples prompt,eng,lvl-1_2026_9,1,right,77,51,123,0,1
+practice · Qwen-Math · examples prompt · eng,practice,Qwen-Math · examples prompt,eng,lvl-1_2026_14,1,no option matched,87,48,117,0,0
+practice · Qwen-Math · examples prompt · eng,practice,Qwen-Math · examples prompt,eng,lvl-2_2026_6,2,cut at the token cap,94,113,113,0,0
+practice · Qwen-Math · examples prompt · eng,practice,Qwen-Math · examples prompt,eng,lvl-7_2026_3,7,right,108,53,105,0,1
+practice · Qwen-Math · examples prompt · eng,practice,Qwen-Math · examples prompt,eng,lvl-0_2026_2,0,right,105,52,107,0,1
+practice · Qwen-Math · examples prompt · eng,practice,Qwen-Math · examples prompt,eng,lvl-1_2026_13,1,right,78,33,123,0,1
+practice · Qwen-Math · examples prompt · eng,practice,Qwen-Math · examples prompt,eng,lvl-0_2026_3,0,cut at the token cap,65,130,130,0,0
+practice · Qwen-Math · examples prompt · eng,practice,Qwen-Math · examples prompt,eng,lvl-6_2026_3,6,right,88,63,117,0,1
+practice · Qwen-Math · examples prompt · eng,practice,Qwen-Math · examples prompt,eng,lvl-6_2026_4,6,right,75,63,124,0,1
+practice · Qwen-Math · examples prompt · eng,practice,Qwen-Math · examples prompt,eng,lvl-5_2026_9,5,wrong option,108,87,105,0,0
+practice · Qwen-Math · examples prompt · eng,practice,Qwen-Math · examples prompt,eng,lvl-2_2026_13,2,no option matched,111,50,103,0,0
+practice · Qwen-Math · examples prompt · eng,practice,Qwen-Math · examples prompt,eng,lvl-4_2026_10,4,crashed,81,81,121,0,0
+practice · Qwen-Math · examples prompt · eng,practice,Qwen-Math · examples prompt,eng,lvl-7_2026_10,7,right,104,82,108,0,1
+practice · Qwen-Math · examples prompt · eng,practice,Qwen-Math · examples prompt,eng,lvl-0_2026_8,0,cut at the token cap,87,117,117,0,0
+practice · Qwen-Math · examples prompt · eng,practice,Qwen-Math · examples prompt,eng,lvl-5_2026_1,5,cut at the token cap,87,117,117,0,0
+practice · Qwen-Math · examples prompt · eng,practice,Qwen-Math · examples prompt,eng,lvl-2_2026_14,2,right,88,50,117,0,1
+practice · Qwen-Math · examples prompt · eng,practice,Qwen-Math · examples prompt,eng,lvl-1_2026_1,1,no option matched,109,71,105,0,0
+practice · Qwen-Math · examples prompt · eng,practice,Qwen-Math · examples prompt,eng,lvl-6_2026_8,6,crashed,81,38,121,0,0
+practice · Qwen-Math · examples prompt · eng,practice,Qwen-Math · examples prompt,eng,lvl-1_2026_7,1,right,87,57,117,0,1
+practice · Qwen-Math · examples prompt · eng,practice,Qwen-Math · examples prompt,eng,lvl-5_2026_3,5,right,82,41,120,0,1
+practice · Qwen-Math · examples prompt · eng,practice,Qwen-Math · examples prompt,eng,lvl-2_2026_7,2,wrong option,74,58,125,0,0
+practice · Qwen-Math · examples prompt · eng,practice,Qwen-Math · examples prompt,eng,lvl-4_2026_11,4,cut at the token cap,105,107,107,0,0
+practice · Qwen-Math · examples prompt · eng,practice,Qwen-Math · examples prompt,eng,lvl-2_2026_2,2,crashed,85,25,118,0,0
+practice · Qwen-Math · examples prompt · eng,practice,Qwen-Math · examples prompt,eng,lvl-3_2026_11,3,no option matched,79,95,122,0,0
+practice · Qwen-Math · examples prompt · eng,practice,Qwen-Math · examples prompt,eng,lvl-4_2026_4,4,right,83,74,120,0,1
+practice · Qwen-Math · examples prompt · eng,practice,Qwen-Math · examples prompt,eng,lvl-4_2026_5,4,cut at the token cap,104,108,108,0,0
+practice · Qwen-Math · examples prompt · eng,practice,Qwen-Math · examples prompt,eng,lvl-2_2026_12,2,right,88,85,117,0,1
+practice · Qwen-Math · examples prompt · eng,practice,Qwen-Math · examples prompt,eng,lvl-0_2026_16,0,right,113,62,102,0,1
+practice · Qwen-Math · examples prompt · eng,practice,Qwen-Math · examples prompt,eng,lvl-3_2026_12,3,no option matched,88,52,117,0,0
+practice · Qwen-Math · examples prompt · eng,practice,Qwen-Math · examples prompt,eng,lvl-7_2026_8,7,right,80,56,121,0,1
+practice · Qwen-Math · examples prompt · eng,practice,Qwen-Math · examples prompt,eng,lvl-3_2026_10,3,right,75,55,124,0,1
+practice · Qwen-Math · examples prompt · cat,practice,Qwen-Math · examples prompt,cat,lvl-6_2026_7,6,no option matched,89,34,116,0,0
+practice · Qwen-Math · examples prompt · cat,practice,Qwen-Math · examples prompt,cat,lvl-0_2026_15,0,cut at the token cap,121,98,98,0,0
+practice · Qwen-Math · examples prompt · cat,practice,Qwen-Math · examples prompt,cat,lvl-3_2026_6,3,cut at the token cap,112,103,103,0,0
+practice · Qwen-Math · examples prompt · cat,practice,Qwen-Math · examples prompt,cat,lvl-1_2026_8,1,cut at the token cap,101,109,109,0,0
+practice · Qwen-Math · examples prompt · cat,practice,Qwen-Math · examples prompt,cat,lvl-5_2026_10,5,cut at the token cap,97,112,112,0,0
+practice · Qwen-Math · examples prompt · cat,practice,Qwen-Math · examples prompt,cat,lvl-1_2026_2,1,cut at the token cap,103,108,108,0,0
+practice · Qwen-Math · examples prompt · cat,practice,Qwen-Math · examples prompt,cat,lvl-0_2026_10,0,cut at the token cap,101,109,109,0,0
+practice · Qwen-Math · examples prompt · cat,practice,Qwen-Math · examples prompt,cat,lvl-3_2026_5,3,no option matched,110,72,104,0,0
+practice · Qwen-Math · examples prompt · cat,practice,Qwen-Math · examples prompt,cat,lvl-7_2026_4,7,cut at the token cap,93,114,114,0,0
+practice · Qwen-Math · examples prompt · cat,practice,Qwen-Math · examples prompt,cat,lvl-0_2026_9,0,no option matched,126,75,95,0,0
+practice · Qwen-Math · examples prompt · cat,practice,Qwen-Math · examples prompt,cat,lvl-4_2026_6,4,cut at the token cap,88,117,117,0,0
+practice · Qwen-Math · examples prompt · cat,practice,Qwen-Math · examples prompt,cat,lvl-4_2026_9,4,right,86,62,118,0,1
+practice · Qwen-Math · examples prompt · cat,practice,Qwen-Math · examples prompt,cat,lvl-2_2026_5,2,right,71,24,127,0,1
+practice · Qwen-Math · examples prompt · cat,practice,Qwen-Math · examples prompt,cat,lvl-7_2026_9,7,right,86,59,118,0,1
+practice · Qwen-Math · examples prompt · cat,practice,Qwen-Math · examples prompt,cat,lvl-0_2026_7,0,right,149,50,82,0,1
+practice · Qwen-Math · examples prompt · cat,practice,Qwen-Math · examples prompt,cat,lvl-5_2026_8,5,no option matched,86,54,118,0,0
+practice · Qwen-Math · examples prompt · cat,practice,Qwen-Math · examples prompt,cat,lvl-1_2026_15,1,no option matched,120,41,98,0,0
+practice · Qwen-Math · examples prompt · cat,practice,Qwen-Math · examples prompt,cat,lvl-3_2026_1,3,wrong option,87,23,117,0,0
+practice · Qwen-Math · examples prompt · cat,practice,Qwen-Math · examples prompt,cat,lvl-6_2026_10,6,right,88,23,117,0,1
+practice · Qwen-Math · examples prompt · cat,practice,Qwen-Math · examples prompt,cat,lvl-1_2026_9,1,cut at the token cap,87,117,117,0,0
+practice · Qwen-Math · examples prompt · cat,practice,Qwen-Math · examples prompt,cat,lvl-1_2026_14,1,cut at the token cap,100,110,110,0,0
+practice · Qwen-Math · examples prompt · cat,practice,Qwen-Math · examples prompt,cat,lvl-2_2026_6,2,cut at the token cap,112,103,103,0,0
+practice · Qwen-Math · examples prompt · cat,practice,Qwen-Math · examples prompt,cat,lvl-7_2026_3,7,right,117,55,100,0,1
+practice · Qwen-Math · examples prompt · cat,practice,Qwen-Math · examples prompt,cat,lvl-0_2026_2,0,no option matched,119,55,99,0,0
+practice · Qwen-Math · examples prompt · cat,practice,Qwen-Math · examples prompt,cat,lvl-1_2026_13,1,no option matched,84,50,119,0,0
+practice · Qwen-Math · examples prompt · cat,practice,Qwen-Math · examples prompt,cat,lvl-0_2026_3,0,no option matched,68,50,128,0,0
+practice · Qwen-Math · examples prompt · cat,practice,Qwen-Math · examples prompt,cat,lvl-6_2026_3,6,no option matched,100,63,110,0,0
+practice · Qwen-Math · examples prompt · cat,practice,Qwen-Math · examples prompt,cat,lvl-6_2026_4,6,right,78,48,123,0,1
+practice · Qwen-Math · examples prompt · cat,practice,Qwen-Math · examples prompt,cat,lvl-5_2026_9,5,cut at the token cap,127,94,94,0,0
+practice · Qwen-Math · examples prompt · cat,practice,Qwen-Math · examples prompt,cat,lvl-2_2026_13,2,cut at the token cap,143,85,85,0,0
+practice · Qwen-Math · examples prompt · cat,practice,Qwen-Math · examples prompt,cat,lvl-4_2026_10,4,no option matched,91,69,115,0,0
+practice · Qwen-Math · examples prompt · cat,practice,Qwen-Math · examples prompt,cat,lvl-7_2026_10,7,crashed,111,52,103,0,0
+practice · Qwen-Math · examples prompt · cat,practice,Qwen-Math · examples prompt,cat,lvl-0_2026_8,0,no option matched,96,55,112,0,0
+practice · Qwen-Math · examples prompt · cat,practice,Qwen-Math · examples prompt,cat,lvl-5_2026_1,5,wrong option,100,61,110,0,0
+practice · Qwen-Math · examples prompt · cat,practice,Qwen-Math · examples prompt,cat,lvl-2_2026_14,2,cut at the token cap,114,102,102,0,0
+practice · Qwen-Math · examples prompt · cat,practice,Qwen-Math · examples prompt,cat,lvl-1_2026_1,1,cut at the token cap,123,97,97,0,0
+practice · Qwen-Math · examples prompt · cat,practice,Qwen-Math · examples prompt,cat,lvl-6_2026_8,6,crashed,83,37,120,0,0
+practice · Qwen-Math · examples prompt · cat,practice,Qwen-Math · examples prompt,cat,lvl-1_2026_7,1,no option matched,96,40,112,0,0
+practice · Qwen-Math · examples prompt · cat,practice,Qwen-Math · examples prompt,cat,lvl-5_2026_3,5,no option matched,86,42,118,0,0
+practice · Qwen-Math · examples prompt · cat,practice,Qwen-Math · examples prompt,cat,lvl-2_2026_7,2,no option matched,84,45,119,0,0
+practice · Qwen-Math · examples prompt · cat,practice,Qwen-Math · examples prompt,cat,lvl-4_2026_11,4,cut at the token cap,114,102,102,0,0
+practice · Qwen-Math · examples prompt · cat,practice,Qwen-Math · examples prompt,cat,lvl-2_2026_2,2,crashed,98,84,111,0,0
+practice · Qwen-Math · examples prompt · cat,practice,Qwen-Math · examples prompt,cat,lvl-3_2026_11,3,cut at the token cap,89,116,116,0,0
+practice · Qwen-Math · examples prompt · cat,practice,Qwen-Math · examples prompt,cat,lvl-4_2026_4,4,no option matched,93,75,114,0,0
+practice · Qwen-Math · examples prompt · cat,practice,Qwen-Math · examples prompt,cat,lvl-4_2026_5,4,no option matched,126,93,95,0,0
+practice · Qwen-Math · examples prompt · cat,practice,Qwen-Math · examples prompt,cat,lvl-2_2026_12,2,cut at the token cap,106,106,106,0,0
+practice · Qwen-Math · examples prompt · cat,practice,Qwen-Math · examples prompt,cat,lvl-0_2026_16,0,no option matched,134,70,90,0,0
+practice · Qwen-Math · examples prompt · cat,practice,Qwen-Math · examples prompt,cat,lvl-3_2026_12,3,cut at the token cap,102,109,109,0,0
+practice · Qwen-Math · examples prompt · cat,practice,Qwen-Math · examples prompt,cat,lvl-7_2026_8,7,no option matched,84,44,119,0,0
+practice · Qwen-Math · examples prompt · cat,practice,Qwen-Math · examples prompt,cat,lvl-3_2026_10,3,no option matched,81,43,121,0,0
+practice · Qwen-Math · examples prompt · cat → eng (NMT),practice,Qwen-Math · examples prompt,cat → eng (NMT),lvl-6_2026_7,6,crashed,90,100,107,3,0
+practice · Qwen-Math · examples prompt · cat → eng (NMT),practice,Qwen-Math · examples prompt,cat → eng (NMT),lvl-0_2026_15,0,cut at the token cap,88,108,108,3,0
+practice · Qwen-Math · examples prompt · cat → eng (NMT),practice,Qwen-Math · examples prompt,cat → eng (NMT),lvl-3_2026_6,3,cut at the token cap,95,104,104,3,0
+practice · Qwen-Math · examples prompt · cat → eng (NMT),practice,Qwen-Math · examples prompt,cat → eng (NMT),lvl-1_2026_8,1,right,90,67,107,3,1
+practice · Qwen-Math · examples prompt · cat → eng (NMT),practice,Qwen-Math · examples prompt,cat → eng (NMT),lvl-5_2026_10,5,wrong option,88,61,108,3,0
+practice · Qwen-Math · examples prompt · cat → eng (NMT),practice,Qwen-Math · examples prompt,cat → eng (NMT),lvl-1_2026_2,1,no option matched,80,69,112,3,0
+practice · Qwen-Math · examples prompt · cat → eng (NMT),practice,Qwen-Math · examples prompt,cat → eng (NMT),lvl-0_2026_10,0,no option matched,87,37,108,3,0
+practice · Qwen-Math · examples prompt · cat → eng (NMT),practice,Qwen-Math · examples prompt,cat → eng (NMT),lvl-3_2026_5,3,right,92,64,105,3,1
+practice · Qwen-Math · examples prompt · cat → eng (NMT),practice,Qwen-Math · examples prompt,cat → eng (NMT),lvl-7_2026_4,7,no option matched,82,81,111,3,0
+practice · Qwen-Math · examples prompt · cat → eng (NMT),practice,Qwen-Math · examples prompt,cat → eng (NMT),lvl-0_2026_9,0,right,103,81,99,3,1
+practice · Qwen-Math · examples prompt · cat → eng (NMT),practice,Qwen-Math · examples prompt,cat → eng (NMT),lvl-4_2026_6,4,cut at the token cap,86,109,109,3,0
+practice · Qwen-Math · examples prompt · cat → eng (NMT),practice,Qwen-Math · examples prompt,cat → eng (NMT),lvl-4_2026_9,4,right,81,67,112,3,1
+practice · Qwen-Math · examples prompt · cat → eng (NMT),practice,Qwen-Math · examples prompt,cat → eng (NMT),lvl-2_2026_5,2,right,65,23,121,3,1
+practice · Qwen-Math · examples prompt · cat → eng (NMT),practice,Qwen-Math · examples prompt,cat → eng (NMT),lvl-7_2026_9,7,right,75,44,115,3,1
+practice · Qwen-Math · examples prompt · cat → eng (NMT),practice,Qwen-Math · examples prompt,cat → eng (NMT),lvl-0_2026_7,0,right,122,65,88,3,1
+practice · Qwen-Math · examples prompt · cat → eng (NMT),practice,Qwen-Math · examples prompt,cat → eng (NMT),lvl-5_2026_8,5,right,80,66,112,3,1
+practice · Qwen-Math · examples prompt · cat → eng (NMT),practice,Qwen-Math · examples prompt,cat → eng (NMT),lvl-1_2026_15,1,cut at the token cap,106,97,97,3,0
+practice · Qwen-Math · examples prompt · cat → eng (NMT),practice,Qwen-Math · examples prompt,cat → eng (NMT),lvl-3_2026_1,3,cut at the token cap,76,115,115,3,0
+practice · Qwen-Math · examples prompt · cat → eng (NMT),practice,Qwen-Math · examples prompt,cat → eng (NMT),lvl-6_2026_10,6,cut at the token cap,77,114,114,3,0
+practice · Qwen-Math · examples prompt · cat → eng (NMT),practice,Qwen-Math · examples prompt,cat → eng (NMT),lvl-1_2026_9,1,right,78,49,114,3,1
+practice · Qwen-Math · examples prompt · cat → eng (NMT),practice,Qwen-Math · examples prompt,cat → eng (NMT),lvl-1_2026_14,1,right,87,49,108,3,1
+practice · Qwen-Math · examples prompt · cat → eng (NMT),practice,Qwen-Math · examples prompt,cat → eng (NMT),lvl-2_2026_6,2,crashed,95,95,104,3,0
+practice · Qwen-Math · examples prompt · cat → eng (NMT),practice,Qwen-Math · examples prompt,cat → eng (NMT),lvl-7_2026_3,7,right,109,60,96,3,1
+practice · Qwen-Math · examples prompt · cat → eng (NMT),practice,Qwen-Math · examples prompt,cat → eng (NMT),lvl-0_2026_2,0,right,105,52,98,3,1
+practice · Qwen-Math · examples prompt · cat → eng (NMT),practice,Qwen-Math · examples prompt,cat → eng (NMT),lvl-1_2026_13,1,right,77,33,114,3,1
+practice · Qwen-Math · examples prompt · cat → eng (NMT),practice,Qwen-Math · examples prompt,cat → eng (NMT),lvl-0_2026_3,0,no option matched,65,39,121,3,0
+practice · Qwen-Math · examples prompt · cat → eng (NMT),practice,Qwen-Math · examples prompt,cat → eng (NMT),lvl-6_2026_3,6,no option matched,85,79,109,3,0
+practice · Qwen-Math · examples prompt · cat → eng (NMT),practice,Qwen-Math · examples prompt,cat → eng (NMT),lvl-6_2026_4,6,wrong option,78,63,114,3,0
+practice · Qwen-Math · examples prompt · cat → eng (NMT),practice,Qwen-Math · examples prompt,cat → eng (NMT),lvl-5_2026_9,5,no option matched,108,80,96,3,0
+practice · Qwen-Math · examples prompt · cat → eng (NMT),practice,Qwen-Math · examples prompt,cat → eng (NMT),lvl-2_2026_13,2,cut at the token cap,108,96,96,3,0
+practice · Qwen-Math · examples prompt · cat → eng (NMT),practice,Qwen-Math · examples prompt,cat → eng (NMT),lvl-4_2026_10,4,right,80,72,112,3,1
+practice · Qwen-Math · examples prompt · cat → eng (NMT),practice,Qwen-Math · examples prompt,cat → eng (NMT),lvl-7_2026_10,7,no option matched,102,68,100,3,0
+practice · Qwen-Math · examples prompt · cat → eng (NMT),practice,Qwen-Math · examples prompt,cat → eng (NMT),lvl-0_2026_8,0,cut at the token cap,88,108,108,3,0
+practice · Qwen-Math · examples prompt · cat → eng (NMT),practice,Qwen-Math · examples prompt,cat → eng (NMT),lvl-5_2026_1,5,cut at the token cap,87,108,108,3,0
+practice · Qwen-Math · examples prompt · cat → eng (NMT),practice,Qwen-Math · examples prompt,cat → eng (NMT),lvl-2_2026_14,2,no option matched,87,40,108,3,0
+practice · Qwen-Math · examples prompt · cat → eng (NMT),practice,Qwen-Math · examples prompt,cat → eng (NMT),lvl-1_2026_1,1,no option matched,109,82,96,3,0
+practice · Qwen-Math · examples prompt · cat → eng (NMT),practice,Qwen-Math · examples prompt,cat → eng (NMT),lvl-6_2026_8,6,right,80,37,112,3,1
+practice · Qwen-Math · examples prompt · cat → eng (NMT),practice,Qwen-Math · examples prompt,cat → eng (NMT),lvl-1_2026_7,1,right,86,62,109,3,1
+practice · Qwen-Math · examples prompt · cat → eng (NMT),practice,Qwen-Math · examples prompt,cat → eng (NMT),lvl-5_2026_3,5,no option matched,82,41,111,3,0
+practice · Qwen-Math · examples prompt · cat → eng (NMT),practice,Qwen-Math · examples prompt,cat → eng (NMT),lvl-2_2026_7,2,wrong option,76,52,115,3,0
+practice · Qwen-Math · examples prompt · cat → eng (NMT),practice,Qwen-Math · examples prompt,cat → eng (NMT),lvl-4_2026_11,4,cut at the token cap,104,99,99,3,0
+practice · Qwen-Math · examples prompt · cat → eng (NMT),practice,Qwen-Math · examples prompt,cat → eng (NMT),lvl-2_2026_2,2,cut at the token cap,85,109,109,3,0
+practice · Qwen-Math · examples prompt · cat → eng (NMT),practice,Qwen-Math · examples prompt,cat → eng (NMT),lvl-3_2026_11,3,no option matched,79,82,113,3,0
+practice · Qwen-Math · examples prompt · cat → eng (NMT),practice,Qwen-Math · examples prompt,cat → eng (NMT),lvl-4_2026_4,4,right,81,74,112,3,1
+practice · Qwen-Math · examples prompt · cat → eng (NMT),practice,Qwen-Math · examples prompt,cat → eng (NMT),lvl-4_2026_5,4,cut at the token cap,104,99,99,3,0
+practice · Qwen-Math · examples prompt · cat → eng (NMT),practice,Qwen-Math · examples prompt,cat → eng (NMT),lvl-2_2026_12,2,wrong option,87,69,108,3,0
+practice · Qwen-Math · examples prompt · cat → eng (NMT),practice,Qwen-Math · examples prompt,cat → eng (NMT),lvl-0_2026_16,0,right,115,62,92,3,1
+practice · Qwen-Math · examples prompt · cat → eng (NMT),practice,Qwen-Math · examples prompt,cat → eng (NMT),lvl-3_2026_12,3,right,87,52,108,3,1
+practice · Qwen-Math · examples prompt · cat → eng (NMT),practice,Qwen-Math · examples prompt,cat → eng (NMT),lvl-7_2026_8,7,right,84,56,110,3,1
+practice · Qwen-Math · examples prompt · cat → eng (NMT),practice,Qwen-Math · examples prompt,cat → eng (NMT),lvl-3_2026_10,3,no option matched,83,50,111,3,0
+practice · Qwen-Math FT · examples prompt · eng,practice,Qwen-Math FT · examples prompt,eng,lvl-6_2026_7,6,wrong option,84,27,119,0,0
+practice · Qwen-Math FT · examples prompt · eng,practice,Qwen-Math FT · examples prompt,eng,lvl-0_2026_15,0,no option matched,84,70,119,0,0
+practice · Qwen-Math FT · examples prompt · eng,practice,Qwen-Math FT · examples prompt,eng,lvl-3_2026_6,3,cut at the token cap,96,112,112,0,0
+practice · Qwen-Math FT · examples prompt · eng,practice,Qwen-Math FT · examples prompt,eng,lvl-1_2026_8,1,right,95,40,113,0,1
+practice · Qwen-Math FT · examples prompt · eng,practice,Qwen-Math FT · examples prompt,eng,lvl-5_2026_10,5,wrong option,87,11,117,0,0
+practice · Qwen-Math FT · examples prompt · eng,practice,Qwen-Math FT · examples prompt,eng,lvl-1_2026_2,1,wrong option,83,104,120,0,0
+practice · Qwen-Math FT · examples prompt · eng,practice,Qwen-Math FT · examples prompt,eng,lvl-0_2026_10,0,wrong option,86,25,118,0,0
+practice · Qwen-Math FT · examples prompt · eng,practice,Qwen-Math FT · examples prompt,eng,lvl-3_2026_5,3,right,94,46,113,0,1
+practice · Qwen-Math FT · examples prompt · eng,practice,Qwen-Math FT · examples prompt,eng,lvl-7_2026_4,7,right,81,18,121,0,1
+practice · Qwen-Math FT · examples prompt · eng,practice,Qwen-Math FT · examples prompt,eng,lvl-0_2026_9,0,no option matched,105,54,107,0,0
+practice · Qwen-Math FT · examples prompt · eng,practice,Qwen-Math FT · examples prompt,eng,lvl-4_2026_6,4,wrong option,87,18,117,0,0
+practice · Qwen-Math FT · examples prompt · eng,practice,Qwen-Math FT · examples prompt,eng,lvl-4_2026_9,4,right,80,55,121,0,1
+practice · Qwen-Math FT · examples prompt · eng,practice,Qwen-Math FT · examples prompt,eng,lvl-2_2026_5,2,crashed,65,20,130,0,0
+practice · Qwen-Math FT · examples prompt · eng,practice,Qwen-Math FT · examples prompt,eng,lvl-7_2026_9,7,right,76,36,124,0,1
+practice · Qwen-Math FT · examples prompt · eng,practice,Qwen-Math FT · examples prompt,eng,lvl-0_2026_7,0,right,125,41,95,0,1
+practice · Qwen-Math FT · examples prompt · eng,practice,Qwen-Math FT · examples prompt,eng,lvl-5_2026_8,5,wrong option,80,36,121,0,0
+practice · Qwen-Math FT · examples prompt · eng,practice,Qwen-Math FT · examples prompt,eng,lvl-1_2026_15,1,no option matched,106,44,106,0,0
+practice · Qwen-Math FT · examples prompt · eng,practice,Qwen-Math FT · examples prompt,eng,lvl-3_2026_1,3,cut at the token cap,76,124,124,0,0
+practice · Qwen-Math FT · examples prompt · eng,practice,Qwen-Math FT · examples prompt,eng,lvl-6_2026_10,6,right,79,14,122,0,1
+practice · Qwen-Math FT · examples prompt · eng,practice,Qwen-Math FT · examples prompt,eng,lvl-1_2026_9,1,right,77,41,123,0,1
+practice · Qwen-Math FT · examples prompt · eng,practice,Qwen-Math FT · examples prompt,eng,lvl-1_2026_14,1,no option matched,87,20,117,0,0
+practice · Qwen-Math FT · examples prompt · eng,practice,Qwen-Math FT · examples prompt,eng,lvl-2_2026_6,2,no option matched,94,48,113,0,0
+practice · Qwen-Math FT · examples prompt · eng,practice,Qwen-Math FT · examples prompt,eng,lvl-7_2026_3,7,right,108,41,105,0,1
+practice · Qwen-Math FT · examples prompt · eng,practice,Qwen-Math FT · examples prompt,eng,lvl-0_2026_2,0,no option matched,105,17,107,0,0
+practice · Qwen-Math FT · examples prompt · eng,practice,Qwen-Math FT · examples prompt,eng,lvl-1_2026_13,1,right,78,26,123,0,1
+practice · Qwen-Math FT · examples prompt · eng,practice,Qwen-Math FT · examples prompt,eng,lvl-0_2026_3,0,no option matched,65,33,130,0,0
+practice · Qwen-Math FT · examples prompt · eng,practice,Qwen-Math FT · examples prompt,eng,lvl-6_2026_3,6,no option matched,88,52,117,0,0
+practice · Qwen-Math FT · examples prompt · eng,practice,Qwen-Math FT · examples prompt,eng,lvl-6_2026_4,6,right,75,46,124,0,1
+practice · Qwen-Math FT · examples prompt · eng,practice,Qwen-Math FT · examples prompt,eng,lvl-5_2026_9,5,no option matched,108,15,105,0,0
+practice · Qwen-Math FT · examples prompt · eng,practice,Qwen-Math FT · examples prompt,eng,lvl-2_2026_13,2,wrong option,111,43,103,0,0
+practice · Qwen-Math FT · examples prompt · eng,practice,Qwen-Math FT · examples prompt,eng,lvl-4_2026_10,4,crashed,81,108,121,0,0
+practice · Qwen-Math FT · examples prompt · eng,practice,Qwen-Math FT · examples prompt,eng,lvl-7_2026_10,7,no option matched,104,40,108,0,0
+practice · Qwen-Math FT · examples prompt · eng,practice,Qwen-Math FT · examples prompt,eng,lvl-0_2026_8,0,no option matched,87,39,117,0,0
+practice · Qwen-Math FT · examples prompt · eng,practice,Qwen-Math FT · examples prompt,eng,lvl-5_2026_1,5,no option matched,87,68,117,0,0
+practice · Qwen-Math FT · examples prompt · eng,practice,Qwen-Math FT · examples prompt,eng,lvl-2_2026_14,2,no option matched,88,37,117,0,0
+practice · Qwen-Math FT · examples prompt · eng,practice,Qwen-Math FT · examples prompt,eng,lvl-1_2026_1,1,crashed,109,46,105,0,0
+practice · Qwen-Math FT · examples prompt · eng,practice,Qwen-Math FT · examples prompt,eng,lvl-6_2026_8,6,right,81,30,121,0,1
+practice · Qwen-Math FT · examples prompt · eng,practice,Qwen-Math FT · examples prompt,eng,lvl-1_2026_7,1,right,87,44,117,0,1
+practice · Qwen-Math FT · examples prompt · eng,practice,Qwen-Math FT · examples prompt,eng,lvl-5_2026_3,5,right,82,38,120,0,1
+practice · Qwen-Math FT · examples prompt · eng,practice,Qwen-Math FT · examples prompt,eng,lvl-2_2026_7,2,wrong option,74,38,125,0,0
+practice · Qwen-Math FT · examples prompt · eng,practice,Qwen-Math FT · examples prompt,eng,lvl-4_2026_11,4,no option matched,105,90,107,0,0
+practice · Qwen-Math FT · examples prompt · eng,practice,Qwen-Math FT · examples prompt,eng,lvl-2_2026_2,2,no option matched,85,14,118,0,0
+practice · Qwen-Math FT · examples prompt · eng,practice,Qwen-Math FT · examples prompt,eng,lvl-3_2026_11,3,no option matched,79,39,122,0,0
+practice · Qwen-Math FT · examples prompt · eng,practice,Qwen-Math FT · examples prompt,eng,lvl-4_2026_4,4,right,83,70,120,0,1
+practice · Qwen-Math FT · examples prompt · eng,practice,Qwen-Math FT · examples prompt,eng,lvl-4_2026_5,4,right,104,51,108,0,1
+practice · Qwen-Math FT · examples prompt · eng,practice,Qwen-Math FT · examples prompt,eng,lvl-2_2026_12,2,right,88,40,117,0,1
+practice · Qwen-Math FT · examples prompt · eng,practice,Qwen-Math FT · examples prompt,eng,lvl-0_2026_16,0,right,113,52,102,0,1
+practice · Qwen-Math FT · examples prompt · eng,practice,Qwen-Math FT · examples prompt,eng,lvl-3_2026_12,3,wrong option,88,77,117,0,0
+practice · Qwen-Math FT · examples prompt · eng,practice,Qwen-Math FT · examples prompt,eng,lvl-7_2026_8,7,right,80,39,121,0,1
+practice · Qwen-Math FT · examples prompt · eng,practice,Qwen-Math FT · examples prompt,eng,lvl-3_2026_10,3,right,75,37,124,0,1
+practice · Qwen-Math FT · examples prompt · cat → eng (NMT),practice,Qwen-Math FT · examples prompt,cat → eng (NMT),lvl-6_2026_7,6,wrong option,90,27,107,3,0
+practice · Qwen-Math FT · examples prompt · cat → eng (NMT),practice,Qwen-Math FT · examples prompt,cat → eng (NMT),lvl-0_2026_15,0,wrong option,88,10,108,3,0
+practice · Qwen-Math FT · examples prompt · cat → eng (NMT),practice,Qwen-Math FT · examples prompt,cat → eng (NMT),lvl-3_2026_6,3,no option matched,95,53,104,3,0
+practice · Qwen-Math FT · examples prompt · cat → eng (NMT),practice,Qwen-Math FT · examples prompt,cat → eng (NMT),lvl-1_2026_8,1,right,90,44,107,3,1
+practice · Qwen-Math FT · examples prompt · cat → eng (NMT),practice,Qwen-Math FT · examples prompt,cat → eng (NMT),lvl-5_2026_10,5,right,88,11,108,3,1
+practice · Qwen-Math FT · examples prompt · cat → eng (NMT),practice,Qwen-Math FT · examples prompt,cat → eng (NMT),lvl-1_2026_2,1,no option matched,80,49,112,3,0
+practice · Qwen-Math FT · examples prompt · cat → eng (NMT),practice,Qwen-Math FT · examples prompt,cat → eng (NMT),lvl-0_2026_10,0,wrong option,87,85,108,3,0
+practice · Qwen-Math FT · examples prompt · cat → eng (NMT),practice,Qwen-Math FT · examples prompt,cat → eng (NMT),lvl-3_2026_5,3,right,92,46,105,3,1
+practice · Qwen-Math FT · examples prompt · cat → eng (NMT),practice,Qwen-Math FT · examples prompt,cat → eng (NMT),lvl-7_2026_4,7,right,82,18,111,3,1
+practice · Qwen-Math FT · examples prompt · cat → eng (NMT),practice,Qwen-Math FT · examples prompt,cat → eng (NMT),lvl-0_2026_9,0,right,103,55,99,3,1
+practice · Qwen-Math FT · examples prompt · cat → eng (NMT),practice,Qwen-Math FT · examples prompt,cat → eng (NMT),lvl-4_2026_6,4,no option matched,86,18,109,3,0
+practice · Qwen-Math FT · examples prompt · cat → eng (NMT),practice,Qwen-Math FT · examples prompt,cat → eng (NMT),lvl-4_2026_9,4,right,81,55,112,3,1
+practice · Qwen-Math FT · examples prompt · cat → eng (NMT),practice,Qwen-Math FT · examples prompt,cat → eng (NMT),lvl-2_2026_5,2,crashed,65,20,121,3,0
+practice · Qwen-Math FT · examples prompt · cat → eng (NMT),practice,Qwen-Math FT · examples prompt,cat → eng (NMT),lvl-7_2026_9,7,right,75,36,115,3,1
+practice · Qwen-Math FT · examples prompt · cat → eng (NMT),practice,Qwen-Math FT · examples prompt,cat → eng (NMT),lvl-0_2026_7,0,no option matched,122,15,88,3,0
+practice · Qwen-Math FT · examples prompt · cat → eng (NMT),practice,Qwen-Math FT · examples prompt,cat → eng (NMT),lvl-5_2026_8,5,no option matched,80,50,112,3,0
+practice · Qwen-Math FT · examples prompt · cat → eng (NMT),practice,Qwen-Math FT · examples prompt,cat → eng (NMT),lvl-1_2026_15,1,no option matched,106,44,97,3,0
+practice · Qwen-Math FT · examples prompt · cat → eng (NMT),practice,Qwen-Math FT · examples prompt,cat → eng (NMT),lvl-3_2026_1,3,no option matched,76,48,115,3,0
+practice · Qwen-Math FT · examples prompt · cat → eng (NMT),practice,Qwen-Math FT · examples prompt,cat → eng (NMT),lvl-6_2026_10,6,right,77,14,114,3,1
+practice · Qwen-Math FT · examples prompt · cat → eng (NMT),practice,Qwen-Math FT · examples prompt,cat → eng (NMT),lvl-1_2026_9,1,no option matched,78,43,114,3,0
+practice · Qwen-Math FT · examples prompt · cat → eng (NMT),practice,Qwen-Math FT · examples prompt,cat → eng (NMT),lvl-1_2026_14,1,right,87,20,108,3,1
+practice · Qwen-Math FT · examples prompt · cat → eng (NMT),practice,Qwen-Math FT · examples prompt,cat → eng (NMT),lvl-2_2026_6,2,crashed,95,46,104,3,0
+practice · Qwen-Math FT · examples prompt · cat → eng (NMT),practice,Qwen-Math FT · examples prompt,cat → eng (NMT),lvl-7_2026_3,7,no option matched,109,37,96,3,0
+practice · Qwen-Math FT · examples prompt · cat → eng (NMT),practice,Qwen-Math FT · examples prompt,cat → eng (NMT),lvl-0_2026_2,0,no option matched,105,17,98,3,0
+practice · Qwen-Math FT · examples prompt · cat → eng (NMT),practice,Qwen-Math FT · examples prompt,cat → eng (NMT),lvl-1_2026_13,1,right,77,26,114,3,1
+practice · Qwen-Math FT · examples prompt · cat → eng (NMT),practice,Qwen-Math FT · examples prompt,cat → eng (NMT),lvl-0_2026_3,0,no option matched,65,29,121,3,0
+practice · Qwen-Math FT · examples prompt · cat → eng (NMT),practice,Qwen-Math FT · examples prompt,cat → eng (NMT),lvl-6_2026_3,6,wrong option,85,18,109,3,0
+practice · Qwen-Math FT · examples prompt · cat → eng (NMT),practice,Qwen-Math FT · examples prompt,cat → eng (NMT),lvl-6_2026_4,6,wrong option,78,46,114,3,0
+practice · Qwen-Math FT · examples prompt · cat → eng (NMT),practice,Qwen-Math FT · examples prompt,cat → eng (NMT),lvl-5_2026_9,5,no option matched,108,12,96,3,0
+practice · Qwen-Math FT · examples prompt · cat → eng (NMT),practice,Qwen-Math FT · examples prompt,cat → eng (NMT),lvl-2_2026_13,2,wrong option,108,40,96,3,0
+practice · Qwen-Math FT · examples prompt · cat → eng (NMT),practice,Qwen-Math FT · examples prompt,cat → eng (NMT),lvl-4_2026_10,4,crashed,80,91,112,3,0
+practice · Qwen-Math FT · examples prompt · cat → eng (NMT),practice,Qwen-Math FT · examples prompt,cat → eng (NMT),lvl-7_2026_10,7,wrong option,102,43,100,3,0
+practice · Qwen-Math FT · examples prompt · cat → eng (NMT),practice,Qwen-Math FT · examples prompt,cat → eng (NMT),lvl-0_2026_8,0,no option matched,88,39,108,3,0
+practice · Qwen-Math FT · examples prompt · cat → eng (NMT),practice,Qwen-Math FT · examples prompt,cat → eng (NMT),lvl-5_2026_1,5,no option matched,87,57,108,3,0
+practice · Qwen-Math FT · examples prompt · cat → eng (NMT),practice,Qwen-Math FT · examples prompt,cat → eng (NMT),lvl-2_2026_14,2,no option matched,87,33,108,3,0
+practice · Qwen-Math FT · examples prompt · cat → eng (NMT),practice,Qwen-Math FT · examples prompt,cat → eng (NMT),lvl-1_2026_1,1,crashed,109,46,96,3,0
+practice · Qwen-Math FT · examples prompt · cat → eng (NMT),practice,Qwen-Math FT · examples prompt,cat → eng (NMT),lvl-6_2026_8,6,right,80,30,112,3,1
+practice · Qwen-Math FT · examples prompt · cat → eng (NMT),practice,Qwen-Math FT · examples prompt,cat → eng (NMT),lvl-1_2026_7,1,right,86,44,109,3,1
+practice · Qwen-Math FT · examples prompt · cat → eng (NMT),practice,Qwen-Math FT · examples prompt,cat → eng (NMT),lvl-5_2026_3,5,no option matched,82,38,111,3,0
+practice · Qwen-Math FT · examples prompt · cat → eng (NMT),practice,Qwen-Math FT · examples prompt,cat → eng (NMT),lvl-2_2026_7,2,wrong option,76,29,115,3,0
+practice · Qwen-Math FT · examples prompt · cat → eng (NMT),practice,Qwen-Math FT · examples prompt,cat → eng (NMT),lvl-4_2026_11,4,no option matched,104,90,99,3,0
+practice · Qwen-Math FT · examples prompt · cat → eng (NMT),practice,Qwen-Math FT · examples prompt,cat → eng (NMT),lvl-2_2026_2,2,no option matched,85,38,109,3,0
+practice · Qwen-Math FT · examples prompt · cat → eng (NMT),practice,Qwen-Math FT · examples prompt,cat → eng (NMT),lvl-3_2026_11,3,no option matched,79,14,113,3,0
+practice · Qwen-Math FT · examples prompt · cat → eng (NMT),practice,Qwen-Math FT · examples prompt,cat → eng (NMT),lvl-4_2026_4,4,right,81,58,112,3,1
+practice · Qwen-Math FT · examples prompt · cat → eng (NMT),practice,Qwen-Math FT · examples prompt,cat → eng (NMT),lvl-4_2026_5,4,no option matched,104,55,99,3,0
+practice · Qwen-Math FT · examples prompt · cat → eng (NMT),practice,Qwen-Math FT · examples prompt,cat → eng (NMT),lvl-2_2026_12,2,no option matched,87,27,108,3,0
+practice · Qwen-Math FT · examples prompt · cat → eng (NMT),practice,Qwen-Math FT · examples prompt,cat → eng (NMT),lvl-0_2026_16,0,right,115,52,92,3,1
+practice · Qwen-Math FT · examples prompt · cat → eng (NMT),practice,Qwen-Math FT · examples prompt,cat → eng (NMT),lvl-3_2026_12,3,wrong option,87,77,108,3,0
+practice · Qwen-Math FT · examples prompt · cat → eng (NMT),practice,Qwen-Math FT · examples prompt,cat → eng (NMT),lvl-7_2026_8,7,right,84,39,110,3,1
+practice · Qwen-Math FT · examples prompt · cat → eng (NMT),practice,Qwen-Math FT · examples prompt,cat → eng (NMT),lvl-3_2026_10,3,no option matched,83,34,111,3,0
+practice · Qwen-Math FT · short prompt · eng,practice,Qwen-Math FT · short prompt,eng,lvl-6_2026_7,6,wrong option,84,14,119,0,0
+practice · Qwen-Math FT · short prompt · eng,practice,Qwen-Math FT · short prompt,eng,lvl-0_2026_15,0,cut at the token cap,84,119,119,0,0
+practice · Qwen-Math FT · short prompt · eng,practice,Qwen-Math FT · short prompt,eng,lvl-3_2026_6,3,crashed,96,59,112,0,0
+practice · Qwen-Math FT · short prompt · eng,practice,Qwen-Math FT · short prompt,eng,lvl-1_2026_8,1,right,95,36,113,0,1
+practice · Qwen-Math FT · short prompt · eng,practice,Qwen-Math FT · short prompt,eng,lvl-5_2026_10,5,no option matched,87,15,117,0,0
+practice · Qwen-Math FT · short prompt · eng,practice,Qwen-Math FT · short prompt,eng,lvl-1_2026_2,1,crashed,83,12,120,0,0
+practice · Qwen-Math FT · short prompt · eng,practice,Qwen-Math FT · short prompt,eng,lvl-0_2026_10,0,wrong option,86,26,118,0,0
+practice · Qwen-Math FT · short prompt · eng,practice,Qwen-Math FT · short prompt,eng,lvl-3_2026_5,3,right,94,39,113,0,1
+practice · Qwen-Math FT · short prompt · eng,practice,Qwen-Math FT · short prompt,eng,lvl-7_2026_4,7,right,81,15,121,0,1
+practice · Qwen-Math FT · short prompt · eng,practice,Qwen-Math FT · short prompt,eng,lvl-0_2026_9,0,no option matched,105,43,107,0,0
+practice · Qwen-Math FT · short prompt · eng,practice,Qwen-Math FT · short prompt,eng,lvl-4_2026_6,4,wrong option,87,16,117,0,0
+practice · Qwen-Math FT · short prompt · eng,practice,Qwen-Math FT · short prompt,eng,lvl-4_2026_9,4,right,80,47,121,0,1
+practice · Qwen-Math FT · short prompt · eng,practice,Qwen-Math FT · short prompt,eng,lvl-2_2026_5,2,crashed,65,18,130,0,0
+practice · Qwen-Math FT · short prompt · eng,practice,Qwen-Math FT · short prompt,eng,lvl-7_2026_9,7,right,76,33,124,0,1
+practice · Qwen-Math FT · short prompt · eng,practice,Qwen-Math FT · short prompt,eng,lvl-0_2026_7,0,right,125,33,95,0,1
+practice · Qwen-Math FT · short prompt · eng,practice,Qwen-Math FT · short prompt,eng,lvl-5_2026_8,5,no option matched,80,39,121,0,0
+practice · Qwen-Math FT · short prompt · eng,practice,Qwen-Math FT · short prompt,eng,lvl-1_2026_15,1,crashed,106,44,106,0,0
+practice · Qwen-Math FT · short prompt · eng,practice,Qwen-Math FT · short prompt,eng,lvl-3_2026_1,3,cut at the token cap,76,124,124,0,0
+practice · Qwen-Math FT · short prompt · eng,practice,Qwen-Math FT · short prompt,eng,lvl-6_2026_10,6,wrong option,79,12,122,0,0
+practice · Qwen-Math FT · short prompt · eng,practice,Qwen-Math FT · short prompt,eng,lvl-1_2026_9,1,wrong option,77,37,123,0,0
+practice · Qwen-Math FT · short prompt · eng,practice,Qwen-Math FT · short prompt,eng,lvl-1_2026_14,1,no option matched,87,16,117,0,0
+practice · Qwen-Math FT · short prompt · eng,practice,Qwen-Math FT · short prompt,eng,lvl-2_2026_6,2,crashed,94,50,113,0,0
+practice · Qwen-Math FT · short prompt · eng,practice,Qwen-Math FT · short prompt,eng,lvl-7_2026_3,7,right,108,29,105,0,1
+practice · Qwen-Math FT · short prompt · eng,practice,Qwen-Math FT · short prompt,eng,lvl-0_2026_2,0,right,105,29,107,0,1
+practice · Qwen-Math FT · short prompt · eng,practice,Qwen-Math FT · short prompt,eng,lvl-1_2026_13,1,right,78,25,123,0,1
+practice · Qwen-Math FT · short prompt · eng,practice,Qwen-Math FT · short prompt,eng,lvl-0_2026_3,0,no option matched,65,24,130,0,0
+practice · Qwen-Math FT · short prompt · eng,practice,Qwen-Math FT · short prompt,eng,lvl-6_2026_3,6,wrong option,88,29,117,0,0
+practice · Qwen-Math FT · short prompt · eng,practice,Qwen-Math FT · short prompt,eng,lvl-6_2026_4,6,right,75,33,124,0,1
+practice · Qwen-Math FT · short prompt · eng,practice,Qwen-Math FT · short prompt,eng,lvl-5_2026_9,5,no option matched,108,11,105,0,0
+practice · Qwen-Math FT · short prompt · eng,practice,Qwen-Math FT · short prompt,eng,lvl-2_2026_13,2,wrong option,111,23,103,0,0
+practice · Qwen-Math FT · short prompt · eng,practice,Qwen-Math FT · short prompt,eng,lvl-4_2026_10,4,no option matched,81,84,121,0,0
+practice · Qwen-Math FT · short prompt · eng,practice,Qwen-Math FT · short prompt,eng,lvl-7_2026_10,7,right,104,42,108,0,1
+practice · Qwen-Math FT · short prompt · eng,practice,Qwen-Math FT · short prompt,eng,lvl-0_2026_8,0,no option matched,87,37,117,0,0
+practice · Qwen-Math FT · short prompt · eng,practice,Qwen-Math FT · short prompt,eng,lvl-5_2026_1,5,cut at the token cap,87,117,117,0,0
+practice · Qwen-Math FT · short prompt · eng,practice,Qwen-Math FT · short prompt,eng,lvl-2_2026_14,2,no option matched,88,31,117,0,0
+practice · Qwen-Math FT · short prompt · eng,practice,Qwen-Math FT · short prompt,eng,lvl-1_2026_1,1,crashed,109,47,105,0,0
+practice · Qwen-Math FT · short prompt · eng,practice,Qwen-Math FT · short prompt,eng,lvl-6_2026_8,6,right,81,26,121,0,1
+practice · Qwen-Math FT · short prompt · eng,practice,Qwen-Math FT · short prompt,eng,lvl-1_2026_7,1,no option matched,87,32,117,0,0
+practice · Qwen-Math FT · short prompt · eng,practice,Qwen-Math FT · short prompt,eng,lvl-5_2026_3,5,right,82,32,120,0,1
+practice · Qwen-Math FT · short prompt · eng,practice,Qwen-Math FT · short prompt,eng,lvl-2_2026_7,2,wrong option,74,25,125,0,0
+practice · Qwen-Math FT · short prompt · eng,practice,Qwen-Math FT · short prompt,eng,lvl-4_2026_11,4,wrong option,105,59,107,0,0
+practice · Qwen-Math FT · short prompt · eng,practice,Qwen-Math FT · short prompt,eng,lvl-2_2026_2,2,no option matched,85,14,118,0,0
+practice · Qwen-Math FT · short prompt · eng,practice,Qwen-Math FT · short prompt,eng,lvl-3_2026_11,3,no option matched,79,36,122,0,0
+practice · Qwen-Math FT · short prompt · eng,practice,Qwen-Math FT · short prompt,eng,lvl-4_2026_4,4,wrong option,83,51,120,0,0
+practice · Qwen-Math FT · short prompt · eng,practice,Qwen-Math FT · short prompt,eng,lvl-4_2026_5,4,no option matched,104,31,108,0,0
+practice · Qwen-Math FT · short prompt · eng,practice,Qwen-Math FT · short prompt,eng,lvl-2_2026_12,2,right,88,36,117,0,1
+practice · Qwen-Math FT · short prompt · eng,practice,Qwen-Math FT · short prompt,eng,lvl-0_2026_16,0,no option matched,113,42,102,0,0
+practice · Qwen-Math FT · short prompt · eng,practice,Qwen-Math FT · short prompt,eng,lvl-3_2026_12,3,no option matched,88,13,117,0,0
+practice · Qwen-Math FT · short prompt · eng,practice,Qwen-Math FT · short prompt,eng,lvl-7_2026_8,7,right,80,28,121,0,1
+practice · Qwen-Math FT · short prompt · eng,practice,Qwen-Math FT · short prompt,eng,lvl-3_2026_10,3,no option matched,75,33,124,0,0
+practice · Qwen-Math FT · short prompt · cat → eng (NMT),practice,Qwen-Math FT · short prompt,cat → eng (NMT),lvl-6_2026_7,6,no option matched,90,14,107,3,0
+practice · Qwen-Math FT · short prompt · cat → eng (NMT),practice,Qwen-Math FT · short prompt,cat → eng (NMT),lvl-0_2026_15,0,wrong option,88,10,108,3,0
+practice · Qwen-Math FT · short prompt · cat → eng (NMT),practice,Qwen-Math FT · short prompt,cat → eng (NMT),lvl-3_2026_6,3,no option matched,95,34,104,3,0
+practice · Qwen-Math FT · short prompt · cat → eng (NMT),practice,Qwen-Math FT · short prompt,cat → eng (NMT),lvl-1_2026_8,1,right,90,36,107,3,1
+practice · Qwen-Math FT · short prompt · cat → eng (NMT),practice,Qwen-Math FT · short prompt,cat → eng (NMT),lvl-5_2026_10,5,no option matched,88,15,108,3,0
+practice · Qwen-Math FT · short prompt · cat → eng (NMT),practice,Qwen-Math FT · short prompt,cat → eng (NMT),lvl-1_2026_2,1,crashed,80,18,112,3,0
+practice · Qwen-Math FT · short prompt · cat → eng (NMT),practice,Qwen-Math FT · short prompt,cat → eng (NMT),lvl-0_2026_10,0,right,87,39,108,3,1
+practice · Qwen-Math FT · short prompt · cat → eng (NMT),practice,Qwen-Math FT · short prompt,cat → eng (NMT),lvl-3_2026_5,3,right,92,39,105,3,1
+practice · Qwen-Math FT · short prompt · cat → eng (NMT),practice,Qwen-Math FT · short prompt,cat → eng (NMT),lvl-7_2026_4,7,no option matched,82,20,111,3,0
+practice · Qwen-Math FT · short prompt · cat → eng (NMT),practice,Qwen-Math FT · short prompt,cat → eng (NMT),lvl-0_2026_9,0,no option matched,103,43,99,3,0
+practice · Qwen-Math FT · short prompt · cat → eng (NMT),practice,Qwen-Math FT · short prompt,cat → eng (NMT),lvl-4_2026_6,4,wrong option,86,16,109,3,0
+practice · Qwen-Math FT · short prompt · cat → eng (NMT),practice,Qwen-Math FT · short prompt,cat → eng (NMT),lvl-4_2026_9,4,right,81,47,112,3,1
+practice · Qwen-Math FT · short prompt · cat → eng (NMT),practice,Qwen-Math FT · short prompt,cat → eng (NMT),lvl-2_2026_5,2,crashed,65,18,121,3,0
+practice · Qwen-Math FT · short prompt · cat → eng (NMT),practice,Qwen-Math FT · short prompt,cat → eng (NMT),lvl-7_2026_9,7,no option matched,75,32,115,3,0
+practice · Qwen-Math FT · short prompt · cat → eng (NMT),practice,Qwen-Math FT · short prompt,cat → eng (NMT),lvl-0_2026_7,0,no option matched,122,15,88,3,0
+practice · Qwen-Math FT · short prompt · cat → eng (NMT),practice,Qwen-Math FT · short prompt,cat → eng (NMT),lvl-5_2026_8,5,no option matched,80,39,112,3,0
+practice · Qwen-Math FT · short prompt · cat → eng (NMT),practice,Qwen-Math FT · short prompt,cat → eng (NMT),lvl-1_2026_15,1,crashed,106,44,97,3,0
+practice · Qwen-Math FT · short prompt · cat → eng (NMT),practice,Qwen-Math FT · short prompt,cat → eng (NMT),lvl-3_2026_1,3,right,76,14,115,3,1
+practice · Qwen-Math FT · short prompt · cat → eng (NMT),practice,Qwen-Math FT · short prompt,cat → eng (NMT),lvl-6_2026_10,6,wrong option,77,14,114,3,0
+practice · Qwen-Math FT · short prompt · cat → eng (NMT),practice,Qwen-Math FT · short prompt,cat → eng (NMT),lvl-1_2026_9,1,no option matched,78,27,114,3,0
+practice · Qwen-Math FT · short prompt · cat → eng (NMT),practice,Qwen-Math FT · short prompt,cat → eng (NMT),lvl-1_2026_14,1,no option matched,87,16,108,3,0
+practice · Qwen-Math FT · short prompt · cat → eng (NMT),practice,Qwen-Math FT · short prompt,cat → eng (NMT),lvl-2_2026_6,2,crashed,95,46,104,3,0
+practice · Qwen-Math FT · short prompt · cat → eng (NMT),practice,Qwen-Math FT · short prompt,cat → eng (NMT),lvl-7_2026_3,7,right,109,42,96,3,1
+practice · Qwen-Math FT · short prompt · cat → eng (NMT),practice,Qwen-Math FT · short prompt,cat → eng (NMT),lvl-0_2026_2,0,right,105,29,98,3,1
+practice · Qwen-Math FT · short prompt · cat → eng (NMT),practice,Qwen-Math FT · short prompt,cat → eng (NMT),lvl-1_2026_13,1,right,77,25,114,3,1
+practice · Qwen-Math FT · short prompt · cat → eng (NMT),practice,Qwen-Math FT · short prompt,cat → eng (NMT),lvl-0_2026_3,0,no option matched,65,24,121,3,0
+practice · Qwen-Math FT · short prompt · cat → eng (NMT),practice,Qwen-Math FT · short prompt,cat → eng (NMT),lvl-6_2026_3,6,wrong option,85,17,109,3,0
+practice · Qwen-Math FT · short prompt · cat → eng (NMT),practice,Qwen-Math FT · short prompt,cat → eng (NMT),lvl-6_2026_4,6,right,78,33,114,3,1
+practice · Qwen-Math FT · short prompt · cat → eng (NMT),practice,Qwen-Math FT · short prompt,cat → eng (NMT),lvl-5_2026_9,5,no option matched,108,11,96,3,0
+practice · Qwen-Math FT · short prompt · cat → eng (NMT),practice,Qwen-Math FT · short prompt,cat → eng (NMT),lvl-2_2026_13,2,wrong option,108,23,96,3,0
+practice · Qwen-Math FT · short prompt · cat → eng (NMT),practice,Qwen-Math FT · short prompt,cat → eng (NMT),lvl-4_2026_10,4,no option matched,80,46,112,3,0
+practice · Qwen-Math FT · short prompt · cat → eng (NMT),practice,Qwen-Math FT · short prompt,cat → eng (NMT),lvl-7_2026_10,7,no option matched,102,35,100,3,0
+practice · Qwen-Math FT · short prompt · cat → eng (NMT),practice,Qwen-Math FT · short prompt,cat → eng (NMT),lvl-0_2026_8,0,no option matched,88,37,108,3,0
+practice · Qwen-Math FT · short prompt · cat → eng (NMT),practice,Qwen-Math FT · short prompt,cat → eng (NMT),lvl-5_2026_1,5,cut at the token cap,87,108,108,3,0
+practice · Qwen-Math FT · short prompt · cat → eng (NMT),practice,Qwen-Math FT · short prompt,cat → eng (NMT),lvl-2_2026_14,2,no option matched,87,21,108,3,0
+practice · Qwen-Math FT · short prompt · cat → eng (NMT),practice,Qwen-Math FT · short prompt,cat → eng (NMT),lvl-1_2026_1,1,crashed,109,47,96,3,0
+practice · Qwen-Math FT · short prompt · cat → eng (NMT),practice,Qwen-Math FT · short prompt,cat → eng (NMT),lvl-6_2026_8,6,right,80,32,112,3,1
+practice · Qwen-Math FT · short prompt · cat → eng (NMT),practice,Qwen-Math FT · short prompt,cat → eng (NMT),lvl-1_2026_7,1,no option matched,86,32,109,3,0
+practice · Qwen-Math FT · short prompt · cat → eng (NMT),practice,Qwen-Math FT · short prompt,cat → eng (NMT),lvl-5_2026_3,5,no option matched,82,32,111,3,0
+practice · Qwen-Math FT · short prompt · cat → eng (NMT),practice,Qwen-Math FT · short prompt,cat → eng (NMT),lvl-2_2026_7,2,right,76,24,115,3,1
+practice · Qwen-Math FT · short prompt · cat → eng (NMT),practice,Qwen-Math FT · short prompt,cat → eng (NMT),lvl-4_2026_11,4,crashed,104,61,99,3,0
+practice · Qwen-Math FT · short prompt · cat → eng (NMT),practice,Qwen-Math FT · short prompt,cat → eng (NMT),lvl-2_2026_2,2,no option matched,85,12,109,3,0
+practice · Qwen-Math FT · short prompt · cat → eng (NMT),practice,Qwen-Math FT · short prompt,cat → eng (NMT),lvl-3_2026_11,3,no option matched,79,14,113,3,0
+practice · Qwen-Math FT · short prompt · cat → eng (NMT),practice,Qwen-Math FT · short prompt,cat → eng (NMT),lvl-4_2026_4,4,wrong option,81,51,112,3,0
+practice · Qwen-Math FT · short prompt · cat → eng (NMT),practice,Qwen-Math FT · short prompt,cat → eng (NMT),lvl-4_2026_5,4,wrong option,104,38,99,3,0
+practice · Qwen-Math FT · short prompt · cat → eng (NMT),practice,Qwen-Math FT · short prompt,cat → eng (NMT),lvl-2_2026_12,2,right,87,36,108,3,1
+practice · Qwen-Math FT · short prompt · cat → eng (NMT),practice,Qwen-Math FT · short prompt,cat → eng (NMT),lvl-0_2026_16,0,no option matched,115,42,92,3,0
+practice · Qwen-Math FT · short prompt · cat → eng (NMT),practice,Qwen-Math FT · short prompt,cat → eng (NMT),lvl-3_2026_12,3,right,87,13,108,3,1
+practice · Qwen-Math FT · short prompt · cat → eng (NMT),practice,Qwen-Math FT · short prompt,cat → eng (NMT),lvl-7_2026_8,7,right,84,28,110,3,1
+practice · Qwen-Math FT · short prompt · cat → eng (NMT),practice,Qwen-Math FT · short prompt,cat → eng (NMT),lvl-3_2026_10,3,crashed,83,31,111,3,0
+practice · Noema-2B FT · short prompt · eng,practice,Noema-2B FT · short prompt,eng,lvl-6_2026_7,6,no option matched,85,11,93,0,0
+practice · Noema-2B FT · short prompt · eng,practice,Noema-2B FT · short prompt,eng,lvl-0_2026_15,0,cut at the token cap,83,94,94,0,0
+practice · Noema-2B FT · short prompt · eng,practice,Noema-2B FT · short prompt,eng,lvl-3_2026_6,3,no option matched,97,45,87,0,0
+practice · Noema-2B FT · short prompt · eng,practice,Noema-2B FT · short prompt,eng,lvl-1_2026_8,1,no option matched,96,29,87,0,0
+practice · Noema-2B FT · short prompt · eng,practice,Noema-2B FT · short prompt,eng,lvl-5_2026_10,5,wrong option,88,21,91,0,0
+practice · Noema-2B FT · short prompt · eng,practice,Noema-2B FT · short prompt,eng,lvl-1_2026_2,1,crashed,84,15,93,0,0
+practice · Noema-2B FT · short prompt · eng,practice,Noema-2B FT · short prompt,eng,lvl-0_2026_10,0,wrong option,87,27,92,0,0
+practice · Noema-2B FT · short prompt · eng,practice,Noema-2B FT · short prompt,eng,lvl-3_2026_5,3,right,95,36,88,0,1
+practice · Noema-2B FT · short prompt · eng,practice,Noema-2B FT · short prompt,eng,lvl-7_2026_4,7,no option matched,82,19,94,0,0
+practice · Noema-2B FT · short prompt · eng,practice,Noema-2B FT · short prompt,eng,lvl-0_2026_9,0,no option matched,106,56,82,0,0
+practice · Noema-2B FT · short prompt · eng,practice,Noema-2B FT · short prompt,eng,lvl-4_2026_6,4,wrong option,88,15,91,0,0
+practice · Noema-2B FT · short prompt · eng,practice,Noema-2B FT · short prompt,eng,lvl-4_2026_9,4,right,81,53,95,0,1
+practice · Noema-2B FT · short prompt · eng,practice,Noema-2B FT · short prompt,eng,lvl-2_2026_5,2,crashed,66,19,102,0,0
+practice · Noema-2B FT · short prompt · eng,practice,Noema-2B FT · short prompt,eng,lvl-7_2026_9,7,right,77,34,97,0,1
+practice · Noema-2B FT · short prompt · eng,practice,Noema-2B FT · short prompt,eng,lvl-0_2026_7,0,right,126,34,72,0,1
+practice · Noema-2B FT · short prompt · eng,practice,Noema-2B FT · short prompt,eng,lvl-5_2026_8,5,no option matched,81,56,95,0,0
+practice · Noema-2B FT · short prompt · eng,practice,Noema-2B FT · short prompt,eng,lvl-1_2026_15,1,wrong option,107,39,82,0,0
+practice · Noema-2B FT · short prompt · eng,practice,Noema-2B FT · short prompt,eng,lvl-3_2026_1,3,wrong option,77,13,97,0,0
+practice · Noema-2B FT · short prompt · eng,practice,Noema-2B FT · short prompt,eng,lvl-6_2026_10,6,wrong option,80,31,95,0,0
+practice · Noema-2B FT · short prompt · eng,practice,Noema-2B FT · short prompt,eng,lvl-1_2026_9,1,right,78,39,96,0,1
+practice · Noema-2B FT · short prompt · eng,practice,Noema-2B FT · short prompt,eng,lvl-1_2026_14,1,no option matched,88,19,91,0,0
+practice · Noema-2B FT · short prompt · eng,practice,Noema-2B FT · short prompt,eng,lvl-2_2026_6,2,no option matched,95,40,88,0,0
+practice · Noema-2B FT · short prompt · eng,practice,Noema-2B FT · short prompt,eng,lvl-7_2026_3,7,crashed,109,42,81,0,0
+practice · Noema-2B FT · short prompt · eng,practice,Noema-2B FT · short prompt,eng,lvl-0_2026_2,0,wrong option,106,15,82,0,0
+practice · Noema-2B FT · short prompt · eng,practice,Noema-2B FT · short prompt,eng,lvl-1_2026_13,1,right,79,28,96,0,1
+practice · Noema-2B FT · short prompt · eng,practice,Noema-2B FT · short prompt,eng,lvl-0_2026_3,0,right,66,15,102,0,1
+practice · Noema-2B FT · short prompt · eng,practice,Noema-2B FT · short prompt,eng,lvl-6_2026_3,6,no option matched,89,20,91,0,0
+practice · Noema-2B FT · short prompt · eng,practice,Noema-2B FT · short prompt,eng,lvl-6_2026_4,6,right,76,34,97,0,1
+practice · Noema-2B FT · short prompt · eng,practice,Noema-2B FT · short prompt,eng,lvl-5_2026_9,5,no option matched,109,26,81,0,0
+practice · Noema-2B FT · short prompt · eng,practice,Noema-2B FT · short prompt,eng,lvl-2_2026_13,2,crashed,112,58,79,0,0
+practice · Noema-2B FT · short prompt · eng,practice,Noema-2B FT · short prompt,eng,lvl-4_2026_10,4,crashed,82,44,94,0,0
+practice · Noema-2B FT · short prompt · eng,practice,Noema-2B FT · short prompt,eng,lvl-7_2026_10,7,no option matched,105,38,83,0,0
+practice · Noema-2B FT · short prompt · eng,practice,Noema-2B FT · short prompt,eng,lvl-0_2026_8,0,no option matched,88,48,91,0,0
+practice · Noema-2B FT · short prompt · eng,practice,Noema-2B FT · short prompt,eng,lvl-5_2026_1,5,cut at the token cap,88,91,91,0,0
+practice · Noema-2B FT · short prompt · eng,practice,Noema-2B FT · short prompt,eng,lvl-2_2026_14,2,right,87,33,92,0,1
+practice · Noema-2B FT · short prompt · eng,practice,Noema-2B FT · short prompt,eng,lvl-1_2026_1,1,wrong option,110,45,80,0,0
+practice · Noema-2B FT · short prompt · eng,practice,Noema-2B FT · short prompt,eng,lvl-6_2026_8,6,no option matched,82,28,94,0,0
+practice · Noema-2B FT · short prompt · eng,practice,Noema-2B FT · short prompt,eng,lvl-1_2026_7,1,no option matched,88,25,91,0,0
+practice · Noema-2B FT · short prompt · eng,practice,Noema-2B FT · short prompt,eng,lvl-5_2026_3,5,right,83,35,94,0,1
+practice · Noema-2B FT · short prompt · eng,practice,Noema-2B FT · short prompt,eng,lvl-2_2026_7,2,crashed,75,28,98,0,0
+practice · Noema-2B FT · short prompt · eng,practice,Noema-2B FT · short prompt,eng,lvl-4_2026_11,4,crashed,106,53,82,0,0
+practice · Noema-2B FT · short prompt · eng,practice,Noema-2B FT · short prompt,eng,lvl-2_2026_2,2,no option matched,86,13,92,0,0
+practice · Noema-2B FT · short prompt · eng,practice,Noema-2B FT · short prompt,eng,lvl-3_2026_11,3,right,80,29,95,0,1
+practice · Noema-2B FT · short prompt · eng,practice,Noema-2B FT · short prompt,eng,lvl-4_2026_4,4,right,84,54,93,0,1
+practice · Noema-2B FT · short prompt · eng,practice,Noema-2B FT · short prompt,eng,lvl-4_2026_5,4,no option matched,105,38,83,0,0
+practice · Noema-2B FT · short prompt · eng,practice,Noema-2B FT · short prompt,eng,lvl-2_2026_12,2,wrong option,89,45,91,0,0
+practice · Noema-2B FT · short prompt · eng,practice,Noema-2B FT · short prompt,eng,lvl-0_2026_16,0,right,114,48,78,0,1
+practice · Noema-2B FT · short prompt · eng,practice,Noema-2B FT · short prompt,eng,lvl-3_2026_12,3,no option matched,89,16,91,0,0
+practice · Noema-2B FT · short prompt · eng,practice,Noema-2B FT · short prompt,eng,lvl-7_2026_8,7,no option matched,81,28,95,0,0
+practice · Noema-2B FT · short prompt · eng,practice,Noema-2B FT · short prompt,eng,lvl-3_2026_10,3,no option matched,76,26,97,0,0
+practice · Noema-2B FT · short prompt · cat → eng (NMT),practice,Noema-2B FT · short prompt,cat → eng (NMT),lvl-6_2026_7,6,no option matched,91,13,82,3,0
+practice · Noema-2B FT · short prompt · cat → eng (NMT),practice,Noema-2B FT · short prompt,cat → eng (NMT),lvl-0_2026_15,0,cut at the token cap,87,84,84,3,0
+practice · Noema-2B FT · short prompt · cat → eng (NMT),practice,Noema-2B FT · short prompt,cat → eng (NMT),lvl-3_2026_6,3,crashed,96,52,80,3,0
+practice · Noema-2B FT · short prompt · cat → eng (NMT),practice,Noema-2B FT · short prompt,cat → eng (NMT),lvl-1_2026_8,1,right,91,25,82,3,1
+practice · Noema-2B FT · short prompt · cat → eng (NMT),practice,Noema-2B FT · short prompt,cat → eng (NMT),lvl-5_2026_10,5,right,89,20,83,3,1
+practice · Noema-2B FT · short prompt · cat → eng (NMT),practice,Noema-2B FT · short prompt,cat → eng (NMT),lvl-1_2026_2,1,no option matched,81,41,87,3,0
+practice · Noema-2B FT · short prompt · cat → eng (NMT),practice,Noema-2B FT · short prompt,cat → eng (NMT),lvl-0_2026_10,0,crashed,88,30,84,3,0
+practice · Noema-2B FT · short prompt · cat → eng (NMT),practice,Noema-2B FT · short prompt,cat → eng (NMT),lvl-3_2026_5,3,right,93,35,81,3,1
+practice · Noema-2B FT · short prompt · cat → eng (NMT),practice,Noema-2B FT · short prompt,cat → eng (NMT),lvl-7_2026_4,7,no option matched,83,16,86,3,0
+practice · Noema-2B FT · short prompt · cat → eng (NMT),practice,Noema-2B FT · short prompt,cat → eng (NMT),lvl-0_2026_9,0,wrong option,104,50,76,3,0
+practice · Noema-2B FT · short prompt · cat → eng (NMT),practice,Noema-2B FT · short prompt,cat → eng (NMT),lvl-4_2026_6,4,wrong option,87,15,84,3,0
+practice · Noema-2B FT · short prompt · cat → eng (NMT),practice,Noema-2B FT · short prompt,cat → eng (NMT),lvl-4_2026_9,4,no option matched,82,43,87,3,0
+practice · Noema-2B FT · short prompt · cat → eng (NMT),practice,Noema-2B FT · short prompt,cat → eng (NMT),lvl-2_2026_5,2,right,66,17,95,3,1
+practice · Noema-2B FT · short prompt · cat → eng (NMT),practice,Noema-2B FT · short prompt,cat → eng (NMT),lvl-7_2026_9,7,no option matched,76,36,90,3,0
+practice · Noema-2B FT · short prompt · cat → eng (NMT),practice,Noema-2B FT · short prompt,cat → eng (NMT),lvl-0_2026_7,0,right,123,34,67,3,1
+practice · Noema-2B FT · short prompt · cat → eng (NMT),practice,Noema-2B FT · short prompt,cat → eng (NMT),lvl-5_2026_8,5,wrong option,81,68,87,3,0
+practice · Noema-2B FT · short prompt · cat → eng (NMT),practice,Noema-2B FT · short prompt,cat → eng (NMT),lvl-1_2026_15,1,wrong option,107,45,74,3,0
+practice · Noema-2B FT · short prompt · cat → eng (NMT),practice,Noema-2B FT · short prompt,cat → eng (NMT),lvl-3_2026_1,3,no option matched,77,15,89,3,0
+practice · Noema-2B FT · short prompt · cat → eng (NMT),practice,Noema-2B FT · short prompt,cat → eng (NMT),lvl-6_2026_10,6,right,78,27,89,3,1
+practice · Noema-2B FT · short prompt · cat → eng (NMT),practice,Noema-2B FT · short prompt,cat → eng (NMT),lvl-1_2026_9,1,no option matched,79,41,88,3,0
+practice · Noema-2B FT · short prompt · cat → eng (NMT),practice,Noema-2B FT · short prompt,cat → eng (NMT),lvl-1_2026_14,1,no option matched,88,14,84,3,0
+practice · Noema-2B FT · short prompt · cat → eng (NMT),practice,Noema-2B FT · short prompt,cat → eng (NMT),lvl-2_2026_6,2,no option matched,96,28,80,3,0
+practice · Noema-2B FT · short prompt · cat → eng (NMT),practice,Noema-2B FT · short prompt,cat → eng (NMT),lvl-7_2026_3,7,no option matched,110,37,73,3,0
+practice · Noema-2B FT · short prompt · cat → eng (NMT),practice,Noema-2B FT · short prompt,cat → eng (NMT),lvl-0_2026_2,0,wrong option,106,13,75,3,0
+practice · Noema-2B FT · short prompt · cat → eng (NMT),practice,Noema-2B FT · short prompt,cat → eng (NMT),lvl-1_2026_13,1,right,78,26,89,3,1
+practice · Noema-2B FT · short prompt · cat → eng (NMT),practice,Noema-2B FT · short prompt,cat → eng (NMT),lvl-0_2026_3,0,wrong option,66,12,95,3,0
+practice · Noema-2B FT · short prompt · cat → eng (NMT),practice,Noema-2B FT · short prompt,cat → eng (NMT),lvl-6_2026_3,6,no option matched,86,27,85,3,0
+practice · Noema-2B FT · short prompt · cat → eng (NMT),practice,Noema-2B FT · short prompt,cat → eng (NMT),lvl-6_2026_4,6,right,79,36,88,3,1
+practice · Noema-2B FT · short prompt · cat → eng (NMT),practice,Noema-2B FT · short prompt,cat → eng (NMT),lvl-5_2026_9,5,no option matched,109,22,73,3,0
+practice · Noema-2B FT · short prompt · cat → eng (NMT),practice,Noema-2B FT · short prompt,cat → eng (NMT),lvl-2_2026_13,2,crashed,109,58,73,3,0
+practice · Noema-2B FT · short prompt · cat → eng (NMT),practice,Noema-2B FT · short prompt,cat → eng (NMT),lvl-4_2026_10,4,right,81,52,87,3,1
+practice · Noema-2B FT · short prompt · cat → eng (NMT),practice,Noema-2B FT · short prompt,cat → eng (NMT),lvl-7_2026_10,7,no option matched,103,41,76,3,0
+practice · Noema-2B FT · short prompt · cat → eng (NMT),practice,Noema-2B FT · short prompt,cat → eng (NMT),lvl-0_2026_8,0,no option matched,89,43,83,3,0
+practice · Noema-2B FT · short prompt · cat → eng (NMT),practice,Noema-2B FT · short prompt,cat → eng (NMT),lvl-5_2026_1,5,no option matched,88,60,84,3,0
+practice · Noema-2B FT · short prompt · cat → eng (NMT),practice,Noema-2B FT · short prompt,cat → eng (NMT),lvl-2_2026_14,2,no option matched,87,32,84,3,0
+practice · Noema-2B FT · short prompt · cat → eng (NMT),practice,Noema-2B FT · short prompt,cat → eng (NMT),lvl-1_2026_1,1,wrong option,110,45,73,3,0
+practice · Noema-2B FT · short prompt · cat → eng (NMT),practice,Noema-2B FT · short prompt,cat → eng (NMT),lvl-6_2026_8,6,no option matched,81,40,87,3,0
+practice · Noema-2B FT · short prompt · cat → eng (NMT),practice,Noema-2B FT · short prompt,cat → eng (NMT),lvl-1_2026_7,1,no option matched,87,25,84,3,0
+practice · Noema-2B FT · short prompt · cat → eng (NMT),practice,Noema-2B FT · short prompt,cat → eng (NMT),lvl-5_2026_3,5,wrong option,83,35,86,3,0
+practice · Noema-2B FT · short prompt · cat → eng (NMT),practice,Noema-2B FT · short prompt,cat → eng (NMT),lvl-2_2026_7,2,crashed,77,29,89,3,0
+practice · Noema-2B FT · short prompt · cat → eng (NMT),practice,Noema-2B FT · short prompt,cat → eng (NMT),lvl-4_2026_11,4,crashed,105,54,75,3,0
+practice · Noema-2B FT · short prompt · cat → eng (NMT),practice,Noema-2B FT · short prompt,cat → eng (NMT),lvl-2_2026_2,2,no option matched,86,19,85,3,0
+practice · Noema-2B FT · short prompt · cat → eng (NMT),practice,Noema-2B FT · short prompt,cat → eng (NMT),lvl-3_2026_11,3,no option matched,80,40,88,3,0
+practice · Noema-2B FT · short prompt · cat → eng (NMT),practice,Noema-2B FT · short prompt,cat → eng (NMT),lvl-4_2026_4,4,right,82,59,87,3,1
+practice · Noema-2B FT · short prompt · cat → eng (NMT),practice,Noema-2B FT · short prompt,cat → eng (NMT),lvl-4_2026_5,4,no option matched,105,46,75,3,0
+practice · Noema-2B FT · short prompt · cat → eng (NMT),practice,Noema-2B FT · short prompt,cat → eng (NMT),lvl-2_2026_12,2,crashed,88,55,84,3,0
+practice · Noema-2B FT · short prompt · cat → eng (NMT),practice,Noema-2B FT · short prompt,cat → eng (NMT),lvl-0_2026_16,0,right,116,48,70,3,1
+practice · Noema-2B FT · short prompt · cat → eng (NMT),practice,Noema-2B FT · short prompt,cat → eng (NMT),lvl-3_2026_12,3,wrong option,88,13,84,3,0
+practice · Noema-2B FT · short prompt · cat → eng (NMT),practice,Noema-2B FT · short prompt,cat → eng (NMT),lvl-7_2026_8,7,no option matched,85,28,85,3,0
+practice · Noema-2B FT · short prompt · cat → eng (NMT),practice,Noema-2B FT · short prompt,cat → eng (NMT),lvl-3_2026_10,3,no option matched,84,32,86,3,0
+practice · Noema-2B FT · examples prompt · eng,practice,Noema-2B FT · examples prompt,eng,lvl-6_2026_7,6,no option matched,85,16,93,0,0
+practice · Noema-2B FT · examples prompt · eng,practice,Noema-2B FT · examples prompt,eng,lvl-0_2026_15,0,no option matched,83,73,94,0,0
+practice · Noema-2B FT · examples prompt · eng,practice,Noema-2B FT · examples prompt,eng,lvl-3_2026_6,3,crashed,97,40,87,0,0
+practice · Noema-2B FT · examples prompt · eng,practice,Noema-2B FT · examples prompt,eng,lvl-1_2026_8,1,no option matched,96,32,87,0,0
+practice · Noema-2B FT · examples prompt · eng,practice,Noema-2B FT · examples prompt,eng,lvl-5_2026_10,5,wrong option,88,21,91,0,0
+practice · Noema-2B FT · examples prompt · eng,practice,Noema-2B FT · examples prompt,eng,lvl-1_2026_2,1,crashed,84,14,93,0,0
+practice · Noema-2B FT · examples prompt · eng,practice,Noema-2B FT · examples prompt,eng,lvl-0_2026_10,0,wrong option,87,27,92,0,0
+practice · Noema-2B FT · examples prompt · eng,practice,Noema-2B FT · examples prompt,eng,lvl-3_2026_5,3,no option matched,95,45,88,0,0
+practice · Noema-2B FT · examples prompt · eng,practice,Noema-2B FT · examples prompt,eng,lvl-7_2026_4,7,no option matched,82,15,94,0,0
+practice · Noema-2B FT · examples prompt · eng,practice,Noema-2B FT · examples prompt,eng,lvl-0_2026_9,0,no option matched,106,46,82,0,0
+practice · Noema-2B FT · examples prompt · eng,practice,Noema-2B FT · examples prompt,eng,lvl-4_2026_6,4,wrong option,88,15,91,0,0
+practice · Noema-2B FT · examples prompt · eng,practice,Noema-2B FT · examples prompt,eng,lvl-4_2026_9,4,no option matched,81,63,95,0,0
+practice · Noema-2B FT · examples prompt · eng,practice,Noema-2B FT · examples prompt,eng,lvl-2_2026_5,2,crashed,66,21,102,0,0
+practice · Noema-2B FT · examples prompt · eng,practice,Noema-2B FT · examples prompt,eng,lvl-7_2026_9,7,right,77,37,97,0,1
+practice · Noema-2B FT · examples prompt · eng,practice,Noema-2B FT · examples prompt,eng,lvl-0_2026_7,0,right,126,43,72,0,1
+practice · Noema-2B FT · examples prompt · eng,practice,Noema-2B FT · examples prompt,eng,lvl-5_2026_8,5,no option matched,81,48,95,0,0
+practice · Noema-2B FT · examples prompt · eng,practice,Noema-2B FT · examples prompt,eng,lvl-1_2026_15,1,wrong option,107,38,82,0,0
+practice · Noema-2B FT · examples prompt · eng,practice,Noema-2B FT · examples prompt,eng,lvl-3_2026_1,3,wrong option,77,12,97,0,0
+practice · Noema-2B FT · examples prompt · eng,practice,Noema-2B FT · examples prompt,eng,lvl-6_2026_10,6,wrong option,80,51,95,0,0
+practice · Noema-2B FT · examples prompt · eng,practice,Noema-2B FT · examples prompt,eng,lvl-1_2026_9,1,no option matched,78,33,96,0,0
+practice · Noema-2B FT · examples prompt · eng,practice,Noema-2B FT · examples prompt,eng,lvl-1_2026_14,1,no option matched,88,25,91,0,0
+practice · Noema-2B FT · examples prompt · eng,practice,Noema-2B FT · examples prompt,eng,lvl-2_2026_6,2,no option matched,95,41,88,0,0
+practice · Noema-2B FT · examples prompt · eng,practice,Noema-2B FT · examples prompt,eng,lvl-7_2026_3,7,crashed,109,42,81,0,0
+practice · Noema-2B FT · examples prompt · eng,practice,Noema-2B FT · examples prompt,eng,lvl-0_2026_2,0,right,106,15,82,0,1
+practice · Noema-2B FT · examples prompt · eng,practice,Noema-2B FT · examples prompt,eng,lvl-1_2026_13,1,right,79,27,96,0,1
+practice · Noema-2B FT · examples prompt · eng,practice,Noema-2B FT · examples prompt,eng,lvl-0_2026_3,0,no option matched,66,37,102,0,0
+practice · Noema-2B FT · examples prompt · eng,practice,Noema-2B FT · examples prompt,eng,lvl-6_2026_3,6,no option matched,89,33,91,0,0
+practice · Noema-2B FT · examples prompt · eng,practice,Noema-2B FT · examples prompt,eng,lvl-6_2026_4,6,right,76,34,97,0,1
+practice · Noema-2B FT · examples prompt · eng,practice,Noema-2B FT · examples prompt,eng,lvl-5_2026_9,5,no option matched,109,22,81,0,0
+practice · Noema-2B FT · examples prompt · eng,practice,Noema-2B FT · examples prompt,eng,lvl-2_2026_13,2,crashed,112,57,79,0,0
+practice · Noema-2B FT · examples prompt · eng,practice,Noema-2B FT · examples prompt,eng,lvl-4_2026_10,4,cut at the token cap,82,94,94,0,0
+practice · Noema-2B FT · examples prompt · eng,practice,Noema-2B FT · examples prompt,eng,lvl-7_2026_10,7,no option matched,105,42,83,0,0
+practice · Noema-2B FT · examples prompt · eng,practice,Noema-2B FT · examples prompt,eng,lvl-0_2026_8,0,no option matched,88,44,91,0,0
+practice · Noema-2B FT · examples prompt · eng,practice,Noema-2B FT · examples prompt,eng,lvl-5_2026_1,5,crashed,88,63,91,0,0
+practice · Noema-2B FT · examples prompt · eng,practice,Noema-2B FT · examples prompt,eng,lvl-2_2026_14,2,no option matched,87,39,92,0,0
+practice · Noema-2B FT · examples prompt · eng,practice,Noema-2B FT · examples prompt,eng,lvl-1_2026_1,1,right,110,49,80,0,1
+practice · Noema-2B FT · examples prompt · eng,practice,Noema-2B FT · examples prompt,eng,lvl-6_2026_8,6,crashed,82,32,94,0,0
+practice · Noema-2B FT · examples prompt · eng,practice,Noema-2B FT · examples prompt,eng,lvl-1_2026_7,1,no option matched,88,47,91,0,0
+practice · Noema-2B FT · examples prompt · eng,practice,Noema-2B FT · examples prompt,eng,lvl-5_2026_3,5,right,83,42,94,0,1
+practice · Noema-2B FT · examples prompt · eng,practice,Noema-2B FT · examples prompt,eng,lvl-2_2026_7,2,no option matched,75,29,98,0,0
+practice · Noema-2B FT · examples prompt · eng,practice,Noema-2B FT · examples prompt,eng,lvl-4_2026_11,4,crashed,106,61,82,0,0
+practice · Noema-2B FT · examples prompt · eng,practice,Noema-2B FT · examples prompt,eng,lvl-2_2026_2,2,no option matched,86,11,92,0,0
+practice · Noema-2B FT · examples prompt · eng,practice,Noema-2B FT · examples prompt,eng,lvl-3_2026_11,3,right,80,35,95,0,1
+practice · Noema-2B FT · examples prompt · eng,practice,Noema-2B FT · examples prompt,eng,lvl-4_2026_4,4,right,84,60,93,0,1
+practice · Noema-2B FT · examples prompt · eng,practice,Noema-2B FT · examples prompt,eng,lvl-4_2026_5,4,no option matched,105,46,83,0,0
+practice · Noema-2B FT · examples prompt · eng,practice,Noema-2B FT · examples prompt,eng,lvl-2_2026_12,2,no option matched,89,34,91,0,0
+practice · Noema-2B FT · examples prompt · eng,practice,Noema-2B FT · examples prompt,eng,lvl-0_2026_16,0,no option matched,114,54,78,0,0
+practice · Noema-2B FT · examples prompt · eng,practice,Noema-2B FT · examples prompt,eng,lvl-3_2026_12,3,cut at the token cap,89,91,91,0,0
+practice · Noema-2B FT · examples prompt · eng,practice,Noema-2B FT · examples prompt,eng,lvl-7_2026_8,7,no option matched,81,28,95,0,0
+practice · Noema-2B FT · examples prompt · eng,practice,Noema-2B FT · examples prompt,eng,lvl-3_2026_10,3,no option matched,76,36,97,0,0
+practice · Noema-2B FT · examples prompt · cat → eng (NMT),practice,Noema-2B FT · examples prompt,cat → eng (NMT),lvl-6_2026_7,6,no option matched,91,17,82,3,0
+practice · Noema-2B FT · examples prompt · cat → eng (NMT),practice,Noema-2B FT · examples prompt,cat → eng (NMT),lvl-0_2026_15,0,cut at the token cap,87,84,84,3,0
+practice · Noema-2B FT · examples prompt · cat → eng (NMT),practice,Noema-2B FT · examples prompt,cat → eng (NMT),lvl-3_2026_6,3,crashed,96,52,80,3,0
+practice · Noema-2B FT · examples prompt · cat → eng (NMT),practice,Noema-2B FT · examples prompt,cat → eng (NMT),lvl-1_2026_8,1,no option matched,91,32,82,3,0
+practice · Noema-2B FT · examples prompt · cat → eng (NMT),practice,Noema-2B FT · examples prompt,cat → eng (NMT),lvl-5_2026_10,5,no option matched,89,29,83,3,0
+practice · Noema-2B FT · examples prompt · cat → eng (NMT),practice,Noema-2B FT · examples prompt,cat → eng (NMT),lvl-1_2026_2,1,crashed,81,14,87,3,0
+practice · Noema-2B FT · examples prompt · cat → eng (NMT),practice,Noema-2B FT · examples prompt,cat → eng (NMT),lvl-0_2026_10,0,crashed,88,40,84,3,0
+practice · Noema-2B FT · examples prompt · cat → eng (NMT),practice,Noema-2B FT · examples prompt,cat → eng (NMT),lvl-3_2026_5,3,no option matched,93,44,81,3,0
+practice · Noema-2B FT · examples prompt · cat → eng (NMT),practice,Noema-2B FT · examples prompt,cat → eng (NMT),lvl-7_2026_4,7,no option matched,83,22,86,3,0
+practice · Noema-2B FT · examples prompt · cat → eng (NMT),practice,Noema-2B FT · examples prompt,cat → eng (NMT),lvl-0_2026_9,0,no option matched,104,39,76,3,0
+practice · Noema-2B FT · examples prompt · cat → eng (NMT),practice,Noema-2B FT · examples prompt,cat → eng (NMT),lvl-4_2026_6,4,wrong option,87,15,84,3,0
+practice · Noema-2B FT · examples prompt · cat → eng (NMT),practice,Noema-2B FT · examples prompt,cat → eng (NMT),lvl-4_2026_9,4,no option matched,82,48,87,3,0
+practice · Noema-2B FT · examples prompt · cat → eng (NMT),practice,Noema-2B FT · examples prompt,cat → eng (NMT),lvl-2_2026_5,2,right,66,18,95,3,1
+practice · Noema-2B FT · examples prompt · cat → eng (NMT),practice,Noema-2B FT · examples prompt,cat → eng (NMT),lvl-7_2026_9,7,no option matched,76,40,90,3,0
+practice · Noema-2B FT · examples prompt · cat → eng (NMT),practice,Noema-2B FT · examples prompt,cat → eng (NMT),lvl-0_2026_7,0,no option matched,123,45,67,3,0
+practice · Noema-2B FT · examples prompt · cat → eng (NMT),practice,Noema-2B FT · examples prompt,cat → eng (NMT),lvl-5_2026_8,5,no option matched,81,48,87,3,0
+practice · Noema-2B FT · examples prompt · cat → eng (NMT),practice,Noema-2B FT · examples prompt,cat → eng (NMT),lvl-1_2026_15,1,wrong option,107,38,74,3,0
+practice · Noema-2B FT · examples prompt · cat → eng (NMT),practice,Noema-2B FT · examples prompt,cat → eng (NMT),lvl-3_2026_1,3,no option matched,77,47,89,3,0
+practice · Noema-2B FT · examples prompt · cat → eng (NMT),practice,Noema-2B FT · examples prompt,cat → eng (NMT),lvl-6_2026_10,6,no option matched,78,28,89,3,0
+practice · Noema-2B FT · examples prompt · cat → eng (NMT),practice,Noema-2B FT · examples prompt,cat → eng (NMT),lvl-1_2026_9,1,no option matched,79,45,88,3,0
+practice · Noema-2B FT · examples prompt · cat → eng (NMT),practice,Noema-2B FT · examples prompt,cat → eng (NMT),lvl-1_2026_14,1,no option matched,88,25,84,3,0
+practice · Noema-2B FT · examples prompt · cat → eng (NMT),practice,Noema-2B FT · examples prompt,cat → eng (NMT),lvl-2_2026_6,2,no option matched,96,32,80,3,0
+practice · Noema-2B FT · examples prompt · cat → eng (NMT),practice,Noema-2B FT · examples prompt,cat → eng (NMT),lvl-7_2026_3,7,no option matched,110,37,73,3,0
+practice · Noema-2B FT · examples prompt · cat → eng (NMT),practice,Noema-2B FT · examples prompt,cat → eng (NMT),lvl-0_2026_2,0,wrong option,106,13,75,3,0
+practice · Noema-2B FT · examples prompt · cat → eng (NMT),practice,Noema-2B FT · examples prompt,cat → eng (NMT),lvl-1_2026_13,1,right,78,27,89,3,1
+practice · Noema-2B FT · examples prompt · cat → eng (NMT),practice,Noema-2B FT · examples prompt,cat → eng (NMT),lvl-0_2026_3,0,wrong option,66,37,95,3,0
+practice · Noema-2B FT · examples prompt · cat → eng (NMT),practice,Noema-2B FT · examples prompt,cat → eng (NMT),lvl-6_2026_3,6,no option matched,86,34,85,3,0
+practice · Noema-2B FT · examples prompt · cat → eng (NMT),practice,Noema-2B FT · examples prompt,cat → eng (NMT),lvl-6_2026_4,6,right,79,34,88,3,1
+practice · Noema-2B FT · examples prompt · cat → eng (NMT),practice,Noema-2B FT · examples prompt,cat → eng (NMT),lvl-5_2026_9,5,no option matched,109,22,73,3,0
+practice · Noema-2B FT · examples prompt · cat → eng (NMT),practice,Noema-2B FT · examples prompt,cat → eng (NMT),lvl-2_2026_13,2,wrong option,109,36,73,3,0
+practice · Noema-2B FT · examples prompt · cat → eng (NMT),practice,Noema-2B FT · examples prompt,cat → eng (NMT),lvl-4_2026_10,4,right,81,69,87,3,1
+practice · Noema-2B FT · examples prompt · cat → eng (NMT),practice,Noema-2B FT · examples prompt,cat → eng (NMT),lvl-7_2026_10,7,no option matched,103,41,76,3,0
+practice · Noema-2B FT · examples prompt · cat → eng (NMT),practice,Noema-2B FT · examples prompt,cat → eng (NMT),lvl-0_2026_8,0,no option matched,89,43,83,3,0
+practice · Noema-2B FT · examples prompt · cat → eng (NMT),practice,Noema-2B FT · examples prompt,cat → eng (NMT),lvl-5_2026_1,5,cut at the token cap,88,84,84,3,0
+practice · Noema-2B FT · examples prompt · cat → eng (NMT),practice,Noema-2B FT · examples prompt,cat → eng (NMT),lvl-2_2026_14,2,no option matched,87,40,84,3,0
+practice · Noema-2B FT · examples prompt · cat → eng (NMT),practice,Noema-2B FT · examples prompt,cat → eng (NMT),lvl-1_2026_1,1,cut at the token cap,110,73,73,3,0
+practice · Noema-2B FT · examples prompt · cat → eng (NMT),practice,Noema-2B FT · examples prompt,cat → eng (NMT),lvl-6_2026_8,6,no option matched,81,40,87,3,0
+practice · Noema-2B FT · examples prompt · cat → eng (NMT),practice,Noema-2B FT · examples prompt,cat → eng (NMT),lvl-1_2026_7,1,no option matched,87,48,84,3,0
+practice · Noema-2B FT · examples prompt · cat → eng (NMT),practice,Noema-2B FT · examples prompt,cat → eng (NMT),lvl-5_2026_3,5,wrong option,83,39,86,3,0
+practice · Noema-2B FT · examples prompt · cat → eng (NMT),practice,Noema-2B FT · examples prompt,cat → eng (NMT),lvl-2_2026_7,2,right,77,31,89,3,1
+practice · Noema-2B FT · examples prompt · cat → eng (NMT),practice,Noema-2B FT · examples prompt,cat → eng (NMT),lvl-4_2026_11,4,crashed,105,73,75,3,0
+practice · Noema-2B FT · examples prompt · cat → eng (NMT),practice,Noema-2B FT · examples prompt,cat → eng (NMT),lvl-2_2026_2,2,no option matched,86,13,85,3,0
+practice · Noema-2B FT · examples prompt · cat → eng (NMT),practice,Noema-2B FT · examples prompt,cat → eng (NMT),lvl-3_2026_11,3,no option matched,80,46,88,3,0
+practice · Noema-2B FT · examples prompt · cat → eng (NMT),practice,Noema-2B FT · examples prompt,cat → eng (NMT),lvl-4_2026_4,4,right,82,60,87,3,1
+practice · Noema-2B FT · examples prompt · cat → eng (NMT),practice,Noema-2B FT · examples prompt,cat → eng (NMT),lvl-4_2026_5,4,no option matched,105,45,75,3,0
+practice · Noema-2B FT · examples prompt · cat → eng (NMT),practice,Noema-2B FT · examples prompt,cat → eng (NMT),lvl-2_2026_12,2,no option matched,88,37,84,3,0
+practice · Noema-2B FT · examples prompt · cat → eng (NMT),practice,Noema-2B FT · examples prompt,cat → eng (NMT),lvl-0_2026_16,0,no option matched,116,54,70,3,0
+practice · Noema-2B FT · examples prompt · cat → eng (NMT),practice,Noema-2B FT · examples prompt,cat → eng (NMT),lvl-3_2026_12,3,cut at the token cap,88,84,84,3,0
+practice · Noema-2B FT · examples prompt · cat → eng (NMT),practice,Noema-2B FT · examples prompt,cat → eng (NMT),lvl-7_2026_8,7,right,85,39,85,3,1
+practice · Noema-2B FT · examples prompt · cat → eng (NMT),practice,Noema-2B FT · examples prompt,cat → eng (NMT),lvl-3_2026_10,3,no option matched,84,35,86,3,0
+M3Kang · Qwen-Math · examples prompt · eng,M3Kang,Qwen-Math · examples prompt,eng,lvl-5_2019_15,5,cut at the token cap,90,116,116,0,0
+M3Kang · Qwen-Math · examples prompt · eng,M3Kang,Qwen-Math · examples prompt,eng,lvl-4_2016_1,4,no option matched,123,69,97,0,0
+M3Kang · Qwen-Math · examples prompt · eng,M3Kang,Qwen-Math · examples prompt,eng,lvl-6_2007_23,6,right,98,95,111,0,1
+M3Kang · Qwen-Math · examples prompt · eng,M3Kang,Qwen-Math · examples prompt,eng,lvl-6_2015_13,6,cut at the token cap,146,83,83,0,0
+M3Kang · Qwen-Math · examples prompt · eng,M3Kang,Qwen-Math · examples prompt,eng,lvl-6_2011_14,6,cut at the token cap,144,84,84,0,0
+M3Kang · Qwen-Math · examples prompt · eng,M3Kang,Qwen-Math · examples prompt,eng,lvl-5_2017_11,5,no option matched,94,53,113,0,0
+M3Kang · Qwen-Math · examples prompt · eng,M3Kang,Qwen-Math · examples prompt,eng,lvl-7_2014_29,7,cut at the token cap,151,80,80,0,0
+M3Kang · Qwen-Math · examples prompt · eng,M3Kang,Qwen-Math · examples prompt,eng,lvl-4_2020_25,4,cut at the token cap,118,99,99,0,0
+M3Kang · Qwen-Math · examples prompt · eng,M3Kang,Qwen-Math · examples prompt,eng,lvl-5_2021_7,5,crashed,125,70,95,0,0
+M3Kang · Qwen-Math · examples prompt · eng,M3Kang,Qwen-Math · examples prompt,eng,lvl-4_2017_26,4,cut at the token cap,150,81,81,0,0
+M3Kang · Qwen-Math · examples prompt · eng,M3Kang,Qwen-Math · examples prompt,eng,lvl-7_2007_22,7,crashed,88,72,117,0,0
+M3Kang · Qwen-Math · examples prompt · eng,M3Kang,Qwen-Math · examples prompt,eng,lvl-6_2009_21,6,cut at the token cap,172,68,68,0,0
+M3Kang · Qwen-Math · examples prompt · eng,M3Kang,Qwen-Math · examples prompt,eng,lvl-2_2024_30,2,no option matched,96,59,112,0,0
+M3Kang · Qwen-Math · examples prompt · eng,M3Kang,Qwen-Math · examples prompt,eng,lvl-0_2017_7,0,wrong option,99,102,110,0,0
+M3Kang · Qwen-Math · examples prompt · eng,M3Kang,Qwen-Math · examples prompt,eng,lvl-3_2022_21,3,no option matched,116,95,101,0,0
+M3Kang · Qwen-Math · examples prompt · eng,M3Kang,Qwen-Math · examples prompt,eng,lvl-4_2012_8,4,right,103,49,108,0,1
+M3Kang · Qwen-Math · examples prompt · eng,M3Kang,Qwen-Math · examples prompt,eng,lvl-3_2016_12,3,right,72,39,126,0,1
+M3Kang · Qwen-Math · examples prompt · eng,M3Kang,Qwen-Math · examples prompt,eng,lvl-5_2019_29,5,crashed,104,80,108,0,0
+M3Kang · Qwen-Math · examples prompt · eng,M3Kang,Qwen-Math · examples prompt,eng,lvl-5_2012_23,5,no option matched,115,88,101,0,0
+M3Kang · Qwen-Math · examples prompt · eng,M3Kang,Qwen-Math · examples prompt,eng,lvl-6_2014_9,6,crashed,121,38,98,0,0
+M3Kang · Qwen-Math · examples prompt · eng,M3Kang,Qwen-Math · examples prompt,eng,lvl-3_2021_13,3,right,115,63,101,0,1
+M3Kang · Qwen-Math · examples prompt · eng,M3Kang,Qwen-Math · examples prompt,eng,lvl-7_2021_25,7,cut at the token cap,106,106,106,0,0
+M3Kang · Qwen-Math · examples prompt · eng,M3Kang,Qwen-Math · examples prompt,eng,lvl-0_2019_22,0,right,102,44,109,0,1
+M3Kang · Qwen-Math · examples prompt · eng,M3Kang,Qwen-Math · examples prompt,eng,lvl-4_2008_5,4,no option matched,85,109,118,0,0
+M3Kang · Qwen-Math · examples prompt · eng,M3Kang,Qwen-Math · examples prompt,eng,lvl-6_2024_30,6,cut at the token cap,122,97,97,0,0
+M3Kang · Qwen-Math · examples prompt · eng,M3Kang,Qwen-Math · examples prompt,eng,lvl-6_2021_26,6,cut at the token cap,93,114,114,0,0
+M3Kang · Qwen-Math · examples prompt · eng,M3Kang,Qwen-Math · examples prompt,eng,lvl-7_2013_21,7,no option matched,84,66,119,0,0
+M3Kang · Qwen-Math · examples prompt · eng,M3Kang,Qwen-Math · examples prompt,eng,lvl-7_2011_20,7,no option matched,119,34,99,0,0
+M3Kang · Qwen-Math · examples prompt · eng,M3Kang,Qwen-Math · examples prompt,eng,lvl-2_2018_28,2,cut at the token cap,108,105,105,0,0
+M3Kang · Qwen-Math · examples prompt · eng,M3Kang,Qwen-Math · examples prompt,eng,lvl-7_2015_26,7,cut at the token cap,73,125,125,0,0
+M3Kang · Qwen-Math · examples prompt · eng,M3Kang,Qwen-Math · examples prompt,eng,lvl-4_2023_14,4,cut at the token cap,80,121,121,0,0
+M3Kang · Qwen-Math · examples prompt · eng,M3Kang,Qwen-Math · examples prompt,eng,lvl-6_2016_9,6,no option matched,82,53,120,0,0
+M3Kang · Qwen-Math · examples prompt · eng,M3Kang,Qwen-Math · examples prompt,eng,lvl-7_2012_29,7,right,104,64,108,0,1
+M3Kang · Qwen-Math · examples prompt · eng,M3Kang,Qwen-Math · examples prompt,eng,lvl-7_2013_8,7,wrong option,107,39,106,0,0
+M3Kang · Qwen-Math · examples prompt · eng,M3Kang,Qwen-Math · examples prompt,eng,lvl-4_2009_17,4,cut at the token cap,93,114,114,0,0
+M3Kang · Qwen-Math · examples prompt · eng,M3Kang,Qwen-Math · examples prompt,eng,lvl-6_2015_17,6,cut at the token cap,140,87,87,0,0
+M3Kang · Qwen-Math · examples prompt · eng,M3Kang,Qwen-Math · examples prompt,eng,lvl-5_2007_2,5,wrong option,122,21,97,0,0
+M3Kang · Qwen-Math · examples prompt · eng,M3Kang,Qwen-Math · examples prompt,eng,lvl-7_2023_4,7,wrong option,95,19,113,0,0
+M3Kang · Qwen-Math · examples prompt · eng,M3Kang,Qwen-Math · examples prompt,eng,lvl-4_2019_6,4,cut at the token cap,120,98,98,0,0
+M3Kang · Qwen-Math · examples prompt · eng,M3Kang,Qwen-Math · examples prompt,eng,lvl-7_2021_13,7,right,84,68,119,0,1
+M3Kang · Qwen-Math · examples prompt · eng,M3Kang,Qwen-Math · examples prompt,eng,lvl-0_2016_8,0,cut at the token cap,110,104,104,0,0
+M3Kang · Qwen-Math · examples prompt · eng,M3Kang,Qwen-Math · examples prompt,eng,lvl-5_2024_30,5,cut at the token cap,111,103,103,0,0
+M3Kang · Qwen-Math · examples prompt · eng,M3Kang,Qwen-Math · examples prompt,eng,lvl-1_2016_14,1,right,84,46,119,0,1
+M3Kang · Qwen-Math · examples prompt · eng,M3Kang,Qwen-Math · examples prompt,eng,lvl-4_2011_12,4,cut at the token cap,138,88,88,0,0
+M3Kang · Qwen-Math · examples prompt · eng,M3Kang,Qwen-Math · examples prompt,eng,lvl-7_2017_27,7,no option matched,117,84,100,0,0
+M3Kang · Qwen-Math · examples prompt · eng,M3Kang,Qwen-Math · examples prompt,eng,lvl-4_2022_27,4,cut at the token cap,101,109,109,0,0
+M3Kang · Qwen-Math · examples prompt · eng,M3Kang,Qwen-Math · examples prompt,eng,lvl-6_2013_3,6,right,125,55,95,0,1
+M3Kang · Qwen-Math · examples prompt · eng,M3Kang,Qwen-Math · examples prompt,eng,lvl-6_2012_7,6,right,102,54,109,0,1
+M3Kang · Qwen-Math · examples prompt · eng,M3Kang,Qwen-Math · examples prompt,eng,lvl-4_2007_14,4,right,133,87,91,0,1
+M3Kang · Qwen-Math · examples prompt · eng,M3Kang,Qwen-Math · examples prompt,eng,lvl-5_2019_1,5,cut at the token cap,99,110,110,0,0
+M3Kang · Qwen-Math · examples prompt · eng,M3Kang,Qwen-Math · examples prompt,eng,lvl-7_2009_15,7,cut at the token cap,80,121,121,0,0
+M3Kang · Qwen-Math · examples prompt · eng,M3Kang,Qwen-Math · examples prompt,eng,lvl-4_2013_19,4,cut at the token cap,135,90,90,0,0
+M3Kang · Qwen-Math · examples prompt · eng,M3Kang,Qwen-Math · examples prompt,eng,lvl-7_2010_19,7,right,109,79,105,0,1
+M3Kang · Qwen-Math · examples prompt · eng,M3Kang,Qwen-Math · examples prompt,eng,lvl-4_2015_7,4,no option matched,125,58,95,0,0
+M3Kang · Qwen-Math · examples prompt · eng,M3Kang,Qwen-Math · examples prompt,eng,lvl-2_2017_17,2,wrong option,100,18,110,0,0
+M3Kang · Qwen-Math · examples prompt · eng,M3Kang,Qwen-Math · examples prompt,eng,lvl-5_2012_6,5,cut at the token cap,115,101,101,0,0
+M3Kang · Qwen-Math · examples prompt · eng,M3Kang,Qwen-Math · examples prompt,eng,lvl-4_2024_27,4,right,145,74,84,0,1
+M3Kang · Qwen-Math · examples prompt · eng,M3Kang,Qwen-Math · examples prompt,eng,lvl-4_2015_4,4,right,128,71,94,0,1
+M3Kang · Qwen-Math · examples prompt · eng,M3Kang,Qwen-Math · examples prompt,eng,lvl-5_2021_18,5,cut at the token cap,137,88,88,0,0
+M3Kang · Qwen-Math · examples prompt · eng,M3Kang,Qwen-Math · examples prompt,eng,lvl-6_2012_4,6,no option matched,127,19,94,0,0
+M3Kang · Qwen-Math · examples prompt · eng,M3Kang,Qwen-Math · examples prompt,eng,lvl-6_2014_10,6,no option matched,133,47,91,0,0
+M3Kang · Qwen-Math · examples prompt · eng,M3Kang,Qwen-Math · examples prompt,eng,lvl-1_2020_23,1,right,112,81,103,0,1
+M3Kang · Qwen-Math · examples prompt · eng,M3Kang,Qwen-Math · examples prompt,eng,lvl-5_2023_27,5,crashed,115,71,101,0,0
+M3Kang · Qwen-Math · examples prompt · eng,M3Kang,Qwen-Math · examples prompt,eng,lvl-6_2023_3,6,cut at the token cap,87,117,117,0,0
+M3Kang · Qwen-Math · examples prompt · eng,M3Kang,Qwen-Math · examples prompt,eng,lvl-5_2018_20,5,cut at the token cap,126,95,95,0,0
+M3Kang · Qwen-Math · examples prompt · eng,M3Kang,Qwen-Math · examples prompt,eng,lvl-4_2011_5,4,cut at the token cap,128,94,94,0,0
+M3Kang · Qwen-Math · examples prompt · eng,M3Kang,Qwen-Math · examples prompt,eng,lvl-5_2011_8,5,right,105,74,107,0,1
+M3Kang · Qwen-Math · examples prompt · eng,M3Kang,Qwen-Math · examples prompt,eng,lvl-4_2007_11,4,no option matched,96,41,112,0,0
+M3Kang · Qwen-Math · examples prompt · eng,M3Kang,Qwen-Math · examples prompt,eng,lvl-7_2008_3,7,right,133,86,91,0,1
+M3Kang · Qwen-Math · examples prompt · eng,M3Kang,Qwen-Math · examples prompt,eng,lvl-5_2016_19,5,cut at the token cap,93,114,114,0,0
+M3Kang · Qwen-Math · examples prompt · eng,M3Kang,Qwen-Math · examples prompt,eng,lvl-4_2011_2,4,no option matched,90,22,116,0,0
+M3Kang · Qwen-Math · examples prompt · eng,M3Kang,Qwen-Math · examples prompt,eng,lvl-6_2020_7,6,no option matched,120,70,98,0,0
+M3Kang · Qwen-Math · examples prompt · eng,M3Kang,Qwen-Math · examples prompt,eng,lvl-4_2021_26,4,no option matched,155,70,78,0,0
+M3Kang · Qwen-Math · examples prompt · eng,M3Kang,Qwen-Math · examples prompt,eng,lvl-5_2022_27,5,cut at the token cap,171,69,69,0,0
+M3Kang · Qwen-Math · examples prompt · eng,M3Kang,Qwen-Math · examples prompt,eng,lvl-6_2015_22,6,cut at the token cap,156,78,78,0,0
+M3Kang · Qwen-Math · examples prompt · eng,M3Kang,Qwen-Math · examples prompt,eng,lvl-5_2017_4,5,right,111,78,103,0,1
+M3Kang · Qwen-Math · examples prompt · eng,M3Kang,Qwen-Math · examples prompt,eng,lvl-6_2009_28,6,cut at the token cap,137,88,88,0,0
+M3Kang · Qwen-Math · examples prompt · eng,M3Kang,Qwen-Math · examples prompt,eng,lvl-6_2015_8,6,no option matched,73,93,125,0,0
+M3Kang · Qwen-Math · examples prompt · eng,M3Kang,Qwen-Math · examples prompt,eng,lvl-6_2021_23,6,crashed,107,69,106,0,0
+M3Kang · Qwen-Math · examples prompt · eng,M3Kang,Qwen-Math · examples prompt,eng,lvl-5_2012_11,5,right,123,95,97,0,1
+M3Kang · Qwen-Math · examples prompt · eng,M3Kang,Qwen-Math · examples prompt,eng,lvl-1_2020_9,1,no option matched,95,60,113,0,0
+M3Kang · Qwen-Math · examples prompt · eng,M3Kang,Qwen-Math · examples prompt,eng,lvl-6_2012_1,6,cut at the token cap,126,95,95,0,0
+M3Kang · Qwen-Math · examples prompt · eng,M3Kang,Qwen-Math · examples prompt,eng,lvl-6_2008_27,6,cut at the token cap,102,109,109,0,0
+M3Kang · Qwen-Math · examples prompt · cat,M3Kang,Qwen-Math · examples prompt,cat,lvl-6_2014_9,6,cut at the token cap,136,89,89,0,0
+M3Kang · Qwen-Math · examples prompt · cat,M3Kang,Qwen-Math · examples prompt,cat,lvl-5_2022_27,5,cut at the token cap,238,30,30,0,0
+M3Kang · Qwen-Math · examples prompt · cat,M3Kang,Qwen-Math · examples prompt,cat,lvl-5_2021_18,5,no option matched,169,69,70,0,0
+M3Kang · Qwen-Math · examples prompt · cat,M3Kang,Qwen-Math · examples prompt,cat,lvl-6_2009_28,6,cut at the token cap,178,65,65,0,0
+M3Kang · Qwen-Math · examples prompt · cat,M3Kang,Qwen-Math · examples prompt,cat,lvl-4_2017_26,4,cut at the token cap,180,64,64,0,0
+M3Kang · Qwen-Math · examples prompt · cat,M3Kang,Qwen-Math · examples prompt,cat,lvl-5_2007_2,5,no option matched,144,35,84,0,0
+M3Kang · Qwen-Math · examples prompt · cat,M3Kang,Qwen-Math · examples prompt,cat,lvl-7_2009_15,7,no option matched,84,38,119,0,0
+M3Kang · Qwen-Math · examples prompt · cat,M3Kang,Qwen-Math · examples prompt,cat,lvl-3_2022_21,3,no option matched,149,68,82,0,0
+M3Kang · Qwen-Math · examples prompt · cat,M3Kang,Qwen-Math · examples prompt,cat,lvl-6_2024_30,6,cut at the token cap,142,86,86,0,0
+M3Kang · Qwen-Math · examples prompt · cat,M3Kang,Qwen-Math · examples prompt,cat,lvl-5_2019_29,5,no option matched,130,39,93,0,0
+M3Kang · Qwen-Math · examples prompt · cat,M3Kang,Qwen-Math · examples prompt,cat,lvl-7_2015_26,7,cut at the token cap,87,117,117,0,0
+M3Kang · Qwen-Math · examples prompt · cat,M3Kang,Qwen-Math · examples prompt,cat,lvl-2_2024_30,2,cut at the token cap,122,97,97,0,0
+M3Kang · Qwen-Math · examples prompt · cat,M3Kang,Qwen-Math · examples prompt,cat,lvl-5_2017_4,5,no option matched,126,59,95,0,0
+M3Kang · Qwen-Math · examples prompt · cat,M3Kang,Qwen-Math · examples prompt,cat,lvl-4_2023_14,4,no option matched,93,31,114,0,0
+M3Kang · Qwen-Math · examples prompt · cat,M3Kang,Qwen-Math · examples prompt,cat,lvl-0_2017_7,0,no option matched,115,41,101,0,0
+M3Kang · Qwen-Math · examples prompt · cat,M3Kang,Qwen-Math · examples prompt,cat,lvl-4_2008_5,4,cut at the token cap,113,102,102,0,0
+M3Kang · Qwen-Math · examples prompt · cat,M3Kang,Qwen-Math · examples prompt,cat,lvl-6_2012_1,6,cut at the token cap,148,82,82,0,0
+M3Kang · Qwen-Math · examples prompt · cat,M3Kang,Qwen-Math · examples prompt,cat,lvl-6_2015_22,6,no option matched,188,56,59,0,0
+M3Kang · Qwen-Math · examples prompt · cat,M3Kang,Qwen-Math · examples prompt,cat,lvl-6_2021_23,6,crashed,121,61,98,0,0
+M3Kang · Qwen-Math · examples prompt · cat,M3Kang,Qwen-Math · examples prompt,cat,lvl-4_2011_5,4,cut at the token cap,147,83,83,0,0
+M3Kang · Qwen-Math · examples prompt · cat,M3Kang,Qwen-Math · examples prompt,cat,lvl-6_2007_23,6,no option matched,107,70,106,0,0
+M3Kang · Qwen-Math · examples prompt · cat,M3Kang,Qwen-Math · examples prompt,cat,lvl-0_2019_22,0,no option matched,120,44,98,0,0
+M3Kang · Qwen-Math · examples prompt · cat,M3Kang,Qwen-Math · examples prompt,cat,lvl-7_2021_25,7,cut at the token cap,137,88,88,0,0
+M3Kang · Qwen-Math · examples prompt · cat,M3Kang,Qwen-Math · examples prompt,cat,lvl-7_2014_29,7,cut at the token cap,157,77,77,0,0
+M3Kang · Qwen-Math · examples prompt · cat,M3Kang,Qwen-Math · examples prompt,cat,lvl-4_2016_1,4,no option matched,143,53,85,0,0
+M3Kang · Qwen-Math · examples prompt · cat,M3Kang,Qwen-Math · examples prompt,cat,lvl-2_2018_28,2,cut at the token cap,147,83,83,0,0
+M3Kang · Qwen-Math · examples prompt · cat,M3Kang,Qwen-Math · examples prompt,cat,lvl-3_2021_13,3,cut at the token cap,130,93,93,0,0
+M3Kang · Qwen-Math · examples prompt · cat,M3Kang,Qwen-Math · examples prompt,cat,lvl-6_2015_8,6,wrong option,78,64,123,0,0
+M3Kang · Qwen-Math · examples prompt · cat,M3Kang,Qwen-Math · examples prompt,cat,lvl-4_2020_25,4,cut at the token cap,142,86,86,0,0
+M3Kang · Qwen-Math · examples prompt · cat,M3Kang,Qwen-Math · examples prompt,cat,lvl-4_2009_17,4,cut at the token cap,103,108,108,0,0
+M3Kang · Qwen-Math · examples prompt · cat,M3Kang,Qwen-Math · examples prompt,cat,lvl-6_2013_3,6,no option matched,149,59,82,0,0
+M3Kang · Qwen-Math · examples prompt · cat,M3Kang,Qwen-Math · examples prompt,cat,lvl-7_2012_29,7,crashed,109,71,105,0,0
+M3Kang · Qwen-Math · examples prompt · cat,M3Kang,Qwen-Math · examples prompt,cat,lvl-4_2019_6,4,no option matched,159,55,76,0,0
+M3Kang · Qwen-Math · examples prompt · cat,M3Kang,Qwen-Math · examples prompt,cat,lvl-7_2021_13,7,no option matched,100,50,110,0,0
+M3Kang · Qwen-Math · examples prompt · cat,M3Kang,Qwen-Math · examples prompt,cat,lvl-0_2016_8,0,wrong option,120,60,98,0,0
+M3Kang · Qwen-Math · examples prompt · cat,M3Kang,Qwen-Math · examples prompt,cat,lvl-1_2016_14,1,right,90,57,116,0,1
+M3Kang · Qwen-Math · examples prompt · cat,M3Kang,Qwen-Math · examples prompt,cat,lvl-4_2011_12,4,cut at the token cap,155,78,78,0,0
+M3Kang · Qwen-Math · examples prompt · cat,M3Kang,Qwen-Math · examples prompt,cat,lvl-7_2017_27,7,cut at the token cap,146,83,83,0,0
+M3Kang · Qwen-Math · examples prompt · cat,M3Kang,Qwen-Math · examples prompt,cat,lvl-4_2022_27,4,cut at the token cap,123,97,97,0,0
+M3Kang · Qwen-Math · examples prompt · cat,M3Kang,Qwen-Math · examples prompt,cat,lvl-7_2023_4,7,cut at the token cap,108,105,105,0,0
+M3Kang · Qwen-Math · examples prompt · cat,M3Kang,Qwen-Math · examples prompt,cat,lvl-6_2008_27,6,cut at the token cap,126,95,95,0,0
+M3Kang · Qwen-Math · examples prompt · cat,M3Kang,Qwen-Math · examples prompt,cat,lvl-4_2007_14,4,wrong option,153,57,79,0,0
+M3Kang · Qwen-Math · examples prompt · cat,M3Kang,Qwen-Math · examples prompt,cat,lvl-5_2019_15,5,cut at the token cap,108,105,105,0,0
+M3Kang · Qwen-Math · examples prompt · cat,M3Kang,Qwen-Math · examples prompt,cat,lvl-5_2019_1,5,cut at the token cap,106,106,106,0,0
+M3Kang · Qwen-Math · examples prompt · cat,M3Kang,Qwen-Math · examples prompt,cat,lvl-4_2013_19,4,cut at the token cap,165,72,72,0,0
+M3Kang · Qwen-Math · examples prompt · cat,M3Kang,Qwen-Math · examples prompt,cat,lvl-7_2010_19,7,no option matched,121,65,98,0,0
+M3Kang · Qwen-Math · examples prompt · cat,M3Kang,Qwen-Math · examples prompt,cat,lvl-4_2015_7,4,no option matched,134,45,90,0,0
+M3Kang · Qwen-Math · examples prompt · cat,M3Kang,Qwen-Math · examples prompt,cat,lvl-6_2012_7,6,cut at the token cap,114,102,102,0,0
+M3Kang · Qwen-Math · examples prompt · cat,M3Kang,Qwen-Math · examples prompt,cat,lvl-5_2012_6,5,crashed,129,32,93,0,0
+M3Kang · Qwen-Math · examples prompt · cat,M3Kang,Qwen-Math · examples prompt,cat,lvl-4_2024_27,4,cut at the token cap,182,63,63,0,0
+M3Kang · Qwen-Math · examples prompt · cat,M3Kang,Qwen-Math · examples prompt,cat,lvl-4_2015_4,4,cut at the token cap,149,82,82,0,0
+M3Kang · Qwen-Math · examples prompt · cat,M3Kang,Qwen-Math · examples prompt,cat,lvl-5_2021_7,5,cut at the token cap,142,86,86,0,0
+M3Kang · Qwen-Math · examples prompt · cat,M3Kang,Qwen-Math · examples prompt,cat,lvl-1_2020_23,1,cut at the token cap,128,94,94,0,0
+M3Kang · Qwen-Math · examples prompt · cat,M3Kang,Qwen-Math · examples prompt,cat,lvl-5_2024_30,5,cut at the token cap,140,87,87,0,0
+M3Kang · Qwen-Math · examples prompt · cat,M3Kang,Qwen-Math · examples prompt,cat,lvl-2_2017_17,2,cut at the token cap,108,105,105,0,0
+M3Kang · Qwen-Math · examples prompt · cat,M3Kang,Qwen-Math · examples prompt,cat,lvl-4_2012_8,4,cut at the token cap,139,87,87,0,0
+M3Kang · Qwen-Math · examples prompt · cat,M3Kang,Qwen-Math · examples prompt,cat,lvl-3_2016_12,3,no option matched,88,53,117,0,0
+M3Kang · Qwen-Math · examples prompt · cat,M3Kang,Qwen-Math · examples prompt,cat,lvl-6_2015_13,6,no option matched,185,58,61,0,0
+M3Kang · Qwen-Math · examples prompt · cat,M3Kang,Qwen-Math · examples prompt,cat,lvl-7_2013_21,7,no option matched,94,51,113,0,0
+M3Kang · Qwen-Math · examples prompt · cat,M3Kang,Qwen-Math · examples prompt,cat,lvl-7_2013_8,7,no option matched,141,65,86,0,0
+M3Kang · Qwen-Math · examples prompt · cat,M3Kang,Qwen-Math · examples prompt,cat,lvl-7_2011_20,7,no option matched,148,43,82,0,0
+M3Kang · Qwen-Math · examples prompt · cat,M3Kang,Qwen-Math · examples prompt,cat,lvl-5_2012_23,5,no option matched,126,61,95,0,0
+M3Kang · Qwen-Math · examples prompt · cat,M3Kang,Qwen-Math · examples prompt,cat,lvl-6_2015_17,6,cut at the token cap,162,74,74,0,0
+M3Kang · Qwen-Math · examples prompt · cat,M3Kang,Qwen-Math · examples prompt,cat,lvl-5_2011_8,5,no option matched,121,90,98,0,0
+M3Kang · Qwen-Math · examples prompt · cat,M3Kang,Qwen-Math · examples prompt,cat,lvl-4_2007_11,4,no option matched,108,37,105,0,0
+M3Kang · Qwen-Math · examples prompt · cat,M3Kang,Qwen-Math · examples prompt,cat,lvl-7_2007_22,7,cut at the token cap,105,107,107,0,0
+M3Kang · Qwen-Math · examples prompt · cat,M3Kang,Qwen-Math · examples prompt,cat,lvl-5_2016_19,5,no option matched,106,84,106,0,0
+M3Kang · Qwen-Math · examples prompt · cat,M3Kang,Qwen-Math · examples prompt,cat,lvl-4_2011_2,4,cut at the token cap,104,108,108,0,0
+M3Kang · Qwen-Math · examples prompt · cat,M3Kang,Qwen-Math · examples prompt,cat,lvl-6_2021_26,6,crashed,104,43,108,0,0
+M3Kang · Qwen-Math · examples prompt · cat,M3Kang,Qwen-Math · examples prompt,cat,lvl-4_2021_26,4,cut at the token cap,211,46,46,0,0
+M3Kang · Qwen-Math · examples prompt · cat,M3Kang,Qwen-Math · examples prompt,cat,lvl-5_2023_27,5,wrong option,142,72,86,0,0
+M3Kang · Qwen-Math · examples prompt · cat,M3Kang,Qwen-Math · examples prompt,cat,lvl-6_2016_9,6,no option matched,95,53,113,0,0
+M3Kang · Qwen-Math · examples prompt · cat,M3Kang,Qwen-Math · examples prompt,cat,lvl-5_2018_20,5,cut at the token cap,150,81,81,0,0
+M3Kang · Qwen-Math · examples prompt · cat,M3Kang,Qwen-Math · examples prompt,cat,lvl-6_2011_14,6,cut at the token cap,162,74,74,0,0
+M3Kang · Qwen-Math · examples prompt · cat,M3Kang,Qwen-Math · examples prompt,cat,lvl-6_2020_7,6,no option matched,138,46,88,0,0
+M3Kang · Qwen-Math · examples prompt · cat,M3Kang,Qwen-Math · examples prompt,cat,lvl-6_2023_3,6,cut at the token cap,96,112,112,0,0
+M3Kang · Qwen-Math · examples prompt · cat,M3Kang,Qwen-Math · examples prompt,cat,lvl-5_2012_11,5,cut at the token cap,138,88,88,0,0
+M3Kang · Qwen-Math · examples prompt · cat,M3Kang,Qwen-Math · examples prompt,cat,lvl-1_2020_9,1,no option matched,109,44,105,0,0
+M3Kang · Qwen-Math · examples prompt · cat,M3Kang,Qwen-Math · examples prompt,cat,lvl-6_2012_4,6,no option matched,156,38,78,0,0
+M3Kang · Qwen-Math · examples prompt · cat,M3Kang,Qwen-Math · examples prompt,cat,lvl-6_2009_21,6,cut at the token cap,199,53,53,0,0
+M3Kang · Qwen-Math · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math · examples prompt,cat → eng (NMT),lvl-6_2014_9,6,crashed,123,80,88,3,0
+M3Kang · Qwen-Math · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math · examples prompt,cat → eng (NMT),lvl-5_2022_27,5,wrong option,143,66,76,3,0
+M3Kang · Qwen-Math · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math · examples prompt,cat → eng (NMT),lvl-5_2021_18,5,cut at the token cap,137,79,79,3,0
+M3Kang · Qwen-Math · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math · examples prompt,cat → eng (NMT),lvl-6_2009_28,6,cut at the token cap,136,80,80,3,0
+M3Kang · Qwen-Math · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math · examples prompt,cat → eng (NMT),lvl-4_2017_26,4,crashed,149,64,73,3,0
+M3Kang · Qwen-Math · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math · examples prompt,cat → eng (NMT),lvl-5_2007_2,5,right,127,39,85,3,1
+M3Kang · Qwen-Math · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math · examples prompt,cat → eng (NMT),lvl-7_2009_15,7,wrong option,84,58,110,3,0
+M3Kang · Qwen-Math · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math · examples prompt,cat → eng (NMT),lvl-3_2022_21,3,cut at the token cap,113,93,93,3,0
+M3Kang · Qwen-Math · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math · examples prompt,cat → eng (NMT),lvl-6_2024_30,6,cut at the token cap,122,88,88,3,0
+M3Kang · Qwen-Math · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math · examples prompt,cat → eng (NMT),lvl-5_2019_29,5,no option matched,98,46,102,3,0
+M3Kang · Qwen-Math · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math · examples prompt,cat → eng (NMT),lvl-7_2015_26,7,no option matched,75,106,115,3,0
+M3Kang · Qwen-Math · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math · examples prompt,cat → eng (NMT),lvl-2_2024_30,2,no option matched,93,54,105,3,0
+M3Kang · Qwen-Math · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math · examples prompt,cat → eng (NMT),lvl-5_2017_4,5,right,105,74,98,3,1
+M3Kang · Qwen-Math · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math · examples prompt,cat → eng (NMT),lvl-4_2023_14,4,cut at the token cap,80,112,112,3,0
+M3Kang · Qwen-Math · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math · examples prompt,cat → eng (NMT),lvl-0_2017_7,0,no option matched,94,33,104,3,0
+M3Kang · Qwen-Math · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math · examples prompt,cat → eng (NMT),lvl-4_2008_5,4,no option matched,89,50,107,3,0
+M3Kang · Qwen-Math · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math · examples prompt,cat → eng (NMT),lvl-6_2012_1,6,cut at the token cap,129,84,84,3,0
+M3Kang · Qwen-Math · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math · examples prompt,cat → eng (NMT),lvl-6_2015_22,6,cut at the token cap,145,75,75,3,0
+M3Kang · Qwen-Math · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math · examples prompt,cat → eng (NMT),lvl-6_2021_23,6,crashed,109,59,96,3,0
+M3Kang · Qwen-Math · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math · examples prompt,cat → eng (NMT),lvl-4_2011_5,4,cut at the token cap,128,85,85,3,0
+M3Kang · Qwen-Math · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math · examples prompt,cat → eng (NMT),lvl-6_2007_23,6,right,97,95,103,3,1
+M3Kang · Qwen-Math · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math · examples prompt,cat → eng (NMT),lvl-0_2019_22,0,right,101,44,100,3,1
+M3Kang · Qwen-Math · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math · examples prompt,cat → eng (NMT),lvl-7_2021_25,7,right,110,14,95,3,1
+M3Kang · Qwen-Math · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math · examples prompt,cat → eng (NMT),lvl-7_2014_29,7,cut at the token cap,149,73,73,3,0
+M3Kang · Qwen-Math · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math · examples prompt,cat → eng (NMT),lvl-4_2016_1,4,cut at the token cap,123,88,88,3,0
+M3Kang · Qwen-Math · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math · examples prompt,cat → eng (NMT),lvl-2_2018_28,2,cut at the token cap,106,97,97,3,0
+M3Kang · Qwen-Math · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math · examples prompt,cat → eng (NMT),lvl-3_2021_13,3,right,110,63,95,3,1
+M3Kang · Qwen-Math · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math · examples prompt,cat → eng (NMT),lvl-6_2015_8,6,no option matched,73,88,116,3,0
+M3Kang · Qwen-Math · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math · examples prompt,cat → eng (NMT),lvl-4_2020_25,4,cut at the token cap,117,91,91,3,1
+M3Kang · Qwen-Math · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math · examples prompt,cat → eng (NMT),lvl-4_2009_17,4,cut at the token cap,93,105,105,3,0
+M3Kang · Qwen-Math · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math · examples prompt,cat → eng (NMT),lvl-6_2013_3,6,no option matched,125,52,86,3,0
+M3Kang · Qwen-Math · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math · examples prompt,cat → eng (NMT),lvl-7_2012_29,7,cut at the token cap,104,99,99,3,0
+M3Kang · Qwen-Math · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math · examples prompt,cat → eng (NMT),lvl-4_2019_6,4,cut at the token cap,118,90,90,3,0
+M3Kang · Qwen-Math · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math · examples prompt,cat → eng (NMT),lvl-7_2021_13,7,no option matched,87,100,108,3,0
+M3Kang · Qwen-Math · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math · examples prompt,cat → eng (NMT),lvl-0_2016_8,0,cut at the token cap,101,100,100,3,0
+M3Kang · Qwen-Math · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math · examples prompt,cat → eng (NMT),lvl-1_2016_14,1,right,83,46,111,3,1
+M3Kang · Qwen-Math · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math · examples prompt,cat → eng (NMT),lvl-4_2011_12,4,cut at the token cap,135,81,81,3,0
+M3Kang · Qwen-Math · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math · examples prompt,cat → eng (NMT),lvl-7_2017_27,7,cut at the token cap,127,85,85,3,0
+M3Kang · Qwen-Math · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math · examples prompt,cat → eng (NMT),lvl-4_2022_27,4,cut at the token cap,104,99,99,3,0
+M3Kang · Qwen-Math · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math · examples prompt,cat → eng (NMT),lvl-7_2023_4,7,wrong option,94,19,104,3,0
+M3Kang · Qwen-Math · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math · examples prompt,cat → eng (NMT),lvl-6_2008_27,6,wrong option,104,94,99,3,0
+M3Kang · Qwen-Math · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math · examples prompt,cat → eng (NMT),lvl-4_2007_14,4,cut at the token cap,124,87,87,3,0
+M3Kang · Qwen-Math · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math · examples prompt,cat → eng (NMT),lvl-5_2019_15,5,cut at the token cap,90,107,107,3,0
+M3Kang · Qwen-Math · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math · examples prompt,cat → eng (NMT),lvl-5_2019_1,5,cut at the token cap,99,101,101,3,0
+M3Kang · Qwen-Math · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math · examples prompt,cat → eng (NMT),lvl-4_2013_19,4,cut at the token cap,132,82,82,3,0
+M3Kang · Qwen-Math · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math · examples prompt,cat → eng (NMT),lvl-7_2010_19,7,right,109,79,96,3,1
+M3Kang · Qwen-Math · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math · examples prompt,cat → eng (NMT),lvl-4_2015_7,4,no option matched,118,54,90,3,0
+M3Kang · Qwen-Math · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math · examples prompt,cat → eng (NMT),lvl-6_2012_7,6,right,103,58,99,3,1
+M3Kang · Qwen-Math · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math · examples prompt,cat → eng (NMT),lvl-5_2012_6,5,cut at the token cap,116,92,92,3,0
+M3Kang · Qwen-Math · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math · examples prompt,cat → eng (NMT),lvl-4_2024_27,4,right,139,74,78,3,1
+M3Kang · Qwen-Math · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math · examples prompt,cat → eng (NMT),lvl-4_2015_4,4,right,128,84,85,3,1
+M3Kang · Qwen-Math · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math · examples prompt,cat → eng (NMT),lvl-5_2021_7,5,cut at the token cap,124,87,87,3,0
+M3Kang · Qwen-Math · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math · examples prompt,cat → eng (NMT),lvl-1_2020_23,1,right,114,81,93,3,1
+M3Kang · Qwen-Math · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math · examples prompt,cat → eng (NMT),lvl-5_2024_30,5,cut at the token cap,110,95,95,3,0
+M3Kang · Qwen-Math · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math · examples prompt,cat → eng (NMT),lvl-2_2017_17,2,wrong option,86,18,109,3,0
+M3Kang · Qwen-Math · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math · examples prompt,cat → eng (NMT),lvl-4_2012_8,4,no option matched,105,42,98,3,0
+M3Kang · Qwen-Math · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math · examples prompt,cat → eng (NMT),lvl-3_2016_12,3,right,75,39,115,3,1
+M3Kang · Qwen-Math · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math · examples prompt,cat → eng (NMT),lvl-6_2015_13,6,no option matched,110,87,95,3,0
+M3Kang · Qwen-Math · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math · examples prompt,cat → eng (NMT),lvl-7_2013_21,7,no option matched,83,64,111,3,0
+M3Kang · Qwen-Math · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math · examples prompt,cat → eng (NMT),lvl-7_2013_8,7,no option matched,116,66,92,3,0
+M3Kang · Qwen-Math · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math · examples prompt,cat → eng (NMT),lvl-7_2011_20,7,no option matched,115,47,92,3,0
+M3Kang · Qwen-Math · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math · examples prompt,cat → eng (NMT),lvl-5_2012_23,5,no option matched,112,64,94,3,0
+M3Kang · Qwen-Math · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math · examples prompt,cat → eng (NMT),lvl-6_2015_17,6,cut at the token cap,137,79,79,3,0
+M3Kang · Qwen-Math · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math · examples prompt,cat → eng (NMT),lvl-5_2011_8,5,no option matched,102,82,100,3,0
+M3Kang · Qwen-Math · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math · examples prompt,cat → eng (NMT),lvl-4_2007_11,4,no option matched,97,41,103,3,0
+M3Kang · Qwen-Math · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math · examples prompt,cat → eng (NMT),lvl-7_2007_22,7,cut at the token cap,86,109,109,3,0
+M3Kang · Qwen-Math · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math · examples prompt,cat → eng (NMT),lvl-5_2016_19,5,cut at the token cap,92,105,105,3,0
+M3Kang · Qwen-Math · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math · examples prompt,cat → eng (NMT),lvl-4_2011_2,4,no option matched,90,22,107,3,0
+M3Kang · Qwen-Math · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math · examples prompt,cat → eng (NMT),lvl-6_2021_26,6,cut at the token cap,92,105,105,3,0
+M3Kang · Qwen-Math · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math · examples prompt,cat → eng (NMT),lvl-4_2021_26,4,cut at the token cap,136,80,80,3,0
+M3Kang · Qwen-Math · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math · examples prompt,cat → eng (NMT),lvl-5_2023_27,5,crashed,115,71,92,3,0
+M3Kang · Qwen-Math · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math · examples prompt,cat → eng (NMT),lvl-6_2016_9,6,no option matched,83,53,111,3,0
+M3Kang · Qwen-Math · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math · examples prompt,cat → eng (NMT),lvl-5_2018_20,5,cut at the token cap,119,90,90,3,0
+M3Kang · Qwen-Math · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math · examples prompt,cat → eng (NMT),lvl-6_2011_14,6,no option matched,137,68,79,3,0
+M3Kang · Qwen-Math · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math · examples prompt,cat → eng (NMT),lvl-6_2020_7,6,no option matched,118,49,90,3,0
+M3Kang · Qwen-Math · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math · examples prompt,cat → eng (NMT),lvl-6_2023_3,6,cut at the token cap,87,108,108,3,0
+M3Kang · Qwen-Math · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math · examples prompt,cat → eng (NMT),lvl-5_2012_11,5,cut at the token cap,120,89,89,3,0
+M3Kang · Qwen-Math · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math · examples prompt,cat → eng (NMT),lvl-1_2020_9,1,no option matched,95,60,104,3,0
+M3Kang · Qwen-Math · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math · examples prompt,cat → eng (NMT),lvl-6_2012_4,6,wrong option,127,35,85,3,0
+M3Kang · Qwen-Math · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math · examples prompt,cat → eng (NMT),lvl-6_2009_21,6,cut at the token cap,170,60,60,3,0
+M3Kang · Qwen-Math FT · short prompt · eng,M3Kang,Qwen-Math FT · short prompt,eng,lvl-5_2019_15,5,right,90,20,116,0,1
+M3Kang · Qwen-Math FT · short prompt · eng,M3Kang,Qwen-Math FT · short prompt,eng,lvl-4_2016_1,4,no option matched,123,49,97,0,0
+M3Kang · Qwen-Math FT · short prompt · eng,M3Kang,Qwen-Math FT · short prompt,eng,lvl-6_2007_23,6,crashed,98,61,111,0,0
+M3Kang · Qwen-Math FT · short prompt · eng,M3Kang,Qwen-Math FT · short prompt,eng,lvl-6_2015_13,6,no option matched,146,15,83,0,0
+M3Kang · Qwen-Math FT · short prompt · eng,M3Kang,Qwen-Math FT · short prompt,eng,lvl-6_2011_14,6,no option matched,144,45,84,0,0
+M3Kang · Qwen-Math FT · short prompt · eng,M3Kang,Qwen-Math FT · short prompt,eng,lvl-5_2017_11,5,no option matched,94,29,113,0,0
+M3Kang · Qwen-Math FT · short prompt · eng,M3Kang,Qwen-Math FT · short prompt,eng,lvl-7_2014_29,7,crashed,151,20,80,0,0
+M3Kang · Qwen-Math FT · short prompt · eng,M3Kang,Qwen-Math FT · short prompt,eng,lvl-4_2020_25,4,wrong option,118,65,99,0,0
+M3Kang · Qwen-Math FT · short prompt · eng,M3Kang,Qwen-Math FT · short prompt,eng,lvl-5_2021_7,5,crashed,125,36,95,0,0
+M3Kang · Qwen-Math FT · short prompt · eng,M3Kang,Qwen-Math FT · short prompt,eng,lvl-4_2017_26,4,no option matched,150,36,81,0,0
+M3Kang · Qwen-Math FT · short prompt · eng,M3Kang,Qwen-Math FT · short prompt,eng,lvl-7_2007_22,7,no option matched,88,35,117,0,0
+M3Kang · Qwen-Math FT · short prompt · eng,M3Kang,Qwen-Math FT · short prompt,eng,lvl-6_2009_21,6,cut at the token cap,172,68,68,0,0
+M3Kang · Qwen-Math FT · short prompt · eng,M3Kang,Qwen-Math FT · short prompt,eng,lvl-2_2024_30,2,no option matched,96,40,112,0,0
+M3Kang · Qwen-Math FT · short prompt · eng,M3Kang,Qwen-Math FT · short prompt,eng,lvl-0_2017_7,0,wrong option,99,12,110,0,0
+M3Kang · Qwen-Math FT · short prompt · eng,M3Kang,Qwen-Math FT · short prompt,eng,lvl-3_2022_21,3,no option matched,116,16,101,0,0
+M3Kang · Qwen-Math FT · short prompt · eng,M3Kang,Qwen-Math FT · short prompt,eng,lvl-4_2012_8,4,no option matched,103,15,108,0,0
+M3Kang · Qwen-Math FT · short prompt · eng,M3Kang,Qwen-Math FT · short prompt,eng,lvl-3_2016_12,3,right,72,31,126,0,1
+M3Kang · Qwen-Math FT · short prompt · eng,M3Kang,Qwen-Math FT · short prompt,eng,lvl-5_2019_29,5,no option matched,104,44,108,0,0
+M3Kang · Qwen-Math FT · short prompt · eng,M3Kang,Qwen-Math FT · short prompt,eng,lvl-5_2012_23,5,no option matched,115,49,101,0,0
+M3Kang · Qwen-Math FT · short prompt · eng,M3Kang,Qwen-Math FT · short prompt,eng,lvl-6_2014_9,6,no option matched,121,15,98,0,0
+M3Kang · Qwen-Math FT · short prompt · eng,M3Kang,Qwen-Math FT · short prompt,eng,lvl-3_2021_13,3,no option matched,115,16,101,0,0
+M3Kang · Qwen-Math FT · short prompt · eng,M3Kang,Qwen-Math FT · short prompt,eng,lvl-7_2021_25,7,no option matched,106,21,106,0,0
+M3Kang · Qwen-Math FT · short prompt · eng,M3Kang,Qwen-Math FT · short prompt,eng,lvl-0_2019_22,0,wrong option,102,13,109,0,0
+M3Kang · Qwen-Math FT · short prompt · eng,M3Kang,Qwen-Math FT · short prompt,eng,lvl-4_2008_5,4,no option matched,85,40,118,0,0
+M3Kang · Qwen-Math FT · short prompt · eng,M3Kang,Qwen-Math FT · short prompt,eng,lvl-6_2024_30,6,no option matched,122,55,97,0,0
+M3Kang · Qwen-Math FT · short prompt · eng,M3Kang,Qwen-Math FT · short prompt,eng,lvl-6_2021_26,6,no option matched,93,73,114,0,0
+M3Kang · Qwen-Math FT · short prompt · eng,M3Kang,Qwen-Math FT · short prompt,eng,lvl-7_2013_21,7,wrong option,84,44,119,0,0
+M3Kang · Qwen-Math FT · short prompt · eng,M3Kang,Qwen-Math FT · short prompt,eng,lvl-7_2011_20,7,no option matched,119,34,99,0,0
+M3Kang · Qwen-Math FT · short prompt · eng,M3Kang,Qwen-Math FT · short prompt,eng,lvl-2_2018_28,2,no option matched,108,25,105,0,0
+M3Kang · Qwen-Math FT · short prompt · eng,M3Kang,Qwen-Math FT · short prompt,eng,lvl-7_2015_26,7,right,73,32,125,0,1
+M3Kang · Qwen-Math FT · short prompt · eng,M3Kang,Qwen-Math FT · short prompt,eng,lvl-4_2023_14,4,wrong option,80,26,121,0,0
+M3Kang · Qwen-Math FT · short prompt · eng,M3Kang,Qwen-Math FT · short prompt,eng,lvl-6_2016_9,6,right,82,34,120,0,1
+M3Kang · Qwen-Math FT · short prompt · eng,M3Kang,Qwen-Math FT · short prompt,eng,lvl-7_2012_29,7,right,104,49,108,0,1
+M3Kang · Qwen-Math FT · short prompt · eng,M3Kang,Qwen-Math FT · short prompt,eng,lvl-7_2013_8,7,no option matched,107,16,106,0,0
+M3Kang · Qwen-Math FT · short prompt · eng,M3Kang,Qwen-Math FT · short prompt,eng,lvl-4_2009_17,4,no option matched,93,22,114,0,0
+M3Kang · Qwen-Math FT · short prompt · eng,M3Kang,Qwen-Math FT · short prompt,eng,lvl-6_2015_17,6,no option matched,140,17,87,0,0
+M3Kang · Qwen-Math FT · short prompt · eng,M3Kang,Qwen-Math FT · short prompt,eng,lvl-5_2007_2,5,no option matched,122,15,97,0,0
+M3Kang · Qwen-Math FT · short prompt · eng,M3Kang,Qwen-Math FT · short prompt,eng,lvl-7_2023_4,7,right,95,12,113,0,1
+M3Kang · Qwen-Math FT · short prompt · eng,M3Kang,Qwen-Math FT · short prompt,eng,lvl-4_2019_6,4,wrong option,120,16,98,0,0
+M3Kang · Qwen-Math FT · short prompt · eng,M3Kang,Qwen-Math FT · short prompt,eng,lvl-7_2021_13,7,right,84,37,119,0,1
+M3Kang · Qwen-Math FT · short prompt · eng,M3Kang,Qwen-Math FT · short prompt,eng,lvl-0_2016_8,0,right,110,13,104,0,1
+M3Kang · Qwen-Math FT · short prompt · eng,M3Kang,Qwen-Math FT · short prompt,eng,lvl-5_2024_30,5,crashed,111,36,103,0,0
+M3Kang · Qwen-Math FT · short prompt · eng,M3Kang,Qwen-Math FT · short prompt,eng,lvl-1_2016_14,1,no option matched,84,18,119,0,0
+M3Kang · Qwen-Math FT · short prompt · eng,M3Kang,Qwen-Math FT · short prompt,eng,lvl-4_2011_12,4,no option matched,138,82,88,0,0
+M3Kang · Qwen-Math FT · short prompt · eng,M3Kang,Qwen-Math FT · short prompt,eng,lvl-7_2017_27,7,no option matched,117,12,100,0,0
+M3Kang · Qwen-Math FT · short prompt · eng,M3Kang,Qwen-Math FT · short prompt,eng,lvl-4_2022_27,4,crashed,101,66,109,0,0
+M3Kang · Qwen-Math FT · short prompt · eng,M3Kang,Qwen-Math FT · short prompt,eng,lvl-6_2013_3,6,no option matched,125,47,95,0,0
+M3Kang · Qwen-Math FT · short prompt · eng,M3Kang,Qwen-Math FT · short prompt,eng,lvl-6_2012_7,6,no option matched,102,12,109,0,0
+M3Kang · Qwen-Math FT · short prompt · eng,M3Kang,Qwen-Math FT · short prompt,eng,lvl-4_2007_14,4,right,133,16,91,0,1
+M3Kang · Qwen-Math FT · short prompt · eng,M3Kang,Qwen-Math FT · short prompt,eng,lvl-5_2019_1,5,crashed,99,39,110,0,0
+M3Kang · Qwen-Math FT · short prompt · eng,M3Kang,Qwen-Math FT · short prompt,eng,lvl-7_2009_15,7,crashed,80,45,121,0,0
+M3Kang · Qwen-Math FT · short prompt · eng,M3Kang,Qwen-Math FT · short prompt,eng,lvl-4_2013_19,4,right,135,18,90,0,1
+M3Kang · Qwen-Math FT · short prompt · eng,M3Kang,Qwen-Math FT · short prompt,eng,lvl-7_2010_19,7,right,109,73,105,0,1
+M3Kang · Qwen-Math FT · short prompt · eng,M3Kang,Qwen-Math FT · short prompt,eng,lvl-4_2015_7,4,no option matched,125,14,95,0,0
+M3Kang · Qwen-Math FT · short prompt · eng,M3Kang,Qwen-Math FT · short prompt,eng,lvl-2_2017_17,2,right,100,10,110,0,1
+M3Kang · Qwen-Math FT · short prompt · eng,M3Kang,Qwen-Math FT · short prompt,eng,lvl-5_2012_6,5,cut at the token cap,115,101,101,0,0
+M3Kang · Qwen-Math FT · short prompt · eng,M3Kang,Qwen-Math FT · short prompt,eng,lvl-4_2024_27,4,wrong option,145,62,84,0,0
+M3Kang · Qwen-Math FT · short prompt · eng,M3Kang,Qwen-Math FT · short prompt,eng,lvl-4_2015_4,4,right,128,16,94,0,1
+M3Kang · Qwen-Math FT · short prompt · eng,M3Kang,Qwen-Math FT · short prompt,eng,lvl-5_2021_18,5,crashed,137,48,88,0,0
+M3Kang · Qwen-Math FT · short prompt · eng,M3Kang,Qwen-Math FT · short prompt,eng,lvl-6_2012_4,6,no option matched,127,12,94,0,0
+M3Kang · Qwen-Math FT · short prompt · eng,M3Kang,Qwen-Math FT · short prompt,eng,lvl-6_2014_10,6,no option matched,133,18,91,0,0
+M3Kang · Qwen-Math FT · short prompt · eng,M3Kang,Qwen-Math FT · short prompt,eng,lvl-1_2020_23,1,crashed,112,31,103,0,0
+M3Kang · Qwen-Math FT · short prompt · eng,M3Kang,Qwen-Math FT · short prompt,eng,lvl-5_2023_27,5,wrong option,115,39,101,0,0
+M3Kang · Qwen-Math FT · short prompt · eng,M3Kang,Qwen-Math FT · short prompt,eng,lvl-6_2023_3,6,no option matched,87,93,117,0,0
+M3Kang · Qwen-Math FT · short prompt · eng,M3Kang,Qwen-Math FT · short prompt,eng,lvl-5_2018_20,5,wrong option,126,34,95,0,0
+M3Kang · Qwen-Math FT · short prompt · eng,M3Kang,Qwen-Math FT · short prompt,eng,lvl-4_2011_5,4,no option matched,128,20,94,0,0
+M3Kang · Qwen-Math FT · short prompt · eng,M3Kang,Qwen-Math FT · short prompt,eng,lvl-5_2011_8,5,no option matched,105,52,107,0,0
+M3Kang · Qwen-Math FT · short prompt · eng,M3Kang,Qwen-Math FT · short prompt,eng,lvl-4_2007_11,4,right,96,35,112,0,1
+M3Kang · Qwen-Math FT · short prompt · eng,M3Kang,Qwen-Math FT · short prompt,eng,lvl-7_2008_3,7,no option matched,133,12,91,0,0
+M3Kang · Qwen-Math FT · short prompt · eng,M3Kang,Qwen-Math FT · short prompt,eng,lvl-5_2016_19,5,wrong option,93,49,114,0,0
+M3Kang · Qwen-Math FT · short prompt · eng,M3Kang,Qwen-Math FT · short prompt,eng,lvl-4_2011_2,4,no option matched,90,15,116,0,0
+M3Kang · Qwen-Math FT · short prompt · eng,M3Kang,Qwen-Math FT · short prompt,eng,lvl-6_2020_7,6,crashed,120,43,98,0,0
+M3Kang · Qwen-Math FT · short prompt · eng,M3Kang,Qwen-Math FT · short prompt,eng,lvl-4_2021_26,4,cut at the token cap,155,78,78,0,0
+M3Kang · Qwen-Math FT · short prompt · eng,M3Kang,Qwen-Math FT · short prompt,eng,lvl-5_2022_27,5,wrong option,171,26,69,0,0
+M3Kang · Qwen-Math FT · short prompt · eng,M3Kang,Qwen-Math FT · short prompt,eng,lvl-6_2015_22,6,no option matched,156,34,78,0,0
+M3Kang · Qwen-Math FT · short prompt · eng,M3Kang,Qwen-Math FT · short prompt,eng,lvl-5_2017_4,5,right,111,22,103,0,1
+M3Kang · Qwen-Math FT · short prompt · eng,M3Kang,Qwen-Math FT · short prompt,eng,lvl-6_2009_28,6,wrong option,137,15,88,0,0
+M3Kang · Qwen-Math FT · short prompt · eng,M3Kang,Qwen-Math FT · short prompt,eng,lvl-6_2015_8,6,right,73,61,125,0,1
+M3Kang · Qwen-Math FT · short prompt · eng,M3Kang,Qwen-Math FT · short prompt,eng,lvl-6_2021_23,6,crashed,107,43,106,0,0
+M3Kang · Qwen-Math FT · short prompt · eng,M3Kang,Qwen-Math FT · short prompt,eng,lvl-5_2012_11,5,crashed,123,32,97,0,0
+M3Kang · Qwen-Math FT · short prompt · eng,M3Kang,Qwen-Math FT · short prompt,eng,lvl-1_2020_9,1,right,95,14,113,0,1
+M3Kang · Qwen-Math FT · short prompt · eng,M3Kang,Qwen-Math FT · short prompt,eng,lvl-6_2012_1,6,no option matched,126,62,95,0,0
+M3Kang · Qwen-Math FT · short prompt · eng,M3Kang,Qwen-Math FT · short prompt,eng,lvl-6_2008_27,6,right,102,14,109,0,1
+M3Kang · Qwen-Math FT · short prompt · cat,M3Kang,Qwen-Math FT · short prompt,cat,lvl-6_2014_9,6,no option matched,136,37,89,0,0
+M3Kang · Qwen-Math FT · short prompt · cat,M3Kang,Qwen-Math FT · short prompt,cat,lvl-5_2022_27,5,wrong option,238,16,30,0,0
+M3Kang · Qwen-Math FT · short prompt · cat,M3Kang,Qwen-Math FT · short prompt,cat,lvl-5_2021_18,5,wrong option,169,44,70,0,0
+M3Kang · Qwen-Math FT · short prompt · cat,M3Kang,Qwen-Math FT · short prompt,cat,lvl-6_2009_28,6,right,178,11,65,0,1
+M3Kang · Qwen-Math FT · short prompt · cat,M3Kang,Qwen-Math FT · short prompt,cat,lvl-4_2017_26,4,no option matched,180,18,64,0,0
+M3Kang · Qwen-Math FT · short prompt · cat,M3Kang,Qwen-Math FT · short prompt,cat,lvl-5_2007_2,5,wrong option,144,13,84,0,0
+M3Kang · Qwen-Math FT · short prompt · cat,M3Kang,Qwen-Math FT · short prompt,cat,lvl-7_2009_15,7,crashed,84,45,119,0,0
+M3Kang · Qwen-Math FT · short prompt · cat,M3Kang,Qwen-Math FT · short prompt,cat,lvl-3_2022_21,3,no option matched,149,20,82,0,0
+M3Kang · Qwen-Math FT · short prompt · cat,M3Kang,Qwen-Math FT · short prompt,cat,lvl-6_2024_30,6,no option matched,142,55,86,0,0
+M3Kang · Qwen-Math FT · short prompt · cat,M3Kang,Qwen-Math FT · short prompt,cat,lvl-5_2019_29,5,no option matched,130,16,93,0,0
+M3Kang · Qwen-Math FT · short prompt · cat,M3Kang,Qwen-Math FT · short prompt,cat,lvl-7_2015_26,7,no option matched,87,65,117,0,0
+M3Kang · Qwen-Math FT · short prompt · cat,M3Kang,Qwen-Math FT · short prompt,cat,lvl-2_2024_30,2,no option matched,122,80,97,0,0
+M3Kang · Qwen-Math FT · short prompt · cat,M3Kang,Qwen-Math FT · short prompt,cat,lvl-5_2017_4,5,right,126,16,95,0,1
+M3Kang · Qwen-Math FT · short prompt · cat,M3Kang,Qwen-Math FT · short prompt,cat,lvl-4_2023_14,4,no option matched,93,14,114,0,0
+M3Kang · Qwen-Math FT · short prompt · cat,M3Kang,Qwen-Math FT · short prompt,cat,lvl-0_2017_7,0,no option matched,115,13,101,0,0
+M3Kang · Qwen-Math FT · short prompt · cat,M3Kang,Qwen-Math FT · short prompt,cat,lvl-4_2008_5,4,no option matched,113,76,102,0,0
+M3Kang · Qwen-Math FT · short prompt · cat,M3Kang,Qwen-Math FT · short prompt,cat,lvl-6_2012_1,6,crashed,148,68,82,0,0
+M3Kang · Qwen-Math FT · short prompt · cat,M3Kang,Qwen-Math FT · short prompt,cat,lvl-6_2015_22,6,no option matched,188,38,59,0,0
+M3Kang · Qwen-Math FT · short prompt · cat,M3Kang,Qwen-Math FT · short prompt,cat,lvl-6_2021_23,6,crashed,121,47,98,0,0
+M3Kang · Qwen-Math FT · short prompt · cat,M3Kang,Qwen-Math FT · short prompt,cat,lvl-4_2011_5,4,no option matched,147,15,83,0,0
+M3Kang · Qwen-Math FT · short prompt · cat,M3Kang,Qwen-Math FT · short prompt,cat,lvl-6_2007_23,6,crashed,107,55,106,0,0
+M3Kang · Qwen-Math FT · short prompt · cat,M3Kang,Qwen-Math FT · short prompt,cat,lvl-0_2019_22,0,right,120,15,98,0,1
+M3Kang · Qwen-Math FT · short prompt · cat,M3Kang,Qwen-Math FT · short prompt,cat,lvl-7_2021_25,7,no option matched,137,22,88,0,0
+M3Kang · Qwen-Math FT · short prompt · cat,M3Kang,Qwen-Math FT · short prompt,cat,lvl-7_2014_29,7,crashed,157,20,77,0,0
+M3Kang · Qwen-Math FT · short prompt · cat,M3Kang,Qwen-Math FT · short prompt,cat,lvl-4_2016_1,4,no option matched,143,41,85,0,0
+M3Kang · Qwen-Math FT · short prompt · cat,M3Kang,Qwen-Math FT · short prompt,cat,lvl-2_2018_28,2,no option matched,147,11,83,0,0
+M3Kang · Qwen-Math FT · short prompt · cat,M3Kang,Qwen-Math FT · short prompt,cat,lvl-3_2021_13,3,right,130,16,93,0,1
+M3Kang · Qwen-Math FT · short prompt · cat,M3Kang,Qwen-Math FT · short prompt,cat,lvl-6_2015_8,6,right,78,50,123,0,1
+M3Kang · Qwen-Math FT · short prompt · cat,M3Kang,Qwen-Math FT · short prompt,cat,lvl-4_2020_25,4,wrong option,142,69,86,0,0
+M3Kang · Qwen-Math FT · short prompt · cat,M3Kang,Qwen-Math FT · short prompt,cat,lvl-4_2009_17,4,no option matched,103,20,108,0,0
+M3Kang · Qwen-Math FT · short prompt · cat,M3Kang,Qwen-Math FT · short prompt,cat,lvl-6_2013_3,6,no option matched,149,18,82,0,0
+M3Kang · Qwen-Math FT · short prompt · cat,M3Kang,Qwen-Math FT · short prompt,cat,lvl-7_2012_29,7,right,109,52,105,0,1
+M3Kang · Qwen-Math FT · short prompt · cat,M3Kang,Qwen-Math FT · short prompt,cat,lvl-4_2019_6,4,wrong option,159,15,76,0,0
+M3Kang · Qwen-Math FT · short prompt · cat,M3Kang,Qwen-Math FT · short prompt,cat,lvl-7_2021_13,7,no option matched,100,34,110,0,0
+M3Kang · Qwen-Math FT · short prompt · cat,M3Kang,Qwen-Math FT · short prompt,cat,lvl-0_2016_8,0,right,120,13,98,0,1
+M3Kang · Qwen-Math FT · short prompt · cat,M3Kang,Qwen-Math FT · short prompt,cat,lvl-1_2016_14,1,right,90,20,116,0,1
+M3Kang · Qwen-Math FT · short prompt · cat,M3Kang,Qwen-Math FT · short prompt,cat,lvl-4_2011_12,4,no option matched,155,37,78,0,0
+M3Kang · Qwen-Math FT · short prompt · cat,M3Kang,Qwen-Math FT · short prompt,cat,lvl-7_2017_27,7,no option matched,146,14,83,0,0
+M3Kang · Qwen-Math FT · short prompt · cat,M3Kang,Qwen-Math FT · short prompt,cat,lvl-4_2022_27,4,no option matched,123,70,97,0,0
+M3Kang · Qwen-Math FT · short prompt · cat,M3Kang,Qwen-Math FT · short prompt,cat,lvl-7_2023_4,7,right,108,12,105,0,1
+M3Kang · Qwen-Math FT · short prompt · cat,M3Kang,Qwen-Math FT · short prompt,cat,lvl-6_2008_27,6,right,126,14,95,0,1
+M3Kang · Qwen-Math FT · short prompt · cat,M3Kang,Qwen-Math FT · short prompt,cat,lvl-4_2007_14,4,wrong option,153,21,79,0,0
+M3Kang · Qwen-Math FT · short prompt · cat,M3Kang,Qwen-Math FT · short prompt,cat,lvl-5_2019_15,5,no option matched,108,22,105,0,0
+M3Kang · Qwen-Math FT · short prompt · cat,M3Kang,Qwen-Math FT · short prompt,cat,lvl-5_2019_1,5,crashed,106,102,106,0,0
+M3Kang · Qwen-Math FT · short prompt · cat,M3Kang,Qwen-Math FT · short prompt,cat,lvl-4_2013_19,4,cut at the token cap,165,72,72,0,0
+M3Kang · Qwen-Math FT · short prompt · cat,M3Kang,Qwen-Math FT · short prompt,cat,lvl-7_2010_19,7,no option matched,121,15,98,0,0
+M3Kang · Qwen-Math FT · short prompt · cat,M3Kang,Qwen-Math FT · short prompt,cat,lvl-4_2015_7,4,no option matched,134,14,90,0,0
+M3Kang · Qwen-Math FT · short prompt · cat,M3Kang,Qwen-Math FT · short prompt,cat,lvl-6_2012_7,6,no option matched,114,12,102,0,0
+M3Kang · Qwen-Math FT · short prompt · cat,M3Kang,Qwen-Math FT · short prompt,cat,lvl-5_2012_6,5,cut at the token cap,129,93,93,0,0
+M3Kang · Qwen-Math FT · short prompt · cat,M3Kang,Qwen-Math FT · short prompt,cat,lvl-4_2024_27,4,no option matched,182,41,63,0,0
+M3Kang · Qwen-Math FT · short prompt · cat,M3Kang,Qwen-Math FT · short prompt,cat,lvl-4_2015_4,4,wrong option,149,17,82,0,0
+M3Kang · Qwen-Math FT · short prompt · cat,M3Kang,Qwen-Math FT · short prompt,cat,lvl-5_2021_7,5,crashed,142,37,86,0,0
+M3Kang · Qwen-Math FT · short prompt · cat,M3Kang,Qwen-Math FT · short prompt,cat,lvl-1_2020_23,1,crashed,128,34,94,0,0
+M3Kang · Qwen-Math FT · short prompt · cat,M3Kang,Qwen-Math FT · short prompt,cat,lvl-5_2024_30,5,no option matched,140,26,87,0,0
+M3Kang · Qwen-Math FT · short prompt · cat,M3Kang,Qwen-Math FT · short prompt,cat,lvl-2_2017_17,2,wrong option,108,28,105,0,0
+M3Kang · Qwen-Math FT · short prompt · cat,M3Kang,Qwen-Math FT · short prompt,cat,lvl-4_2012_8,4,no option matched,139,16,87,0,0
+M3Kang · Qwen-Math FT · short prompt · cat,M3Kang,Qwen-Math FT · short prompt,cat,lvl-3_2016_12,3,no option matched,88,32,117,0,0
+M3Kang · Qwen-Math FT · short prompt · cat,M3Kang,Qwen-Math FT · short prompt,cat,lvl-6_2015_13,6,cut at the token cap,185,61,61,0,0
+M3Kang · Qwen-Math FT · short prompt · cat,M3Kang,Qwen-Math FT · short prompt,cat,lvl-7_2013_21,7,right,94,43,113,0,1
+M3Kang · Qwen-Math FT · short prompt · cat,M3Kang,Qwen-Math FT · short prompt,cat,lvl-7_2013_8,7,wrong option,141,14,86,0,0
+M3Kang · Qwen-Math FT · short prompt · cat,M3Kang,Qwen-Math FT · short prompt,cat,lvl-7_2011_20,7,no option matched,148,34,82,0,0
+M3Kang · Qwen-Math FT · short prompt · cat,M3Kang,Qwen-Math FT · short prompt,cat,lvl-5_2012_23,5,no option matched,126,46,95,0,0
+M3Kang · Qwen-Math FT · short prompt · cat,M3Kang,Qwen-Math FT · short prompt,cat,lvl-6_2015_17,6,no option matched,162,15,74,0,0
+M3Kang · Qwen-Math FT · short prompt · cat,M3Kang,Qwen-Math FT · short prompt,cat,lvl-5_2011_8,5,no option matched,121,52,98,0,0
+M3Kang · Qwen-Math FT · short prompt · cat,M3Kang,Qwen-Math FT · short prompt,cat,lvl-4_2007_11,4,no option matched,108,12,105,0,0
+M3Kang · Qwen-Math FT · short prompt · cat,M3Kang,Qwen-Math FT · short prompt,cat,lvl-7_2007_22,7,no option matched,105,35,107,0,0
+M3Kang · Qwen-Math FT · short prompt · cat,M3Kang,Qwen-Math FT · short prompt,cat,lvl-5_2016_19,5,right,106,49,106,0,1
+M3Kang · Qwen-Math FT · short prompt · cat,M3Kang,Qwen-Math FT · short prompt,cat,lvl-4_2011_2,4,no option matched,104,15,108,0,0
+M3Kang · Qwen-Math FT · short prompt · cat,M3Kang,Qwen-Math FT · short prompt,cat,lvl-6_2021_26,6,no option matched,104,86,108,0,0
+M3Kang · Qwen-Math FT · short prompt · cat,M3Kang,Qwen-Math FT · short prompt,cat,lvl-4_2021_26,4,no option matched,211,30,46,0,0
+M3Kang · Qwen-Math FT · short prompt · cat,M3Kang,Qwen-Math FT · short prompt,cat,lvl-5_2023_27,5,wrong option,142,43,86,0,0
+M3Kang · Qwen-Math FT · short prompt · cat,M3Kang,Qwen-Math FT · short prompt,cat,lvl-6_2016_9,6,no option matched,95,32,113,0,0
+M3Kang · Qwen-Math FT · short prompt · cat,M3Kang,Qwen-Math FT · short prompt,cat,lvl-5_2018_20,5,wrong option,150,36,81,0,0
+M3Kang · Qwen-Math FT · short prompt · cat,M3Kang,Qwen-Math FT · short prompt,cat,lvl-6_2011_14,6,no option matched,162,51,74,0,0
+M3Kang · Qwen-Math FT · short prompt · cat,M3Kang,Qwen-Math FT · short prompt,cat,lvl-6_2020_7,6,no option matched,138,30,88,0,0
+M3Kang · Qwen-Math FT · short prompt · cat,M3Kang,Qwen-Math FT · short prompt,cat,lvl-6_2023_3,6,wrong option,96,75,112,0,0
+M3Kang · Qwen-Math FT · short prompt · cat,M3Kang,Qwen-Math FT · short prompt,cat,lvl-5_2012_11,5,wrong option,138,39,88,0,0
+M3Kang · Qwen-Math FT · short prompt · cat,M3Kang,Qwen-Math FT · short prompt,cat,lvl-1_2020_9,1,wrong option,109,14,105,0,0
+M3Kang · Qwen-Math FT · short prompt · cat,M3Kang,Qwen-Math FT · short prompt,cat,lvl-6_2012_4,6,no option matched,156,11,78,0,0
+M3Kang · Qwen-Math FT · short prompt · cat,M3Kang,Qwen-Math FT · short prompt,cat,lvl-6_2009_21,6,cut at the token cap,199,53,53,0,0
+M3Kang · Qwen-Math FT · short prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · short prompt,cat → eng (NMT),lvl-6_2014_9,6,crashed,123,13,88,3,0
+M3Kang · Qwen-Math FT · short prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · short prompt,cat → eng (NMT),lvl-5_2022_27,5,wrong option,143,16,76,3,0
+M3Kang · Qwen-Math FT · short prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · short prompt,cat → eng (NMT),lvl-5_2021_18,5,cut at the token cap,137,79,79,3,0
+M3Kang · Qwen-Math FT · short prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · short prompt,cat → eng (NMT),lvl-6_2009_28,6,wrong option,136,15,80,3,0
+M3Kang · Qwen-Math FT · short prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · short prompt,cat → eng (NMT),lvl-4_2017_26,4,no option matched,149,44,73,3,0
+M3Kang · Qwen-Math FT · short prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · short prompt,cat → eng (NMT),lvl-5_2007_2,5,right,127,13,85,3,1
+M3Kang · Qwen-Math FT · short prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · short prompt,cat → eng (NMT),lvl-7_2009_15,7,crashed,84,45,110,3,0
+M3Kang · Qwen-Math FT · short prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · short prompt,cat → eng (NMT),lvl-3_2022_21,3,no option matched,113,16,93,3,0
+M3Kang · Qwen-Math FT · short prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · short prompt,cat → eng (NMT),lvl-6_2024_30,6,wrong option,122,45,88,3,0
+M3Kang · Qwen-Math FT · short prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · short prompt,cat → eng (NMT),lvl-5_2019_29,5,no option matched,98,38,102,3,0
+M3Kang · Qwen-Math FT · short prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · short prompt,cat → eng (NMT),lvl-7_2015_26,7,no option matched,75,28,115,3,0
+M3Kang · Qwen-Math FT · short prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · short prompt,cat → eng (NMT),lvl-2_2024_30,2,no option matched,93,46,105,3,0
+M3Kang · Qwen-Math FT · short prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · short prompt,cat → eng (NMT),lvl-5_2017_4,5,right,105,22,98,3,1
+M3Kang · Qwen-Math FT · short prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · short prompt,cat → eng (NMT),lvl-4_2023_14,4,wrong option,80,26,112,3,0
+M3Kang · Qwen-Math FT · short prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · short prompt,cat → eng (NMT),lvl-0_2017_7,0,wrong option,94,13,104,3,0
+M3Kang · Qwen-Math FT · short prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · short prompt,cat → eng (NMT),lvl-4_2008_5,4,no option matched,89,36,107,3,0
+M3Kang · Qwen-Math FT · short prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · short prompt,cat → eng (NMT),lvl-6_2012_1,6,no option matched,129,73,84,3,0
+M3Kang · Qwen-Math FT · short prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · short prompt,cat → eng (NMT),lvl-6_2015_22,6,no option matched,145,38,75,3,0
+M3Kang · Qwen-Math FT · short prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · short prompt,cat → eng (NMT),lvl-6_2021_23,6,crashed,109,47,96,3,0
+M3Kang · Qwen-Math FT · short prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · short prompt,cat → eng (NMT),lvl-4_2011_5,4,wrong option,128,13,85,3,0
+M3Kang · Qwen-Math FT · short prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · short prompt,cat → eng (NMT),lvl-6_2007_23,6,cut at the token cap,97,103,103,3,0
+M3Kang · Qwen-Math FT · short prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · short prompt,cat → eng (NMT),lvl-0_2019_22,0,wrong option,101,13,100,3,0
+M3Kang · Qwen-Math FT · short prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · short prompt,cat → eng (NMT),lvl-7_2021_25,7,wrong option,110,18,95,3,0
+M3Kang · Qwen-Math FT · short prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · short prompt,cat → eng (NMT),lvl-7_2014_29,7,wrong option,149,11,73,3,0
+M3Kang · Qwen-Math FT · short prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · short prompt,cat → eng (NMT),lvl-4_2016_1,4,no option matched,123,49,88,3,0
+M3Kang · Qwen-Math FT · short prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · short prompt,cat → eng (NMT),lvl-2_2018_28,2,no option matched,106,25,97,3,0
+M3Kang · Qwen-Math FT · short prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · short prompt,cat → eng (NMT),lvl-3_2021_13,3,no option matched,110,16,95,3,0
+M3Kang · Qwen-Math FT · short prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · short prompt,cat → eng (NMT),lvl-6_2015_8,6,right,73,61,116,3,1
+M3Kang · Qwen-Math FT · short prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · short prompt,cat → eng (NMT),lvl-4_2020_25,4,wrong option,117,51,91,3,0
+M3Kang · Qwen-Math FT · short prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · short prompt,cat → eng (NMT),lvl-4_2009_17,4,no option matched,93,22,105,3,0
+M3Kang · Qwen-Math FT · short prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · short prompt,cat → eng (NMT),lvl-6_2013_3,6,no option matched,125,17,86,3,0
+M3Kang · Qwen-Math FT · short prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · short prompt,cat → eng (NMT),lvl-7_2012_29,7,right,104,52,99,3,1
+M3Kang · Qwen-Math FT · short prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · short prompt,cat → eng (NMT),lvl-4_2019_6,4,wrong option,118,16,90,3,0
+M3Kang · Qwen-Math FT · short prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · short prompt,cat → eng (NMT),lvl-7_2021_13,7,no option matched,87,65,108,3,0
+M3Kang · Qwen-Math FT · short prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · short prompt,cat → eng (NMT),lvl-0_2016_8,0,right,101,13,100,3,1
+M3Kang · Qwen-Math FT · short prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · short prompt,cat → eng (NMT),lvl-1_2016_14,1,right,83,28,111,3,1
+M3Kang · Qwen-Math FT · short prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · short prompt,cat → eng (NMT),lvl-4_2011_12,4,crashed,135,50,81,3,0
+M3Kang · Qwen-Math FT · short prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · short prompt,cat → eng (NMT),lvl-7_2017_27,7,wrong option,127,12,85,3,0
+M3Kang · Qwen-Math FT · short prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · short prompt,cat → eng (NMT),lvl-4_2022_27,4,crashed,104,39,99,3,0
+M3Kang · Qwen-Math FT · short prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · short prompt,cat → eng (NMT),lvl-7_2023_4,7,right,94,12,104,3,1
+M3Kang · Qwen-Math FT · short prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · short prompt,cat → eng (NMT),lvl-6_2008_27,6,right,104,14,99,3,1
+M3Kang · Qwen-Math FT · short prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · short prompt,cat → eng (NMT),lvl-4_2007_14,4,right,124,19,87,3,1
+M3Kang · Qwen-Math FT · short prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · short prompt,cat → eng (NMT),lvl-5_2019_15,5,right,90,20,107,3,1
+M3Kang · Qwen-Math FT · short prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · short prompt,cat → eng (NMT),lvl-5_2019_1,5,crashed,99,53,101,3,0
+M3Kang · Qwen-Math FT · short prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · short prompt,cat → eng (NMT),lvl-4_2013_19,4,right,132,18,82,3,1
+M3Kang · Qwen-Math FT · short prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · short prompt,cat → eng (NMT),lvl-7_2010_19,7,right,109,14,96,3,1
+M3Kang · Qwen-Math FT · short prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · short prompt,cat → eng (NMT),lvl-4_2015_7,4,wrong option,118,31,90,3,0
+M3Kang · Qwen-Math FT · short prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · short prompt,cat → eng (NMT),lvl-6_2012_7,6,no option matched,103,12,99,3,0
+M3Kang · Qwen-Math FT · short prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · short prompt,cat → eng (NMT),lvl-5_2012_6,5,cut at the token cap,116,92,92,3,0
+M3Kang · Qwen-Math FT · short prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · short prompt,cat → eng (NMT),lvl-4_2024_27,4,no option matched,139,41,78,3,0
+M3Kang · Qwen-Math FT · short prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · short prompt,cat → eng (NMT),lvl-4_2015_4,4,wrong option,128,21,85,3,0
+M3Kang · Qwen-Math FT · short prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · short prompt,cat → eng (NMT),lvl-5_2021_7,5,crashed,124,32,87,3,0
+M3Kang · Qwen-Math FT · short prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · short prompt,cat → eng (NMT),lvl-1_2020_23,1,crashed,114,37,93,3,0
+M3Kang · Qwen-Math FT · short prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · short prompt,cat → eng (NMT),lvl-5_2024_30,5,no option matched,110,13,95,3,0
+M3Kang · Qwen-Math FT · short prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · short prompt,cat → eng (NMT),lvl-2_2017_17,2,wrong option,86,18,109,3,0
+M3Kang · Qwen-Math FT · short prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · short prompt,cat → eng (NMT),lvl-4_2012_8,4,no option matched,105,16,98,3,0
+M3Kang · Qwen-Math FT · short prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · short prompt,cat → eng (NMT),lvl-3_2016_12,3,right,75,31,115,3,1
+M3Kang · Qwen-Math FT · short prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · short prompt,cat → eng (NMT),lvl-6_2015_13,6,no option matched,110,16,95,3,0
+M3Kang · Qwen-Math FT · short prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · short prompt,cat → eng (NMT),lvl-7_2013_21,7,no option matched,83,37,111,3,0
+M3Kang · Qwen-Math FT · short prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · short prompt,cat → eng (NMT),lvl-7_2013_8,7,no option matched,116,14,92,3,0
+M3Kang · Qwen-Math FT · short prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · short prompt,cat → eng (NMT),lvl-7_2011_20,7,no option matched,115,34,92,3,0
+M3Kang · Qwen-Math FT · short prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · short prompt,cat → eng (NMT),lvl-5_2012_23,5,no option matched,112,49,94,3,0
+M3Kang · Qwen-Math FT · short prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · short prompt,cat → eng (NMT),lvl-6_2015_17,6,no option matched,137,14,79,3,0
+M3Kang · Qwen-Math FT · short prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · short prompt,cat → eng (NMT),lvl-5_2011_8,5,no option matched,102,46,100,3,0
+M3Kang · Qwen-Math FT · short prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · short prompt,cat → eng (NMT),lvl-4_2007_11,4,right,97,37,103,3,1
+M3Kang · Qwen-Math FT · short prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · short prompt,cat → eng (NMT),lvl-7_2007_22,7,no option matched,86,35,109,3,0
+M3Kang · Qwen-Math FT · short prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · short prompt,cat → eng (NMT),lvl-5_2016_19,5,wrong option,92,49,105,3,0
+M3Kang · Qwen-Math FT · short prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · short prompt,cat → eng (NMT),lvl-4_2011_2,4,no option matched,90,15,107,3,0
+M3Kang · Qwen-Math FT · short prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · short prompt,cat → eng (NMT),lvl-6_2021_26,6,wrong option,92,83,105,3,0
+M3Kang · Qwen-Math FT · short prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · short prompt,cat → eng (NMT),lvl-4_2021_26,4,no option matched,136,18,80,3,0
+M3Kang · Qwen-Math FT · short prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · short prompt,cat → eng (NMT),lvl-5_2023_27,5,crashed,115,55,92,3,0
+M3Kang · Qwen-Math FT · short prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · short prompt,cat → eng (NMT),lvl-6_2016_9,6,no option matched,83,34,111,3,0
+M3Kang · Qwen-Math FT · short prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · short prompt,cat → eng (NMT),lvl-5_2018_20,5,wrong option,119,34,90,3,0
+M3Kang · Qwen-Math FT · short prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · short prompt,cat → eng (NMT),lvl-6_2011_14,6,no option matched,137,41,79,3,0
+M3Kang · Qwen-Math FT · short prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · short prompt,cat → eng (NMT),lvl-6_2020_7,6,no option matched,118,34,90,3,0
+M3Kang · Qwen-Math FT · short prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · short prompt,cat → eng (NMT),lvl-6_2023_3,6,no option matched,87,91,108,3,0
+M3Kang · Qwen-Math FT · short prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · short prompt,cat → eng (NMT),lvl-5_2012_11,5,wrong option,120,46,89,3,0
+M3Kang · Qwen-Math FT · short prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · short prompt,cat → eng (NMT),lvl-1_2020_9,1,right,95,14,104,3,1
+M3Kang · Qwen-Math FT · short prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · short prompt,cat → eng (NMT),lvl-6_2012_4,6,no option matched,127,11,85,3,0
+M3Kang · Qwen-Math FT · short prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · short prompt,cat → eng (NMT),lvl-6_2009_21,6,cut at the token cap,170,60,60,3,0
+M3Kang · Qwen-Math FT · examples prompt · eng,M3Kang,Qwen-Math FT · examples prompt,eng,lvl-5_2019_15,5,no option matched,90,79,116,0,0
+M3Kang · Qwen-Math FT · examples prompt · eng,M3Kang,Qwen-Math FT · examples prompt,eng,lvl-4_2016_1,4,no option matched,123,39,97,0,0
+M3Kang · Qwen-Math FT · examples prompt · eng,M3Kang,Qwen-Math FT · examples prompt,eng,lvl-6_2007_23,6,no option matched,98,76,111,0,0
+M3Kang · Qwen-Math FT · examples prompt · eng,M3Kang,Qwen-Math FT · examples prompt,eng,lvl-6_2015_13,6,no option matched,146,70,83,0,0
+M3Kang · Qwen-Math FT · examples prompt · eng,M3Kang,Qwen-Math FT · examples prompt,eng,lvl-6_2011_14,6,right,144,55,84,0,1
+M3Kang · Qwen-Math FT · examples prompt · eng,M3Kang,Qwen-Math FT · examples prompt,eng,lvl-5_2017_11,5,no option matched,94,18,113,0,0
+M3Kang · Qwen-Math FT · examples prompt · eng,M3Kang,Qwen-Math FT · examples prompt,eng,lvl-7_2014_29,7,no option matched,151,17,80,0,0
+M3Kang · Qwen-Math FT · examples prompt · eng,M3Kang,Qwen-Math FT · examples prompt,eng,lvl-4_2020_25,4,wrong option,118,80,99,0,0
+M3Kang · Qwen-Math FT · examples prompt · eng,M3Kang,Qwen-Math FT · examples prompt,eng,lvl-5_2021_7,5,crashed,125,43,95,0,0
+M3Kang · Qwen-Math FT · examples prompt · eng,M3Kang,Qwen-Math FT · examples prompt,eng,lvl-4_2017_26,4,no option matched,150,79,81,0,0
+M3Kang · Qwen-Math FT · examples prompt · eng,M3Kang,Qwen-Math FT · examples prompt,eng,lvl-7_2007_22,7,no option matched,88,41,117,0,0
+M3Kang · Qwen-Math FT · examples prompt · eng,M3Kang,Qwen-Math FT · examples prompt,eng,lvl-6_2009_21,6,cut at the token cap,172,68,68,0,0
+M3Kang · Qwen-Math FT · examples prompt · eng,M3Kang,Qwen-Math FT · examples prompt,eng,lvl-2_2024_30,2,no option matched,96,52,112,0,0
+M3Kang · Qwen-Math FT · examples prompt · eng,M3Kang,Qwen-Math FT · examples prompt,eng,lvl-0_2017_7,0,no option matched,99,14,110,0,0
+M3Kang · Qwen-Math FT · examples prompt · eng,M3Kang,Qwen-Math FT · examples prompt,eng,lvl-3_2022_21,3,no option matched,116,66,101,0,0
+M3Kang · Qwen-Math FT · examples prompt · eng,M3Kang,Qwen-Math FT · examples prompt,eng,lvl-4_2012_8,4,no option matched,103,15,108,0,0
+M3Kang · Qwen-Math FT · examples prompt · eng,M3Kang,Qwen-Math FT · examples prompt,eng,lvl-3_2016_12,3,right,72,35,126,0,1
+M3Kang · Qwen-Math FT · examples prompt · eng,M3Kang,Qwen-Math FT · examples prompt,eng,lvl-5_2019_29,5,no option matched,104,44,108,0,0
+M3Kang · Qwen-Math FT · examples prompt · eng,M3Kang,Qwen-Math FT · examples prompt,eng,lvl-5_2012_23,5,no option matched,115,57,101,0,0
+M3Kang · Qwen-Math FT · examples prompt · eng,M3Kang,Qwen-Math FT · examples prompt,eng,lvl-6_2014_9,6,no option matched,121,19,98,0,0
+M3Kang · Qwen-Math FT · examples prompt · eng,M3Kang,Qwen-Math FT · examples prompt,eng,lvl-3_2021_13,3,no option matched,115,19,101,0,0
+M3Kang · Qwen-Math FT · examples prompt · eng,M3Kang,Qwen-Math FT · examples prompt,eng,lvl-7_2021_25,7,no option matched,106,61,106,0,0
+M3Kang · Qwen-Math FT · examples prompt · eng,M3Kang,Qwen-Math FT · examples prompt,eng,lvl-0_2019_22,0,right,102,39,109,0,1
+M3Kang · Qwen-Math FT · examples prompt · eng,M3Kang,Qwen-Math FT · examples prompt,eng,lvl-4_2008_5,4,no option matched,85,80,118,0,0
+M3Kang · Qwen-Math FT · examples prompt · eng,M3Kang,Qwen-Math FT · examples prompt,eng,lvl-6_2024_30,6,no option matched,122,57,97,0,0
+M3Kang · Qwen-Math FT · examples prompt · eng,M3Kang,Qwen-Math FT · examples prompt,eng,lvl-6_2021_26,6,no option matched,93,88,114,0,0
+M3Kang · Qwen-Math FT · examples prompt · eng,M3Kang,Qwen-Math FT · examples prompt,eng,lvl-7_2013_21,7,no option matched,84,46,119,0,0
+M3Kang · Qwen-Math FT · examples prompt · eng,M3Kang,Qwen-Math FT · examples prompt,eng,lvl-7_2011_20,7,no option matched,119,39,99,0,0
+M3Kang · Qwen-Math FT · examples prompt · eng,M3Kang,Qwen-Math FT · examples prompt,eng,lvl-2_2018_28,2,crashed,108,32,105,0,0
+M3Kang · Qwen-Math FT · examples prompt · eng,M3Kang,Qwen-Math FT · examples prompt,eng,lvl-7_2015_26,7,right,73,31,125,0,1
+M3Kang · Qwen-Math FT · examples prompt · eng,M3Kang,Qwen-Math FT · examples prompt,eng,lvl-4_2023_14,4,no option matched,80,57,121,0,0
+M3Kang · Qwen-Math FT · examples prompt · eng,M3Kang,Qwen-Math FT · examples prompt,eng,lvl-6_2016_9,6,no option matched,82,32,120,0,0
+M3Kang · Qwen-Math FT · examples prompt · eng,M3Kang,Qwen-Math FT · examples prompt,eng,lvl-7_2012_29,7,right,104,52,108,0,1
+M3Kang · Qwen-Math FT · examples prompt · eng,M3Kang,Qwen-Math FT · examples prompt,eng,lvl-7_2013_8,7,cut at the token cap,107,106,106,0,0
+M3Kang · Qwen-Math FT · examples prompt · eng,M3Kang,Qwen-Math FT · examples prompt,eng,lvl-4_2009_17,4,no option matched,93,32,114,0,0
+M3Kang · Qwen-Math FT · examples prompt · eng,M3Kang,Qwen-Math FT · examples prompt,eng,lvl-6_2015_17,6,no option matched,140,16,87,0,0
+M3Kang · Qwen-Math FT · examples prompt · eng,M3Kang,Qwen-Math FT · examples prompt,eng,lvl-5_2007_2,5,no option matched,122,19,97,0,0
+M3Kang · Qwen-Math FT · examples prompt · eng,M3Kang,Qwen-Math FT · examples prompt,eng,lvl-7_2023_4,7,right,95,14,113,0,1
+M3Kang · Qwen-Math FT · examples prompt · eng,M3Kang,Qwen-Math FT · examples prompt,eng,lvl-4_2019_6,4,no option matched,120,39,98,0,0
+M3Kang · Qwen-Math FT · examples prompt · eng,M3Kang,Qwen-Math FT · examples prompt,eng,lvl-7_2021_13,7,no option matched,84,43,119,0,0
+M3Kang · Qwen-Math FT · examples prompt · eng,M3Kang,Qwen-Math FT · examples prompt,eng,lvl-0_2016_8,0,right,110,15,104,0,1
+M3Kang · Qwen-Math FT · examples prompt · eng,M3Kang,Qwen-Math FT · examples prompt,eng,lvl-5_2024_30,5,no option matched,111,24,103,0,0
+M3Kang · Qwen-Math FT · examples prompt · eng,M3Kang,Qwen-Math FT · examples prompt,eng,lvl-1_2016_14,1,no option matched,84,24,119,0,0
+M3Kang · Qwen-Math FT · examples prompt · eng,M3Kang,Qwen-Math FT · examples prompt,eng,lvl-4_2011_12,4,cut at the token cap,138,88,88,0,0
+M3Kang · Qwen-Math FT · examples prompt · eng,M3Kang,Qwen-Math FT · examples prompt,eng,lvl-7_2017_27,7,no option matched,117,36,100,0,0
+M3Kang · Qwen-Math FT · examples prompt · eng,M3Kang,Qwen-Math FT · examples prompt,eng,lvl-4_2022_27,4,right,101,45,109,0,1
+M3Kang · Qwen-Math FT · examples prompt · eng,M3Kang,Qwen-Math FT · examples prompt,eng,lvl-6_2013_3,6,no option matched,125,18,95,0,0
+M3Kang · Qwen-Math FT · examples prompt · eng,M3Kang,Qwen-Math FT · examples prompt,eng,lvl-6_2012_7,6,no option matched,102,15,109,0,0
+M3Kang · Qwen-Math FT · examples prompt · eng,M3Kang,Qwen-Math FT · examples prompt,eng,lvl-4_2007_14,4,no option matched,133,57,91,0,0
+M3Kang · Qwen-Math FT · examples prompt · eng,M3Kang,Qwen-Math FT · examples prompt,eng,lvl-5_2019_1,5,crashed,99,52,110,0,0
+M3Kang · Qwen-Math FT · examples prompt · eng,M3Kang,Qwen-Math FT · examples prompt,eng,lvl-7_2009_15,7,crashed,80,54,121,0,0
+M3Kang · Qwen-Math FT · examples prompt · eng,M3Kang,Qwen-Math FT · examples prompt,eng,lvl-4_2013_19,4,no option matched,135,29,90,0,0
+M3Kang · Qwen-Math FT · examples prompt · eng,M3Kang,Qwen-Math FT · examples prompt,eng,lvl-7_2010_19,7,right,109,74,105,0,1
+M3Kang · Qwen-Math FT · examples prompt · eng,M3Kang,Qwen-Math FT · examples prompt,eng,lvl-4_2015_7,4,no option matched,125,35,95,0,0
+M3Kang · Qwen-Math FT · examples prompt · eng,M3Kang,Qwen-Math FT · examples prompt,eng,lvl-2_2017_17,2,right,100,11,110,0,1
+M3Kang · Qwen-Math FT · examples prompt · eng,M3Kang,Qwen-Math FT · examples prompt,eng,lvl-5_2012_6,5,cut at the token cap,115,101,101,0,0
+M3Kang · Qwen-Math FT · examples prompt · eng,M3Kang,Qwen-Math FT · examples prompt,eng,lvl-4_2024_27,4,no option matched,145,59,84,0,0
+M3Kang · Qwen-Math FT · examples prompt · eng,M3Kang,Qwen-Math FT · examples prompt,eng,lvl-4_2015_4,4,wrong option,128,19,94,0,0
+M3Kang · Qwen-Math FT · examples prompt · eng,M3Kang,Qwen-Math FT · examples prompt,eng,lvl-5_2021_18,5,wrong option,137,74,88,0,0
+M3Kang · Qwen-Math FT · examples prompt · eng,M3Kang,Qwen-Math FT · examples prompt,eng,lvl-6_2012_4,6,wrong option,127,28,94,0,0
+M3Kang · Qwen-Math FT · examples prompt · eng,M3Kang,Qwen-Math FT · examples prompt,eng,lvl-6_2014_10,6,no option matched,133,30,91,0,0
+M3Kang · Qwen-Math FT · examples prompt · eng,M3Kang,Qwen-Math FT · examples prompt,eng,lvl-1_2020_23,1,no option matched,112,47,103,0,0
+M3Kang · Qwen-Math FT · examples prompt · eng,M3Kang,Qwen-Math FT · examples prompt,eng,lvl-5_2023_27,5,crashed,115,65,101,0,0
+M3Kang · Qwen-Math FT · examples prompt · eng,M3Kang,Qwen-Math FT · examples prompt,eng,lvl-6_2023_3,6,cut at the token cap,87,117,117,0,0
+M3Kang · Qwen-Math FT · examples prompt · eng,M3Kang,Qwen-Math FT · examples prompt,eng,lvl-5_2018_20,5,wrong option,126,39,95,0,0
+M3Kang · Qwen-Math FT · examples prompt · eng,M3Kang,Qwen-Math FT · examples prompt,eng,lvl-4_2011_5,4,wrong option,128,15,94,0,0
+M3Kang · Qwen-Math FT · examples prompt · eng,M3Kang,Qwen-Math FT · examples prompt,eng,lvl-5_2011_8,5,right,105,57,107,0,1
+M3Kang · Qwen-Math FT · examples prompt · eng,M3Kang,Qwen-Math FT · examples prompt,eng,lvl-4_2007_11,4,right,96,39,112,0,1
+M3Kang · Qwen-Math FT · examples prompt · eng,M3Kang,Qwen-Math FT · examples prompt,eng,lvl-7_2008_3,7,no option matched,133,13,91,0,0
+M3Kang · Qwen-Math FT · examples prompt · eng,M3Kang,Qwen-Math FT · examples prompt,eng,lvl-5_2016_19,5,wrong option,93,57,114,0,0
+M3Kang · Qwen-Math FT · examples prompt · eng,M3Kang,Qwen-Math FT · examples prompt,eng,lvl-4_2011_2,4,no option matched,90,17,116,0,0
+M3Kang · Qwen-Math FT · examples prompt · eng,M3Kang,Qwen-Math FT · examples prompt,eng,lvl-6_2020_7,6,no option matched,120,47,98,0,0
+M3Kang · Qwen-Math FT · examples prompt · eng,M3Kang,Qwen-Math FT · examples prompt,eng,lvl-4_2021_26,4,wrong option,155,24,78,0,0
+M3Kang · Qwen-Math FT · examples prompt · eng,M3Kang,Qwen-Math FT · examples prompt,eng,lvl-5_2022_27,5,wrong option,171,18,69,0,0
+M3Kang · Qwen-Math FT · examples prompt · eng,M3Kang,Qwen-Math FT · examples prompt,eng,lvl-6_2015_22,6,right,156,67,78,0,1
+M3Kang · Qwen-Math FT · examples prompt · eng,M3Kang,Qwen-Math FT · examples prompt,eng,lvl-5_2017_4,5,wrong option,111,15,103,0,0
+M3Kang · Qwen-Math FT · examples prompt · eng,M3Kang,Qwen-Math FT · examples prompt,eng,lvl-6_2009_28,6,no option matched,137,48,88,0,0
+M3Kang · Qwen-Math FT · examples prompt · eng,M3Kang,Qwen-Math FT · examples prompt,eng,lvl-6_2015_8,6,right,73,68,125,0,1
+M3Kang · Qwen-Math FT · examples prompt · eng,M3Kang,Qwen-Math FT · examples prompt,eng,lvl-6_2021_23,6,crashed,107,47,106,0,0
+M3Kang · Qwen-Math FT · examples prompt · eng,M3Kang,Qwen-Math FT · examples prompt,eng,lvl-5_2012_11,5,crashed,123,29,97,0,0
+M3Kang · Qwen-Math FT · examples prompt · eng,M3Kang,Qwen-Math FT · examples prompt,eng,lvl-1_2020_9,1,crashed,95,32,113,0,0
+M3Kang · Qwen-Math FT · examples prompt · eng,M3Kang,Qwen-Math FT · examples prompt,eng,lvl-6_2012_1,6,cut at the token cap,126,95,95,0,0
+M3Kang · Qwen-Math FT · examples prompt · eng,M3Kang,Qwen-Math FT · examples prompt,eng,lvl-6_2008_27,6,wrong option,102,32,109,0,0
+M3Kang · Qwen-Math FT · examples prompt · cat,M3Kang,Qwen-Math FT · examples prompt,cat,lvl-6_2014_9,6,no option matched,136,47,89,0,0
+M3Kang · Qwen-Math FT · examples prompt · cat,M3Kang,Qwen-Math FT · examples prompt,cat,lvl-5_2022_27,5,wrong option,238,18,30,0,0
+M3Kang · Qwen-Math FT · examples prompt · cat,M3Kang,Qwen-Math FT · examples prompt,cat,lvl-5_2021_18,5,no option matched,169,54,70,0,0
+M3Kang · Qwen-Math FT · examples prompt · cat,M3Kang,Qwen-Math FT · examples prompt,cat,lvl-6_2009_28,6,right,178,12,65,0,1
+M3Kang · Qwen-Math FT · examples prompt · cat,M3Kang,Qwen-Math FT · examples prompt,cat,lvl-4_2017_26,4,no option matched,180,19,64,0,0
+M3Kang · Qwen-Math FT · examples prompt · cat,M3Kang,Qwen-Math FT · examples prompt,cat,lvl-5_2007_2,5,wrong option,144,15,84,0,0
+M3Kang · Qwen-Math FT · examples prompt · cat,M3Kang,Qwen-Math FT · examples prompt,cat,lvl-7_2009_15,7,crashed,84,53,119,0,0
+M3Kang · Qwen-Math FT · examples prompt · cat,M3Kang,Qwen-Math FT · examples prompt,cat,lvl-3_2022_21,3,no option matched,149,21,82,0,0
+M3Kang · Qwen-Math FT · examples prompt · cat,M3Kang,Qwen-Math FT · examples prompt,cat,lvl-6_2024_30,6,no option matched,142,57,86,0,0
+M3Kang · Qwen-Math FT · examples prompt · cat,M3Kang,Qwen-Math FT · examples prompt,cat,lvl-5_2019_29,5,no option matched,130,52,93,0,0
+M3Kang · Qwen-Math FT · examples prompt · cat,M3Kang,Qwen-Math FT · examples prompt,cat,lvl-7_2015_26,7,no option matched,87,72,117,0,0
+M3Kang · Qwen-Math FT · examples prompt · cat,M3Kang,Qwen-Math FT · examples prompt,cat,lvl-2_2024_30,2,no option matched,122,51,97,0,0
+M3Kang · Qwen-Math FT · examples prompt · cat,M3Kang,Qwen-Math FT · examples prompt,cat,lvl-5_2017_4,5,no option matched,126,31,95,0,0
+M3Kang · Qwen-Math FT · examples prompt · cat,M3Kang,Qwen-Math FT · examples prompt,cat,lvl-4_2023_14,4,wrong option,93,11,114,0,0
+M3Kang · Qwen-Math FT · examples prompt · cat,M3Kang,Qwen-Math FT · examples prompt,cat,lvl-0_2017_7,0,wrong option,115,14,101,0,0
+M3Kang · Qwen-Math FT · examples prompt · cat,M3Kang,Qwen-Math FT · examples prompt,cat,lvl-4_2008_5,4,no option matched,113,45,102,0,0
+M3Kang · Qwen-Math FT · examples prompt · cat,M3Kang,Qwen-Math FT · examples prompt,cat,lvl-6_2012_1,6,cut at the token cap,148,82,82,0,0
+M3Kang · Qwen-Math FT · examples prompt · cat,M3Kang,Qwen-Math FT · examples prompt,cat,lvl-6_2015_22,6,cut at the token cap,188,59,59,0,0
+M3Kang · Qwen-Math FT · examples prompt · cat,M3Kang,Qwen-Math FT · examples prompt,cat,lvl-6_2021_23,6,crashed,121,47,98,0,0
+M3Kang · Qwen-Math FT · examples prompt · cat,M3Kang,Qwen-Math FT · examples prompt,cat,lvl-4_2011_5,4,cut at the token cap,147,83,83,0,0
+M3Kang · Qwen-Math FT · examples prompt · cat,M3Kang,Qwen-Math FT · examples prompt,cat,lvl-6_2007_23,6,crashed,107,44,106,0,0
+M3Kang · Qwen-Math FT · examples prompt · cat,M3Kang,Qwen-Math FT · examples prompt,cat,lvl-0_2019_22,0,no option matched,120,15,98,0,0
+M3Kang · Qwen-Math FT · examples prompt · cat,M3Kang,Qwen-Math FT · examples prompt,cat,lvl-7_2021_25,7,wrong option,137,26,88,0,0
+M3Kang · Qwen-Math FT · examples prompt · cat,M3Kang,Qwen-Math FT · examples prompt,cat,lvl-7_2014_29,7,cut at the token cap,157,77,77,0,0
+M3Kang · Qwen-Math FT · examples prompt · cat,M3Kang,Qwen-Math FT · examples prompt,cat,lvl-4_2016_1,4,no option matched,143,41,85,0,0
+M3Kang · Qwen-Math FT · examples prompt · cat,M3Kang,Qwen-Math FT · examples prompt,cat,lvl-2_2018_28,2,no option matched,147,29,83,0,0
+M3Kang · Qwen-Math FT · examples prompt · cat,M3Kang,Qwen-Math FT · examples prompt,cat,lvl-3_2021_13,3,right,130,19,93,0,1
+M3Kang · Qwen-Math FT · examples prompt · cat,M3Kang,Qwen-Math FT · examples prompt,cat,lvl-6_2015_8,6,right,78,71,123,0,1
+M3Kang · Qwen-Math FT · examples prompt · cat,M3Kang,Qwen-Math FT · examples prompt,cat,lvl-4_2020_25,4,wrong option,142,77,86,0,0
+M3Kang · Qwen-Math FT · examples prompt · cat,M3Kang,Qwen-Math FT · examples prompt,cat,lvl-4_2009_17,4,no option matched,103,24,108,0,0
+M3Kang · Qwen-Math FT · examples prompt · cat,M3Kang,Qwen-Math FT · examples prompt,cat,lvl-6_2013_3,6,no option matched,149,18,82,0,0
+M3Kang · Qwen-Math FT · examples prompt · cat,M3Kang,Qwen-Math FT · examples prompt,cat,lvl-7_2012_29,7,no option matched,109,54,105,0,0
+M3Kang · Qwen-Math FT · examples prompt · cat,M3Kang,Qwen-Math FT · examples prompt,cat,lvl-4_2019_6,4,no option matched,159,67,76,0,0
+M3Kang · Qwen-Math FT · examples prompt · cat,M3Kang,Qwen-Math FT · examples prompt,cat,lvl-7_2021_13,7,no option matched,100,56,110,0,0
+M3Kang · Qwen-Math FT · examples prompt · cat,M3Kang,Qwen-Math FT · examples prompt,cat,lvl-0_2016_8,0,right,120,15,98,0,1
+M3Kang · Qwen-Math FT · examples prompt · cat,M3Kang,Qwen-Math FT · examples prompt,cat,lvl-1_2016_14,1,no option matched,90,24,116,0,0
+M3Kang · Qwen-Math FT · examples prompt · cat,M3Kang,Qwen-Math FT · examples prompt,cat,lvl-4_2011_12,4,no option matched,155,55,78,0,0
+M3Kang · Qwen-Math FT · examples prompt · cat,M3Kang,Qwen-Math FT · examples prompt,cat,lvl-7_2017_27,7,no option matched,146,73,83,0,0
+M3Kang · Qwen-Math FT · examples prompt · cat,M3Kang,Qwen-Math FT · examples prompt,cat,lvl-4_2022_27,4,wrong option,123,32,97,0,0
+M3Kang · Qwen-Math FT · examples prompt · cat,M3Kang,Qwen-Math FT · examples prompt,cat,lvl-7_2023_4,7,right,108,14,105,0,1
+M3Kang · Qwen-Math FT · examples prompt · cat,M3Kang,Qwen-Math FT · examples prompt,cat,lvl-6_2008_27,6,wrong option,126,32,95,0,0
+M3Kang · Qwen-Math FT · examples prompt · cat,M3Kang,Qwen-Math FT · examples prompt,cat,lvl-4_2007_14,4,no option matched,153,66,79,0,0
+M3Kang · Qwen-Math FT · examples prompt · cat,M3Kang,Qwen-Math FT · examples prompt,cat,lvl-5_2019_15,5,no option matched,108,67,105,0,0
+M3Kang · Qwen-Math FT · examples prompt · cat,M3Kang,Qwen-Math FT · examples prompt,cat,lvl-5_2019_1,5,crashed,106,54,106,0,0
+M3Kang · Qwen-Math FT · examples prompt · cat,M3Kang,Qwen-Math FT · examples prompt,cat,lvl-4_2013_19,4,no option matched,165,30,72,0,0
+M3Kang · Qwen-Math FT · examples prompt · cat,M3Kang,Qwen-Math FT · examples prompt,cat,lvl-7_2010_19,7,no option matched,121,17,98,0,0
+M3Kang · Qwen-Math FT · examples prompt · cat,M3Kang,Qwen-Math FT · examples prompt,cat,lvl-4_2015_7,4,no option matched,134,63,90,0,0
+M3Kang · Qwen-Math FT · examples prompt · cat,M3Kang,Qwen-Math FT · examples prompt,cat,lvl-6_2012_7,6,right,114,19,102,0,1
+M3Kang · Qwen-Math FT · examples prompt · cat,M3Kang,Qwen-Math FT · examples prompt,cat,lvl-5_2012_6,5,cut at the token cap,129,93,93,0,0
+M3Kang · Qwen-Math FT · examples prompt · cat,M3Kang,Qwen-Math FT · examples prompt,cat,lvl-4_2024_27,4,no option matched,182,52,63,0,0
+M3Kang · Qwen-Math FT · examples prompt · cat,M3Kang,Qwen-Math FT · examples prompt,cat,lvl-4_2015_4,4,wrong option,149,17,82,0,0
+M3Kang · Qwen-Math FT · examples prompt · cat,M3Kang,Qwen-Math FT · examples prompt,cat,lvl-5_2021_7,5,crashed,142,43,86,0,0
+M3Kang · Qwen-Math FT · examples prompt · cat,M3Kang,Qwen-Math FT · examples prompt,cat,lvl-1_2020_23,1,wrong option,128,42,94,0,0
+M3Kang · Qwen-Math FT · examples prompt · cat,M3Kang,Qwen-Math FT · examples prompt,cat,lvl-5_2024_30,5,cut at the token cap,140,87,87,0,0
+M3Kang · Qwen-Math FT · examples prompt · cat,M3Kang,Qwen-Math FT · examples prompt,cat,lvl-2_2017_17,2,wrong option,108,29,105,0,0
+M3Kang · Qwen-Math FT · examples prompt · cat,M3Kang,Qwen-Math FT · examples prompt,cat,lvl-4_2012_8,4,no option matched,139,18,87,0,0
+M3Kang · Qwen-Math FT · examples prompt · cat,M3Kang,Qwen-Math FT · examples prompt,cat,lvl-3_2016_12,3,no option matched,88,35,117,0,0
+M3Kang · Qwen-Math FT · examples prompt · cat,M3Kang,Qwen-Math FT · examples prompt,cat,lvl-6_2015_13,6,cut at the token cap,185,61,61,0,0
+M3Kang · Qwen-Math FT · examples prompt · cat,M3Kang,Qwen-Math FT · examples prompt,cat,lvl-7_2013_21,7,no option matched,94,46,113,0,0
+M3Kang · Qwen-Math FT · examples prompt · cat,M3Kang,Qwen-Math FT · examples prompt,cat,lvl-7_2013_8,7,no option matched,141,39,86,0,0
+M3Kang · Qwen-Math FT · examples prompt · cat,M3Kang,Qwen-Math FT · examples prompt,cat,lvl-7_2011_20,7,no option matched,148,39,82,0,0
+M3Kang · Qwen-Math FT · examples prompt · cat,M3Kang,Qwen-Math FT · examples prompt,cat,lvl-5_2012_23,5,no option matched,126,53,95,0,0
+M3Kang · Qwen-Math FT · examples prompt · cat,M3Kang,Qwen-Math FT · examples prompt,cat,lvl-6_2015_17,6,no option matched,162,17,74,0,0
+M3Kang · Qwen-Math FT · examples prompt · cat,M3Kang,Qwen-Math FT · examples prompt,cat,lvl-5_2011_8,5,no option matched,121,51,98,0,0
+M3Kang · Qwen-Math FT · examples prompt · cat,M3Kang,Qwen-Math FT · examples prompt,cat,lvl-4_2007_11,4,no option matched,108,41,105,0,0
+M3Kang · Qwen-Math FT · examples prompt · cat,M3Kang,Qwen-Math FT · examples prompt,cat,lvl-7_2007_22,7,no option matched,105,41,107,0,0
+M3Kang · Qwen-Math FT · examples prompt · cat,M3Kang,Qwen-Math FT · examples prompt,cat,lvl-5_2016_19,5,wrong option,106,54,106,0,0
+M3Kang · Qwen-Math FT · examples prompt · cat,M3Kang,Qwen-Math FT · examples prompt,cat,lvl-4_2011_2,4,no option matched,104,17,108,0,0
+M3Kang · Qwen-Math FT · examples prompt · cat,M3Kang,Qwen-Math FT · examples prompt,cat,lvl-6_2021_26,6,no option matched,104,85,108,0,0
+M3Kang · Qwen-Math FT · examples prompt · cat,M3Kang,Qwen-Math FT · examples prompt,cat,lvl-4_2021_26,4,no option matched,211,24,46,0,0
+M3Kang · Qwen-Math FT · examples prompt · cat,M3Kang,Qwen-Math FT · examples prompt,cat,lvl-5_2023_27,5,no option matched,142,70,86,0,0
+M3Kang · Qwen-Math FT · examples prompt · cat,M3Kang,Qwen-Math FT · examples prompt,cat,lvl-6_2016_9,6,no option matched,95,33,113,0,0
+M3Kang · Qwen-Math FT · examples prompt · cat,M3Kang,Qwen-Math FT · examples prompt,cat,lvl-5_2018_20,5,wrong option,150,42,81,0,0
+M3Kang · Qwen-Math FT · examples prompt · cat,M3Kang,Qwen-Math FT · examples prompt,cat,lvl-6_2011_14,6,no option matched,162,52,74,0,0
+M3Kang · Qwen-Math FT · examples prompt · cat,M3Kang,Qwen-Math FT · examples prompt,cat,lvl-6_2020_7,6,no option matched,138,41,88,0,0
+M3Kang · Qwen-Math FT · examples prompt · cat,M3Kang,Qwen-Math FT · examples prompt,cat,lvl-6_2023_3,6,cut at the token cap,96,112,112,0,0
+M3Kang · Qwen-Math FT · examples prompt · cat,M3Kang,Qwen-Math FT · examples prompt,cat,lvl-5_2012_11,5,cut at the token cap,138,88,88,0,0
+M3Kang · Qwen-Math FT · examples prompt · cat,M3Kang,Qwen-Math FT · examples prompt,cat,lvl-1_2020_9,1,right,109,33,105,0,1
+M3Kang · Qwen-Math FT · examples prompt · cat,M3Kang,Qwen-Math FT · examples prompt,cat,lvl-6_2012_4,6,no option matched,156,15,78,0,0
+M3Kang · Qwen-Math FT · examples prompt · cat,M3Kang,Qwen-Math FT · examples prompt,cat,lvl-6_2009_21,6,cut at the token cap,199,53,53,0,0
+M3Kang · Qwen-Math FT · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · examples prompt,cat → eng (NMT),lvl-6_2014_9,6,no option matched,123,55,88,3,0
+M3Kang · Qwen-Math FT · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · examples prompt,cat → eng (NMT),lvl-5_2022_27,5,wrong option,143,18,76,3,0
+M3Kang · Qwen-Math FT · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · examples prompt,cat → eng (NMT),lvl-5_2021_18,5,no option matched,137,71,79,3,0
+M3Kang · Qwen-Math FT · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · examples prompt,cat → eng (NMT),lvl-6_2009_28,6,wrong option,136,19,80,3,0
+M3Kang · Qwen-Math FT · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · examples prompt,cat → eng (NMT),lvl-4_2017_26,4,no option matched,149,38,73,3,0
+M3Kang · Qwen-Math FT · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · examples prompt,cat → eng (NMT),lvl-5_2007_2,5,no option matched,127,19,85,3,0
+M3Kang · Qwen-Math FT · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · examples prompt,cat → eng (NMT),lvl-7_2009_15,7,crashed,84,53,110,3,0
+M3Kang · Qwen-Math FT · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · examples prompt,cat → eng (NMT),lvl-3_2022_21,3,no option matched,113,72,93,3,0
+M3Kang · Qwen-Math FT · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · examples prompt,cat → eng (NMT),lvl-6_2024_30,6,no option matched,122,43,88,3,0
+M3Kang · Qwen-Math FT · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · examples prompt,cat → eng (NMT),lvl-5_2019_29,5,right,98,42,102,3,1
+M3Kang · Qwen-Math FT · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · examples prompt,cat → eng (NMT),lvl-7_2015_26,7,no option matched,75,49,115,3,0
+M3Kang · Qwen-Math FT · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · examples prompt,cat → eng (NMT),lvl-2_2024_30,2,no option matched,93,52,105,3,0
+M3Kang · Qwen-Math FT · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · examples prompt,cat → eng (NMT),lvl-5_2017_4,5,no option matched,105,21,98,3,0
+M3Kang · Qwen-Math FT · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · examples prompt,cat → eng (NMT),lvl-4_2023_14,4,no option matched,80,55,112,3,0
+M3Kang · Qwen-Math FT · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · examples prompt,cat → eng (NMT),lvl-0_2017_7,0,crashed,94,47,104,3,0
+M3Kang · Qwen-Math FT · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · examples prompt,cat → eng (NMT),lvl-4_2008_5,4,cut at the token cap,89,107,107,3,0
+M3Kang · Qwen-Math FT · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · examples prompt,cat → eng (NMT),lvl-6_2012_1,6,cut at the token cap,129,84,84,3,0
+M3Kang · Qwen-Math FT · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · examples prompt,cat → eng (NMT),lvl-6_2015_22,6,right,145,67,75,3,1
+M3Kang · Qwen-Math FT · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · examples prompt,cat → eng (NMT),lvl-6_2021_23,6,crashed,109,40,96,3,0
+M3Kang · Qwen-Math FT · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · examples prompt,cat → eng (NMT),lvl-4_2011_5,4,wrong option,128,15,85,3,0
+M3Kang · Qwen-Math FT · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · examples prompt,cat → eng (NMT),lvl-6_2007_23,6,no option matched,97,76,103,3,0
+M3Kang · Qwen-Math FT · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · examples prompt,cat → eng (NMT),lvl-0_2019_22,0,right,101,39,100,3,1
+M3Kang · Qwen-Math FT · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · examples prompt,cat → eng (NMT),lvl-7_2021_25,7,no option matched,110,63,95,3,0
+M3Kang · Qwen-Math FT · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · examples prompt,cat → eng (NMT),lvl-7_2014_29,7,no option matched,149,17,73,3,0
+M3Kang · Qwen-Math FT · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · examples prompt,cat → eng (NMT),lvl-4_2016_1,4,no option matched,123,54,88,3,0
+M3Kang · Qwen-Math FT · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · examples prompt,cat → eng (NMT),lvl-2_2018_28,2,crashed,106,32,97,3,0
+M3Kang · Qwen-Math FT · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · examples prompt,cat → eng (NMT),lvl-3_2021_13,3,no option matched,110,19,95,3,0
+M3Kang · Qwen-Math FT · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · examples prompt,cat → eng (NMT),lvl-6_2015_8,6,right,73,68,116,3,1
+M3Kang · Qwen-Math FT · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · examples prompt,cat → eng (NMT),lvl-4_2020_25,4,wrong option,117,78,91,3,0
+M3Kang · Qwen-Math FT · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · examples prompt,cat → eng (NMT),lvl-4_2009_17,4,no option matched,93,31,105,3,0
+M3Kang · Qwen-Math FT · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · examples prompt,cat → eng (NMT),lvl-6_2013_3,6,no option matched,125,15,86,3,0
+M3Kang · Qwen-Math FT · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · examples prompt,cat → eng (NMT),lvl-7_2012_29,7,right,104,52,99,3,1
+M3Kang · Qwen-Math FT · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · examples prompt,cat → eng (NMT),lvl-4_2019_6,4,no option matched,118,35,90,3,0
+M3Kang · Qwen-Math FT · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · examples prompt,cat → eng (NMT),lvl-7_2021_13,7,no option matched,87,41,108,3,0
+M3Kang · Qwen-Math FT · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · examples prompt,cat → eng (NMT),lvl-0_2016_8,0,right,101,15,100,3,1
+M3Kang · Qwen-Math FT · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · examples prompt,cat → eng (NMT),lvl-1_2016_14,1,no option matched,83,24,111,3,0
+M3Kang · Qwen-Math FT · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · examples prompt,cat → eng (NMT),lvl-4_2011_12,4,no option matched,135,74,81,3,0
+M3Kang · Qwen-Math FT · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · examples prompt,cat → eng (NMT),lvl-7_2017_27,7,no option matched,127,72,85,3,0
+M3Kang · Qwen-Math FT · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · examples prompt,cat → eng (NMT),lvl-4_2022_27,4,crashed,104,72,99,3,0
+M3Kang · Qwen-Math FT · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · examples prompt,cat → eng (NMT),lvl-7_2023_4,7,right,94,14,104,3,1
+M3Kang · Qwen-Math FT · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · examples prompt,cat → eng (NMT),lvl-6_2008_27,6,wrong option,104,32,99,3,0
+M3Kang · Qwen-Math FT · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · examples prompt,cat → eng (NMT),lvl-4_2007_14,4,right,124,55,87,3,1
+M3Kang · Qwen-Math FT · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · examples prompt,cat → eng (NMT),lvl-5_2019_15,5,crashed,90,63,107,3,0
+M3Kang · Qwen-Math FT · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · examples prompt,cat → eng (NMT),lvl-5_2019_1,5,crashed,99,52,101,3,0
+M3Kang · Qwen-Math FT · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · examples prompt,cat → eng (NMT),lvl-4_2013_19,4,right,132,21,82,3,1
+M3Kang · Qwen-Math FT · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · examples prompt,cat → eng (NMT),lvl-7_2010_19,7,right,109,16,96,3,1
+M3Kang · Qwen-Math FT · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · examples prompt,cat → eng (NMT),lvl-4_2015_7,4,no option matched,118,46,90,3,0
+M3Kang · Qwen-Math FT · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · examples prompt,cat → eng (NMT),lvl-6_2012_7,6,no option matched,103,15,99,3,0
+M3Kang · Qwen-Math FT · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · examples prompt,cat → eng (NMT),lvl-5_2012_6,5,cut at the token cap,116,92,92,3,0
+M3Kang · Qwen-Math FT · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · examples prompt,cat → eng (NMT),lvl-4_2024_27,4,cut at the token cap,139,78,78,3,0
+M3Kang · Qwen-Math FT · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · examples prompt,cat → eng (NMT),lvl-4_2015_4,4,right,128,34,85,3,1
+M3Kang · Qwen-Math FT · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · examples prompt,cat → eng (NMT),lvl-5_2021_7,5,crashed,124,43,87,3,0
+M3Kang · Qwen-Math FT · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · examples prompt,cat → eng (NMT),lvl-1_2020_23,1,right,114,43,93,3,1
+M3Kang · Qwen-Math FT · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · examples prompt,cat → eng (NMT),lvl-5_2024_30,5,no option matched,110,24,95,3,0
+M3Kang · Qwen-Math FT · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · examples prompt,cat → eng (NMT),lvl-2_2017_17,2,no option matched,86,17,109,3,0
+M3Kang · Qwen-Math FT · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · examples prompt,cat → eng (NMT),lvl-4_2012_8,4,no option matched,105,17,98,3,0
+M3Kang · Qwen-Math FT · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · examples prompt,cat → eng (NMT),lvl-3_2016_12,3,right,75,35,115,3,1
+M3Kang · Qwen-Math FT · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · examples prompt,cat → eng (NMT),lvl-6_2015_13,6,no option matched,110,18,95,3,0
+M3Kang · Qwen-Math FT · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · examples prompt,cat → eng (NMT),lvl-7_2013_21,7,no option matched,83,43,111,3,0
+M3Kang · Qwen-Math FT · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · examples prompt,cat → eng (NMT),lvl-7_2013_8,7,cut at the token cap,116,92,92,3,0
+M3Kang · Qwen-Math FT · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · examples prompt,cat → eng (NMT),lvl-7_2011_20,7,no option matched,115,39,92,3,0
+M3Kang · Qwen-Math FT · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · examples prompt,cat → eng (NMT),lvl-5_2012_23,5,no option matched,112,57,94,3,0
+M3Kang · Qwen-Math FT · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · examples prompt,cat → eng (NMT),lvl-6_2015_17,6,no option matched,137,15,79,3,0
+M3Kang · Qwen-Math FT · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · examples prompt,cat → eng (NMT),lvl-5_2011_8,5,right,102,57,100,3,1
+M3Kang · Qwen-Math FT · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · examples prompt,cat → eng (NMT),lvl-4_2007_11,4,right,97,41,103,3,1
+M3Kang · Qwen-Math FT · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · examples prompt,cat → eng (NMT),lvl-7_2007_22,7,no option matched,86,41,109,3,0
+M3Kang · Qwen-Math FT · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · examples prompt,cat → eng (NMT),lvl-5_2016_19,5,wrong option,92,57,105,3,0
+M3Kang · Qwen-Math FT · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · examples prompt,cat → eng (NMT),lvl-4_2011_2,4,no option matched,90,17,107,3,0
+M3Kang · Qwen-Math FT · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · examples prompt,cat → eng (NMT),lvl-6_2021_26,6,no option matched,92,104,105,3,0
+M3Kang · Qwen-Math FT · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · examples prompt,cat → eng (NMT),lvl-4_2021_26,4,no option matched,136,21,80,3,0
+M3Kang · Qwen-Math FT · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · examples prompt,cat → eng (NMT),lvl-5_2023_27,5,crashed,115,65,92,3,0
+M3Kang · Qwen-Math FT · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · examples prompt,cat → eng (NMT),lvl-6_2016_9,6,right,83,36,111,3,1
+M3Kang · Qwen-Math FT · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · examples prompt,cat → eng (NMT),lvl-5_2018_20,5,wrong option,119,39,90,3,0
+M3Kang · Qwen-Math FT · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · examples prompt,cat → eng (NMT),lvl-6_2011_14,6,no option matched,137,61,79,3,0
+M3Kang · Qwen-Math FT · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · examples prompt,cat → eng (NMT),lvl-6_2020_7,6,no option matched,118,41,90,3,0
+M3Kang · Qwen-Math FT · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · examples prompt,cat → eng (NMT),lvl-6_2023_3,6,cut at the token cap,87,108,108,3,0
+M3Kang · Qwen-Math FT · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · examples prompt,cat → eng (NMT),lvl-5_2012_11,5,right,120,49,89,3,1
+M3Kang · Qwen-Math FT · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · examples prompt,cat → eng (NMT),lvl-1_2020_9,1,right,95,35,104,3,1
+M3Kang · Qwen-Math FT · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · examples prompt,cat → eng (NMT),lvl-6_2012_4,6,wrong option,127,19,85,3,0
+M3Kang · Qwen-Math FT · examples prompt · cat → eng (NMT),M3Kang,Qwen-Math FT · examples prompt,cat → eng (NMT),lvl-6_2009_21,6,cut at the token cap,170,60,60,3,0

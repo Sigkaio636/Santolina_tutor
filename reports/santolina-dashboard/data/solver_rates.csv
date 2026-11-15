@@ -1,0 +1,327 @@
+setup,input,dataset,slice,n,right,factor,rate
+Noema-2B FT · examples prompt,cat → eng (NMT),practice,0,8,0,level,0.0
+Noema-2B FT · examples prompt,cat → eng (NMT),practice,1,8,1,level,0.125
+Noema-2B FT · examples prompt,cat → eng (NMT),practice,2,7,2,level,0.2857142857142857
+Noema-2B FT · examples prompt,cat → eng (NMT),practice,3,6,0,level,0.0
+Noema-2B FT · examples prompt,cat → eng (NMT),practice,4,6,2,level,0.3333333333333333
+Noema-2B FT · examples prompt,cat → eng (NMT),practice,5,5,0,level,0.0
+Noema-2B FT · examples prompt,cat → eng (NMT),practice,6,5,1,level,0.2
+Noema-2B FT · examples prompt,cat → eng (NMT),practice,7,5,1,level,0.2
+Noema-2B FT · examples prompt,eng,practice,0,8,2,level,0.25
+Noema-2B FT · examples prompt,eng,practice,1,8,2,level,0.25
+Noema-2B FT · examples prompt,eng,practice,2,7,0,level,0.0
+Noema-2B FT · examples prompt,eng,practice,3,6,1,level,0.16666666666666666
+Noema-2B FT · examples prompt,eng,practice,4,6,1,level,0.16666666666666666
+Noema-2B FT · examples prompt,eng,practice,5,5,1,level,0.2
+Noema-2B FT · examples prompt,eng,practice,6,5,1,level,0.2
+Noema-2B FT · examples prompt,eng,practice,7,5,1,level,0.2
+Noema-2B FT · short prompt,cat → eng (NMT),practice,0,8,2,level,0.25
+Noema-2B FT · short prompt,cat → eng (NMT),practice,1,8,2,level,0.25
+Noema-2B FT · short prompt,cat → eng (NMT),practice,2,7,1,level,0.14285714285714285
+Noema-2B FT · short prompt,cat → eng (NMT),practice,3,6,1,level,0.16666666666666666
+Noema-2B FT · short prompt,cat → eng (NMT),practice,4,6,2,level,0.3333333333333333
+Noema-2B FT · short prompt,cat → eng (NMT),practice,5,5,1,level,0.2
+Noema-2B FT · short prompt,cat → eng (NMT),practice,6,5,2,level,0.4
+Noema-2B FT · short prompt,cat → eng (NMT),practice,7,5,0,level,0.0
+Noema-2B FT · short prompt,eng,practice,0,8,3,level,0.375
+Noema-2B FT · short prompt,eng,practice,1,8,2,level,0.25
+Noema-2B FT · short prompt,eng,practice,2,7,1,level,0.14285714285714285
+Noema-2B FT · short prompt,eng,practice,3,6,2,level,0.3333333333333333
+Noema-2B FT · short prompt,eng,practice,4,6,2,level,0.3333333333333333
+Noema-2B FT · short prompt,eng,practice,5,5,1,level,0.2
+Noema-2B FT · short prompt,eng,practice,6,5,1,level,0.2
+Noema-2B FT · short prompt,eng,practice,7,5,1,level,0.2
+Noema-2B · examples prompt,cat,practice,0,8,2,level,0.25
+Noema-2B · examples prompt,cat,practice,1,8,1,level,0.125
+Noema-2B · examples prompt,cat,practice,2,7,1,level,0.14285714285714285
+Noema-2B · examples prompt,cat,practice,3,6,1,level,0.16666666666666666
+Noema-2B · examples prompt,cat,practice,4,6,0,level,0.0
+Noema-2B · examples prompt,cat,practice,5,5,1,level,0.2
+Noema-2B · examples prompt,cat,practice,6,5,0,level,0.0
+Noema-2B · examples prompt,cat,practice,7,5,3,level,0.6
+Noema-2B · examples prompt,eng,practice,0,8,1,level,0.125
+Noema-2B · examples prompt,eng,practice,1,8,3,level,0.375
+Noema-2B · examples prompt,eng,practice,2,7,1,level,0.14285714285714285
+Noema-2B · examples prompt,eng,practice,3,6,4,level,0.6666666666666666
+Noema-2B · examples prompt,eng,practice,4,6,2,level,0.3333333333333333
+Noema-2B · examples prompt,eng,practice,5,5,1,level,0.2
+Noema-2B · examples prompt,eng,practice,6,5,1,level,0.2
+Noema-2B · examples prompt,eng,practice,7,5,3,level,0.6
+Qwen-Math FT · examples prompt,cat,M3Kang,0,3,1,level,0.3333333333333333
+Qwen-Math FT · examples prompt,cat,M3Kang,1,3,1,level,0.3333333333333333
+Qwen-Math FT · examples prompt,cat,M3Kang,2,3,0,level,0.0
+Qwen-Math FT · examples prompt,cat,M3Kang,3,3,1,level,0.3333333333333333
+Qwen-Math FT · examples prompt,cat,M3Kang,4,19,0,level,0.0
+Qwen-Math FT · examples prompt,cat,M3Kang,5,16,0,level,0.0
+Qwen-Math FT · examples prompt,cat,M3Kang,6,20,3,level,0.15
+Qwen-Math FT · examples prompt,cat,M3Kang,7,13,1,level,0.07692307692307693
+Qwen-Math FT · examples prompt,cat → eng (NMT),M3Kang,0,3,2,level,0.6666666666666666
+Qwen-Math FT · examples prompt,cat → eng (NMT),M3Kang,1,3,2,level,0.6666666666666666
+Qwen-Math FT · examples prompt,cat → eng (NMT),M3Kang,2,3,0,level,0.0
+Qwen-Math FT · examples prompt,cat → eng (NMT),M3Kang,3,3,1,level,0.3333333333333333
+Qwen-Math FT · examples prompt,cat → eng (NMT),M3Kang,4,19,4,level,0.21052631578947367
+Qwen-Math FT · examples prompt,cat → eng (NMT),M3Kang,5,16,3,level,0.1875
+Qwen-Math FT · examples prompt,cat → eng (NMT),M3Kang,6,20,3,level,0.15
+Qwen-Math FT · examples prompt,cat → eng (NMT),M3Kang,7,13,3,level,0.23076923076923078
+Qwen-Math FT · examples prompt,cat → eng (NMT),practice,0,8,2,level,0.25
+Qwen-Math FT · examples prompt,cat → eng (NMT),practice,1,8,4,level,0.5
+Qwen-Math FT · examples prompt,cat → eng (NMT),practice,2,7,0,level,0.0
+Qwen-Math FT · examples prompt,cat → eng (NMT),practice,3,6,1,level,0.16666666666666666
+Qwen-Math FT · examples prompt,cat → eng (NMT),practice,4,6,2,level,0.3333333333333333
+Qwen-Math FT · examples prompt,cat → eng (NMT),practice,5,5,1,level,0.2
+Qwen-Math FT · examples prompt,cat → eng (NMT),practice,6,5,2,level,0.4
+Qwen-Math FT · examples prompt,cat → eng (NMT),practice,7,5,3,level,0.6
+Qwen-Math FT · examples prompt,eng,M3Kang,0,3,2,level,0.6666666666666666
+Qwen-Math FT · examples prompt,eng,M3Kang,1,3,0,level,0.0
+Qwen-Math FT · examples prompt,eng,M3Kang,2,3,1,level,0.3333333333333333
+Qwen-Math FT · examples prompt,eng,M3Kang,3,3,1,level,0.3333333333333333
+Qwen-Math FT · examples prompt,eng,M3Kang,4,19,2,level,0.10526315789473684
+Qwen-Math FT · examples prompt,eng,M3Kang,5,17,1,level,0.058823529411764705
+Qwen-Math FT · examples prompt,eng,M3Kang,6,21,3,level,0.14285714285714285
+Qwen-Math FT · examples prompt,eng,M3Kang,7,14,4,level,0.2857142857142857
+Qwen-Math FT · examples prompt,eng,practice,0,8,2,level,0.25
+Qwen-Math FT · examples prompt,eng,practice,1,8,4,level,0.5
+Qwen-Math FT · examples prompt,eng,practice,2,7,1,level,0.14285714285714285
+Qwen-Math FT · examples prompt,eng,practice,3,6,2,level,0.3333333333333333
+Qwen-Math FT · examples prompt,eng,practice,4,6,3,level,0.5
+Qwen-Math FT · examples prompt,eng,practice,5,5,1,level,0.2
+Qwen-Math FT · examples prompt,eng,practice,6,5,3,level,0.6
+Qwen-Math FT · examples prompt,eng,practice,7,5,4,level,0.8
+Qwen-Math FT · short prompt,cat,M3Kang,0,3,2,level,0.6666666666666666
+Qwen-Math FT · short prompt,cat,M3Kang,1,3,1,level,0.3333333333333333
+Qwen-Math FT · short prompt,cat,M3Kang,2,3,0,level,0.0
+Qwen-Math FT · short prompt,cat,M3Kang,3,3,1,level,0.3333333333333333
+Qwen-Math FT · short prompt,cat,M3Kang,4,19,0,level,0.0
+Qwen-Math FT · short prompt,cat,M3Kang,5,16,2,level,0.125
+Qwen-Math FT · short prompt,cat,M3Kang,6,20,3,level,0.15
+Qwen-Math FT · short prompt,cat,M3Kang,7,13,3,level,0.23076923076923078
+Qwen-Math FT · short prompt,cat → eng (NMT),M3Kang,0,3,1,level,0.3333333333333333
+Qwen-Math FT · short prompt,cat → eng (NMT),M3Kang,1,3,2,level,0.6666666666666666
+Qwen-Math FT · short prompt,cat → eng (NMT),M3Kang,2,3,0,level,0.0
+Qwen-Math FT · short prompt,cat → eng (NMT),M3Kang,3,3,1,level,0.3333333333333333
+Qwen-Math FT · short prompt,cat → eng (NMT),M3Kang,4,19,3,level,0.15789473684210525
+Qwen-Math FT · short prompt,cat → eng (NMT),M3Kang,5,16,3,level,0.1875
+Qwen-Math FT · short prompt,cat → eng (NMT),M3Kang,6,20,2,level,0.1
+Qwen-Math FT · short prompt,cat → eng (NMT),M3Kang,7,13,3,level,0.23076923076923078
+Qwen-Math FT · short prompt,cat → eng (NMT),practice,0,8,2,level,0.25
+Qwen-Math FT · short prompt,cat → eng (NMT),practice,1,8,2,level,0.25
+Qwen-Math FT · short prompt,cat → eng (NMT),practice,2,7,2,level,0.2857142857142857
+Qwen-Math FT · short prompt,cat → eng (NMT),practice,3,6,3,level,0.5
+Qwen-Math FT · short prompt,cat → eng (NMT),practice,4,6,1,level,0.16666666666666666
+Qwen-Math FT · short prompt,cat → eng (NMT),practice,5,5,0,level,0.0
+Qwen-Math FT · short prompt,cat → eng (NMT),practice,6,5,2,level,0.4
+Qwen-Math FT · short prompt,cat → eng (NMT),practice,7,5,2,level,0.4
+Qwen-Math FT · short prompt,eng,M3Kang,0,3,1,level,0.3333333333333333
+Qwen-Math FT · short prompt,eng,M3Kang,1,3,1,level,0.3333333333333333
+Qwen-Math FT · short prompt,eng,M3Kang,2,3,1,level,0.3333333333333333
+Qwen-Math FT · short prompt,eng,M3Kang,3,3,1,level,0.3333333333333333
+Qwen-Math FT · short prompt,eng,M3Kang,4,19,4,level,0.21052631578947367
+Qwen-Math FT · short prompt,eng,M3Kang,5,17,2,level,0.11764705882352941
+Qwen-Math FT · short prompt,eng,M3Kang,6,21,3,level,0.14285714285714285
+Qwen-Math FT · short prompt,eng,M3Kang,7,14,5,level,0.35714285714285715
+Qwen-Math FT · short prompt,eng,practice,0,8,2,level,0.25
+Qwen-Math FT · short prompt,eng,practice,1,8,2,level,0.25
+Qwen-Math FT · short prompt,eng,practice,2,7,1,level,0.14285714285714285
+Qwen-Math FT · short prompt,eng,practice,3,6,1,level,0.16666666666666666
+Qwen-Math FT · short prompt,eng,practice,4,6,1,level,0.16666666666666666
+Qwen-Math FT · short prompt,eng,practice,5,5,1,level,0.2
+Qwen-Math FT · short prompt,eng,practice,6,5,2,level,0.4
+Qwen-Math FT · short prompt,eng,practice,7,5,5,level,1.0
+Qwen-Math · examples prompt,cat,M3Kang,0,3,0,level,0.0
+Qwen-Math · examples prompt,cat,M3Kang,1,3,1,level,0.3333333333333333
+Qwen-Math · examples prompt,cat,M3Kang,2,3,0,level,0.0
+Qwen-Math · examples prompt,cat,M3Kang,3,3,0,level,0.0
+Qwen-Math · examples prompt,cat,M3Kang,4,19,0,level,0.0
+Qwen-Math · examples prompt,cat,M3Kang,5,16,0,level,0.0
+Qwen-Math · examples prompt,cat,M3Kang,6,20,0,level,0.0
+Qwen-Math · examples prompt,cat,M3Kang,7,13,0,level,0.0
+Qwen-Math · examples prompt,cat,practice,0,8,1,level,0.125
+Qwen-Math · examples prompt,cat,practice,1,8,0,level,0.0
+Qwen-Math · examples prompt,cat,practice,2,7,1,level,0.14285714285714285
+Qwen-Math · examples prompt,cat,practice,3,6,0,level,0.0
+Qwen-Math · examples prompt,cat,practice,4,6,1,level,0.16666666666666666
+Qwen-Math · examples prompt,cat,practice,5,5,0,level,0.0
+Qwen-Math · examples prompt,cat,practice,6,5,2,level,0.4
+Qwen-Math · examples prompt,cat,practice,7,5,2,level,0.4
+Qwen-Math · examples prompt,cat → eng (NMT),M3Kang,0,3,1,level,0.3333333333333333
+Qwen-Math · examples prompt,cat → eng (NMT),M3Kang,1,3,2,level,0.6666666666666666
+Qwen-Math · examples prompt,cat → eng (NMT),M3Kang,2,3,0,level,0.0
+Qwen-Math · examples prompt,cat → eng (NMT),M3Kang,3,3,2,level,0.6666666666666666
+Qwen-Math · examples prompt,cat → eng (NMT),M3Kang,4,19,3,level,0.15789473684210525
+Qwen-Math · examples prompt,cat → eng (NMT),M3Kang,5,16,2,level,0.125
+Qwen-Math · examples prompt,cat → eng (NMT),M3Kang,6,20,2,level,0.1
+Qwen-Math · examples prompt,cat → eng (NMT),M3Kang,7,13,2,level,0.15384615384615385
+Qwen-Math · examples prompt,cat → eng (NMT),practice,0,8,4,level,0.5
+Qwen-Math · examples prompt,cat → eng (NMT),practice,1,8,5,level,0.625
+Qwen-Math · examples prompt,cat → eng (NMT),practice,2,7,1,level,0.14285714285714285
+Qwen-Math · examples prompt,cat → eng (NMT),practice,3,6,2,level,0.3333333333333333
+Qwen-Math · examples prompt,cat → eng (NMT),practice,4,6,3,level,0.5
+Qwen-Math · examples prompt,cat → eng (NMT),practice,5,5,1,level,0.2
+Qwen-Math · examples prompt,cat → eng (NMT),practice,6,5,1,level,0.2
+Qwen-Math · examples prompt,cat → eng (NMT),practice,7,5,3,level,0.6
+Qwen-Math · examples prompt,eng,M3Kang,0,3,1,level,0.3333333333333333
+Qwen-Math · examples prompt,eng,M3Kang,1,3,2,level,0.6666666666666666
+Qwen-Math · examples prompt,eng,M3Kang,2,3,0,level,0.0
+Qwen-Math · examples prompt,eng,M3Kang,3,3,2,level,0.6666666666666666
+Qwen-Math · examples prompt,eng,M3Kang,4,19,4,level,0.21052631578947367
+Qwen-Math · examples prompt,eng,M3Kang,5,17,3,level,0.17647058823529413
+Qwen-Math · examples prompt,eng,M3Kang,6,21,3,level,0.14285714285714285
+Qwen-Math · examples prompt,eng,M3Kang,7,14,4,level,0.2857142857142857
+Qwen-Math · examples prompt,eng,practice,0,8,5,level,0.625
+Qwen-Math · examples prompt,eng,practice,1,8,4,level,0.5
+Qwen-Math · examples prompt,eng,practice,2,7,2,level,0.2857142857142857
+Qwen-Math · examples prompt,eng,practice,3,6,2,level,0.3333333333333333
+Qwen-Math · examples prompt,eng,practice,4,6,2,level,0.3333333333333333
+Qwen-Math · examples prompt,eng,practice,5,5,2,level,0.4
+Qwen-Math · examples prompt,eng,practice,6,5,2,level,0.4
+Qwen-Math · examples prompt,eng,practice,7,5,4,level,0.8
+Noema-2B FT · examples prompt,cat → eng (NMT),practice,151–300,17,0,length,0.0
+Noema-2B FT · examples prompt,cat → eng (NMT),practice,≤ 150 chars,33,7,length,0.21212121212121213
+Noema-2B FT · examples prompt,eng,practice,151–300,11,2,length,0.18181818181818182
+Noema-2B FT · examples prompt,eng,practice,≤ 150 chars,39,7,length,0.1794871794871795
+Noema-2B FT · short prompt,cat → eng (NMT),practice,151–300,17,3,length,0.17647058823529413
+Noema-2B FT · short prompt,cat → eng (NMT),practice,≤ 150 chars,33,8,length,0.24242424242424243
+Noema-2B FT · short prompt,eng,practice,151–300,11,3,length,0.2727272727272727
+Noema-2B FT · short prompt,eng,practice,≤ 150 chars,39,10,length,0.2564102564102564
+Noema-2B · examples prompt,cat,practice,151–300,17,2,length,0.11764705882352941
+Noema-2B · examples prompt,cat,practice,≤ 150 chars,33,7,length,0.21212121212121213
+Noema-2B · examples prompt,eng,practice,151–300,11,3,length,0.2727272727272727
+Noema-2B · examples prompt,eng,practice,≤ 150 chars,39,13,length,0.3333333333333333
+Qwen-Math FT · examples prompt,cat,M3Kang,151–300,52,5,length,0.09615384615384616
+Qwen-Math FT · examples prompt,cat,M3Kang,> 300,13,1,length,0.07692307692307693
+Qwen-Math FT · examples prompt,cat,M3Kang,≤ 150 chars,15,1,length,0.06666666666666667
+Qwen-Math FT · examples prompt,cat → eng (NMT),M3Kang,151–300,52,12,length,0.23076923076923078
+Qwen-Math FT · examples prompt,cat → eng (NMT),M3Kang,> 300,13,2,length,0.15384615384615385
+Qwen-Math FT · examples prompt,cat → eng (NMT),M3Kang,≤ 150 chars,15,4,length,0.26666666666666666
+Qwen-Math FT · examples prompt,cat → eng (NMT),practice,151–300,17,3,length,0.17647058823529413
+Qwen-Math FT · examples prompt,cat → eng (NMT),practice,≤ 150 chars,33,12,length,0.36363636363636365
+Qwen-Math FT · examples prompt,eng,M3Kang,151–300,53,8,length,0.1509433962264151
+Qwen-Math FT · examples prompt,eng,M3Kang,> 300,13,2,length,0.15384615384615385
+Qwen-Math FT · examples prompt,eng,M3Kang,≤ 150 chars,17,4,length,0.23529411764705882
+Qwen-Math FT · examples prompt,eng,practice,151–300,11,4,length,0.36363636363636365
+Qwen-Math FT · examples prompt,eng,practice,≤ 150 chars,39,16,length,0.41025641025641024
+Qwen-Math FT · short prompt,cat,M3Kang,151–300,52,7,length,0.1346153846153846
+Qwen-Math FT · short prompt,cat,M3Kang,> 300,13,1,length,0.07692307692307693
+Qwen-Math FT · short prompt,cat,M3Kang,≤ 150 chars,15,4,length,0.26666666666666666
+Qwen-Math FT · short prompt,cat → eng (NMT),M3Kang,151–300,52,10,length,0.19230769230769232
+Qwen-Math FT · short prompt,cat → eng (NMT),M3Kang,> 300,13,1,length,0.07692307692307693
+Qwen-Math FT · short prompt,cat → eng (NMT),M3Kang,≤ 150 chars,15,4,length,0.26666666666666666
+Qwen-Math FT · short prompt,cat → eng (NMT),practice,151–300,17,4,length,0.23529411764705882
+Qwen-Math FT · short prompt,cat → eng (NMT),practice,≤ 150 chars,33,10,length,0.30303030303030304
+Qwen-Math FT · short prompt,eng,M3Kang,151–300,53,10,length,0.18867924528301888
+Qwen-Math FT · short prompt,eng,M3Kang,> 300,13,2,length,0.15384615384615385
+Qwen-Math FT · short prompt,eng,M3Kang,≤ 150 chars,17,6,length,0.35294117647058826
+Qwen-Math FT · short prompt,eng,practice,151–300,11,3,length,0.2727272727272727
+Qwen-Math FT · short prompt,eng,practice,≤ 150 chars,39,12,length,0.3076923076923077
+Qwen-Math · examples prompt,cat,M3Kang,151–300,52,0,length,0.0
+Qwen-Math · examples prompt,cat,M3Kang,> 300,13,0,length,0.0
+Qwen-Math · examples prompt,cat,M3Kang,≤ 150 chars,15,1,length,0.06666666666666667
+Qwen-Math · examples prompt,cat,practice,151–300,17,1,length,0.058823529411764705
+Qwen-Math · examples prompt,cat,practice,≤ 150 chars,33,6,length,0.18181818181818182
+Qwen-Math · examples prompt,cat → eng (NMT),M3Kang,151–300,52,11,length,0.21153846153846154
+Qwen-Math · examples prompt,cat → eng (NMT),M3Kang,> 300,13,1,length,0.07692307692307693
+Qwen-Math · examples prompt,cat → eng (NMT),M3Kang,≤ 150 chars,15,2,length,0.13333333333333333
+Qwen-Math · examples prompt,cat → eng (NMT),practice,151–300,17,6,length,0.35294117647058826
+Qwen-Math · examples prompt,cat → eng (NMT),practice,≤ 150 chars,33,14,length,0.42424242424242425
+Qwen-Math · examples prompt,eng,M3Kang,151–300,53,14,length,0.2641509433962264
+Qwen-Math · examples prompt,eng,M3Kang,> 300,13,2,length,0.15384615384615385
+Qwen-Math · examples prompt,eng,M3Kang,≤ 150 chars,17,3,length,0.17647058823529413
+Qwen-Math · examples prompt,eng,practice,151–300,11,5,length,0.45454545454545453
+Qwen-Math · examples prompt,eng,practice,≤ 150 chars,39,18,length,0.46153846153846156
+Noema-2B FT · examples prompt,cat → eng (NMT),practice,"numbers, sorted",45,7,option_kind,0.15555555555555556
+Noema-2B FT · examples prompt,cat → eng (NMT),practice,words,5,0,option_kind,0.0
+Noema-2B FT · examples prompt,eng,practice,"numbers, sorted",45,8,option_kind,0.17777777777777778
+Noema-2B FT · examples prompt,eng,practice,words,5,1,option_kind,0.2
+Noema-2B FT · short prompt,cat → eng (NMT),practice,"numbers, sorted",45,11,option_kind,0.24444444444444444
+Noema-2B FT · short prompt,cat → eng (NMT),practice,words,5,0,option_kind,0.0
+Noema-2B FT · short prompt,eng,practice,"numbers, sorted",45,13,option_kind,0.28888888888888886
+Noema-2B FT · short prompt,eng,practice,words,5,0,option_kind,0.0
+Noema-2B · examples prompt,cat,practice,"numbers, sorted",45,9,option_kind,0.2
+Noema-2B · examples prompt,cat,practice,words,5,0,option_kind,0.0
+Noema-2B · examples prompt,eng,practice,"numbers, sorted",45,16,option_kind,0.35555555555555557
+Noema-2B · examples prompt,eng,practice,words,5,0,option_kind,0.0
+Qwen-Math FT · examples prompt,cat,M3Kang,"numbers, sorted",38,3,option_kind,0.07894736842105263
+Qwen-Math FT · examples prompt,cat,M3Kang,"numbers, unsorted",29,4,option_kind,0.13793103448275862
+Qwen-Math FT · examples prompt,cat,M3Kang,words,13,0,option_kind,0.0
+Qwen-Math FT · examples prompt,cat → eng (NMT),M3Kang,"numbers, sorted",38,10,option_kind,0.2631578947368421
+Qwen-Math FT · examples prompt,cat → eng (NMT),M3Kang,"numbers, unsorted",29,6,option_kind,0.20689655172413793
+Qwen-Math FT · examples prompt,cat → eng (NMT),M3Kang,words,13,2,option_kind,0.15384615384615385
+Qwen-Math FT · examples prompt,cat → eng (NMT),practice,"numbers, sorted",45,14,option_kind,0.3111111111111111
+Qwen-Math FT · examples prompt,cat → eng (NMT),practice,words,5,1,option_kind,0.2
+Qwen-Math FT · examples prompt,eng,M3Kang,"numbers, sorted",39,7,option_kind,0.1794871794871795
+Qwen-Math FT · examples prompt,eng,M3Kang,"numbers, unsorted",30,5,option_kind,0.16666666666666666
+Qwen-Math FT · examples prompt,eng,M3Kang,words,14,2,option_kind,0.14285714285714285
+Qwen-Math FT · examples prompt,eng,practice,"numbers, sorted",45,19,option_kind,0.4222222222222222
+Qwen-Math FT · examples prompt,eng,practice,words,5,1,option_kind,0.2
+Qwen-Math FT · short prompt,cat,M3Kang,"numbers, sorted",38,5,option_kind,0.13157894736842105
+Qwen-Math FT · short prompt,cat,M3Kang,"numbers, unsorted",29,7,option_kind,0.2413793103448276
+Qwen-Math FT · short prompt,cat,M3Kang,words,13,0,option_kind,0.0
+Qwen-Math FT · short prompt,cat → eng (NMT),M3Kang,"numbers, sorted",38,7,option_kind,0.18421052631578946
+Qwen-Math FT · short prompt,cat → eng (NMT),M3Kang,"numbers, unsorted",29,7,option_kind,0.2413793103448276
+Qwen-Math FT · short prompt,cat → eng (NMT),M3Kang,words,13,1,option_kind,0.07692307692307693
+Qwen-Math FT · short prompt,cat → eng (NMT),practice,"numbers, sorted",45,13,option_kind,0.28888888888888886
+Qwen-Math FT · short prompt,cat → eng (NMT),practice,words,5,1,option_kind,0.2
+Qwen-Math FT · short prompt,eng,M3Kang,"numbers, sorted",39,9,option_kind,0.23076923076923078
+Qwen-Math FT · short prompt,eng,M3Kang,"numbers, unsorted",30,8,option_kind,0.26666666666666666
+Qwen-Math FT · short prompt,eng,M3Kang,words,14,1,option_kind,0.07142857142857142
+Qwen-Math FT · short prompt,eng,practice,"numbers, sorted",45,14,option_kind,0.3111111111111111
+Qwen-Math FT · short prompt,eng,practice,words,5,1,option_kind,0.2
+Qwen-Math · examples prompt,cat,M3Kang,"numbers, sorted",38,0,option_kind,0.0
+Qwen-Math · examples prompt,cat,M3Kang,"numbers, unsorted",29,1,option_kind,0.034482758620689655
+Qwen-Math · examples prompt,cat,M3Kang,words,13,0,option_kind,0.0
+Qwen-Math · examples prompt,cat,practice,"numbers, sorted",45,7,option_kind,0.15555555555555556
+Qwen-Math · examples prompt,cat,practice,words,5,0,option_kind,0.0
+Qwen-Math · examples prompt,cat → eng (NMT),M3Kang,"numbers, sorted",38,7,option_kind,0.18421052631578946
+Qwen-Math · examples prompt,cat → eng (NMT),M3Kang,"numbers, unsorted",29,5,option_kind,0.1724137931034483
+Qwen-Math · examples prompt,cat → eng (NMT),M3Kang,words,13,2,option_kind,0.15384615384615385
+Qwen-Math · examples prompt,cat → eng (NMT),practice,"numbers, sorted",45,19,option_kind,0.4222222222222222
+Qwen-Math · examples prompt,cat → eng (NMT),practice,words,5,1,option_kind,0.2
+Qwen-Math · examples prompt,eng,M3Kang,"numbers, sorted",39,8,option_kind,0.20512820512820512
+Qwen-Math · examples prompt,eng,M3Kang,"numbers, unsorted",30,10,option_kind,0.3333333333333333
+Qwen-Math · examples prompt,eng,M3Kang,words,14,1,option_kind,0.07142857142857142
+Qwen-Math · examples prompt,eng,practice,"numbers, sorted",45,23,option_kind,0.5111111111111111
+Qwen-Math · examples prompt,eng,practice,words,5,0,option_kind,0.0
+Noema-2B FT · examples prompt,cat → eng (NMT),practice,needs the figure,10,0,figure,0.0
+Noema-2B FT · examples prompt,cat → eng (NMT),practice,text only,40,7,figure,0.175
+Noema-2B FT · examples prompt,eng,practice,needs the figure,10,0,figure,0.0
+Noema-2B FT · examples prompt,eng,practice,text only,40,9,figure,0.225
+Noema-2B FT · short prompt,cat → eng (NMT),practice,needs the figure,10,2,figure,0.2
+Noema-2B FT · short prompt,cat → eng (NMT),practice,text only,40,9,figure,0.225
+Noema-2B FT · short prompt,eng,practice,needs the figure,10,1,figure,0.1
+Noema-2B FT · short prompt,eng,practice,text only,40,12,figure,0.3
+Noema-2B · examples prompt,cat,practice,needs the figure,10,2,figure,0.2
+Noema-2B · examples prompt,cat,practice,text only,40,7,figure,0.175
+Noema-2B · examples prompt,eng,practice,needs the figure,10,1,figure,0.1
+Noema-2B · examples prompt,eng,practice,text only,40,15,figure,0.375
+Qwen-Math FT · examples prompt,cat,M3Kang,needs the figure,7,1,figure,0.14285714285714285
+Qwen-Math FT · examples prompt,cat,M3Kang,text only,73,6,figure,0.0821917808219178
+Qwen-Math FT · examples prompt,cat → eng (NMT),M3Kang,needs the figure,7,1,figure,0.14285714285714285
+Qwen-Math FT · examples prompt,cat → eng (NMT),M3Kang,text only,73,17,figure,0.2328767123287671
+Qwen-Math FT · examples prompt,cat → eng (NMT),practice,needs the figure,10,3,figure,0.3
+Qwen-Math FT · examples prompt,cat → eng (NMT),practice,text only,40,12,figure,0.3
+Qwen-Math FT · examples prompt,eng,M3Kang,needs the figure,8,2,figure,0.25
+Qwen-Math FT · examples prompt,eng,M3Kang,text only,75,12,figure,0.16
+Qwen-Math FT · examples prompt,eng,practice,needs the figure,10,2,figure,0.2
+Qwen-Math FT · examples prompt,eng,practice,text only,40,18,figure,0.45
+Qwen-Math FT · short prompt,cat,M3Kang,needs the figure,7,2,figure,0.2857142857142857
+Qwen-Math FT · short prompt,cat,M3Kang,text only,73,10,figure,0.136986301369863
+Qwen-Math FT · short prompt,cat → eng (NMT),M3Kang,needs the figure,7,2,figure,0.2857142857142857
+Qwen-Math FT · short prompt,cat → eng (NMT),M3Kang,text only,73,13,figure,0.1780821917808219
+Qwen-Math FT · short prompt,cat → eng (NMT),practice,needs the figure,10,2,figure,0.2
+Qwen-Math FT · short prompt,cat → eng (NMT),practice,text only,40,12,figure,0.3
+Qwen-Math FT · short prompt,eng,M3Kang,needs the figure,8,2,figure,0.25
+Qwen-Math FT · short prompt,eng,M3Kang,text only,75,16,figure,0.21333333333333335
+Qwen-Math FT · short prompt,eng,practice,needs the figure,10,1,figure,0.1
+Qwen-Math FT · short prompt,eng,practice,text only,40,14,figure,0.35
+Qwen-Math · examples prompt,cat,M3Kang,needs the figure,7,0,figure,0.0
+Qwen-Math · examples prompt,cat,M3Kang,text only,73,1,figure,0.0136986301369863
+Qwen-Math · examples prompt,cat,practice,needs the figure,10,1,figure,0.1
+Qwen-Math · examples prompt,cat,practice,text only,40,6,figure,0.15
+Qwen-Math · examples prompt,cat → eng (NMT),M3Kang,needs the figure,7,1,figure,0.14285714285714285
+Qwen-Math · examples prompt,cat → eng (NMT),M3Kang,text only,73,13,figure,0.1780821917808219
+Qwen-Math · examples prompt,cat → eng (NMT),practice,needs the figure,10,1,figure,0.1
+Qwen-Math · examples prompt,cat → eng (NMT),practice,text only,40,19,figure,0.475
+Qwen-Math · examples prompt,eng,M3Kang,needs the figure,8,0,figure,0.0
+Qwen-Math · examples prompt,eng,M3Kang,text only,75,19,figure,0.25333333333333335
+Qwen-Math · examples prompt,eng,practice,needs the figure,10,0,figure,0.0
+Qwen-Math · examples prompt,eng,practice,text only,40,23,figure,0.575

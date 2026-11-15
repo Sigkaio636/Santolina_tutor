@@ -1,0 +1,31 @@
+dataset,slice,count,share,factor
+M3Kang,0,6,0.03680981595092025,level
+M3Kang,1,6,0.03680981595092025,level
+M3Kang,2,6,0.03680981595092025,level
+M3Kang,3,6,0.03680981595092025,level
+M3Kang,4,38,0.2331288343558282,level
+M3Kang,5,33,0.20245398773006135,level
+M3Kang,6,41,0.25153374233128833,level
+M3Kang,7,27,0.1656441717791411,level
+practice,0,16,0.16,level
+practice,1,16,0.16,level
+practice,2,14,0.14,level
+practice,3,12,0.12,level
+practice,4,12,0.12,level
+practice,5,10,0.1,level
+practice,6,10,0.1,level
+practice,7,10,0.1,level
+M3Kang,151–300,105,0.6441717791411042,length
+M3Kang,> 300,26,0.15950920245398773,length
+M3Kang,≤ 150 chars,32,0.19631901840490798,length
+practice,151–300,28,0.28,length
+practice,≤ 150 chars,72,0.72,length
+M3Kang,"numbers, sorted",77,0.4723926380368098,option_kind
+M3Kang,"numbers, unsorted",59,0.3619631901840491,option_kind
+M3Kang,words,27,0.1656441717791411,option_kind
+practice,"numbers, sorted",90,0.9,option_kind
+practice,words,10,0.1,option_kind
+M3Kang,needs the figure,15,0.09202453987730061,figure
+M3Kang,text only,148,0.9079754601226994,figure
+practice,needs the figure,20,0.2,figure
+practice,text only,80,0.8,figure

@@ -1,0 +1,111 @@
+run,outcome,count,dataset,setup,input,final_right,n,share,label,is_right,row
+practice · Noema-2B FT · examples prompt · cat → eng (NMT),cut at the token cap,4,practice,Noema-2B FT · examples prompt,cat → eng (NMT),16,50,0.08,8%,False,Noema-2B FT · examples prompt · cat → eng (NMT)
+practice · Noema-2B FT · examples prompt · cat → eng (NMT),crashed,4,practice,Noema-2B FT · examples prompt,cat → eng (NMT),16,50,0.08,8%,False,Noema-2B FT · examples prompt · cat → eng (NMT)
+practice · Noema-2B FT · examples prompt · cat → eng (NMT),no option matched,29,practice,Noema-2B FT · examples prompt,cat → eng (NMT),16,50,0.58,58%,False,Noema-2B FT · examples prompt · cat → eng (NMT)
+practice · Noema-2B FT · examples prompt · cat → eng (NMT),wrong option,6,practice,Noema-2B FT · examples prompt,cat → eng (NMT),16,50,0.12,12%,False,Noema-2B FT · examples prompt · cat → eng (NMT)
+practice · Noema-2B FT · examples prompt · cat → eng (NMT),right,7,practice,Noema-2B FT · examples prompt,cat → eng (NMT),16,50,0.14,14%,True,Noema-2B FT · examples prompt · cat → eng (NMT)
+practice · Noema-2B FT · examples prompt · eng,cut at the token cap,2,practice,Noema-2B FT · examples prompt,eng,17,50,0.04,4%,False,Noema-2B FT · examples prompt · eng
+practice · Noema-2B FT · examples prompt · eng,crashed,8,practice,Noema-2B FT · examples prompt,eng,17,50,0.16,16%,False,Noema-2B FT · examples prompt · eng
+practice · Noema-2B FT · examples prompt · eng,no option matched,25,practice,Noema-2B FT · examples prompt,eng,17,50,0.5,50%,False,Noema-2B FT · examples prompt · eng
+practice · Noema-2B FT · examples prompt · eng,wrong option,6,practice,Noema-2B FT · examples prompt,eng,17,50,0.12,12%,False,Noema-2B FT · examples prompt · eng
+practice · Noema-2B FT · examples prompt · eng,right,9,practice,Noema-2B FT · examples prompt,eng,17,50,0.18,18%,True,Noema-2B FT · examples prompt · eng
+practice · Noema-2B FT · short prompt · cat → eng (NMT),cut at the token cap,1,practice,Noema-2B FT · short prompt,cat → eng (NMT),19,50,0.02,2%,False,Noema-2B FT · short prompt · cat → eng (NMT)
+practice · Noema-2B FT · short prompt · cat → eng (NMT),crashed,6,practice,Noema-2B FT · short prompt,cat → eng (NMT),19,50,0.12,12%,False,Noema-2B FT · short prompt · cat → eng (NMT)
+practice · Noema-2B FT · short prompt · cat → eng (NMT),no option matched,23,practice,Noema-2B FT · short prompt,cat → eng (NMT),19,50,0.46,46%,False,Noema-2B FT · short prompt · cat → eng (NMT)
+practice · Noema-2B FT · short prompt · cat → eng (NMT),wrong option,9,practice,Noema-2B FT · short prompt,cat → eng (NMT),19,50,0.18,18%,False,Noema-2B FT · short prompt · cat → eng (NMT)
+practice · Noema-2B FT · short prompt · cat → eng (NMT),right,11,practice,Noema-2B FT · short prompt,cat → eng (NMT),19,50,0.22,22%,True,Noema-2B FT · short prompt · cat → eng (NMT)
+practice · Noema-2B FT · short prompt · eng,cut at the token cap,2,practice,Noema-2B FT · short prompt,eng,20,50,0.04,4%,False,Noema-2B FT · short prompt · eng
+practice · Noema-2B FT · short prompt · eng,crashed,7,practice,Noema-2B FT · short prompt,eng,20,50,0.14,14%,False,Noema-2B FT · short prompt · eng
+practice · Noema-2B FT · short prompt · eng,no option matched,19,practice,Noema-2B FT · short prompt,eng,20,50,0.38,38%,False,Noema-2B FT · short prompt · eng
+practice · Noema-2B FT · short prompt · eng,wrong option,9,practice,Noema-2B FT · short prompt,eng,20,50,0.18,18%,False,Noema-2B FT · short prompt · eng
+practice · Noema-2B FT · short prompt · eng,right,13,practice,Noema-2B FT · short prompt,eng,20,50,0.26,26%,True,Noema-2B FT · short prompt · eng
+practice · Noema-2B · examples prompt · cat,cut at the token cap,14,practice,Noema-2B · examples prompt,cat,15,50,0.28,28%,False,Noema-2B · examples prompt · cat
+practice · Noema-2B · examples prompt · cat,crashed,3,practice,Noema-2B · examples prompt,cat,15,50,0.06,6%,False,Noema-2B · examples prompt · cat
+practice · Noema-2B · examples prompt · cat,no option matched,14,practice,Noema-2B · examples prompt,cat,15,50,0.28,28%,False,Noema-2B · examples prompt · cat
+practice · Noema-2B · examples prompt · cat,wrong option,10,practice,Noema-2B · examples prompt,cat,15,50,0.2,20%,False,Noema-2B · examples prompt · cat
+practice · Noema-2B · examples prompt · cat,right,9,practice,Noema-2B · examples prompt,cat,15,50,0.18,18%,True,Noema-2B · examples prompt · cat
+practice · Noema-2B · examples prompt · eng,cut at the token cap,13,practice,Noema-2B · examples prompt,eng,19,50,0.26,26%,False,Noema-2B · examples prompt · eng
+practice · Noema-2B · examples prompt · eng,crashed,2,practice,Noema-2B · examples prompt,eng,19,50,0.04,4%,False,Noema-2B · examples prompt · eng
+practice · Noema-2B · examples prompt · eng,no option matched,10,practice,Noema-2B · examples prompt,eng,19,50,0.2,20%,False,Noema-2B · examples prompt · eng
+practice · Noema-2B · examples prompt · eng,wrong option,9,practice,Noema-2B · examples prompt,eng,19,50,0.18,18%,False,Noema-2B · examples prompt · eng
+practice · Noema-2B · examples prompt · eng,right,16,practice,Noema-2B · examples prompt,eng,19,50,0.32,32%,True,Noema-2B · examples prompt · eng
+practice · Qwen-Math FT · examples prompt · cat → eng (NMT),cut at the token cap,0,practice,Qwen-Math FT · examples prompt,cat → eng (NMT),20,50,0.0,0%,False,Qwen-Math FT · examples prompt · cat → eng (NMT)
+practice · Qwen-Math FT · examples prompt · cat → eng (NMT),crashed,4,practice,Qwen-Math FT · examples prompt,cat → eng (NMT),20,50,0.08,8%,False,Qwen-Math FT · examples prompt · cat → eng (NMT)
+practice · Qwen-Math FT · examples prompt · cat → eng (NMT),no option matched,22,practice,Qwen-Math FT · examples prompt,cat → eng (NMT),20,50,0.44,44%,False,Qwen-Math FT · examples prompt · cat → eng (NMT)
+practice · Qwen-Math FT · examples prompt · cat → eng (NMT),wrong option,9,practice,Qwen-Math FT · examples prompt,cat → eng (NMT),20,50,0.18,18%,False,Qwen-Math FT · examples prompt · cat → eng (NMT)
+practice · Qwen-Math FT · examples prompt · cat → eng (NMT),right,15,practice,Qwen-Math FT · examples prompt,cat → eng (NMT),20,50,0.3,30%,True,Qwen-Math FT · examples prompt · cat → eng (NMT)
+practice · Qwen-Math FT · examples prompt · eng,cut at the token cap,2,practice,Qwen-Math FT · examples prompt,eng,21,50,0.04,4%,False,Qwen-Math FT · examples prompt · eng
+practice · Qwen-Math FT · examples prompt · eng,crashed,3,practice,Qwen-Math FT · examples prompt,eng,21,50,0.06,6%,False,Qwen-Math FT · examples prompt · eng
+practice · Qwen-Math FT · examples prompt · eng,no option matched,16,practice,Qwen-Math FT · examples prompt,eng,21,50,0.32,32%,False,Qwen-Math FT · examples prompt · eng
+practice · Qwen-Math FT · examples prompt · eng,wrong option,9,practice,Qwen-Math FT · examples prompt,eng,21,50,0.18,18%,False,Qwen-Math FT · examples prompt · eng
+practice · Qwen-Math FT · examples prompt · eng,right,20,practice,Qwen-Math FT · examples prompt,eng,21,50,0.4,40%,True,Qwen-Math FT · examples prompt · eng
+practice · Qwen-Math FT · short prompt · cat → eng (NMT),cut at the token cap,1,practice,Qwen-Math FT · short prompt,cat → eng (NMT),20,50,0.02,2%,False,Qwen-Math FT · short prompt · cat → eng (NMT)
+practice · Qwen-Math FT · short prompt · cat → eng (NMT),crashed,7,practice,Qwen-Math FT · short prompt,cat → eng (NMT),20,50,0.14,14%,False,Qwen-Math FT · short prompt · cat → eng (NMT)
+practice · Qwen-Math FT · short prompt · cat → eng (NMT),no option matched,21,practice,Qwen-Math FT · short prompt,cat → eng (NMT),20,50,0.42,42%,False,Qwen-Math FT · short prompt · cat → eng (NMT)
+practice · Qwen-Math FT · short prompt · cat → eng (NMT),wrong option,7,practice,Qwen-Math FT · short prompt,cat → eng (NMT),20,50,0.14,14%,False,Qwen-Math FT · short prompt · cat → eng (NMT)
+practice · Qwen-Math FT · short prompt · cat → eng (NMT),right,14,practice,Qwen-Math FT · short prompt,cat → eng (NMT),20,50,0.28,28%,True,Qwen-Math FT · short prompt · cat → eng (NMT)
+practice · Qwen-Math FT · short prompt · eng,cut at the token cap,3,practice,Qwen-Math FT · short prompt,eng,20,50,0.06,6%,False,Qwen-Math FT · short prompt · eng
+practice · Qwen-Math FT · short prompt · eng,crashed,6,practice,Qwen-Math FT · short prompt,eng,20,50,0.12,12%,False,Qwen-Math FT · short prompt · eng
+practice · Qwen-Math FT · short prompt · eng,no option matched,16,practice,Qwen-Math FT · short prompt,eng,20,50,0.32,32%,False,Qwen-Math FT · short prompt · eng
+practice · Qwen-Math FT · short prompt · eng,wrong option,10,practice,Qwen-Math FT · short prompt,eng,20,50,0.2,20%,False,Qwen-Math FT · short prompt · eng
+practice · Qwen-Math FT · short prompt · eng,right,15,practice,Qwen-Math FT · short prompt,eng,20,50,0.3,30%,True,Qwen-Math FT · short prompt · eng
+practice · Qwen-Math · examples prompt · cat,cut at the token cap,19,practice,Qwen-Math · examples prompt,cat,14,50,0.38,38%,False,Qwen-Math · examples prompt · cat
+practice · Qwen-Math · examples prompt · cat,crashed,3,practice,Qwen-Math · examples prompt,cat,14,50,0.06,6%,False,Qwen-Math · examples prompt · cat
+practice · Qwen-Math · examples prompt · cat,no option matched,19,practice,Qwen-Math · examples prompt,cat,14,50,0.38,38%,False,Qwen-Math · examples prompt · cat
+practice · Qwen-Math · examples prompt · cat,wrong option,2,practice,Qwen-Math · examples prompt,cat,14,50,0.04,4%,False,Qwen-Math · examples prompt · cat
+practice · Qwen-Math · examples prompt · cat,right,7,practice,Qwen-Math · examples prompt,cat,14,50,0.14,14%,True,Qwen-Math · examples prompt · cat
+practice · Qwen-Math · examples prompt · cat → eng (NMT),cut at the token cap,12,practice,Qwen-Math · examples prompt,cat → eng (NMT),26,50,0.24,24%,False,Qwen-Math · examples prompt · cat → eng (NMT)
+practice · Qwen-Math · examples prompt · cat → eng (NMT),crashed,2,practice,Qwen-Math · examples prompt,cat → eng (NMT),26,50,0.04,4%,False,Qwen-Math · examples prompt · cat → eng (NMT)
+practice · Qwen-Math · examples prompt · cat → eng (NMT),no option matched,12,practice,Qwen-Math · examples prompt,cat → eng (NMT),26,50,0.24,24%,False,Qwen-Math · examples prompt · cat → eng (NMT)
+practice · Qwen-Math · examples prompt · cat → eng (NMT),wrong option,4,practice,Qwen-Math · examples prompt,cat → eng (NMT),26,50,0.08,8%,False,Qwen-Math · examples prompt · cat → eng (NMT)
+practice · Qwen-Math · examples prompt · cat → eng (NMT),right,20,practice,Qwen-Math · examples prompt,cat → eng (NMT),26,50,0.4,40%,True,Qwen-Math · examples prompt · cat → eng (NMT)
+practice · Qwen-Math · examples prompt · eng,cut at the token cap,13,practice,Qwen-Math · examples prompt,eng,29,50,0.26,26%,False,Qwen-Math · examples prompt · eng
+practice · Qwen-Math · examples prompt · eng,crashed,3,practice,Qwen-Math · examples prompt,eng,29,50,0.06,6%,False,Qwen-Math · examples prompt · eng
+practice · Qwen-Math · examples prompt · eng,no option matched,6,practice,Qwen-Math · examples prompt,eng,29,50,0.12,12%,False,Qwen-Math · examples prompt · eng
+practice · Qwen-Math · examples prompt · eng,wrong option,5,practice,Qwen-Math · examples prompt,eng,29,50,0.1,10%,False,Qwen-Math · examples prompt · eng
+practice · Qwen-Math · examples prompt · eng,right,23,practice,Qwen-Math · examples prompt,eng,29,50,0.46,46%,True,Qwen-Math · examples prompt · eng
+M3Kang · Qwen-Math FT · examples prompt · cat,cut at the token cap,10,M3Kang,Qwen-Math FT · examples prompt,cat,26,80,0.125,12%,False,Qwen-Math FT · examples prompt · cat
+M3Kang · Qwen-Math FT · examples prompt · cat,crashed,5,M3Kang,Qwen-Math FT · examples prompt,cat,26,80,0.0625,6%,False,Qwen-Math FT · examples prompt · cat
+M3Kang · Qwen-Math FT · examples prompt · cat,no option matched,45,M3Kang,Qwen-Math FT · examples prompt,cat,26,80,0.5625,56%,False,Qwen-Math FT · examples prompt · cat
+M3Kang · Qwen-Math FT · examples prompt · cat,wrong option,13,M3Kang,Qwen-Math FT · examples prompt,cat,26,80,0.1625,16%,False,Qwen-Math FT · examples prompt · cat
+M3Kang · Qwen-Math FT · examples prompt · cat,right,7,M3Kang,Qwen-Math FT · examples prompt,cat,26,80,0.0875,9%,True,Qwen-Math FT · examples prompt · cat
+M3Kang · Qwen-Math FT · examples prompt · cat → eng (NMT),cut at the token cap,7,M3Kang,Qwen-Math FT · examples prompt,cat → eng (NMT),31,80,0.0875,9%,False,Qwen-Math FT · examples prompt · cat → eng (NMT)
+M3Kang · Qwen-Math FT · examples prompt · cat → eng (NMT),crashed,9,M3Kang,Qwen-Math FT · examples prompt,cat → eng (NMT),31,80,0.1125,11%,False,Qwen-Math FT · examples prompt · cat → eng (NMT)
+M3Kang · Qwen-Math FT · examples prompt · cat → eng (NMT),no option matched,38,M3Kang,Qwen-Math FT · examples prompt,cat → eng (NMT),31,80,0.475,48%,False,Qwen-Math FT · examples prompt · cat → eng (NMT)
+M3Kang · Qwen-Math FT · examples prompt · cat → eng (NMT),wrong option,8,M3Kang,Qwen-Math FT · examples prompt,cat → eng (NMT),31,80,0.1,10%,False,Qwen-Math FT · examples prompt · cat → eng (NMT)
+M3Kang · Qwen-Math FT · examples prompt · cat → eng (NMT),right,18,M3Kang,Qwen-Math FT · examples prompt,cat → eng (NMT),31,80,0.225,22%,True,Qwen-Math FT · examples prompt · cat → eng (NMT)
+M3Kang · Qwen-Math FT · examples prompt · eng,cut at the token cap,6,M3Kang,Qwen-Math FT · examples prompt,eng,33,83,0.07228915662650602,7%,False,Qwen-Math FT · examples prompt · eng
+M3Kang · Qwen-Math FT · examples prompt · eng,crashed,8,M3Kang,Qwen-Math FT · examples prompt,eng,33,83,0.0963855421686747,10%,False,Qwen-Math FT · examples prompt · eng
+M3Kang · Qwen-Math FT · examples prompt · eng,no option matched,44,M3Kang,Qwen-Math FT · examples prompt,eng,33,83,0.5301204819277109,53%,False,Qwen-Math FT · examples prompt · eng
+M3Kang · Qwen-Math FT · examples prompt · eng,wrong option,11,M3Kang,Qwen-Math FT · examples prompt,eng,33,83,0.13253012048192772,13%,False,Qwen-Math FT · examples prompt · eng
+M3Kang · Qwen-Math FT · examples prompt · eng,right,14,M3Kang,Qwen-Math FT · examples prompt,eng,33,83,0.1686746987951807,17%,True,Qwen-Math FT · examples prompt · eng
+M3Kang · Qwen-Math FT · short prompt · cat,cut at the token cap,4,M3Kang,Qwen-Math FT · short prompt,cat,22,80,0.05,5%,False,Qwen-Math FT · short prompt · cat
+M3Kang · Qwen-Math FT · short prompt · cat,crashed,8,M3Kang,Qwen-Math FT · short prompt,cat,22,80,0.1,10%,False,Qwen-Math FT · short prompt · cat
+M3Kang · Qwen-Math FT · short prompt · cat,no option matched,42,M3Kang,Qwen-Math FT · short prompt,cat,22,80,0.525,52%,False,Qwen-Math FT · short prompt · cat
+M3Kang · Qwen-Math FT · short prompt · cat,wrong option,14,M3Kang,Qwen-Math FT · short prompt,cat,22,80,0.175,18%,False,Qwen-Math FT · short prompt · cat
+M3Kang · Qwen-Math FT · short prompt · cat,right,12,M3Kang,Qwen-Math FT · short prompt,cat,22,80,0.15,15%,True,Qwen-Math FT · short prompt · cat
+M3Kang · Qwen-Math FT · short prompt · cat → eng (NMT),cut at the token cap,4,M3Kang,Qwen-Math FT · short prompt,cat → eng (NMT),23,80,0.05,5%,False,Qwen-Math FT · short prompt · cat → eng (NMT)
+M3Kang · Qwen-Math FT · short prompt · cat → eng (NMT),crashed,9,M3Kang,Qwen-Math FT · short prompt,cat → eng (NMT),23,80,0.1125,11%,False,Qwen-Math FT · short prompt · cat → eng (NMT)
+M3Kang · Qwen-Math FT · short prompt · cat → eng (NMT),no option matched,33,M3Kang,Qwen-Math FT · short prompt,cat → eng (NMT),23,80,0.4125,41%,False,Qwen-Math FT · short prompt · cat → eng (NMT)
+M3Kang · Qwen-Math FT · short prompt · cat → eng (NMT),wrong option,19,M3Kang,Qwen-Math FT · short prompt,cat → eng (NMT),23,80,0.2375,24%,False,Qwen-Math FT · short prompt · cat → eng (NMT)
+M3Kang · Qwen-Math FT · short prompt · cat → eng (NMT),right,15,M3Kang,Qwen-Math FT · short prompt,cat → eng (NMT),23,80,0.1875,19%,True,Qwen-Math FT · short prompt · cat → eng (NMT)
+M3Kang · Qwen-Math FT · short prompt · eng,cut at the token cap,3,M3Kang,Qwen-Math FT · short prompt,eng,32,83,0.03614457831325301,4%,False,Qwen-Math FT · short prompt · eng
+M3Kang · Qwen-Math FT · short prompt · eng,crashed,12,M3Kang,Qwen-Math FT · short prompt,eng,32,83,0.14457831325301204,14%,False,Qwen-Math FT · short prompt · eng
+M3Kang · Qwen-Math FT · short prompt · eng,no option matched,38,M3Kang,Qwen-Math FT · short prompt,eng,32,83,0.4578313253012048,46%,False,Qwen-Math FT · short prompt · eng
+M3Kang · Qwen-Math FT · short prompt · eng,wrong option,12,M3Kang,Qwen-Math FT · short prompt,eng,32,83,0.14457831325301204,14%,False,Qwen-Math FT · short prompt · eng
+M3Kang · Qwen-Math FT · short prompt · eng,right,18,M3Kang,Qwen-Math FT · short prompt,eng,32,83,0.21686746987951808,22%,True,Qwen-Math FT · short prompt · eng
+M3Kang · Qwen-Math · examples prompt · cat,cut at the token cap,41,M3Kang,Qwen-Math · examples prompt,cat,21,80,0.5125,51%,False,Qwen-Math · examples prompt · cat
+M3Kang · Qwen-Math · examples prompt · cat,crashed,4,M3Kang,Qwen-Math · examples prompt,cat,21,80,0.05,5%,False,Qwen-Math · examples prompt · cat
+M3Kang · Qwen-Math · examples prompt · cat,no option matched,30,M3Kang,Qwen-Math · examples prompt,cat,21,80,0.375,38%,False,Qwen-Math · examples prompt · cat
+M3Kang · Qwen-Math · examples prompt · cat,wrong option,4,M3Kang,Qwen-Math · examples prompt,cat,21,80,0.05,5%,False,Qwen-Math · examples prompt · cat
+M3Kang · Qwen-Math · examples prompt · cat,right,1,M3Kang,Qwen-Math · examples prompt,cat,21,80,0.0125,1%,True,Qwen-Math · examples prompt · cat
+M3Kang · Qwen-Math · examples prompt · cat → eng (NMT),cut at the token cap,35,M3Kang,Qwen-Math · examples prompt,cat → eng (NMT),29,80,0.4375,44%,False,Qwen-Math · examples prompt · cat → eng (NMT)
+M3Kang · Qwen-Math · examples prompt · cat → eng (NMT),crashed,4,M3Kang,Qwen-Math · examples prompt,cat → eng (NMT),29,80,0.05,5%,False,Qwen-Math · examples prompt · cat → eng (NMT)
+M3Kang · Qwen-Math · examples prompt · cat → eng (NMT),no option matched,22,M3Kang,Qwen-Math · examples prompt,cat → eng (NMT),29,80,0.275,28%,False,Qwen-Math · examples prompt · cat → eng (NMT)
+M3Kang · Qwen-Math · examples prompt · cat → eng (NMT),wrong option,6,M3Kang,Qwen-Math · examples prompt,cat → eng (NMT),29,80,0.075,8%,False,Qwen-Math · examples prompt · cat → eng (NMT)
+M3Kang · Qwen-Math · examples prompt · cat → eng (NMT),right,13,M3Kang,Qwen-Math · examples prompt,cat → eng (NMT),29,80,0.1625,16%,True,Qwen-Math · examples prompt · cat → eng (NMT)
+M3Kang · Qwen-Math · examples prompt · eng,cut at the token cap,34,M3Kang,Qwen-Math · examples prompt,eng,36,83,0.40963855421686746,41%,False,Qwen-Math · examples prompt · eng
+M3Kang · Qwen-Math · examples prompt · eng,crashed,6,M3Kang,Qwen-Math · examples prompt,eng,36,83,0.07228915662650602,7%,False,Qwen-Math · examples prompt · eng
+M3Kang · Qwen-Math · examples prompt · eng,no option matched,19,M3Kang,Qwen-Math · examples prompt,eng,36,83,0.2289156626506024,23%,False,Qwen-Math · examples prompt · eng
+M3Kang · Qwen-Math · examples prompt · eng,wrong option,5,M3Kang,Qwen-Math · examples prompt,eng,36,83,0.060240963855421686,6%,False,Qwen-Math · examples prompt · eng
+M3Kang · Qwen-Math · examples prompt · eng,right,19,M3Kang,Qwen-Math · examples prompt,eng,36,83,0.2289156626506024,23%,True,Qwen-Math · examples prompt · eng
