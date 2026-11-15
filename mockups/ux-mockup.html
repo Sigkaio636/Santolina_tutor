@@ -1,0 +1,884 @@
+<title>Santolina Tutor Mockup</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<style>
+/* Layout: a working phone prototype on the left with presenter notes beside it, then the teacher's laptop view below.
+   Type is system-ui on purpose: the board serves the app over its own hotspot with no internet, so no web fonts. */
+:root {
+  --bg: #f4f6f5; --panel: #ffffff; --text: #17201b; --muted: #5f6b65; --line: #dfe5e1;
+  --accent: #2f6f4f; --accent-text: #ffffff; --accent-soft: #e3f0e8; --accent-deep: #1f4d37;
+  --ok: #15803d; --ok-soft: #dcfce7; --bad: #b91c1c; --bad-soft: #fee2e2; --warn: #a16207; --warn-soft: #fef3c7;
+  --frame: #1b2420; --stage: #e6ece8; --shadow: 0 18px 40px -18px rgba(23,32,27,.35);
+  --ui: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; --mono: ui-monospace, "SF Mono", Menlo, monospace;
+  --r: 14px;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #101512; --panel: #19201c; --text: #e7ece9; --muted: #9aa8a0; --line: #2a332e;
+  --accent: #4fa97c; --accent-text: #0b120e; --accent-soft: #1c3127; --accent-deep: #8fd0ae;
+  --ok: #4ade80; --ok-soft: #12301f; --bad: #f87171; --bad-soft: #3a1717; --warn: #facc15; --warn-soft: #33290c;
+  --frame: #050807; --stage: #0b0f0d; --shadow: 0 18px 40px -18px rgba(0,0,0,.8); color-scheme: dark } }
+:root[data-theme="dark"] {
+  --bg: #101512; --panel: #19201c; --text: #e7ece9; --muted: #9aa8a0; --line: #2a332e;
+  --accent: #4fa97c; --accent-text: #0b120e; --accent-soft: #1c3127; --accent-deep: #8fd0ae;
+  --ok: #4ade80; --ok-soft: #12301f; --bad: #f87171; --bad-soft: #3a1717; --warn: #facc15; --warn-soft: #33290c;
+  --frame: #050807; --stage: #0b0f0d; --shadow: 0 18px 40px -18px rgba(0,0,0,.8); color-scheme: dark }
+
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+body { background: var(--stage); color: var(--text); font: 16px/1.5 var(--ui); }
+.wrap { max-width: 1180px; margin: 0 auto; padding-block: 28px 56px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+  display: flex; flex-direction: column; gap: 40px; }
+button { font: inherit; color: inherit; border: 0; background: none; cursor: pointer; }
+button:focus-visible, textarea:focus-visible, input:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+h1, h2, h3, p { margin: 0; }
+h1, h2 { text-wrap: balance; }
+.muted { color: var(--muted); } .small { font-size: .86rem; }
+.eyebrow { font-size: .76rem; font-weight: 700; letter-spacing: .09em; text-transform: uppercase; color: var(--accent); }
+
+/* page header */
+.head { display: flex; flex-wrap: wrap; gap: 12px 32px; align-items: flex-end; justify-content: space-between; }
+.head h1 { font-size: clamp(1.7rem, 4vw, 2.5rem); line-height: 1.1; letter-spacing: -.02em; }
+.head p { max-width: 58ch; }
+.pledge { display: flex; gap: 10px; align-items: center; background: var(--panel); border: 1px solid var(--line);
+  border-radius: 99px; padding: 8px 16px 8px 10px; font-size: .9rem; font-weight: 600; }
+.pledge i { width: 26px; height: 26px; border-radius: 50%; background: var(--ok-soft); color: var(--ok); display: grid; place-items: center; font-style: normal; font-weight: 800; }
+
+.sec-title { display: flex; flex-direction: column; gap: 4px; margin-bottom: 18px; }
+.sec-title h2 { font-size: 1.45rem; letter-spacing: -.01em; }
+
+/* student stage */
+.stage { display: grid; grid-template-columns: minmax(0, 400px) minmax(0, 1fr); gap: 36px; align-items: start; }
+@media (max-width: 860px) { .stage { grid-template-columns: minmax(0, 1fr); } }
+.phone { width: 100%; max-width: 400px; margin: 0 auto; height: 780px; max-height: 88vh; background: var(--bg); border: 11px solid var(--frame);
+  border-radius: 44px; box-shadow: var(--shadow); display: flex; flex-direction: column; overflow: hidden; position: relative; font-size: 17px; line-height: 1.45; }
+.statusbar { display: flex; justify-content: space-between; padding: 8px 22px 2px; font-size: .74rem; font-weight: 700; color: var(--muted); flex: none; }
+.screen { flex: 1; min-height: 0; overflow-y: auto; padding: 6px 16px 20px; display: flex; flex-direction: column; gap: 12px; scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { .screen { scroll-behavior: auto; } * { animation: none !important; transition: none !important; } }
+
+.side { display: flex; flex-direction: column; gap: 18px; min-width: 0; }
+.tabs { display: flex; flex-wrap: wrap; gap: 8px; }
+.tabs button { padding: 8px 14px; min-height: 40px; border-radius: 99px; border: 1px solid var(--line); background: var(--panel); font-weight: 600; font-size: .92rem; }
+.tabs button.on { background: var(--accent); color: var(--accent-text); border-color: var(--accent); }
+.note { background: var(--panel); border: 1px solid var(--line); border-radius: var(--r); padding: 22px; display: flex; flex-direction: column; gap: 14px; }
+.note h3 { font-size: 1.25rem; letter-spacing: -.01em; }
+.note ul { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 10px; }
+.note li { display: grid; grid-template-columns: 22px 1fr; gap: 10px; }
+.note li::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--accent); margin: 9px 0 0 6px; }
+.kept { border-top: 1px solid var(--line); padding-top: 14px; display: grid; grid-template-columns: auto 1fr; gap: 10px; font-size: .9rem; }
+.kept b { color: var(--ok); white-space: nowrap; }
+.kept code, td code { font: .82rem var(--mono); background: var(--accent-soft); padding: 1px 6px; border-radius: 6px; }
+
+/* ---- student app components ---- */
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: .45rem; min-height: 48px; padding: .6rem 1.1rem;
+  border-radius: 12px; border: 1px solid var(--line); background: var(--panel); font-weight: 650; transition: transform .08s, opacity .15s; }
+.btn:active { transform: scale(.98); }
+.btn.primary { background: var(--accent); color: var(--accent-text); border-color: var(--accent); }
+.btn.block { display: flex; width: 100%; }
+.btn:disabled, .icon-btn:disabled { opacity: .45; cursor: default; }
+.ico { width: 1.25em; height: 1.25em; flex: none; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.topbar { display: flex; align-items: center; justify-content: space-between; min-height: 44px; flex: none; }
+.link { color: var(--accent); font-weight: 650; min-height: 44px; display: inline-flex; align-items: center; gap: 4px; padding: 0 2px; }
+.who { font: 700 .86rem var(--mono); letter-spacing: .12em; background: var(--accent-soft); color: var(--accent-deep); padding: 5px 10px; border-radius: 99px; }
+.h1 { font-size: 1.55rem; font-weight: 750; letter-spacing: -.015em; line-height: 1.15; }
+
+.login { flex: 1; display: flex; flex-direction: column; justify-content: center; gap: 14px; }
+.mark { width: 60px; height: 60px; border-radius: 18px; background: var(--accent); color: var(--accent-text); display: grid; place-items: center; }
+.mark .ico { width: 32px; height: 32px; }
+.board { display: inline-flex; align-items: center; gap: 8px; font-size: .86rem; font-weight: 650; color: var(--muted); }
+.dot { width: 9px; height: 9px; border-radius: 50%; background: var(--ok); box-shadow: 0 0 0 4px var(--ok-soft); flex: none; }
+.code-input { font: 700 1.9rem/1 var(--mono); letter-spacing: .3em; text-align: center; text-transform: uppercase; width: 100%; padding: .8rem;
+  border-radius: 14px; border: 2px solid var(--line); background: var(--panel); color: var(--text); }
+.code-input::placeholder { letter-spacing: .02em; text-transform: none; font: 500 1.05rem var(--ui); color: var(--muted); }
+.code-input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 4px var(--accent-soft); }
+.code-input.err { border-color: var(--bad); animation: shake .3s; }
+@keyframes shake { 25% { transform: translateX(-5px) } 75% { transform: translateX(5px) } }
+.error { color: var(--bad); font-weight: 650; font-size: .92rem; min-height: 1.3em; }
+.langs { display: flex; gap: 6px; justify-content: center; }
+.langs button { padding: .35rem .85rem; border-radius: 99px; border: 1px solid var(--line); min-height: 40px; font-size: .9rem; font-weight: 600; }
+.langs button.on { background: var(--accent-soft); color: var(--accent-deep); border-color: var(--accent); }
+.hintbar { display: grid; grid-template-columns: auto 1fr; gap: 10px; align-items: start; background: var(--accent-soft); color: var(--accent-deep); border-radius: 12px; padding: 10px 12px; font-size: .86rem; }
+
+.continue { display: grid; grid-template-columns: 1fr auto; gap: 6px 14px; align-items: center; text-align: left; width: 100%; padding: 18px;
+  border-radius: 18px; background: var(--accent); color: var(--accent-text); }
+.continue .k { font-size: .76rem; font-weight: 700; letter-spacing: .09em; text-transform: uppercase; opacity: .85; }
+.continue .t { font-size: 1.2rem; font-weight: 750; line-height: 1.2; }
+.continue .go { width: 46px; height: 46px; border-radius: 50%; background: var(--accent-text); color: var(--accent); display: grid; place-items: center; grid-row: span 2; }
+.bar { height: 6px; border-radius: 99px; background: var(--line); overflow: hidden; }
+.bar i { display: block; height: 100%; border-radius: 99px; background: var(--accent); }
+.continue .bar { grid-column: 1 / -1; background: rgba(255,255,255,.28); margin-top: 6px; }
+.continue .bar i { background: var(--accent-text); }
+.tiles { display: flex; flex-direction: column; gap: 10px; }
+.tile { display: grid; grid-template-columns: 46px 1fr auto; gap: 14px; align-items: center; text-align: left; width: 100%; padding: 14px;
+  background: var(--panel); border: 1px solid var(--line); border-radius: 16px; min-height: 76px; }
+.tile .ic { width: 46px; height: 46px; border-radius: 13px; background: var(--accent-soft); color: var(--accent-deep); display: grid; place-items: center; }
+.tile .ic .ico { width: 24px; height: 24px; }
+.tile .label { font-weight: 700; font-size: 1.08rem; } .tile .sub { color: var(--muted); font-size: .88rem; }
+.badge { background: var(--accent); color: var(--accent-text); border-radius: 99px; padding: .1rem .6rem; font-weight: 750; font-size: .88rem; }
+.chev { color: var(--muted); }
+
+.card { background: var(--panel); border: 1px solid var(--line); border-radius: 16px; padding: 14px; display: flex; flex-direction: column; gap: 10px; }
+.card h4 { margin: 0; font-size: 1.08rem; }
+.list { display: flex; flex-direction: column; gap: 8px; }
+.row { display: flex; align-items: center; gap: 10px; width: 100%; text-align: left; padding: 10px 12px; background: var(--bg); border: 1px solid var(--line); border-radius: 12px; min-height: 54px; }
+.row .title { flex: 1; min-width: 0; }
+.st { width: 26px; height: 26px; border-radius: 50%; border: 2px solid var(--line); display: grid; place-items: center; flex: none; color: transparent; }
+.st .ico { width: 15px; height: 15px; stroke-width: 3; }
+.st.done { background: var(--ok); border-color: var(--ok); color: var(--panel); }
+.st.with_help { background: var(--warn-soft); border-color: var(--warn); color: var(--warn); }
+.st.tried { border-style: dashed; border-color: var(--muted); }
+.chip { font-size: .76rem; font-weight: 600; padding: .1rem .5rem; border-radius: 99px; border: 1px solid var(--line); white-space: nowrap; color: var(--muted); }
+details.topic { background: var(--panel); border: 1px solid var(--line); border-radius: 16px; }
+details.topic summary { padding: 14px; cursor: pointer; display: grid; grid-template-columns: 1fr auto; gap: 6px 10px; align-items: center; list-style: none; min-height: 56px; font-weight: 700; }
+details.topic summary::-webkit-details-marker { display: none; }
+details.topic summary .bar { grid-column: 1 / -1; }
+details.topic .list { padding: 0 10px 10px; } details.topic .row { background: var(--bg); }
+
+.meta { color: var(--muted); font-size: .8rem; font-weight: 600; }
+.prompt { font-size: 1.06rem; }
+.options { display: grid; gap: 8px; }
+.option { display: flex; gap: 12px; align-items: center; text-align: left; width: 100%; padding: 10px 14px; min-height: 54px; border-radius: 13px;
+  border: 2px solid var(--line); background: var(--panel); transition: border-color .15s, background .15s; }
+.option .letter { font-weight: 800; width: 1.9rem; height: 1.9rem; border-radius: 50%; display: grid; place-items: center; background: var(--accent-soft); color: var(--accent-deep); flex: none; }
+.option.wrong { border-color: var(--bad); background: var(--bad-soft); opacity: .65; }
+.option.wrong .letter { background: var(--bad); color: var(--panel); }
+.option.right { border-color: var(--ok); background: var(--ok-soft); }
+.option.right .letter { background: var(--ok); color: var(--panel); }
+.option.answer { border-style: dashed; border-color: var(--ok); }
+.feedback { display: flex; gap: 8px; align-items: center; font-weight: 700; padding: 9px 12px; border-radius: 11px; font-size: .95rem; }
+.feedback.ok { color: var(--ok); background: var(--ok-soft); } .feedback.bad { color: var(--bad); background: var(--bad-soft); }
+.helpers { display: flex; gap: 8px; flex-wrap: wrap; } .helpers .btn { flex: 1; min-width: 130px; }
+.thread { display: flex; flex-direction: column; gap: 8px; }
+.msg { max-width: 88%; padding: .6rem .85rem; border-radius: 16px; animation: rise .22s ease-out; }
+@keyframes rise { from { opacity: 0; transform: translateY(6px) } }
+.msg.me { align-self: flex-end; background: var(--accent); color: var(--accent-text); border-bottom-right-radius: 5px; }
+.msg.bot { align-self: flex-start; background: var(--panel); border: 1px solid var(--line); border-bottom-left-radius: 5px; }
+.msg .w { font-size: .72rem; font-weight: 700; opacity: .7; display: block; letter-spacing: .03em; }
+.wait { display: flex; flex-direction: column; gap: 8px; min-width: 230px; }
+.wait .l1 { display: flex; align-items: center; gap: 10px; font-weight: 650; }
+.dots { display: inline-flex; gap: 4px; } .dots i { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); animation: bob 1.1s infinite ease-in-out; }
+.dots i:nth-child(2) { animation-delay: .15s } .dots i:nth-child(3) { animation-delay: .3s }
+@keyframes bob { 0%, 60%, 100% { transform: translateY(0); opacity: .45 } 30% { transform: translateY(-5px); opacity: 1 } }
+.wait .t { margin-left: auto; font: 600 .8rem var(--mono); color: var(--muted); font-variant-numeric: tabular-nums; }
+.wait .sweep { height: 4px; border-radius: 99px; background: var(--line); overflow: hidden; }
+.wait .sweep i { display: block; width: 40%; height: 100%; border-radius: 99px; background: var(--accent); animation: sweep 1.6s infinite ease-in-out; }
+@keyframes sweep { from { transform: translateX(-100%) } to { transform: translateX(250%) } }
+.wait .l2 { font-size: .84rem; color: var(--muted); }
+.composer { flex: none; border-top: 1px solid var(--line); background: var(--bg); padding: 8px 12px 14px; display: flex; flex-direction: column; gap: 8px; }
+.composer .inner { display: flex; gap: 8px; align-items: flex-end; }
+.composer textarea { flex: 1; min-width: 0; font: inherit; resize: none; height: 48px; padding: .65rem .85rem; border-radius: 24px; border: 1px solid var(--line); background: var(--panel); color: var(--text); }
+.icon-btn { width: 48px; height: 48px; border-radius: 50%; border: 1px solid var(--line); background: var(--panel); display: grid; place-items: center; flex: none; }
+.icon-btn.send { background: var(--accent); color: var(--accent-text); border-color: var(--accent); }
+.toast { position: absolute; left: 14px; right: 14px; bottom: 92px; background: var(--text); color: var(--bg); border-radius: 12px; padding: 10px 14px; font-size: .9rem; font-weight: 600; animation: rise .2s; z-index: 3; }
+
+/* ---- teacher app ---- */
+.laptop { background: var(--bg); border: 1px solid var(--line); border-radius: 16px; box-shadow: var(--shadow); overflow: hidden; font-size: 15px; }
+.chrome { display: flex; align-items: center; gap: 12px; padding: 9px 14px; background: var(--panel); border-bottom: 1px solid var(--line); }
+.chrome span { width: 11px; height: 11px; border-radius: 50%; background: var(--line); }
+.chrome em { flex: 1; min-width: 0; font: normal .78rem var(--mono); color: var(--muted); background: var(--bg); border-radius: 8px; padding: 4px 12px; margin-left: 8px; }
+.tapp { display: grid; grid-template-columns: 210px minmax(0, 1fr); }
+@media (max-width: 760px) { .tapp { grid-template-columns: minmax(0, 1fr); } .tnav { flex-direction: row !important; flex-wrap: wrap; border-right: 0 !important; border-bottom: 1px solid var(--line); } .tnav .brand { flex-basis: 100%; } }
+.tnav { display: flex; flex-direction: column; gap: 2px; padding: 16px 10px; background: var(--panel); border-right: 1px solid var(--line); }
+.tnav .brand { display: flex; align-items: center; gap: 9px; font-weight: 750; padding: 2px 8px 14px; }
+.tnav .brand .mark { width: 30px; height: 30px; border-radius: 9px; } .tnav .brand .ico { width: 17px; height: 17px; }
+.tnav button { display: flex; align-items: center; gap: 10px; padding: 8px 10px; border-radius: 9px; text-align: left; font-weight: 600; color: var(--muted); min-height: 38px; }
+.tnav button.on { background: var(--accent-soft); color: var(--accent-deep); }
+.tnav .n { margin-left: auto; font-size: .74rem; background: var(--warn-soft); color: var(--warn); border-radius: 99px; padding: 0 7px; font-weight: 750; }
+.tmain { padding: 20px 22px 26px; display: flex; flex-direction: column; gap: 16px; min-width: 0; }
+.tmain h3 { font-size: 1.5rem; letter-spacing: -.01em; }
+.strip-t { font-size: .74rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.boards { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 10px; }
+.bcard { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 12px; display: flex; flex-direction: column; gap: 6px; }
+.bcard.new { border: 2px dashed var(--accent); }
+.bcard .top { display: flex; align-items: center; gap: 8px; font-weight: 700; }
+.tb { font: inherit; font-weight: 650; padding: 7px 14px; min-height: 36px; border-radius: 9px; border: 1px solid var(--line); background: var(--panel); align-self: flex-start; }
+.tb.primary { background: var(--accent); color: var(--accent-text); border-color: var(--accent); }
+.tb:disabled { opacity: .6; cursor: default; }
+.pill { font-size: .72rem; font-weight: 700; padding: 1px 8px; border-radius: 99px; background: var(--ok-soft); color: var(--ok); }
+.pill.prof { background: var(--warn-soft); color: var(--warn); }
+.kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px; }
+.kpi { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; }
+.kpi .v { font-size: 1.7rem; font-weight: 750; font-variant-numeric: tabular-nums; letter-spacing: -.02em; line-height: 1.2; }
+.kpi .l { color: var(--muted); font-size: .82rem; }
+.g2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px; }
+.w { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+.w h4 { margin: 0; font-size: .95rem; }
+.hb { display: grid; grid-template-columns: 92px 1fr 40px; gap: 10px; align-items: center; font-size: .86rem; }
+.hb .track { height: 14px; background: var(--bg); border-radius: 5px; overflow: hidden; } .hb .track i { display: block; height: 100%; background: var(--accent); border-radius: 5px; }
+.hb .track i.low { background: var(--warn); }
+.hb b { font-variant-numeric: tabular-nums; text-align: right; }
+.tw { overflow-x: auto; } table { width: 100%; border-collapse: collapse; font-size: .88rem; }
+th, td { text-align: left; padding: 7px 6px; border-bottom: 1px solid var(--line); white-space: nowrap; }
+th { color: var(--muted); font-size: .76rem; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; }
+tr:last-child td { border-bottom: 0; }
+.flash { padding: 9px 14px; border-radius: 10px; background: var(--ok-soft); color: var(--ok); font-weight: 650; }
+.prog { display: flex; flex-direction: column; gap: 6px; font-size: .86rem; color: var(--muted); }
+.foot { font-size: .84rem; color: var(--muted); max-width: 80ch; }
+.iter { display: flex; gap: 4px; background: var(--panel); border: 1px solid var(--line); border-radius: 99px; padding: 4px; }
+.iter button { padding: 6px 14px; border-radius: 99px; font-weight: 650; font-size: .9rem; min-height: 36px; }
+.iter button.on { background: var(--accent); color: var(--accent-text); }
+.steps { display: flex; gap: 4px; } .steps i { flex: 1; height: 6px; border-radius: 99px; background: var(--line); }
+.steps i.d { background: var(--accent); } .steps i.c { background: var(--accent); opacity: .45; }
+.continue .steps { grid-column: 1 / -1; margin-top: 6px; } .continue .steps i { background: rgba(255,255,255,.28); }
+.continue .steps i.d { background: var(--accent-text); } .continue .steps i.c { background: var(--accent-text); opacity: .6; }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: .8rem; color: var(--muted); }
+.legend span { display: inline-flex; align-items: center; gap: 6px; } .legend .st { width: 18px; height: 18px; } .legend .st .ico { width: 11px; height: 11px; }
+.btn.soft { background: var(--accent-soft); color: var(--accent-deep); border-color: var(--accent-soft); }
+.btn.quiet { border-color: transparent; background: none; color: var(--muted); min-height: 44px; }
+.btn.nudge { box-shadow: 0 0 0 3px var(--accent); }
+.note li.new::before { background: var(--warn); }
+.note li.new b { color: var(--warn); font-size: .74rem; letter-spacing: .06em; text-transform: uppercase; margin-right: 6px; }
+.lead { font-size: 1.12rem; line-height: 1.45; max-width: 62ch; }
+.counts { display: flex; flex-wrap: wrap; gap: 4px 22px; font-size: .88rem; color: var(--muted); }
+.counts b { color: var(--text); font-variant-numeric: tabular-nums; }
+.w .tk { font-weight: 700; font-size: 1rem; line-height: 1.3; text-wrap: balance; } .w .kind { font-size: .74rem; font-weight: 700; letter-spacing: .07em; text-transform: uppercase; color: var(--muted); }
+.ib { display: grid; grid-template-columns: minmax(60px, 1fr) 40px; gap: 8px; align-items: center; min-width: 108px; }
+.ib .track { height: 12px; background: var(--bg); border-radius: 4px; position: relative; }
+.ib i { display: block; height: 100%; background: var(--accent); border-radius: 4px; }
+.ib i.few { background: repeating-linear-gradient(135deg, var(--accent) 0 3px, transparent 3px 6px); }
+.ib em { position: absolute; top: -3px; bottom: -3px; width: 2px; background: var(--text); opacity: .6; }
+.ib b { text-align: right; font-variant-numeric: tabular-nums; }
+.lv { display: grid; grid-template-columns: 58px minmax(0, 1fr) 100px; gap: 10px; align-items: center; font-size: .88rem; }
+.num { text-align: right; font-variant-numeric: tabular-nums; } .few-t { color: var(--muted); }
+.key { display: flex; flex-wrap: wrap; gap: 4px 16px; font-size: .78rem; color: var(--muted); align-items: center; }
+.key span { display: inline-flex; align-items: center; gap: 6px; }
+.sw { width: 14px; height: 10px; border-radius: 3px; background: var(--accent); display: inline-block; }
+.sw.soft { background: var(--accent-soft); outline: 1px solid var(--accent); } .sw.few { background: repeating-linear-gradient(135deg, var(--accent) 0 3px, transparent 3px 6px); }
+.sw.avg { width: 2px; height: 14px; border-radius: 0; background: var(--text); opacity: .6; }
+svg text { font: 11px var(--ui); fill: var(--muted); }
+.tag { font-size: .68rem; font-weight: 750; letter-spacing: .06em; background: var(--warn-soft); color: var(--warn); border-radius: 99px; padding: 1px 7px; margin-left: 4px; }
+.src { text-transform: none; letter-spacing: 0; font-weight: 500; }
+tr.go { cursor: pointer; } tr.go:hover td, tr.go:focus-visible td { background-image: linear-gradient(var(--accent-soft), var(--accent-soft)); }
+tr.go:hover td.hc, tr.go:focus-visible td.hc { background-image: none; }
+.cm th.hc, .cm td.hc { text-align: center; width: 62px; font-variant-numeric: tabular-nums; }
+.cm td.hc { border: 2px solid var(--panel); border-radius: 7px; font-weight: 650; font-size: .84rem; padding: 5px 2px; }
+.cm td.hc.thin { font-weight: 400; font-style: italic; text-decoration: underline dotted; }
+.cm td.hc.all { background: none; color: var(--text); font-weight: 750; }
+.cm tfoot td { border-top: 2px solid var(--line); border-bottom: 0; font-weight: 700; }
+.cm td { padding-block: 2px; border-bottom: 0; }
+.thin-k { font-style: italic; text-decoration: underline dotted; }
+.mix { display: flex; height: 14px; min-width: 150px; border-radius: 4px; overflow: hidden; gap: 1px; }
+.mix i, .sq, .sw.m0, .sw.m1, .sw.m2, .sw.m3, .sw.m4 { display: block; }
+.m0 { background: var(--accent); } .m1 { background: color-mix(in srgb, var(--accent) 58%, var(--panel)); } .m2 { background: color-mix(in srgb, var(--accent) 26%, var(--panel)); }
+.m3 { background: repeating-linear-gradient(135deg, var(--warn) 0 2px, var(--warn-soft) 2px 5px); } .m4 { background: var(--bg); box-shadow: inset 0 0 0 1px var(--line); }
+.sw.m0, .sw.m1, .sw.m2, .sw.m3, .sw.m4 { display: inline-block; } .sw.dot { width: 9px; height: 9px; border-radius: 50%; }
+.trace { display: flex; flex-wrap: wrap; gap: 4px; align-items: center; } .sq { width: 18px; height: 18px; border-radius: 4px; } .trace .gap { width: 8px; }
+.ctl { display: flex; flex-wrap: wrap; gap: 6px 10px; align-items: center; }
+.seg { display: inline-flex; border: 1px solid var(--line); border-radius: 9px; overflow: hidden; margin-right: 10px; }
+.seg button { padding: 4px 11px; font-size: .84rem; font-weight: 600; min-height: 32px; } .seg button.on { background: var(--accent-soft); color: var(--accent-deep); }
+.crumb { display: inline-flex; align-items: center; gap: 4px; color: var(--accent); font-weight: 650; align-self: flex-start; min-height: 32px; }
+.form { display: flex; flex-wrap: wrap; gap: 10px 12px; align-items: flex-end; }
+.fld { display: flex; flex-direction: column; gap: 4px; font-size: .82rem; font-weight: 650; }
+.tmain input:not([type=checkbox]), .tmain select { font: inherit; font-weight: 400; padding: 7px 10px; min-height: 36px; border-radius: 9px; border: 1px solid var(--line); background: var(--bg); color: var(--text); max-width: 100%; }
+.tb.danger { color: var(--bad); border-color: var(--bad); }
+.row2 { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+.tl { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
+.tl li { display: grid; grid-template-columns: 52px 1fr; gap: 12px; padding: 7px 0 7px 14px; border-left: 3px solid var(--line); }
+.tl time { color: var(--muted); font: .8rem var(--mono); padding-top: 2px; }
+.tl li.ok { border-color: var(--ok); } .tl li.bad { border-color: var(--bad); } .tl li.help { border-color: var(--warn); } .tl li.run { border-color: var(--accent); font-weight: 700; } .tl li.wait { color: var(--muted); }
+.pk { border: 1px solid var(--line); border-radius: 10px; padding: 8px 12px; margin: 0; display: flex; flex-direction: column; gap: 2px; min-width: 0; } .pk legend { font-weight: 700; padding: 0 6px; }
+.ck { display: flex; align-items: center; gap: 10px; min-height: 34px; }
+td .num, span.num { display: block; }
+</style>
+
+<div class="wrap">
+  <header class="head">
+    <div style="display:flex;flex-direction:column;gap:8px">
+      <span class="eyebrow">Santolina Tutor · interface proposal</span>
+      <h1>The same tutor, easier to use</h1>
+      <p class="muted">A working prototype of the student app and the teacher app after the UX pass. Tap through the phone. Every screen, action and server call is the one the app has today. Graphics marked New are additions, built from data the boards already log.</p>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:10px;align-items:flex-start">
+      <div class="iter" id="iter" role="group" aria-label="Iteration"></div>
+      <div class="pledge"><i>✓</i>Every current action kept</div>
+    </div>
+  </header>
+
+  <section>
+    <div class="sec-title"><span class="eyebrow">Student app · on the board, used from a phone</span><h2>From code to clue in three taps</h2></div>
+    <div class="stage">
+      <div class="phone" id="phone">
+        <div class="statusbar"><span>9:41</span><span>Santolina-01 · no internet needed</span></div>
+        <div class="screen" id="screen"></div>
+        <div id="dock"></div>
+      </div>
+      <div class="side">
+        <div class="tabs" id="tabs" role="tablist" aria-label="Screens"></div>
+        <div class="note" id="note"></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-title"><span class="eyebrow">Teacher app · on the laptop</span><h2>The class at a glance, the boards one click away</h2></div>
+    <div class="laptop">
+      <div class="chrome"><span></span><span></span><span></span><em id="url">127.0.0.1:8010</em></div>
+      <div class="tapp">
+        <nav class="tnav" id="tnav"></nav>
+        <div class="tmain" id="tmain"></div>
+      </div>
+    </div>
+  </section>
+
+  <p class="foot">Example data throughout. The names, codes, figures and the two maths problems are invented for this mockup; no dataset problem is shown. Colours are the app's current green palette, in light and dark.</p>
+</div>
+
+<script>
+const P = {
+  cap: '<path d="M2 9l10-5 10 5-10 5z"/><path d="M6 11.5V16c0 1.5 3 3 6 3s6-1.5 6-3v-4.5"/>',
+  book: '<path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z"/><path d="M4 21V5M9 8h6"/>',
+  grid: '<rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/>',
+  chat: '<path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/>',
+  play: '<path d="M8 5l11 7-11 7z" fill="currentColor"/>',
+  back: '<path d="M15 5l-7 7 7 7"/>', chev: '<path d="M9 5l7 7-7 7"/>', check: '<path d="M5 12.5l4.5 4.5L19 7.5"/>',
+  bulb: '<path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2.1h5c0-.9.4-1.6 1-2.1A6 6 0 0 0 12 3z"/>',
+  search: '<circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/>',
+  cam: '<path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/>',
+  send: '<path d="M4 12l16-8-6 16-3-6z"/>', dice: '<rect x="4" y="4" width="16" height="16" rx="3"/><circle cx="9" cy="9" r="1" fill="currentColor"/><circle cx="15" cy="15" r="1" fill="currentColor"/><circle cx="12" cy="12" r="1" fill="currentColor"/>',
+  wifi: '<path d="M3 9a14 14 0 0 1 18 0M6.5 12.5a9 9 0 0 1 11 0M10 16a3.5 3.5 0 0 1 4 0"/><circle cx="12" cy="19" r="1" fill="currentColor"/>',
+  half: '<path d="M7 12h10"/>',
+};
+const ico = (n) => `<svg class="ico" viewBox="0 0 24 24" aria-hidden="true">${P[n]}</svg>`;
+function h(tag, attrs, ...kids) {
+  const e = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs || {})) {
+    if (v == null || v === false) continue;
+    if (k === "html") e.innerHTML = v; else if (k.startsWith("on")) e.addEventListener(k.slice(2), v);
+    else if (k === "class") e.className = v; else e.setAttribute(k, v === true ? "" : v);
+  }
+  for (const k of kids.flat()) if (k != null && k !== false) e.append(k.nodeType ? k : document.createTextNode(k));
+  return e;
+}
+const $ = (id) => document.getElementById(id);
+
+// ------------------------------------------------------------ example data (invented)
+const EX = {
+  stickers: { key: "stickers", meta: "Week 7 · Fractions and ratios · Level 2", n: 4, of: 10,
+    prompt: "Three friends share 24 stickers. Aina gets twice as many as Marc, and Marc gets the same as Pol. How many stickers does Aina get?",
+    options: { A: "6", B: "8", C: "10", D: "12", E: "16" }, answer: "D",
+    clues: ["Call Marc's stickers one part. How many parts does Aina have? How many parts are there in total?",
+            "There are 4 equal parts in total. How many stickers is one part?"],
+    solution: "Marc has 1 part, Pol has 1 part and Aina has 2 parts. That is 4 parts for 24 stickers, so one part is 6. Aina has 2 × 6 = 12." },
+  train: { key: "train", meta: "Free mode · Time · Level 1",
+    prompt: "A train leaves at 9:40 and arrives at 11:15. How long is the trip?",
+    options: { A: "1 h 25 min", B: "1 h 35 min", C: "1 h 45 min", D: "1 h 55 min", E: "2 h 35 min" }, answer: "B",
+    clues: ["First count from 9:40 to the next full hour. Then count the rest."],
+    solution: "From 9:40 to 10:00 there are 20 minutes. From 10:00 to 11:15 there is 1 h 15 min. Together that is 1 h 35 min." },
+};
+const NOTES = {
+  login: { t: "Login", c: ["The board's name and a green dot tell the student they are on the right board before they type.",
+      "A wrong code shows the reason under the field. The field shakes once and keeps the text selected.",
+      "The mobile-data tip sits in one quiet bar with the Wi-Fi icon, not in a block of text."], k: "<code>POST /api/login</code>, the language pills and the teacher entry." },
+  home: { t: "Home", c: ["Continue is the hero. It names the exercise and shows how far the student is, so the next tap is obvious.",
+      "Line icons replace emojis. They look the same on every phone and in dark mode.",
+      "The homework badge and the due date share one line, so the student reads what and when together."], k: "The four entries, in the same order, on <code>GET /api/home</code>." },
+  homework: { t: "Homework", c: ["Each exercise carries a status mark the student reads without words: done, done with help, started, not started.",
+      "A progress bar per assignment answers \"how much is left?\" at a glance."], k: "<code>GET /api/homework</code> and the three status values the board already stores." },
+  practice: { t: "Practice", c: ["Every topic shows its own progress bar, open or closed.", "The first topic opens by default, as today."], k: "<code>GET /api/practice</code> and the topic groups." },
+  exercise: { t: "Exercise", c: ["Feedback is a coloured strip with an icon, so right and wrong differ by more than colour.",
+      "Clue and Solution are equal, full-width buttons. Solution appears after a wrong try, as today.",
+      "The composer stays at the thumb, with a labelled camera and send button."], k: "<code>answer</code>, <code>clue</code>, <code>solution</code> and <code>ask</code>, with the same rules for what counts." },
+  waiting: { t: "While the board thinks", c: ["The model runs on the board, so a reply can take a while. The bubble now moves, counts the seconds and says the board is working.",
+      "Clue, Solution and Send lock until the reply arrives. A double tap can't queue a second request.",
+      "If something fails, a message appears inside the app. No browser pop-up."], k: "The ticket and the 1 s polling of <code>GET /api/reply</code>. Only the look of the wait changes." },
+  free: { t: "Free mode", c: ["\"Another problem\" sits above the composer, always in reach.",
+      "Problem cards in the thread use the same card as the exercise screen, so the student learns one pattern."], k: "<code>POST /api/free/next</code>, suggestions and the chat." },
+};
+const N2 = {
+  home: ["The Continue bar now shows ten steps, three done and the current one. Iteration 1 drew a 30% bar next to the words \"problem 4\", which did not match."],
+  homework: ["A one-line key explains the four status marks."],
+  exercise: ["Clue is now the stronger button and Solution the quiet one. Tutoring research shows students click through to the final answer when it is the easy path.",
+    "After a wrong answer the text points to the clue and the Clue button gets a ring, so the next step is help, not a guess.",
+    "The progress header is exact: ten steps, the current one marked."],
+  waiting: ["The second line now tells the student they can keep trying while the board thinks. Waits over 10 seconds need more than a spinner: elapsed time and a changing message."],
+};
+const N3 = {
+  exercise: ["Clues come back at once, because most are prepared ahead. The reply appears with no wait screen."],
+  waiting: ["Only a free question to the copilot can take time. The first two seconds show just the dots. After that the counter appears with a promise the board can keep: less than half a minute."],
+};
+const ORDER = ["login", "home", "homework", "practice", "exercise", "waiting", "free"];
+
+// ------------------------------------------------------------ prototype state
+let IT = 3;
+const steps = (done, total, cur) => h("span", { class: "steps", role: "img", "aria-label": `${done} of ${total} done` },
+  Array.from({ length: total }, (_, i) => h("i", { class: i < done ? "d" : i === cur ? "c" : "" })));
+function setIter(n) {
+  IT = n;
+  $("iter").replaceChildren(...[1, 2, 3, 4].map((k) => h("button", { class: k === IT ? "on" : "", "aria-pressed": k === IT, onclick: () => setIter(k) }, "Iteration " + k)));
+  heat = IT >= 4 ? "gap" : "score"; scope = IT >= 4 ? "30" : "all"; build();
+  tgo(tview, targ); go(view);
+}
+let view = "login", gen = 0, busy = false, exKey = "stickers", exBack = "home", freeI = 0;
+const st = {}; for (const k in EX) st[k] = { wrong: [], solved: false, shown: false, clue: 0 };
+const screen = $("screen"), dock = $("dock");
+const lock = () => document.querySelectorAll("#phone [data-lock]").forEach((b) => { b.disabled = busy; });
+function later(ms, fn) { const g = gen; setTimeout(() => { if (g === gen) fn(); }, ms); }
+
+function go(v, opts) {
+  gen++; busy = false; view = v;
+  screen.replaceChildren(); dock.replaceChildren(); screen.scrollTop = 0;
+  ({ login, home, homework, practice, exercise, waiting: exercise, free })[v](opts || {});
+  const tab = v === "exercise" && opts && opts.wait ? "waiting" : v;
+  $("tabs").replaceChildren(...ORDER.map((k) => h("button", { class: k === tab ? "on" : "", role: "tab", "aria-selected": k === tab,
+    onclick: () => k === "waiting" ? go("exercise", { wait: true }) : go(k) }, NOTES[k].t)));
+  const n = NOTES[tab];
+  $("note").replaceChildren(h("span", { class: "eyebrow" }, "What changes on this screen"), h("h3", {}, n.t),
+    h("ul", {}, n.c.map((x) => h("li", {}, x)), IT >= 2 ? (N2[tab] || []).map((x) => h("li", { class: "new" }, h("span", {}, h("b", {}, "Iteration 2"), x))) : null,
+      IT >= 3 ? (N3[tab] || []).map((x) => h("li", { class: "new" }, h("span", {}, h("b", {}, "Iteration 3"), x))) : null), h("div", { class: "kept" }, h("b", {}, "Stays the same"), h("span", { html: n.k })));
+}
+const topbar = (back) => h("div", { class: "topbar" },
+  back ? h("button", { class: "link", onclick: () => go(back), html: ico("back") + "Back" }) : h("span", { class: "who" }, "KM7Q"),
+  back ? h("span", { class: "who" }, "KM7Q") : null,
+  h("button", { class: "link", onclick: () => go("login") }, "Log out"));
+
+function login() {
+  const input = h("input", { class: "code-input", id: "code", maxlength: "12", autocomplete: "off", spellcheck: "false", placeholder: "Your code", "aria-label": "Your code", value: "KM7Q" });
+  const err = h("p", { class: "error", role: "alert" });
+  const start = () => {
+    if (!input.value.trim()) { err.textContent = "This code isn't for this board. Ask your teacher for your code."; input.classList.remove("err"); void input.offsetWidth; input.classList.add("err"); return; }
+    go("home");
+  };
+  input.addEventListener("keydown", (e) => { if (e.key === "Enter") start(); });
+  input.addEventListener("input", () => { err.textContent = ""; input.classList.remove("err"); });
+  const langs = h("div", { class: "langs" }, ["Català", "English", "Español"].map((l) => h("button", { class: l === "English" ? "on" : "",
+    onclick: (e) => { langs.querySelectorAll("button").forEach((b) => b.classList.remove("on")); e.currentTarget.classList.add("on"); } }, l)));
+  screen.append(h("div", { class: "login" },
+    h("div", { class: "mark", html: ico("cap") }),
+    h("span", { class: "board" }, h("span", { class: "dot" }), "Connected to Board 1 · 3r ESO B"),
+    h("div", { class: "h1" }, "Hi! Type your code to start."),
+    input, err,
+    h("button", { class: "btn primary block", onclick: start }, "Start"),
+    h("button", { class: "btn block", onclick: () => go("home") }, "Enter as teacher"),
+    langs,
+    h("div", { class: "hintbar" }, h("span", { html: ico("wifi") }), h("span", {}, "Turn mobile data off so your phone stays connected to the board. If the page closes, open your browser and type 10.42.0.1"))));
+}
+function home() {
+  const tile = (ic, label, sub, to, badge) => h("button", { class: "tile", onclick: () => go(to) },
+    h("span", { class: "ic", html: ico(ic) }), h("span", {}, h("div", { class: "label" }, label), h("div", { class: "sub" }, sub)),
+    badge ? h("span", { class: "badge" }, badge) : h("span", { class: "chev", html: ico("chev") }));
+  screen.append(topbar(null), h("div", { class: "h1" }, "What do you want to do?"),
+    h("button", { class: "continue", onclick: () => openEx("stickers", "home") },
+      h("span", { class: "k" }, "Continue"), h("span", { class: "go", html: ico("play") }),
+      h("span", { class: "t" }, IT >= 2 ? "Fractions and ratios · problem 4 of 10" : "Fractions and ratios · problem 4"),
+      IT >= 2 ? steps(3, 10, 3) : h("span", { class: "bar" }, h("i", { style: "width:30%" }))),
+    h("div", { class: "tiles" },
+      tile("book", "Homework", "3 to do · Due Fri 20 Nov", "homework", "3"),
+      tile("grid", "Practice", "By topic", "practice"),
+      tile("chat", "Free mode", "Learn by doing problems", "free")));
+}
+const row = (title, level, status, onclick) => h("button", { class: "row", onclick },
+  h("span", { class: "st " + (status || ""), title: { done: "Done", with_help: "Done with help", tried: "Started" }[status] || "Not started",
+    html: status === "done" ? ico("check") : status === "with_help" ? ico("half") : "" }),
+  h("span", { class: "title" }, title), h("span", { class: "chip" }, "Level " + level));
+function homework() {
+  const open = () => openEx("stickers", "homework");
+  const mark = (c, i, t) => h("span", {}, h("span", { class: "st " + c, html: i ? ico(i) : "" }), t);
+  screen.append(topbar("home"), h("div", { class: "h1" }, "Homework"),
+    IT >= 2 ? h("div", { class: "legend" }, mark("done", "check", "Done"), mark("with_help", "half", "Done with help"), mark("tried", "", "Started"), mark("", "", "Not started")) : null,
+    h("div", { class: "card" }, h("h4", {}, "Week 7 · Fractions and ratios"),
+      h("div", { class: "muted small" }, "Due Fri 20 Nov · 2 of 5 done"), h("div", { class: "bar" }, h("i", { style: "width:40%" })),
+      h("div", { class: "list" }, row("Problem 1", 1, "done", open), row("Problem 2", 1, "with_help", open), row("Problem 3", 2, "tried", open), row("Problem 4", 2, "", open), row("Problem 5", 3, "", open))),
+    h("div", { class: "card" }, h("h4", {}, "Week 6 · Geometry"), h("div", { class: "muted small" }, "Due Mon 16 Nov · 3 of 3 done"), h("div", { class: "bar" }, h("i", { style: "width:100%" })),
+      h("div", { class: "list" }, row("Problem 1", 1, "done", open), row("Problem 2", 2, "done", open), row("Problem 3", 2, "with_help", open))));
+}
+function practice() {
+  const open = () => openEx("stickers", "practice");
+  const topic = (name, done, total, isOpen, rows) => h("details", { class: "topic", open: isOpen },
+    h("summary", {}, h("span", {}, name), h("span", { class: "muted small" }, `${done}/${total}`), h("span", { class: "bar" }, h("i", { style: `width:${100 * done / total}%` }))),
+    h("div", { class: "list" }, rows));
+  screen.append(topbar("home"), h("div", { class: "h1" }, "Practice"),
+    topic("Fractions and ratios", 3, 10, true, [row("Problem 1", 1, "done", open), row("Problem 2", 1, "done", open), row("Problem 3", 2, "with_help", open), row("Problem 4", 2, "tried", open), row("Problem 5", 3, "", open)]),
+    topic("Geometry", 6, 8, false, [row("Problem 1", 1, "done", open), row("Problem 2", 2, "", open)]),
+    topic("Logic", 0, 12, false, [row("Problem 1", 1, "", open), row("Problem 2", 1, "", open)]),
+    topic("Time and measures", 2, 6, false, [row("Problem 1", 1, "done", open), row("Problem 2", 2, "", open)]));
+}
+
+function makeThread(box) {
+  const add = (cls, who, body) => { const m = h("div", { class: "msg " + cls }, h("span", { class: "w" }, who), body); box.append(m); m.scrollIntoView({ block: "end", behavior: "smooth" }); return m; };
+  return {
+    me: (t) => add("me", "You", t), bot: (t) => add("bot", "Copilot", t),
+    node: (n) => { box.append(n); n.scrollIntoView({ block: "start", behavior: "smooth" }); },
+    reply(label, text, after, ms, what) {
+      if (label) add("me", "You", label);
+      busy = true; lock();
+      const t0 = Date.now(), clock = h("span", { class: "t" }, "0:00"), l2 = h("div", { class: "l2" }, IT >= 2 ? "The board works this out by itself. You can keep trying while it thinks." : "The board works this out by itself. It can take a moment.");
+      const sweep = h("div", { class: "sweep" }, h("i", {})), quick = IT >= 3;
+      if (quick) { clock.hidden = sweep.hidden = l2.hidden = true; l2.textContent = "This takes less than half a minute. You can keep trying meanwhile."; }
+      const wait = add("bot", "Copilot", h("div", { class: "wait", style: quick ? "min-width:0" : "" },
+        h("div", { class: "l1" }, h("span", { class: "dots", html: "<i></i><i></i><i></i>" }), what || "Thinking…", clock), sweep, l2));
+      const g = gen, tick = setInterval(() => {
+        if (g !== gen) return clearInterval(tick);
+        const s = Math.floor((Date.now() - t0) / 1000); clock.textContent = `0:${String(s).padStart(2, "0")}`;
+        if (quick && s >= 2 && clock.hidden) { clock.hidden = sweep.hidden = l2.hidden = false; wait.firstElementChild.nextElementSibling.style.minWidth = "230px"; wait.scrollIntoView({ block: "end" }); }
+        if (!quick && s >= 6) l2.textContent = "Still working. You can read the problem again while you wait.";
+      }, 500);
+      later(ms || 2600, () => { clearInterval(tick); wait.remove(); busy = false; lock(); const m = add("bot", "Copilot", text); if (after) after(m); });
+    },
+  };
+}
+function exerciseCard(ex, thread) {
+  const s = st[ex.key], btn = {};
+  const fb = h("div", { class: "feedback", hidden: true, role: "status" });
+  const say = (ok, text) => { fb.hidden = false; fb.className = "feedback " + (ok ? "ok" : "bad"); fb.innerHTML = ico(ok ? "check" : "search"); fb.append(text); };
+  const clueB = h("button", { class: IT >= 2 ? "btn soft" : "btn", "data-lock": true, html: ico("search") + "Clue", onclick: () => {
+    const c = ex.clues[Math.min(s.clue, ex.clues.length - 1)]; s.clue++; thread.reply("Clue", c, null, IT >= 3 ? 450 : 0, "Working on your clue…"); } });
+  const solB = h("button", { class: IT >= 2 ? "btn quiet" : "btn", "data-lock": true, html: ico("bulb") + "Show the solution", onclick: () => {
+    s.shown = true; refresh();
+    thread.reply("Show the solution", ex.solution, (m) => { m.append(h("p", { style: "margin-top:6px" }, h("strong", {}, `The correct answer is ${ex.answer}.`))); btn[ex.answer].classList.add("answer"); }, IT >= 3 ? 450 : 0, "Writing the solution…"); } });
+  function refresh() {
+    for (const [l, b] of Object.entries(btn)) { b.classList.toggle("wrong", s.wrong.includes(l)); b.classList.toggle("right", s.solved && l === ex.answer); b.disabled = s.solved || s.wrong.includes(l); }
+    solB.hidden = !(s.wrong.length && !s.shown && !s.solved); clueB.hidden = s.solved;
+  }
+  const options = Object.entries(ex.options).map(([l, text]) => btn[l] = h("button", { class: "option", onclick: () => {
+    if (l === ex.answer) { s.solved = true; say(true, s.shown ? "Correct! You saw the solution first, so this answer doesn't count." : "Correct!"); }
+    else { s.wrong.push(l); say(false, IT >= 2 ? "Not this one. Try again, or ask for a clue." : "Not this one. Try again!"); if (IT >= 2) clueB.classList.add("nudge"); }
+    refresh(); } }, h("span", { class: "letter" }, l), h("span", {}, text)));
+  const card = h("div", { class: "card" }, h("div", { class: "meta" }, ex.meta), h("div", { class: "prompt" }, ex.prompt),
+    h("div", { class: "options" }, options), fb, h("div", { class: "helpers" }, clueB, solB));
+  refresh(); if (s.solved) say(true, "Correct!");
+  return card;
+}
+function composer(thread, placeholder, extra) {
+  const area = h("textarea", { id: "ask", rows: "1", placeholder, "aria-label": placeholder });
+  const send = () => { const t = area.value.trim(); if (!t || busy) return; area.value = ""; thread.me(t);
+    thread.reply(null, "Good question. Before you divide, check how many equal parts there are in total. What do you get?"); };
+  area.addEventListener("keydown", (e) => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); send(); } });
+  dock.append(h("div", { class: "composer" }, extra,
+    h("div", { class: "inner" },
+      h("button", { class: "icon-btn", "aria-label": "Photo", title: "Photo", html: ico("cam"), onclick: () => toast("Photo attached") }),
+      area, h("button", { class: "icon-btn send", "data-lock": true, "aria-label": "Send", title: "Send", html: ico("send"), onclick: send }))));
+}
+function toast(text) { const t = h("div", { class: "toast", role: "status" }, text); $("phone").append(t); setTimeout(() => t.remove(), 2200); }
+function openEx(key, back) { exKey = key; exBack = back; go("exercise"); }
+function exercise(o) {
+  const ex = EX[exKey], box = h("div", { class: "thread" }), thread = makeThread(box);
+  if (o.wait) st[exKey] = { wrong: [], solved: false, shown: false, clue: 0 };
+  screen.append(topbar(exBack === "home" ? "home" : exBack),
+    h("div", { style: "display:flex;flex-direction:column;gap:6px" }, h("div", { class: "muted small", style: "font-weight:650" }, `Problem ${ex.n || 1} of ${ex.of || 1}`),
+      IT >= 2 ? steps((ex.n || 1) - 1, ex.of || 1, (ex.n || 1) - 1) : h("div", { class: "bar" }, h("i", { style: "width:35%" }))),
+    exerciseCard(ex, thread), box);
+  composer(thread, "Ask about this problem…");
+  if (o.wait && IT >= 3) { thread.me("Why do I have to divide by 4?"); thread.reply(null, "Because the 24 stickers are split into 4 equal parts: one for Marc, one for Pol and two for Aina. Dividing by 4 gives you one part.", null, 16000); }
+  else if (o.wait) { st[exKey].clue = 1; thread.reply("Clue", ex.clues[0], null, 14000, "Working on your clue…"); }
+}
+function free() {
+  const box = h("div", { class: "thread" }), thread = makeThread(box), keys = ["train", "stickers"];
+  const next = () => { const k = keys[freeI++ % keys.length]; st[k] = { wrong: [], solved: false, shown: false, clue: 0 }; thread.node(exerciseCard(EX[k], thread)); lock(); };
+  screen.append(topbar("home"), h("div", { class: "h1" }, "Free mode"),
+    h("div", { class: "msg bot" }, h("span", { class: "w" }, "Copilot"), "Here you learn by doing problems. Tap an option to answer, or ask me anything."), box);
+  composer(thread, "Ask anything…", h("button", { class: "btn primary block", style: "min-height:44px", html: ico("dice") + "Another problem", onclick: next }));
+  freeI = 0; next(); screen.scrollTop = 0;
+}
+
+// ------------------------------------------------------------ teacher app
+// Example class, generated from a fixed seed so every page shows the same students.
+function rng(seed) { return () => (seed = (seed * 1664525 + 1013904223) >>> 0) / 4294967296; }
+const R = rng(11);
+const NAMES = ["Aina", "Marc", "Júlia", "Pol", "Laia", "Biel", "Martina", "Jan", "Carla", "Nil", "Ona", "Arnau", "Emma", "Èric", "Noa", "Roc", "Mar", "Guillem", "Abril", "Oriol", "Clàudia", "Martí", "Berta", "Hugo"];
+const TOPICS = ["Geometry", "Time", "Numbers", "Fractions", "Logic", "Counting"], TOFF = [.13, .09, .03, -.05, -.14, -.19];
+const LETTERS = "ABCDEFGHJKLMNPQRSTVWXZ23456789", DAYS = ["Today", "Today", "Today", "Thu 12 Nov", "Wed 11 Nov", "Tue 10 Nov"];
+const clamp = (v, a, b) => Math.max(a, Math.min(b, v)), PC = (ok, n) => n ? Math.round(100 * ok / n) : null;
+const BASE = NAMES.map((name, id) => {
+  const ab = .36 + R() * .5, code = Array.from({ length: 4 }, () => LETTERS[Math.floor(R() * LETTERS.length)]).join("");
+  const cells = TOPICS.map((t, j) => { const n = R() < .08 ? 0 : Math.floor(4 + R() * 10); return { n, ok: Math.round(n * clamp(ab + TOFF[j] + (R() - .5) * .24, .04, .98)) }; });
+  const n = cells.reduce((a, c) => a + c.n, 0), ok = cells.reduce((a, c) => a + c.ok, 0), f = ok / n, r = 1 - f;
+  const sol = r * clamp(.12 + (1 - ab) * .5 * R(), 0, .5), clue = r * (.25 + .3 * R()), open = r * .08;
+  const grow = (R() - .3) * .5, trace = Array.from({ length: 36 }, (_, i) => { const p = clamp(f - grow / 2 + grow * i / 35, .05, .95), x = R(); return x < p ? 0 : x < p + (1 - p) * .35 ? 1 : x < p + (1 - p) * .75 ? 2 : 3; });
+  return { id, name, code, cells, n, ok, mix: [f, r - sol - clue - open, clue, sol, open], trace, last: DAYS[Math.floor(R() * DAYS.length)] };
+});
+let STU, TOT, AVG, TAVG, scope = "all";
+const SCOPES = { "7": ["Last 7 days", .3, .07, 12], "30": ["Last 30 days", .72, .03, 24], all: ["All", 1, 0, 36] };   // label, share of the data, recent gain, exercises in the trace
+function build() {
+  const [, frac, up, len] = SCOPES[scope];
+  STU = BASE.map((s) => { const cells = s.cells.map((c) => { const n = Math.round(c.n * frac); return { n, ok: Math.round(n * clamp(c.ok / (c.n || 1) + up, 0, 1)) }; });
+    const n = cells.reduce((a, c) => a + c.n, 0), ok = cells.reduce((a, c) => a + c.ok, 0), f = ok / n, rest = 1 - s.mix[0], g = rest ? (1 - f) / rest : 0;
+    return { ...s, cells, n, ok, mix: [f, ...s.mix.slice(1).map((v) => v * g)], trace: s.trace.slice(-len) }; });
+  TOT = { n: STU.reduce((a, s) => a + s.n, 0), ok: STU.reduce((a, s) => a + s.ok, 0) }; AVG = PC(TOT.ok, TOT.n);
+  TAVG = TOPICS.map((t, j) => PC(STU.reduce((a, s) => a + s.cells[j].ok, 0), STU.reduce((a, s) => a + s.cells[j].n, 0)));
+}
+build();
+const seg = (cur, set, opts) => h("span", { class: "seg" }, opts.map(([v, l]) => h("button", { class: cur === v ? "on" : "", "aria-pressed": cur === v, onclick: () => { set(v); tgo(tview, targ); } }, l)));
+const scopeCtl = () => IT >= 4 ? h("div", { class: "ctl" }, h("span", { class: "small muted" }, "Period"), seg(scope, (v) => { scope = v; build(); }, Object.entries(SCOPES).map(([k, v]) => [k, v[0]]))) : null;
+const median = (a) => { const b = [...a].sort((x, y) => x - y), m = b.length >> 1; return b.length % 2 ? b[m] : Math.round((b[m - 1] + b[m]) / 2); };
+const MIX = [["Right at the first try", "m0"], ["Right after another try", "m1"], ["Right with a clue", "m2"], ["After seeing the solution", "m3"], ["Not finished", "m4"]];
+
+const NAV = [["Dashboard", "grid", "/"], ["Students", "cap", "/students"], ["Groups", "chat", "/groups"], ["Boards", "wifi", "/boards"], ["Homework", "book", "/assignments"], ["Exercise packs", "dice", "/packs"], ["Unassigned", "search", "/unassigned"]];
+const PARENT = { Student: "Students", Session: "Students", Group: "Groups", Board: "Boards", Setup: "Boards", Sticker: "Boards", "New homework": "Homework" };
+let tview = "Dashboard", targ = null, sortBy = "low", heat = "score";
+const tbl = (head, rows, cls) => h("div", { class: "tw" }, h("table", { class: cls || "" }, h("thead", {}, h("tr", {}, head.map((c) => h("th", { class: /^#/.test(c) ? "num" : "" }, c.replace(/^#/, ""))))),
+  h("tbody", {}, rows.map((r) => h("tr", r.go ? { class: "go", tabindex: "0", onclick: r.go, onkeydown: (e) => { if (e.key === "Enter") r.go(); } } : {}, r.cells.map((c) => c && c.nodeType ? h("td", {}, c) : h("td", { html: String(c) })))))));
+const W = (kind, title, ...body) => h("div", { class: "w" }, h("div", { class: "kind", html: kind }), title ? h("div", { class: "tk" }, title) : null, ...body);
+const NEW = (src) => ` <span class="tag">New</span> <span class="src">from ${src}</span>`;
+const keyrow = (html) => h("div", { class: "key", html });
+const ibar = (p, few, ref) => `<span class="ib"><span class="track"><i class="${few ? "few" : ""}" style="width:${p}%"></i>${ref ? `<em style="left:${ref}%"></em>` : ""}</span><b>${p}%</b></span>`;
+const fld = (label, id, control) => h("label", { class: "fld", for: id }, label, control);
+const inp = (id, ph, val) => h("input", { id, placeholder: ph || "", value: val || "" });
+const sel = (id, opts, cur) => h("select", { id }, opts.map((o) => h("option", { selected: o === cur }, o)));
+const GROUPS = ["3r ESO B", "3r ESO A", "No group"];
+function flash(text) { const f = h("div", { class: "flash", role: "status" }, text); $("tmain").prepend(f); setTimeout(() => f.remove(), 3200); }
+
+function tgo(v, arg) {
+  tview = v; targ = arg === undefined ? null : arg;
+  const section = PARENT[v] || v;
+  $("url").textContent = "127.0.0.1:8010" + ({ Student: "/students/" + (targ ?? 0), Session: "/sessions/418", Group: "/groups/1", Board: "/boards/3039249115", Setup: "/setup/2F8AC310", Sticker: "/boards/3039249115/sticker", "New homework": "/assignments/new" }[v] || NAV.find((n) => n[0] === v)[2]);
+  $("tnav").replaceChildren(h("div", { class: "brand" }, h("span", { class: "mark", html: ico("cap") }), "Santolina"),
+    ...NAV.map(([n, ic]) => h("button", { class: n === section ? "on" : "", html: ico(ic), onclick: () => tgo(n) }, n, n === "Unassigned" ? h("span", { class: "n" }, "2") : null)));
+  const bcard = (name, sub, mode, cta, to) => h("div", { class: "bcard" + (mode ? "" : " new") },
+    h("div", { class: "top" }, h("span", { class: "dot" }), name, mode ? h("span", { class: "pill" + (mode === "professor" ? " prof" : "") }, mode) : null),
+    h("div", { class: "muted small" }, sub), h("button", { class: "tb" + (mode ? "" : " primary"), onclick: () => tgo(to) }, cta));
+  const strip = [h("div", { class: "strip-t" }, "Connected boards · live"),
+    h("div", { class: "boards" }, bcard("Board 1", "3r ESO B · 5 sessions to unload", "student", "Open", "Board"), bcard("Board 2", "3r ESO B · up to date", "professor", "Open", "Board"), bcard("New board", "Serial 2F8A…C310", null, "Set up this board", "Setup"))];
+  const page = { Dashboard: IT === 1 ? dash1 : IT === 2 ? () => dash2() : dash3, Students: pStudents, Student: pStudent, Session: pSession, Groups: pGroups, Group: pGroup,
+    Boards: pBoards, Board: pBoard, Setup: pSetup, Homework: pHomework, "New homework": pNewHomework, "Exercise packs": pPacks, Unassigned: pUnassigned, Sticker: pSticker }[v];
+  $("tmain").replaceChildren(...strip, ...page().filter(Boolean));
+}
+const crumb = (label, to, arg) => h("button", { class: "crumb", onclick: () => tgo(to, arg), html: ico("back") + label });
+
+// ---- iteration 1 dashboard (kept for comparison; its figures are not all in the real app)
+function dash1() {
+  const hb = (l, v) => h("div", { class: "hb" }, h("span", {}, l), h("span", { class: "track" }, h("i", { class: v < 50 ? "low" : "", style: `width:${v}%` })), h("b", {}, v + "%"));
+  const kpi = (val, l) => h("div", { class: "kpi" }, h("div", { class: "v" }, val), h("div", { class: "l" }, l));
+  return [h("h3", {}, "Dashboard"),
+    h("div", { class: "kpis" }, kpi("24", "Students"), kpi("312", "Exercises tried this week"), kpi("68%", "Right at the first try"), kpi("1.4", "Clues per exercise"), kpi("17 min", "Median session")),
+    h("div", { class: "g2" },
+      h("div", { class: "w" }, h("h4", {}, "Right at the first try, by topic"), hb("Geometry", 81), hb("Time", 74), hb("Fractions", 62), hb("Logic", 44), h("div", { class: "muted small" }, "Amber marks a topic under 50%.")),
+      h("div", { class: "w" }, h("h4", {}, "Students who may need help"), h("div", { class: "tw", html:
+        `<table><thead><tr><th>Student</th><th>Code</th><th>Solutions seen</th><th>Last session</th></tr></thead><tbody>
+         <tr><td>Biel</td><td><code>RT4N</code></td><td>9 of 14</td><td>Today</td></tr><tr><td>Laia</td><td><code>QX2B</code></td><td>7 of 12</td><td>Today</td></tr>
+         <tr><td>Pol</td><td><code>HV8D</code></td><td>6 of 15</td><td>Thu 12 Nov</td></tr><tr><td>Júlia</td><td><code>MC5K</code></td><td>5 of 13</td><td>Wed 11 Nov</td></tr></tbody></table>` })))];
+}
+
+// ---- iteration 2 dashboard: the app's own widgets, redrawn. Titles are computed from the numbers.
+function dash2(o) {
+  o = o || {};
+  const C = o.C || { Sessions: 46, Answers: 398, Clues: 131, "Solutions shown": 58, Questions: 74, Students: 24, Boards: 3 };
+  const days = o.days || ["Thu 5", "Fri 6", "Mon 9", "Tue 10", "Wed 11", "Thu 12", "Fri 13"], bA = [38, 52, 61, 44, 70, 58, 75].slice(-days.length), bO = [22, 31, 40, 31, 49, 43, 57].slice(-days.length);
+  const k = C.Answers / bA.reduce((a, b) => a + b, 0), ans = bA.map((v) => Math.round(v * k)), ok = bO.map((v) => Math.round(v * k * (o.okk || 1)));
+  const lv = o.lv || [[1, 84, 86], [2, 96, 74], [3, 71, 62], [4, 43, 41], [5, 18, 33]];
+  const tries = lv.reduce((a, r) => a + r[1], 0), right = Math.round(lv.reduce((a, r) => a + r[1] * r[2] / 100, 0)), avg = Math.round(100 * right / tries);
+  const FEW = o.few || 20, SMALL = 10, pct = (i) => Math.round(100 * ok[i] / ans[i]);
+  const worst = lv.filter((r) => r[1] >= FEW).sort((a, b) => a[2] - b[2])[0];
+  const max = Math.ceil(Math.max(...ans) / 40) * 40, VW = 420, x0 = 34, x1 = 412, y0 = 150, y1 = 18, sw = (x1 - x0) / ans.length, bw = 32, y = (v) => y0 - v / max * (y0 - y1);
+  let svg = `<svg viewBox="0 0 ${VW} 172" role="img" aria-label="Answers and correct answers per class day" style="width:100%;height:auto;display:block">`;
+  for (const g of [0, max / 2, max]) svg += `<line x1="${x0}" x2="${x1}" y1="${y(g)}" y2="${y(g)}" style="stroke:var(--line)"/><text x="${x0 - 6}" y="${y(g) + 4}" text-anchor="end">${g}</text>`;
+  ans.forEach((v, i) => { const x = x0 + i * sw + (sw - bw) / 2;
+    svg += `<rect x="${x}" y="${y(v)}" width="${bw}" height="${y0 - y(v)}" rx="3" style="fill:var(--accent-soft);stroke:var(--accent)"/>`
+      + `<rect x="${x}" y="${y(ok[i])}" width="${bw}" height="${y0 - y(ok[i])}" rx="3" style="fill:var(--accent)"/>`
+      + `<text x="${x + bw / 2}" y="${y(v) - 5}" text-anchor="middle" style="fill:var(--text);font-weight:650">${pct(i)}%</text>`
+      + `<text x="${x + bw / 2}" y="${y0 + 15}" text-anchor="middle">${days[i]}</text>`; });
+  svg += "</svg>";
+  const st = [["Biel", "RT4N", 14, 36, "Today"], ["Laia", "QX2B", 12, 42, "Today"], ["Júlia", "MC5K", 4, 50, "Wed 11"], ["Pol", "HV8D", 15, 53, "Thu 12"], ["Aina", "KM7Q", 21, 81, "Today"], ["Marc", "BN3W", 19, 89, "Today"]];
+  const mm = [["Week 7 · Problem 9", 5, 20], ["Week 7 · Problem 7", 18, 22], ["Week 6 · Problem 3", 15, 27], ["Week 7 · Problem 5", 21, 33]], top = mm.filter((r) => r[1] >= SMALL)[0];
+  const hw = [["Week 7 · Fractions and ratios", "3r ESO B", "Fri 20 Nov", 9, 24], ["Week 6 · Geometry", "3r ESO B", "Mon 16 Nov", 21, 24]];
+  const few = (n) => n < SMALL ? `<span class="few-t">${n} · few</span>` : n;
+  return [h("h3", {}, o.title || "Dashboard"),
+    h("p", { class: "lead", html: `Students got <b>${avg}% right at the first try</b> (${right} of ${tries} first tries). Level ${worst[0]} is the weak point at ${worst[2]}%.` }),
+    h("div", { class: "counts" }, Object.entries(C).map(([n, v]) => h("span", {}, h("b", {}, v), " " + n.toLowerCase()))),
+    h("div", { class: "g2" },
+      W("Activity", `The share of correct answers rose from ${pct(0)}% to ${pct(ans.length - 1)}% in ${ans.length} ${o.unit || "class days"}`, h("div", { html: svg }),
+        keyrow(`<span><i class="sw"></i>correct</span><span><i class="sw soft"></i>all answers</span><span>The label is the share of correct answers that day.</span>`)),
+      W("Right at the first try, by level", `It falls from ${lv[0][2]}% at level 1 to ${worst[2]}% at level ${worst[0]}`,
+        ...lv.map(([l, n, p]) => h("div", { class: "lv" }, h("span", {}, "Level " + l), h("span", { html: ibar(p, n < FEW, avg) }), h("span", { class: "num muted small" }, n + " first tries"))),
+        keyrow(`<span><i class="sw avg"></i>all levels, ${avg}%</span><span><i class="sw few"></i>under ${FEW} first tries: read with care</span>`))),
+    h("div", { class: "g2" },
+      W("Students", "Sorted from the lowest share of correct answers", h("div", { class: "tw", html:
+        `<table><thead><tr><th>Student</th><th>Code</th><th class="num">Answers</th><th>% correct</th><th>Last activity</th></tr></thead><tbody>${st.map(([n, c, a, p, d]) =>
+          `<tr><td>${n}</td><td><code>${c}</code></td><td class="num">${few(a)}</td><td>${ibar(p, a < SMALL, avg)}</td><td>${d}</td></tr>`).join("")}</tbody></table>` }),
+        keyrow(`<span><i class="sw avg"></i>all students, ${avg}%</span><span><i class="sw few"></i>under ${SMALL} answers: read with care</span><span>6 of 24 students shown in this mockup.</span>`)),
+      W("Most missed exercises", `${top[0]} is the most missed: ${top[2]}% right at the first try`, h("div", { class: "tw", html:
+        `<table><thead><tr><th>Exercise</th><th class="num">First tries</th><th>% right first time</th></tr></thead><tbody>${mm.map(([t, n, p]) =>
+          `<tr><td>${t}</td><td class="num">${few(n)}</td><td>${ibar(p, n < SMALL)}</td></tr>`).join("")}</tbody></table>` }))),
+    W("Homework completion", `${hw[0][3]} of ${hw[0][4]} students finished this week's homework, due ${hw[0][2]}`, h("div", { class: "tw", html:
+      `<table><thead><tr><th>Homework</th><th>Group</th><th>Due</th><th>Students who finished</th></tr></thead><tbody>${hw.map(([t, g, d, n, of]) =>
+        `<tr><td>${t}</td><td>${g}</td><td>${d}</td><td><span class="ib" style="grid-template-columns:minmax(70px,1fr) 56px"><span class="track"><i style="width:${100 * n / of}%"></i></span><b>${n} of ${of}</b></span></td></tr>`).join("")}</tbody></table>` })),
+    h("p", { class: "muted small" }, "First try: the first option a student taps on an exercise. Every figure comes from sessions unloaded from the boards.")];
+}
+
+// ---- iteration 3: the class as a whole and each student, with new graphics from data the boards already log
+function classTable() {
+  const order = [...STU].sort(sortBy === "low" ? (a, b) => a.ok / a.n - b.ok / b.n : (a, b) => a.name.localeCompare(b.name, "ca"));
+  const cols = TOPICS.map((t, j) => j).sort((a, b) => TAVG[b] - TAVG[a]);
+  const paint = (p) => { if (p === null) return "";
+    if (heat === "score") return `background:color-mix(in srgb, var(--accent) ${Math.round(8 + p * .82)}%, var(--panel));color:var(${p > 52 ? "--accent-text" : "--text"})`;
+    const d = p - AVG, kk = Math.round(Math.min(1, Math.abs(d) / 40) * 82);
+    return `background:color-mix(in srgb, var(${d < 0 ? "--warn" : "--accent"}) ${kk}%, var(--panel));color:var(${kk > 50 ? "--accent-text" : "--text"})`; };
+  const cell = (c) => { const p = PC(c.ok, c.n); return `<td class="hc${c.n && c.n < 3 ? " thin" : ""}" style="${paint(p)}" title="${c.ok} of ${c.n} first tries">${p === null ? "·" : p}</td>`; };
+  const mix = (m) => `<span class="mix" role="img" aria-label="${MIX.map((x, i) => x[0] + " " + Math.round(m[i] * 100) + "%").join(", ")}">${m.map((v, i) => `<i class="${MIX[i][1]}" style="width:${v * 100}%"></i>`).join("")}</span>`;
+  const low = cols[cols.length - 1], weakest = [...STU].sort((a, b) => a.ok / a.n - b.ok / b.n).slice(0, 3).map((s) => s.name);
+  const t = h("div", { class: "tw", html: `<table class="cm"><thead><tr><th>Student</th>${cols.map((j) => `<th class="hc">${TOPICS[j]}</th>`).join("")}<th class="hc">All</th><th>How they got there</th><th class="num">First tries</th></tr></thead><tbody>${
+    order.map((s) => `<tr class="go" tabindex="0" data-id="${s.id}"><td><b>${s.name}</b></td>${cols.map((j) => cell(s.cells[j])).join("")}<td class="hc all">${PC(s.ok, s.n)}</td><td>${mix(s.mix)}</td><td class="num">${s.n}</td></tr>`).join("")
+    }</tbody><tfoot><tr><td>Class</td>${cols.map((j) => `<td class="hc all">${TAVG[j]}</td>`).join("")}<td class="hc all">${AVG}</td><td></td><td class="num">${TOT.n}</td></tr></tfoot></table>` });
+  t.querySelectorAll("tr.go").forEach((r) => { const open = () => tgo("Student", +r.dataset.id); r.onclick = open; r.onkeydown = (e) => { if (e.key === "Enter") open(); }; });
+  return W("Class map" + NEW("answer, clue and solution events"),
+    `${TOPICS[low]} is the weakest topic for the class (${TAVG[low]}%). ${weakest.join(", ")} have the lowest results overall.`,
+    h("div", { class: "ctl" }, h("span", { class: "small muted" }, "Sort"), seg(sortBy, (v) => { sortBy = v; }, [["low", "Lowest first"], ["name", "By name"]]),
+      h("span", { class: "small muted" }, "Colour"), seg(heat, (v) => { heat = v; }, [["score", "Score"], ["gap", "Gap to class"]])),
+    t,
+    keyrow(`<span>Cells: % right at the first try${heat === "gap" ? `. Amber is under the class average of ${AVG}%, green is over.` : ". Darker is higher."}</span><span><u class="thin-k">12</u> under 3 first tries</span><span>· no tries</span>`),
+    keyrow(MIX.map(([l, c]) => `<span><i class="sw ${c}"></i>${l}</span>`).join("")),
+    h("div", { class: "muted small" }, "Click a student to open their page."));
+}
+function topicStrips() {
+  const VW = 420, x0 = 78, x1 = 404, rowH = 46, x = (p) => x0 + p / 100 * (x1 - x0), rows = TOPICS.map((t, j) => ({ t, v: STU.filter((s) => s.cells[j].n).map((s) => PC(s.cells[j].ok, s.cells[j].n)) })).map((r) => ({ ...r, med: median(r.v) })).sort((a, b) => b.med - a.med);
+  let svg = `<svg viewBox="0 0 ${VW} ${rows.length * rowH + 24}" role="img" aria-label="Each student's share right at the first try, by topic" style="width:100%;height:auto;display:block">`;
+  for (const g of [0, 25, 50, 75, 100]) svg += `<line x1="${x(g)}" x2="${x(g)}" y1="4" y2="${rows.length * rowH}" style="stroke:var(--line)"/><text x="${x(g)}" y="${rows.length * rowH + 16}" text-anchor="middle">${g}%</text>`;
+  rows.forEach((r, i) => { const base = (i + 1) * rowH - 8, bins = {};
+    svg += `<text x="0" y="${base - 6}" style="fill:var(--text);font-size:12px">${r.t}</text>`;
+    for (const p of r.v) { const b = Math.min(19, Math.floor(p / 5)); bins[b] = (bins[b] || 0) + 1; svg += `<circle cx="${x(b * 5 + 2.5)}" cy="${base - 4 - (bins[b] - 1) * 7.5}" r="3.4" style="fill:var(--accent)"/>`; }
+    svg += `<line x1="${x(r.med)}" x2="${x(r.med)}" y1="${base - rowH + 12}" y2="${base + 2}" style="stroke:var(--text);stroke-width:2"/>`; });
+  const last = rows[rows.length - 1];
+  return W("Spread by topic" + NEW("answer events"), `In ${last.t}, half the class is under ${last.med}% right at the first try`, h("div", { html: svg + "</svg>" }),
+    keyrow(`<span><i class="sw dot"></i>one student</span><span><i class="sw avg"></i>median of the class</span><span>Dots are stacked in steps of 5 points.</span>`));
+}
+function dash3(title) {
+  const shares = [.27, .31, .23, .14, .05], pat = [1.26, 1.09, .91, .62, .5], norm = shares.reduce((a, s, i) => a + s * pat[i], 0);
+  const lv = shares.map((s, i) => [i + 1, Math.round(TOT.n * s), Math.round(AVG * pat[i] / norm)]);
+  lv[0][1] += TOT.n - lv.reduce((a, r) => a + r[1], 0);
+  const fr = SCOPES[scope][1], weeks = ["Wk 40", "Wk 41", "Wk 42", "Wk 43", "Wk 44", "Wk 45", "Wk 46"];
+  const d = dash2({ lv, few: Math.round(60 * fr), okk: .8, title: typeof title === "string" ? title : "Dashboard", days: scope === "7" ? null : scope === "30" ? weeks.slice(-4) : weeks, unit: scope === "7" ? "class days" : "weeks",
+    C: { Sessions: Math.round(168 * fr), Answers: Math.round(TOT.n * 1.31), Clues: Math.round(TOT.n * .34), "Solutions shown": Math.round(TOT.n * .11), Questions: Math.round(214 * fr), Students: 24, Boards: 3 } });
+  const charts = d[3], lower = d[4];
+  return [d[0], scopeCtl(), d[1], d[2], classTable(), charts, h("div", { class: "g2" }, topicStrips(), lower.children[1]), d[5], d[6]];
+}
+
+// ---- pages
+function pStudents() {
+  const name = inp("s-name", "Name and surname");
+  return [h("h3", {}, "Students"),
+    tbl(["Student", "Group", "Code", "#First tries", "% right at the first try", "Last activity"], STU.map((s) => ({ go: () => tgo("Student", s.id),
+      cells: [`<b>${s.name}</b>`, "3r ESO B", `<code>${s.code}</code>`, h("span", { class: "num" }, s.n), ibar(PC(s.ok, s.n), false, AVG), s.last] })), "nums3"),
+    W("Add a student", null, h("div", { class: "form" }, fld("Name", "s-name", name), fld("Group", "s-group", sel("s-group", GROUPS)), fld("Notes", "s-notes", inp("s-notes", "Optional")),
+      h("button", { class: "tb primary", onclick: () => flash(`${name.value || "The student"} was added. Their code is ready to print.`) }, "Add student")))];
+}
+function pStudent() {
+  const s = STU[targ ?? 0], p = PC(s.ok, s.n), d = p - AVG, rows = TOPICS.map((t, j) => ({ t, c: s.cells[j], p: PC(s.cells[j].ok, s.cells[j].n), cl: TAVG[j] })).filter((r) => r.p !== null).sort((a, b) => (a.p - a.cl) - (b.p - b.cl));
+  const weak = rows[0], half = s.trace.length / 2, sh = (a) => Math.round(100 * a.filter((x) => x === 0).length / a.length), a = sh(s.trace.slice(0, half)), b = sh(s.trace.slice(half));
+  const VW = 420, x0 = 78, x1 = 372, rowH = 30, x = (v) => x0 + v / 100 * (x1 - x0);
+  let svg = `<svg viewBox="0 0 ${VW} ${rows.length * rowH + 24}" role="img" aria-label="${s.name} against the class, by topic" style="width:100%;height:auto;display:block">`;
+  for (const g of [0, 50, 100]) svg += `<line x1="${x(g)}" x2="${x(g)}" y1="2" y2="${rows.length * rowH}" style="stroke:var(--line)"/><text x="${x(g)}" y="${rows.length * rowH + 16}" text-anchor="middle">${g}%</text>`;
+  rows.forEach((r, i) => { const y = i * rowH + 16;
+    svg += `<text x="0" y="${y + 4}" style="fill:var(--text);font-size:12px">${r.t}</text><line x1="${x(Math.min(r.p, r.cl))}" x2="${x(Math.max(r.p, r.cl))}" y1="${y}" y2="${y}" style="stroke:var(--muted);stroke-width:2"/>`
+      + `<line x1="${x(r.cl)}" x2="${x(r.cl)}" y1="${y - 8}" y2="${y + 8}" style="stroke:var(--text);stroke-width:2"/><circle cx="${x(r.p)}" cy="${y}" r="6" style="fill:var(--accent);stroke:var(--panel);stroke-width:2"/>`
+      + `<text x="${VW}" y="${y + 4}" text-anchor="end" style="fill:var(--text);font-weight:650">${r.p}%${r.c.n < 3 ? " ·" : ""}</text>`; });
+  const sq = s.trace.map((o, i) => `${i && i % 6 === 0 ? '<i class="gap"></i>' : ""}<i class="sq ${MIX[o][1]}" title="Exercise ${i + 1}: ${MIX[o][0].toLowerCase()}"></i>`).join("");
+  const del = h("div", { class: "row2" }), ask = () => del.replaceChildren(h("span", { class: "small" }, `Delete ${s.name} and all their sessions?`),
+    h("button", { class: "tb danger", onclick: () => { tgo("Students"); flash(`${s.name} was deleted.`); } }, "Delete"), h("button", { class: "tb", onclick: reset }, "Cancel"));
+  const reset = () => del.replaceChildren(h("button", { class: "tb danger", onclick: ask }, "Delete student")); reset();
+  const chunks = []; for (let i = 0; i < s.trace.length; i += 6) chunks.push(s.trace.slice(i, i + 6));
+  const m = chunks.length, dates = ["Tue 3 Nov", "Thu 5 Nov", "Mon 9 Nov", "Tue 10 Nov", "Thu 12 Nov", "Fri 13 Nov"].slice(-m), sp = chunks.map((c) => Math.round(100 * c.filter((v) => v === 0).length / c.length));
+  const cls = chunks.map((_, i) => { const j = i + 6 - m; return clamp(AVG - 6 + j * 2 + (j % 2 ? 2 : -1), 0, 100); });
+  const ses = chunks.map((c, i) => { const help = c.filter((v) => v).length; return [dates[i], i % 3 === 2 ? "Board 2" : "Board 1", 12 + 2 * help, c.length + help, c.length - help]; }).reverse();
+  const px0 = 34, px1 = 340, py = (v) => 150 - v / 100 * 132, pxs = (i) => px0 + (i + .5) * (px1 - px0) / m, line = (a) => a.map((v, i) => `${pxs(i)},${py(v)}`).join(" ");
+  let pg = `<svg viewBox="0 0 420 176" role="img" aria-label="${s.name}'s share right at the first try in each session, against the class" style="width:100%;height:auto;display:block;max-width:520px">`;
+  for (const g of [0, 50, 100]) pg += `<line x1="${px0}" x2="${px1}" y1="${py(g)}" y2="${py(g)}" style="stroke:var(--line)"/><text x="${px0 - 6}" y="${py(g) + 4}" text-anchor="end">${g}%</text>`;
+  pg += `<polyline points="${line(cls)}" style="fill:none;stroke:var(--muted);stroke-width:2;stroke-dasharray:5 4"/><polyline points="${line(sp)}" style="fill:none;stroke:var(--accent);stroke-width:2.5"/>`;
+  sp.forEach((v, i) => { pg += `<circle cx="${pxs(i)}" cy="${py(v)}" r="5" style="fill:var(--accent);stroke:var(--panel);stroke-width:2"/><text x="${pxs(i)}" y="${py(v) - 10}" text-anchor="middle" style="fill:var(--text);font-weight:650">${v}%</text>`
+    + `<text x="${pxs(i)}" y="168" text-anchor="middle">${dates[i].split(" ").slice(0, 2).join(" ")}</text>`; });
+  const ey = py(sp[m - 1]), cy = py(cls[m - 1]), sh2 = Math.abs(ey - cy) < 13 ? (ey <= cy ? -7 : 7) : 0;
+  pg += `<text x="${px1 + 2}" y="${ey + 4 + sh2}" style="fill:var(--accent-deep);font-weight:700;font-size:12px">${s.name}</text><text x="${px1 + 2}" y="${cy + 4 - sh2}" style="font-size:12px">class</text></svg>`;
+  const hf = Math.floor(m / 2), mean = (a) => Math.round(a.reduce((x, y) => x + y, 0) / a.length);
+  const ptitle = m >= 4 ? `From ${mean(sp.slice(0, hf))}% in the first ${hf} sessions to ${mean(sp.slice(-hf))}% in the last ${hf}` : `${sp[m - 1]}% right at the first try in the last session, against ${cls[m - 1]}% for the class`;
+  return [crumb("Students", "Students"),
+    h("h3", {}, s.name + " ", h("span", { class: "who" }, s.code)), h("div", { class: "muted small" }, "3r ESO B · Last activity: " + s.last), scopeCtl(),
+    h("p", { class: "lead", html: `${s.name} got <b>${p}% right at the first try</b> (${s.ok} of ${s.n}), ${Math.abs(d)} points ${d < 0 ? "under" : "over"} the class. Furthest behind the class in ${weak.t}.` }),
+    IT >= 4 ? W("Progress by session" + NEW("answer events"), ptitle, h("div", { html: pg }),
+      keyrow(`<span><i class="sw"></i>${s.name}, share right at the first try</span><span>Dashed line: the class on the same days.</span><span>Each session has ${chunks[0].length} exercises in this example, so read single points with care.</span>`)) : null,
+    h("div", { class: "g2" },
+      W("Against the class, by topic" + NEW("answer events"), `${weak.t}: ${weak.p}% against ${weak.cl}% for the class`, h("div", { html: svg + "</svg>" }),
+        keyrow(`<span><i class="sw dot"></i>${s.name}</span><span><i class="sw avg"></i>class</span><span>· under 3 first tries</span>`)),
+      W(`Last ${s.trace.length} exercises, oldest first` + NEW("answer, clue and solution events"), `Right at the first try in ${a}% of the first ${half} and ${b}% of the last ${half}`, h("div", { class: "trace", html: sq }),
+        keyrow(MIX.slice(0, 4).map(([l, c]) => `<span><i class="sw ${c}"></i>${l}</span>`).join("") + `<span>A gap separates sessions.</span>`))),
+    W("Sessions", null, tbl(["Date", "Board", "#Minutes", "#Answers", "#Right first time"], ses.map((r) => ({ go: () => tgo("Session", s.id), cells: r.map((c, i) => i > 1 ? h("span", { class: "num" }, c) : c) })), "nums3")),
+    W("Manage", null, h("div", { class: "form" }, fld("Move to group", "mv", sel("mv", GROUPS, "3r ESO B")), h("button", { class: "tb", onclick: () => flash(`${s.name} was moved.`) }, "Move")), del)];
+}
+function pSession() {
+  const s = STU[targ ?? 0], ev = [["10:02", "Session started on Board 1", ""], ["10:02", "Opened Week 7 · Problem 4", ""], ["10:04", "Answered B", "bad"], ["10:04", "Asked for a clue (1)", "help"], ["10:06", "Answered D", "ok"],
+    ["10:06", "Opened Week 7 · Problem 5", ""], ["10:09", "Asked the copilot a question", "help"], ["10:11", "Answered A", "bad"], ["10:12", "Saw the solution", "help"], ["10:23", "Session closed", ""]];
+  return [crumb(s.name, "Student", s.id), h("h3", {}, "Session of Fri 13 Nov"), h("div", { class: "muted small" }, `${s.name} · Board 1 · 21 minutes · 9 answers, 7 right at the first try`),
+    W("Timeline", null, h("ol", { class: "tl" }, ev.map(([t, text, c]) => h("li", { class: c }, h("time", {}, t), h("span", {}, text)))))];
+}
+function pGroups() {
+  const name = inp("g-name", "For example 3r ESO C");
+  return [h("h3", {}, "Groups"),
+    tbl(["Group", "#Students", "#Boards", "% right at the first try"], [{ go: () => tgo("Group"), cells: ["<b>3r ESO B</b>", h("span", { class: "num" }, 24), h("span", { class: "num" }, 2), ibar(AVG)] },
+      { go: () => tgo("Group"), cells: ["<b>3r ESO A</b>", h("span", { class: "num" }, 22), h("span", { class: "num" }, 1), ibar(Math.min(99, AVG + 5))] }], "nums3"),
+    W("Add a group", null, h("div", { class: "form" }, fld("Group name", "g-name", name), h("button", { class: "tb primary", onclick: () => flash(`Group ${name.value || ""} was added.`) }, "Add group")))];
+}
+const pGroup = () => [crumb("Groups", "Groups"), ...dash3("3r ESO B")];
+function pBoards() {
+  return [h("h3", {}, "Boards"), tbl(["Board", "Serial", "Mode", "Group", "Last unload", "#Sessions waiting"], [
+    { go: () => tgo("Board"), cells: ["<b>Board 1</b>", "<code>3039249115</code>", `<span class="pill">student</span>`, "3r ESO B", "Thu 12 Nov, 13:05", h("span", { class: "num" }, 5)] },
+    { go: () => tgo("Board"), cells: ["<b>Board 2</b>", "<code>3039250072</code>", `<span class="pill prof">professor</span>`, "3r ESO B", "Today, 9:48", h("span", { class: "num" }, 0)] },
+    { go: () => tgo("Board"), cells: ["<b>Board 3</b>", "<code>3039251840</code>", `<span class="pill">student</span>`, "3r ESO A", "Wed 11 Nov, 12:30", h("span", { class: "num muted" }, "not connected")] }], "nums3"),
+    h("div", { class: "muted small" }, "A board shows its live figures only while it is plugged into this laptop.")];
+}
+function pBoard() {
+  const slot = h("div", { style: "display:flex;flex-direction:column;gap:8px" });
+  const unload = h("button", { class: "tb primary", onclick: () => {
+    unload.disabled = true; unload.textContent = "Unloading…";
+    const bar = h("i", { style: "width:0%;transition:width .5s" }), txt = h("span", {}, "Copying session 1 of 5");
+    slot.replaceChildren(h("div", { class: "prog" }, txt, h("div", { class: "bar" }, bar)));
+    let i = 0; const t = setInterval(() => { i++; bar.style.width = i * 20 + "%"; txt.textContent = i < 5 ? `Copying session ${i + 1} of 5` : "Done";
+      if (i === 5) { clearInterval(t); slot.replaceChildren(h("div", { class: "flash", role: "status" }, "5 sessions unloaded from Board 1.")); unload.textContent = "Unload sessions (0)"; } }, 600);
+  } }, "Unload sessions (5)");
+  return [crumb("Boards", "Boards"), h("h3", {}, "Board 1 ", h("span", { class: "pill" }, "student")),
+    h("div", { class: "row2 muted small" }, "3r ESO B · Wi-Fi Santolina-01 ·", h("button", { class: "crumb", onclick: () => tgo("Sticker") }, "Wi-Fi sticker")),
+    h("div", { class: "g2" },
+      W("Status", null, h("div", { class: "tw", html:
+        `<table><tbody><tr><td>Sessions waiting</td><td><b>5</b></td></tr><tr><td>Open sessions</td><td>2</td></tr><tr><td>Archive on the board</td><td>12 files (1.4 MB)</td></tr><tr><td>Free disk</td><td>9.1 GB of 14.6 GB</td></tr>
+         <tr><td>Clock</td><td>OK (+2 s)</td></tr><tr><td>Services</td><td>tutor up · model up</td></tr></tbody></table>` }), unload, slot,
+        h("div", { class: "muted small" }, "The page stays usable while the board unloads, and shows each step."), h("button", { class: "tb danger", onclick: () => flash("Archive cleared on Board 1.") }, "Clear the archive")),
+      W("Mode and group", null, h("div", { class: "form" }, fld("Group", "grp", sel("grp", GROUPS, "3r ESO B")), h("button", { class: "tb", onclick: () => flash("Group saved.") }, "Save group")),
+        h("button", { class: "tb", onclick: () => flash("Board 1 is now in professor mode.") }, "Switch to professor mode"),
+        h("div", { class: "kind", style: "margin-top:6px" }, "Exercise packs on this board"), h("div", { class: "tw", html:
+        `<table><tbody><tr><td>Week 7 · Fractions and ratios</td><td>10 exercises</td><td><button class="tb">Remove</button></td></tr>
+         <tr><td>Week 6 · Geometry</td><td>8 exercises</td><td><button class="tb">Remove</button></td></tr></tbody></table>` }),
+        h("div", { class: "form" }, fld("Load a pack", "ld", sel("ld", ["Week 8 · Logic (v1)", "Demo pack (v2)"])), h("button", { class: "tb", onclick: () => flash("Pack loaded on Board 1.") }, "Load")))),
+    W("Unload history", null, tbl(["When", "#Files", "#New events", "#Clock offset"], [["Thu 12 Nov, 13:05", 6, 412, "+2 s"], ["Tue 10 Nov, 13:02", 5, 366, "+1 s"]].map((r) => ({ cells: r.map((c, i) => i ? h("span", { class: "num" }, c) : c) })), "nums3"))];
+}
+function pSticker() {
+  const q = rng(5), N = 21, eye = (r, c) => [[0, 0], [0, N - 7], [N - 7, 0]].find(([a, b]) => r >= a && r < a + 7 && c >= b && c < b + 7);
+  let svg = `<svg viewBox="0 0 ${N} ${N}" role="img" aria-label="Example QR code for the board's Wi-Fi" style="width:170px;height:170px;background:#fff;padding:10px;border-radius:10px;box-sizing:content-box">`;
+  for (let r = 0; r < N; r++) for (let c = 0; c < N; c++) { const e = eye(r, c), on = e ? (() => { const y = r - e[0], x = c - e[1]; return y === 0 || y === 6 || x === 0 || x === 6 || (y > 1 && y < 5 && x > 1 && x < 5); })() : q() < .48;
+    if (on) svg += `<rect x="${c}" y="${r}" width="1.03" height="1.03" style="fill:#111"/>`; }
+  return [crumb("Board 1", "Board"), h("h3", {}, "Wi-Fi sticker"),
+    W("Board 1 · 3r ESO B", null, h("div", { class: "row2", style: "gap:22px;align-items:flex-start" }, h("div", { html: svg + "</svg>" }),
+      h("ol", { style: "margin:0;padding-left:1.2rem;display:flex;flex-direction:column;gap:8px;max-width:38ch" }, h("li", {}, "Scan the code, or join the Wi-Fi ", h("b", {}, "Santolina-01"), "."), h("li", {}, "Turn mobile data off."), h("li", {}, "The tutor opens by itself. If it does not, open the browser and type ", h("b", {}, "10.42.0.1"), "."))),
+      h("button", { class: "tb primary", onclick: () => flash("Sticker sent to the printer.") }, "Print the sticker"), h("div", { class: "muted small" }, "Example code, not a working QR."))];
+}
+function pSetup() {
+  const name = inp("b-name", "", "Board 4"), out = h("div", {});
+  const steps = ["Check the connection", "Set the clock", "Install the student app", "Create the Wi-Fi hotspot", "Load the class codes"];
+  const start = h("button", { class: "tb primary", onclick: () => { start.disabled = true; let i = 0;
+    const draw = () => out.replaceChildren(h("ol", { class: "tl" }, steps.map((t, j) => h("li", { class: j < i ? "ok" : j === i ? "run" : "wait" }, h("time", {}, j < i ? "Done" : j === i ? "Now" : "Next"), h("span", {}, t)))),
+      i >= steps.length ? h("div", { style: "display:flex;gap:8px;flex-wrap:wrap" }, h("div", { class: "flash" }, `${name.value} is ready.`), h("button", { class: "tb primary", onclick: () => tgo("Board") }, "Open the board")) : "");
+    draw(); const t = setInterval(() => { i++; draw(); if (i >= steps.length) clearInterval(t); }, 700); } }, "Start setup");
+  return [crumb("Boards", "Boards"), h("h3", {}, "Set up a new board"), h("div", { class: "muted small" }, "Serial 2F8AC310 · plugged into this laptop"),
+    W("Board details", null, h("div", { class: "form" }, fld("Board name", "b-name", name), fld("Group", "b-group", sel("b-group", GROUPS)), start), out,
+      h("div", { class: "muted small" }, "Each step shows as it runs. If one fails, a labelled \"Try again\" button appears beside it."))];
+}
+function pHomework() {
+  return [h("div", { class: "row2", style: "justify-content:space-between" }, h("h3", {}, "Homework"), h("button", { class: "tb primary", onclick: () => tgo("New homework") }, "New homework")),
+    tbl(["Homework", "Group", "Due", "Students who finished", ""], [["Week 7 · Fractions and ratios", "Fri 20 Nov", 9], ["Week 6 · Geometry", "Mon 16 Nov", 21]].map(([t, d, n]) => ({ cells: [`<b>${t}</b>`, "3r ESO B", d,
+      `<span class="ib" style="grid-template-columns:minmax(70px,1fr) 56px"><span class="track"><i style="width:${100 * n / 24}%"></i></span><b>${n} of 24</b></span>`, h("button", { class: "tb danger", onclick: () => flash(`"${t}" was deleted.`) }, "Delete")] })))];
+}
+function pNewHomework() {
+  const title = inp("h-title", "For example Week 8 · Logic");
+  const pack = (name, n) => h("fieldset", { class: "pk" }, h("legend", {}, name), Array.from({ length: n }, (_, i) => h("label", { class: "ck" }, h("input", { type: "checkbox", checked: i < 3 }), `Problem ${i + 1}`, h("span", { class: "chip" }, "Level " + (1 + (i % 3))))));
+  return [crumb("Homework", "Homework"), h("h3", {}, "New homework"),
+    W("Details", null, h("div", { class: "form" }, fld("Title", "h-title", title), fld("Group", "h-group", sel("h-group", GROUPS)), fld("Due date", "h-due", h("input", { id: "h-due", type: "date", value: "2026-11-27" })))),
+    W("Exercises", null, h("div", { class: "g2" }, pack("Week 8 · Logic", 6), pack("Week 7 · Fractions and ratios", 6))),
+    h("button", { class: "tb primary", onclick: () => { tgo("Homework"); flash(`"${title.value || "New homework"}" was created.`); } }, "Create homework")];
+}
+function pPacks() {
+  const path = inp("p-path", "/home/teacher/packs/week8");
+  return [h("h3", {}, "Exercise packs"),
+    tbl(["Pack", "Id", "Version", "#Exercises"], [["Week 8 · Logic", "week8-logic", "v1", 12], ["Week 7 · Fractions and ratios", "week7-fractions", "v2", 10], ["Week 6 · Geometry", "week6-geometry", "v1", 8]].map((r) => ({ cells: [`<b>${r[0]}</b>`, `<code>${r[1]}</code>`, r[2], h("span", { class: "num" }, r[3])] })), "nums3"),
+    W("Import a pack", null, h("div", { class: "form" }, fld("Folder on this laptop", "p-path", path), h("button", { class: "tb primary", onclick: () => flash("Pack imported.") }, "Import"), h("button", { class: "tb", onclick: () => flash("Demo pack added.") }, "Add the demo pack")),
+      h("div", { class: "muted small" }, "Load a pack onto a board from that board's page."))];
+}
+function pUnassigned() {
+  return [h("h3", {}, "Unassigned codes"), h("p", { class: "muted", style: "max-width:62ch" }, "These codes were used on a board but belong to no student yet. Assign each one so its sessions count."),
+    tbl(["Code", "Board", "#Sessions", "First seen", "Assign to"], [["ZK4M", "Board 1", 2, "Thu 12 Nov"], ["TQ8R", "Board 2", 1, "Today"]].map(([c, b, n, d]) => ({ cells: [`<code>${c}</code>`, b, h("span", { class: "num" }, n), d,
+      h("div", { class: "form" }, h("select", { "aria-label": "Student for code " + c }, ["Choose a student", ...NAMES].map((o) => h("option", {}, o))), h("button", { class: "tb", onclick: () => flash(`Code ${c} was assigned.`) }, "Assign"))] })))];
+}
+view = "home"; setIter(4);
+</script>
