@@ -11,6 +11,12 @@ For the hidden test, `predict.py` answers each problem with one letter, A to E.
 By default it uses a fixed rule on the option values (`SOLVER=prior`), with no
 model call. With `SOLVER=letter`, it asks Qwen3.5 0.8B for the letter instead.
 
+> **What the organizers run.** `predict.py` with `config.env` as committed on
+> `main`: `SOLVER=prior`, which scored 16 of 100 on the organizers' practice
+> set. Our best pipeline, Qwen2.5-Math with Catalan translated first, scored
+> 55 of 100 on the laptop, but its code is on the branch `exp/noema-finetune`
+> and is not part of this configuration ([Results](#results)).
+
 <p align="center">
   <img src="docs/images/student-app-phone.jpeg" alt="The student app on a phone: a fractions problem at level 2, with the wrong option B greyed out and option D marked correct" height="460">
   &nbsp;
@@ -263,10 +269,16 @@ place of `math-llm`.
 **How the answer options reach `predict.py`.** In M3Kang and in the practice
 set, the options A to E are only in the problem image. `predict.py` on `main`
 expects them as text in its JSONL input, read on a laptop with OCR
-(`laptop/prepare_m3kang.py`). The board itself reads no images on `main`.
-Reading the options on the board is work in progress on
+(`laptop/prepare_m3kang.py`). The board itself reads no images on `main`, and
+`predict.py` on `main` cannot open the organizers' parquet file.
+
+A teammate's note says the final test gives the image without the options
+text (commit [`02d4e4c`](https://github.com/Sigkaio636/Santolina_tutor/commit/02d4e4c)).
+The organizers' public README does not say so. The code that loads the
+parquet file and reads the options from the image on the board is on
 [`exp/noema-finetune`](https://github.com/Sigkaio636/Santolina_tutor/tree/02d4e4c)
-(`copilot/options_ocr.py`), and not measured yet.
+(`copilot/problems.py`, `copilot/options_ocr.py`). A board run with it is not
+written up in the repository yet.
 
 ### How we use M3Kang
 
@@ -434,8 +446,9 @@ intervals come from the first report.
 
 This is our strongest solver so far. **Its code is on the branch
 [`exp/noema-finetune`](https://github.com/Sigkaio636/Santolina_tutor/tree/02d4e4c),
-not in `predict.py` on `main`, and it has not run on the board yet.** The
-numbers below come from a laptop that charges the board's estimated speeds.
+not in `predict.py` on `main`.** The team has also run it on the board, but
+that run is not written up in the repository yet. The numbers below come from
+a laptop that charges the board's estimated speeds.
 
 ```mermaid
 flowchart LR
@@ -508,8 +521,7 @@ tokens/s reading, 3.0 tokens/s writing), 3 s charged for each translation.
 - **M3Kang is harder than the practice set.** More programs reach the token
   limit or fail when they run. The counts of these two rows add up to more
   than the number of problems, so one problem can count in both.
-- These are laptop numbers. The board must still measure the real speed of the
-  model and of the translation, and the step-by-step board test is in
+- These are laptop numbers. The step-by-step board test is in
   [How to try Qwen2.5-Math with Catalan translation on the board](https://github.com/Sigkaio636/Santolina_tutor/blob/02d4e4c/docs/how-to/try-qwen-math-nmt.md).
 
 **The tutor.** These numbers come from board B1 and from our router tests:
@@ -606,8 +618,10 @@ What we would try next:
 
 - Make `SOLVER=letter` the default: it scored 22 of 100 against 16 for the
   prior rule on the practice set.
-- Run the Qwen2.5-Math pipeline with translation on the board, and bring it
-  into `predict.py`, with its model as a service that starts at boot.
+- Write up the board run of the Qwen2.5-Math pipeline with translation, and
+  bring it into `predict.py`, with its model as a service that starts at boot.
+- In that pipeline, an HTTP timeout on the program request answers `D`
+  (`FALLBACK_ANSWER`) instead of the prior rule's letter. This is a known bug.
 - Cut the programs that reach the token limit or fail when they run: on
   M3Kang they are most of the problems the program misses.
 - Stop the program earlier when time is short, so the prior answers instead

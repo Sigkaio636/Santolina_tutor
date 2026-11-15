@@ -15,6 +15,8 @@ The organizers' dataset card comes with the practice file (`data/demo-README.md`
 
 The card does not say what file `predict.py` receives. It also does not say if the options arrive as text or only in the image. It does not name the languages of the hidden test.
 
+**Update, 2026-11-15.** A teammate's commit message ([`02d4e4c`](https://github.com/Sigkaio636/Santolina_tutor/commit/02d4e4c), 09:09) says: "The final test gives the image but not the options." Its source is not recorded, and the organizers' public README does not say it. If it is right, `predict.py` on `main` cannot answer the hidden test well: it reads only JSONL, expects the options as text, and reads no images. The code that loads the parquet file and reads the options from the image on the board is on the branch `exp/noema-finetune` (`copilot/problems.py`, `copilot/options_ocr.py`).
+
 ## The columns of the practice file
 
 The practice file has the same columns as M3Kang:
