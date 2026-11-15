@@ -180,6 +180,9 @@ class Tutor:
                 turns[-1] = ("user", turns[-1][1] + "\n" + said)
                 continue
             turns.append((role, said))
+        # Said again at the end: alone in the system prompt, the model follows the language
+        # of the problem instead (0 of 4 right in a test, 4 of 4 with this line)
+        request += f"\n(Reply in {LANGUAGE_NAMES.get(lang, 'Catalan')}.)"
         if turns and turns[-1][0] == "user":
             turns[-1] = ("user", turns[-1][1] + "\n" + request)
         else:

@@ -179,7 +179,7 @@ def test_messages_put_the_problem_first_and_alternate(catalog):
     }
     assert [m["role"] for m in msgs[1:]] == ["user", "assistant", "user"]
     assert msgs[1]["content"].startswith(PENS["prompt"]) and "B) 8" in msgs[1]["content"]
-    assert msgs[-1]["content"] == "12\nthen?\nnext step?"
+    assert msgs[-1]["content"] == "12\nthen?\nnext step?\n(Reply in Catalan.)"
 
 
 # ---------------------------------------------------------------- tutor

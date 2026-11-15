@@ -83,7 +83,8 @@ Limits to know before a demo:
 - It does not write worked solutions, and the base model writes wrong ones, so the app generates none. To show a worked solution, write it into the pack as `meta.solution` on the laptop.
 - It cannot read photos. A photo gets a note that asks for the problem in words.
 - The router is a keyword rule. The decision model will replace `router.classify` and keep the same five labels.
-- The time per reply on the board is not measured yet. On a laptop it is 2 to 8 seconds.
+- A reply takes 14 to 17 seconds on the board for a one-line problem: the board reads the prompt at about 11.5 tokens per second and writes at about 5.7. A long Kangaroo statement takes longer to read. On a laptop a reply takes 2 to 8 seconds.
+- `08_install_tutor.sh` makes the service start at boot. A tutor server started by hand stops when the board restarts, and the board restarts when its USB power drops.
 
 While the model writes, `GET /api/board-state` returns `"thinking": {"tokens": n, "max": m}` and the LED matrix fills its "thinking" bar. The rest of the time `thinking` is `null`.
 

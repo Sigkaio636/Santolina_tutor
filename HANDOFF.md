@@ -9,7 +9,7 @@ when the work below is done. `CLAUDE.md` still applies in full, above all the M3
 | --- | --- | --- |
 | Student app: login, homework, practice, free mode, chat, events | Works | `student_app/` |
 | Free mode: which problem comes next | Works, tested only on a synthetic map | `student_app/planner.py` |
-| Clues, solutions, chat replies | Works with the fine-tuned tutor model; not timed on the board yet | `student_app/tutor.py`, `llm.py`, `router.py` |
+| Clues, solutions, chat replies | Works with the fine-tuned tutor model: 14 to 17 s per clue on board B1 | `student_app/tutor.py`, `llm.py`, `router.py` |
 | Retrieval index | Code exists, **no index built** on the first laptop | `copilot/rag.py`, `build_index.py` |
 | Teacher app: boards, packs, unload, learning widgets | Works | `teacher_app/` |
 
@@ -24,7 +24,7 @@ when the work below is done. `CLAUDE.md` still applies in full, above all the M3
    step on the board: one step is a pure-Python dot product against one level of the pack.
 3. **Install the tutor model on the board and time it.** Done in code (branch
    `feat/teaching-backend`): see "The copilot" in `docs/how-to/use-student-app.md`. Left:
-   `adb push` the GGUF, run `board/08_install_tutor.sh`, time a clue, and plug the
+   the GGUF is on board B1 (`~/models/`); run `board/08_install_tutor.sh` there (needs sudo), and plug the
    decision model into `student_app/router.py` (`classify`, same five labels).
 4. **Push the new code to a board** with the teacher app's setup step "Copy the board
    module and the student app", or with `board/06_install_student_app.sh`.
