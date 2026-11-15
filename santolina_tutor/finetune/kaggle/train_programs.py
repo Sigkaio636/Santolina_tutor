@@ -72,7 +72,7 @@ CFG = {"base": "Qwen/Qwen3.5-0.8B",
        "revision": "2fc06364715b967f1860aea9cf38778875588b17",  # base of bartowski/Qwen_Qwen3.5-0.8B-GGUF
        # gguf: convert the best epoch with llama.cpp at the board's commit and quantize it, so only
        # one small file needs downloading; the merged weights are then deleted from the output
-       "gguf": "", "gguf_quants": ["Q4_K_M", "Q4_0", "Q3_K_M"], "llama_cpp": "2cbe0ec429b849a88664e0f62388fc92a5abd699",
+       "skip_before": False, "gguf": "", "gguf_quants": ["Q4_K_M", "Q4_0", "Q3_K_M"], "llama_cpp": "2cbe0ec429b849a88664e0f62388fc92a5abd699",
 "epochs": 3, "lr": 2e-4, "batch": 4, "accum": 4, "warmup": 0.05, "rank": 32, "alpha": 64,
        "dropout": 0.05, "max_len": 1024, "max_new_tokens": 160, "seed": 42,
        "rag_k": 0, "none_share": 0.10, "weak_share": 0.25, "twin_share": 0.05,
@@ -305,7 +305,8 @@ def copy_baseline():
 baseline = copy_baseline() if CFG["rag_k"] else None
 
 
-before, _ = evaluate("zero-shot")
+# skip_before: the untuned score is already known from an earlier run, so save the time
+before = {"correct": -1, "accuracy": None, "precision": None} if CFG["skip_before"] else evaluate("zero-shot")[0]
 
 
 def encode(r):
@@ -396,7 +397,7 @@ merged.save_pretrained(f"{OUT}/merged", safe_serialization=True)
 if not TEXT_ONLY:
     AutoProcessor.from_pretrained(BASE, revision=REVISION).save_pretrained(f"{OUT}/merged")
 tok.save_pretrained(f"{OUT}/merged")
-print(f"done: correct {before['accuracy']:.3f} -> {after['accuracy']:.3f} of val; "
+print(f"done: correct {before['accuracy']} -> {after['accuracy']:.3f} of val; "
       f"precision {before['precision']} -> {after['precision']}", flush=True)
 
 
@@ -415,7 +416,7 @@ if CFG["gguf"]:
     sh(f"{sys.executable} -m pip install -q --no-deps {src}/gguf-py sentencepiece")
     f16 = f"/kaggle/temp/{CFG['gguf']}-f16.gguf"
     sh(f"{sys.executable} {src}/convert_hf_to_gguf.py {OUT}/merged --outtype f16 "
-       f"--model-name {CFG['gguf']} --outfile {f16}")
+       f"--model-name {CFG['gguf']} --outfile {f16} --no-mtp")  # the merged model has no MTP head
     sh("cmake -B build -DGGML_CUDA=OFF -DLLAMA_CURL=OFF -DLLAMA_BUILD_TESTS=OFF > /dev/null", cwd=src)
     sh("cmake --build build --target llama-quantize -j4 > /dev/null", cwd=src)
     # Q4_K_M is the one timed on the board; Q4_0 has repacked ARM kernels and Q3_K_M is

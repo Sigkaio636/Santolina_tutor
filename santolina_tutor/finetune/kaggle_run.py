@@ -100,7 +100,7 @@ def push(args):
             "is_private": True, "enable_gpu": True, "enable_internet": True,
             "machine_shape": "NvidiaTeslaT4",
             "dataset_sources": [f"{user}/{DATASET_SLUG}"], "competition_sources": [],
-            "kernel_sources": []}
+            "kernel_sources": [f"{user}/santolina-{k}" for k in args.source]}
     with open(os.path.join(stage, "kernel-metadata.json"), "w") as f:
         json.dump(meta, f, indent=2)
     kaggle("kernels", "push", "-p", stage, "--accelerator", "NvidiaTeslaT4")
@@ -130,6 +130,8 @@ def main():
         if name == "push":
             p.add_argument("--set", action="append", default=[], metavar="KEY=JSON",
                            help="override one CFG entry, e.g. rag_k=1")
+            p.add_argument("--source", action="append", default=[], metavar="NAME",
+                           help="attach the output of kernel santolina-<NAME> as input")
         if name == "output":
             p.add_argument("--out", required=True, help="local folder under data/ (Git-ignored), e.g. data/kaggle_out/letters")
             p.add_argument("--pattern", default="", help="regex of files to fetch, e.g. 'metrics|val_probs'")
