@@ -5,13 +5,15 @@ Answers stay here: `public()` is what the phone may see.
 """
 
 from dataclasses import dataclass
+import json
 from pathlib import Path
+import sqlite3
 import threading
 
 from classroom import paths
 from classroom.packs import read_assignments, read_pack
 from classroom.progress import DONE, status
-from classroom.schemas import ContractError, Exercise, PackManifest
+from classroom.schemas import ContractError, Exercise, PackManifest, read_json
 
 from .easy_read import easy_read
 
@@ -35,6 +37,62 @@ class Item:
         }
 
 
+# Free mode's problems: the solved Kangaroo problems of the retrieval index, as one pack
+INDEX_PACK = PackManifest(
+    pack_id="kangaroo-index",
+    title="Kangaroo",
+    version=1,
+    language="",
+    created_at="",
+    count=0,
+    description="The solved problems of the board's retrieval index (research use only).",
+)
+
+
+def index_exercises(index_path, topics_path=None) -> list:
+    """The index's problems that a phone can show: text options, no picture needed."""
+    path = Path(index_path).expanduser()
+    if not path.is_file():
+        return []
+    topics = {}
+    if topics_path and Path(topics_path).is_file():
+        for line in Path(topics_path).read_text(encoding="utf-8").splitlines():
+            if line.strip():
+                row = json.loads(line)
+                topics[row["id"]] = row.get("topic")
+    try:
+        db = sqlite3.connect(f"file:{path}?mode=ro", uri=True)
+        try:
+            rows = [json.loads(p) for (p,) in db.execute("SELECT problem FROM problems")]
+        finally:
+            db.close()
+    except (sqlite3.Error, ValueError):
+        return []
+    out = []
+    for p in rows:
+        if not p.get("options") or p.get("text_only") is False or not p.get("label"):
+            continue
+        topic = p.get("topic") or topics.get(p["id"])
+        out.append(
+            Exercise(
+                exercise_id=f"{p['id']}_{p['language']}",
+                kind="multiple_choice",
+                language=p["language"],
+                level=p.get("level"),
+                prompt=p.get("text", ""),
+                options=p["options"],
+                answer=p["label"],
+                meta={
+                    **({"topic": topic} if topic else {}),
+                    "source": "m3kang",
+                    "m3kang_id": p["id"],
+                    "year": p.get("year"),
+                },
+            )
+        )
+    return out
+
+
 class Catalog:
     def __init__(self, root):
         self.root = paths.board_root(root)
@@ -42,6 +100,7 @@ class Catalog:
         self._signature = None
         self.items: dict = {}
         self.assignments: list = []
+        self._index = (None, {})  # (signature, {key: Item}) of the retrieval index
 
     def _current_signature(self):
         files = [self.root / paths.ASSIGNMENTS]
@@ -73,7 +132,38 @@ class Catalog:
 
     def get(self, key: str) -> Item | None:
         self.refresh()
-        return self.items.get(key)
+        return self.items.get(key) or self.index_items().get(key)
+
+    def index_items(self) -> dict:
+        """Every showable problem of the retrieval index, as items of INDEX_PACK."""
+        try:
+            identity = read_json(self.root / paths.IDENTITY) or {}
+        except (ValueError, OSError):
+            identity = {}
+        index = Path(identity.get("rag_index_path") or paths.find_rag_index()).expanduser()
+        topics = self.root / paths.TOPICS
+        signature = tuple(
+            (str(f), f.stat().st_mtime) if f.exists() else (str(f), 0) for f in (index, topics)
+        )
+        if self._index[0] != signature:
+            items = {}
+            for e in index_exercises(index, topics):
+                key = f"{INDEX_PACK.pack_id}/{e.exercise_id}"
+                items[key] = Item(key, INDEX_PACK, e)
+            self._index = (signature, items)
+        return self._index[1]
+
+    def free_items(self) -> dict:
+        """Free mode's problems: the index's, minus every problem a loaded pack holds (so
+        free mode never gives away homework). The packs when the board has no index."""
+        self.refresh()
+        in_packs = {(i.exercise.meta or {}).get("m3kang_id") for i in self.items.values()} - {None}
+        free = {
+            k: i
+            for k, i in self.index_items().items()
+            if i.exercise.meta["m3kang_id"] not in in_packs
+        }
+        return free or self.items
 
     def media_path(self, pack_id: str, name: str) -> Path | None:
         """A media file only when an exercise of that pack lists it."""

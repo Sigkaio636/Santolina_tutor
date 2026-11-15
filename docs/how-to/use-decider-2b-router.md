@@ -131,7 +131,7 @@ In the block `decider2b-q4 / plain`, the line `canonical` must show `87.6% [82.9
 
 ## 5. Try it on the board
 
-This step is not measured yet: RAM and time per call on the board are the open test of round 3. It changes nothing in the copilot. The router runs by hand on port 8084, next to the two services. The board must be set up to [step 8.1 of the board guide](../BOARD_SETUP.md#81-clone-this-repository-on-the-board): the services run, and the repository is in `~/Santolina_tutor`.
+This step is not measured yet: RAM and time per call on the board are the open test of round 3. It changes nothing in the copilot. The router runs by hand on port 8085, next to the services. Port 8084 belongs to the tutor model (`math-tutor.service`). The board must be set up to [step 8.1 of the board guide](../BOARD_SETUP.md#81-clone-this-repository-on-the-board): the services run, and the repository is in `~/Santolina_tutor`.
 
 1. Copy the file to the board. Again, a teammate's copy saves you the download. With `ssh`:
 
@@ -160,7 +160,7 @@ This step is not measured yet: RAM and time per call on the board are the open t
     free -m
     ~/llama.cpp/build/bin/llama-server \
       -m ~/models/decider-2b-v12-Q4_K_M.gguf \
-      --host 127.0.0.1 --port 8084 \
+      --host 127.0.0.1 --port 8085 \
       --threads 4 --ctx-size 4096 \
       --parallel 1 --cache-ram 0 --ctx-checkpoints 2 \
       --alias decider-2b
@@ -168,13 +168,13 @@ This step is not measured yet: RAM and time per call on the board are the open t
 
     `--cache-ram 0 --ctx-checkpoints 2` keep the prompt cache from filling the 3.6 GB of RAM ([step 5 of the board guide](../BOARD_SETUP.md#step-5-hello-world-with-the-language-model)).
 
-3. In a second terminal, run `free -m` again, and copy the script of step 3 to the board's home directory, set `URL = "http://127.0.0.1:8084"`, and run it from `~/Santolina_tutor` with `python3 ~/label_one.py`.
+3. In a second terminal, run `free -m` again, and copy the script of step 3 to the board's home directory, set `URL = "http://127.0.0.1:8085"`, and run it from `~/Santolina_tutor` with `python3 ~/label_one.py`.
 
 Don't put the router file in `LLM_FILE` of `config.env`: that would replace the model that answers the problems, not add a router. Stop the router with Ctrl+C when you are done.
 
 ## Limits
 
-- **The two rules are still needed.** No model tested separates a message with several letters (`A? B? C?`) from an attempt: decider-2b labels it `attempt`. The keyword rule for "asks for the solution" and the pattern rule for several letters must run before the model ([conclusion](../experiments/2026-11-router-0.8b-conclusion.md#decision)). Neither rule is written yet.
+- **The two rules are still needed.** No model tested separates a message with several letters (`A? B? C?`) from an attempt: decider-2b labels it `attempt`. The keyword rule for "asks for the solution" and the pattern rule for several letters must run before the model ([conclusion](../experiments/2026-11-router-0.8b-conclusion.md#decision)). The student app has the first: `asks_for_solution` in `student_app/router.py`. It also sends a message that names one option ("és la C?") to the answer button, with `names_an_option` in `student_app/tutor.py`. The rule for several letters is not written yet.
 - **English-only model card.** decider-2b is still right on 65 of the 80 Catalan messages, and on 11 of 16 Catalan "solution" messages.
 - **Slower than decider-0.8b.** On the laptop, each call took 1.5 to 2.2 times as long. On the board it is not measured.
 - **Invented data.** One author (Claude) wrote and labelled the 250 messages. No real student message was used.

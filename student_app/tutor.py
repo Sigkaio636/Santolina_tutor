@@ -33,7 +33,8 @@ from .strings import text
 SYSTEM = "You are a Socratic math tutor."
 LANGUAGE_NAMES = {"cat": "Catalan", "eng": "English", "esp": "Spanish"}
 MAX_TOKENS = 90
-HISTORY = 6  # earlier chat turns sent to the model; each costs prefill time on the board
+HISTORY = 12  # earlier chat turns sent to the model; past this, older turns drop and the
+# server reads the conversation again (not the problem, which stays cached)
 TIMEOUT = 90
 
 # What the student "says" when a button asks for help, by clue number (the model reads English)
@@ -167,31 +168,52 @@ class Tutor:
 
     # ------------------------------------------------------------------ helpers
     def messages(self, context: dict, request: str) -> list:
-        """System, then the problem with the first student turn, then the chat so far."""
-        lang = context.get("language", "cat")
+        """The system message holds the problem; then the chat so far, then the request.
+
+        Every turn is written the same way on every call, so each prompt starts with the
+        previous one. The tutor model is a hybrid (recurrent layers): the server can only
+        reuse its cache from a checkpoint, and it keeps one at the end of the system
+        message. A prompt that changes in the middle makes it read everything again.
+        """
+        lang = LANGUAGE_NAMES.get(context.get("language", "cat"), "Catalan")
         exercise = context.get("exercise")
-        system = f"{SYSTEM} Reply in {LANGUAGE_NAMES.get(lang, 'Catalan')}."
+        system = f"{SYSTEM} Reply in {lang}."
+        if exercise:
+            system += "\n\nThe problem:\n" + format_problem(exercise)
+        # Said on every student turn: alone in the system message, the model follows the
+        # language of the problem instead (0 of 4 right in a test, 4 of 4 with this line)
+        suffix = f"\n(Reply in {lang}.)"
         turns = []  # (role, text), alternating, starting with the user
         for who, said in (context.get("history") or [])[-HISTORY:]:
-            role = "user" if who == "student" else "assistant"
-            if role == "assistant" and (not turns or turns[-1][0] == "assistant"):
-                turns.append(("user", BUTTON_REQUEST))  # a clue button, not a typed message
-            if role == "user" and turns and turns[-1][0] == "user":
-                turns[-1] = ("user", turns[-1][1] + "\n" + said)
+            if who == "copilot":
+                if not turns or turns[-1][0] == "assistant":
+                    turns.append(("user", BUTTON_REQUEST + suffix))
+                turns.append(("assistant", said))
                 continue
-            turns.append((role, said))
-        # Said again at the end: alone in the system prompt, the model follows the language
-        # of the problem instead (0 of 4 right in a test, 4 of 4 with this line)
-        request += f"\n(Reply in {LANGUAGE_NAMES.get(lang, 'Catalan')}.)"
+            said = _request_for(who, said)
+            if turns and turns[-1][0] == "user":
+                turns[-1] = ("user", turns[-1][1] + "\n" + said + suffix)
+            else:
+                turns.append(("user", said + suffix))
         if turns and turns[-1][0] == "user":
-            turns[-1] = ("user", turns[-1][1] + "\n" + request)
+            turns[-1] = ("user", turns[-1][1] + "\n" + request + suffix)
         else:
-            turns.append(("user", request))
-        if exercise:
-            turns[0] = ("user", format_problem(exercise) + "\n" + turns[0][1])
+            turns.append(("user", request + suffix))
         return [{"role": "system", "content": system}] + [
             {"role": r, "content": c} for r, c in turns
         ]
+
+    def warm(self, context: dict) -> bool:
+        """Make the model read the problem as soon as the exercise opens: the server keeps
+        a checkpoint at the end of the system message, so the first clue reads only itself.
+        False when the server could not do it; that only costs speed."""
+        if not context.get("exercise"):
+            return False
+        try:
+            self.chat(self.messages(context, "Hello."), max_tokens=1, timeout=TIMEOUT)
+        except Exception:  # noqa: BLE001  (warming up is only a speed-up)
+            return False
+        return True
 
     def _ask_model(self, context, request, fallback, check_leak=True) -> dict:
         exercise = context.get("exercise")
@@ -213,7 +235,7 @@ class Tutor:
         if not reply:
             log["route"] = "fallback"
             reply = fallback
-        elif check_leak and leaks(reply, exercise):
+        elif check_leak and not context.get("solution_shown") and leaks(reply, exercise):
             log.update(route="fallback", leak_blocked=True)
             reply = fallback
         return {"text": reply, "suggestions": [], "log": log}
@@ -233,8 +255,7 @@ class Tutor:
 
     def any_problem(self, language: str, seen=()) -> str | None:
         """A problem to try: not seen in this visit, in the student's language if possible."""
-        self.catalog.refresh()
-        items = list(self.catalog.items.values())
+        items = list(self.catalog.free_items().values())
         for pool in (
             [i for i in items if i.key not in seen and i.exercise.language == language],
             [i for i in items if i.key not in seen],
@@ -245,8 +266,9 @@ class Tutor:
         return None
 
     def easier_neighbour(self, exercise: dict | None) -> str | None:
-        """The key of the nearest other problem on this board at a lower level (else the
-        same level), in the exercise's language when possible. None without an index."""
+        """The key of the nearest other problem at a lower level (else the same level), in
+        the exercise's language when possible, from free mode's problems (the index, never
+        homework). None without an index."""
         current = self.catalog.get(exercise.get("key", "")) if exercise else None
         vectors = self.vectors() if current else {}
         here = vectors.get(problem_id(current)) if current else None
@@ -254,7 +276,7 @@ class Tutor:
             return None
         level = current.exercise.level if current.exercise.level is not None else 99
         best = None
-        for key, item in self.catalog.items.items():
+        for key, item in self.catalog.free_items().items():
             pid = problem_id(item)
             vec = vectors.get(pid)
             if vec is None or pid == problem_id(current) or item.exercise.level is None:
@@ -269,6 +291,15 @@ class Tutor:
             if best is None or rank > best[0]:
                 best = (rank, key)
         return best[1] if best else None
+
+
+def _request_for(who: str, said: str) -> str:
+    """What the student said, or the request a button press sent to the model."""
+    if who == "clue":
+        return CLUE_REQUESTS.get(int(said or 1), NEXT_STEP_REQUEST)
+    if who == "solution":
+        return "Show me the solution."
+    return said
 
 
 def _tidy(reply: str) -> str:

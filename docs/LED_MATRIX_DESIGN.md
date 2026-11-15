@@ -69,9 +69,10 @@ genera texto, así que mide el progreso real.
 - Si se esperan más de 104 tokens, cada LED vale `max_tokens / 104` tokens. Si
   la respuesta termina antes de llenar la barra, la barra se completa y se
   vuelve a la pantalla de reposo.
-- Durante el prefill todavía no llega ningún token. Entonces la primera fila
-  "respira": su brillo sube y baja una vez por segundo como mucho. Así el
-  alumno ve que la placa no está colgada.
+- Durante el prefill todavía no llega ningún token. Entonces gira un indicador
+  de carga: una luz con una estela que se apaga recorre un óvalo en el centro
+  de la matriz, una vuelta por segundo aproximadamente. Así el alumno ve que
+  la placa no está colgada. Es un movimiento, no un parpadeo.
 - Hay que pedir al servidor de llama.cpp las respuestas en streaming
   (`"stream": true` en `/v1/chat/completions`) y contar los fragmentos que
   llegan (ver las notas de implementación).
