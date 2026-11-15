@@ -74,7 +74,7 @@ def last_option_value(text, options):
     return None
 
 
-def run_one(problem, config, base, cap, read_tps=READ_TPS, write_tps=WRITE_TPS):
+def run_one(problem, config, base, cap, read_tps=READ_TPS, write_tps=WRITE_TPS, program_prompt="zero_shot"):
     user = format_problem(problem) + "\nAnswer:"
     row = {"id": problem["id"], "language": problem["language"], "level": problem["level"],
            "label": problem["label"], "config": config,
@@ -90,7 +90,7 @@ def run_one(problem, config, base, cap, read_tps=READ_TPS, write_tps=WRITE_TPS):
         # tokens cost reading time. Board deadline: 57 s; 1 s kept for running the program.
         tokens = len(post(base + "/tokenize", {"content": format_problem(problem)}, timeout=60)["tokens"]) + 25
         budget = int(min(cap, max(0.0, LIMIT + 2 - tokens / read_tps - 1) * write_tps))
-        prompt, raw, timings = program_turn(base, problem, max(budget, 1))
+        prompt, raw, timings = program_turn(base, problem, max(budget, 1), prompt=program_prompt)
         program = code_from_reply(raw)
         result = judge(program, problem.get("options") or {})
         used = tokens / read_tps + timings.get("predicted_n", 0) / write_tps + 0.5
@@ -140,6 +140,8 @@ def main():
     parser.add_argument("--seed", type=int, default=0)
     parser.add_argument("--port", type=int, default=8081)
     parser.add_argument("--cap", type=int, default=220, help="most tokens of written work")
+    parser.add_argument("--prompt", default="zero_shot", choices=["zero_shot", "tuned"],
+                        help="program: the untuned prompt with examples, or the fine-tuned one")
     parser.add_argument("--workers", type=int, default=4)
     parser.add_argument("--read-tps", type=float, default=READ_TPS, help="board tokens/s read")
     parser.add_argument("--write-tps", type=float, default=WRITE_TPS, help="board tokens/s written")
@@ -149,7 +151,7 @@ def main():
     out = Path("data/grid") / f"{args.name or args.config}.jsonl"
     out.parent.mkdir(parents=True, exist_ok=True)
     with ThreadPoolExecutor(args.workers) as pool:
-        rows = list(pool.map(lambda p: run_one(p, args.config, base, args.cap, args.read_tps, args.write_tps), problems))
+        rows = list(pool.map(lambda p: run_one(p, args.config, base, args.cap, args.read_tps, args.write_tps, args.prompt), problems))
     with open(out, "w", encoding="utf-8") as handle:
         handle.writelines(json.dumps(row, ensure_ascii=False) + "\n" for row in rows)
     n = len(rows)

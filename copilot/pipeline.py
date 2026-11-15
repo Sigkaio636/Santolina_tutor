@@ -21,6 +21,9 @@ MARGIN = 3.0  # seconds kept free for Python and for writing the answer
 #   the model gives a letter in the same conversation (copilot/program_head.py).
 SOLVER = CONFIG.get("SOLVER", "prior")
 READ_TPS = float(CONFIG.get("READ_TPS", "4.86"))  # board reading speed of the model, tokens/s
+# "zero_shot" for an untuned model (two worked examples), "tuned" for a model fine-tuned on
+# santolina_tutor/finetune/program_data.py (short system prompt, no example)
+PROGRAM_PROMPT = CONFIG.get("PROGRAM_PROMPT", "zero_shot")
 _warm = {"done": False, "error": ""}
 
 
@@ -36,7 +39,7 @@ def solve(problem, index=None, k=0, exclude_id=None, image_b64=None, llm_url=URL
         # read the fixed prompt prefix once, before the first problem's clock starts
         _warm["done"] = True
         try:
-            warm_up(llm_url)
+            warm_up(llm_url, prompt=PROGRAM_PROMPT)
         except Exception as error:  # noqa: BLE001 - a failed warm-up only makes the first problem slower
             _warm["error"] = f"{type(error).__name__}: {error}"
     start = time.perf_counter()
@@ -59,7 +62,8 @@ def solve(problem, index=None, k=0, exclude_id=None, image_b64=None, llm_url=URL
         remaining = time_limit - (time.perf_counter() - start) - MARGIN
         if SOLVER == "program" and image_b64 is None:
             letter, info = solve_board(problem, llm_url, start + time_limit - MARGIN,
-                                       seed=int(CONFIG["SEED"]), read_tps=READ_TPS)
+                                       seed=int(CONFIG["SEED"]), read_tps=READ_TPS,
+                                       prompt=PROGRAM_PROMPT)
             if letter is not None and (len(letter) != 1 or letter not in "ABCDE"):
                 raise ValueError(f"the model replied {letter!r}, not one letter A-E")
             # no letter: no time was left for it, so the prior's letter stays

@@ -41,10 +41,14 @@ def read_jsonl(path):
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--problems", nargs="+", required=True)
-    ap.add_argument("--verified", required=True, help="output of programs.py verify")
+    ap.add_argument("--verified", nargs="+", required=True, help="outputs of programs.py verify")
     ap.add_argument("--topics", help="topics.py output, adds a topic to every row")
     ap.add_argument("--out", required=True)
-    ap.add_argument("--languages", default="eng,cat,esp")
+    ap.add_argument("--languages", default="eng,cat", help="the final test is English or Catalan")
+    ap.add_argument("--max-tokens", type=int, default=0,
+                    help="drop programs longer than this many tokens (the board writes about 90)")
+    ap.add_argument("--tokenize-url", default="http://127.0.0.1:8086/tokenize",
+                    help="llama-server /tokenize of the target model, for --max-tokens")
     ap.add_argument("--with-revealed", action="store_true",
                     help="also train on programs written after the answer was revealed")
     args = ap.parse_args()
@@ -55,7 +59,12 @@ def main():
         for p in read_jsonl(path):
             if p["language"] in langs and set(p.get("options") or {}) == set(LETTERS):
                 versions[p["id"]].append(p)
-    verified = read_jsonl(args.verified)
+    verified = [r for path in args.verified for r in read_jsonl(path)]
+    if args.max_tokens:
+        from copilot.client import post
+
+        def n_tokens(text):
+            return len(post(args.tokenize_url, {"content": text}, timeout=60)["tokens"]) + 1
     topic = {t["id"]: t["topic"] for t in read_jsonl(args.topics)} if args.topics else {}
 
     def row(p, **extra):
@@ -69,6 +78,9 @@ def main():
             val += [row(p, label=p["label"]) for p in versions[r["id"]]]
             continue
         if r["status"] != "correct" or (r["revealed"] and not args.with_revealed):
+            continue
+        if args.max_tokens and n_tokens(r["program"].strip()) > args.max_tokens:
+            dropped["too long"] += len(versions[r["id"]])
             continue
         value, error = run_program(r["program"])
         for p in versions[r["id"]]:

@@ -49,24 +49,37 @@ import json
 import math
 import os
 import random
+import re
+import shutil
 import time
 
-from peft import LoraConfig, get_peft_model
+from peft import LoraConfig, get_peft_model, get_peft_model_state_dict, set_peft_model_state_dict
 import torch
-from transformers import AutoModel, AutoModelForImageTextToText, AutoProcessor, AutoTokenizer
+from transformers import (
+    AutoConfig,
+    AutoModel,
+    AutoModelForCausalLM,
+    AutoModelForImageTextToText,
+    AutoProcessor,
+    AutoTokenizer,
+)
 
 if not torch.cuda.is_available():
     sys.exit("No GPU in this kernel: verify the Kaggle account by phone (kaggle.com/settings) "
              "and push with --accelerator NvidiaTeslaT4.")
 
-BASE = "Qwen/Qwen3.5-0.8B"
-REVISION = "2fc06364715b967f1860aea9cf38778875588b17"  # the base of bartowski/Qwen_Qwen3.5-0.8B-GGUF
-CFG = {"epochs": 3, "lr": 2e-4, "batch": 4, "accum": 4, "warmup": 0.05, "rank": 32, "alpha": 64,
+CFG = {"base": "Qwen/Qwen3.5-0.8B",
+       "revision": "2fc06364715b967f1860aea9cf38778875588b17",  # base of bartowski/Qwen_Qwen3.5-0.8B-GGUF
+       # gguf: convert the best epoch with llama.cpp at the board's commit and quantize it, so only
+       # one small file needs downloading; the merged weights are then deleted from the output
+       "gguf": "", "gguf_quants": ["Q4_K_M", "Q4_0", "Q3_K_M"], "llama_cpp": "2cbe0ec429b849a88664e0f62388fc92a5abd699",
+"epochs": 3, "lr": 2e-4, "batch": 4, "accum": 4, "warmup": 0.05, "rank": 32, "alpha": 64,
        "dropout": 0.05, "max_len": 1024, "max_new_tokens": 160, "seed": 42,
        "rag_k": 0, "none_share": 0.10, "weak_share": 0.25, "twin_share": 0.05,
        "twin_cos": 0.90, "twin_options": 4, "example_max_tokens": 150}
 CFG_OVERRIDES = {}  # set by kaggle_run push --set
 CFG.update(CFG_OVERRIDES)
+BASE, REVISION = CFG["base"], CFG["revision"]
 EMBED = "BAAI/bge-small-en-v1.5"
 EMBED_REVISION = "5c38ec7c405ec4b44b94cc5a9bb96e735b38267a"
 EMBED_QUERY_PREFIX = "Represent this sentence for searching relevant passages: "  # config.env
@@ -208,7 +221,10 @@ if CFG["rag_k"]:
 print("Example target:\n" + prompt(train_rows[0]["messages"])[-400:] + train_rows[0]["program"],
       flush=True)
 
-model = AutoModelForImageTextToText.from_pretrained(BASE, revision=REVISION, torch_dtype=torch.float16)
+# Qwen3.5 0.8B is a vision-language checkpoint; Noema-2B is text only (Qwen3_5ForCausalLM)
+TEXT_ONLY = any(a.endswith("ForCausalLM") for a in AutoConfig.from_pretrained(BASE, revision=REVISION).architectures)
+Model = AutoModelForCausalLM if TEXT_ONLY else AutoModelForImageTextToText
+model = Model.from_pretrained(BASE, revision=REVISION, torch_dtype=torch.float16)
 # Frozen base in fp16 to fit the T4's 15 GB; peft keeps the LoRA weights in fp32.
 model.to(device)
 
@@ -309,11 +325,13 @@ def collate(batch_rows):
     return ids, mask, labels
 
 
+# every Linear inside the decoder layers; never the vision tower or the output head
+DECODER = re.compile(r"^(?!.*visual).*\blayers\.\d+\.")
 leaf_names = sorted({name.split(".")[-1] for name, mod in model.named_modules()
-                     if isinstance(mod, torch.nn.Linear) and "language_model" in name})
+                     if isinstance(mod, torch.nn.Linear) and DECODER.match(name)})
 print("LoRA targets:", leaf_names, flush=True)
 lora = LoraConfig(r=CFG["rank"], lora_alpha=CFG["alpha"], lora_dropout=CFG["dropout"],
-                  target_modules=rf".*language_model.*\.({'|'.join(leaf_names)})$")
+                  target_modules=rf"^(?!.*visual).*\blayers\.\d+\..*\.({'|'.join(leaf_names)})$")
 model.config.use_cache = False
 model.gradient_checkpointing_enable(gradient_checkpointing_kwargs={"use_reentrant": False})
 model.enable_input_require_grads()
@@ -331,6 +349,7 @@ scaler = torch.amp.GradScaler("cuda")
 model.train()
 tok.padding_side = "right"
 step, start, history = 0, time.time(), []
+best = {"correct": before["correct"], "epoch": 0, "state": None}
 for epoch in range(CFG["epochs"]):
     random.shuffle(train_rows)
     running = []
@@ -357,10 +376,16 @@ for epoch in range(CFG["epochs"]):
     with open(f"{OUT}/val_programs_epoch{epoch + 1}.jsonl", "w") as f:
         f.writelines(json.dumps(r) + "\n" for r in results)
     model.save_pretrained(f"{OUT}/adapter/epoch{epoch + 1}")
+    if m["correct"] > best["correct"] or best["state"] is None:
+        best = {"correct": m["correct"], "epoch": epoch + 1,
+                "state": {k: v.detach().clone() for k, v in get_peft_model_state_dict(model).items()}}
 
-after = history[-1]  # the last epoch; its evaluation already ran above
+after = next(h for h in history if h["epoch"] == best["epoch"])  # the epoch that is merged
+print(f"best epoch {best['epoch']}: correct {best['correct']}", flush=True)
+set_peft_model_state_dict(model, best["state"])
 with open(f"{OUT}/metrics.json", "w") as f:
     json.dump({"base": BASE, "revision": REVISION, "config": CFG, "before": before, "after": after,
+               "best_epoch": best["epoch"],
                "history": history, "copy_baseline": baseline,
                "train_seconds": round(time.time() - start)}, f, indent=2)
 with open(f"{OUT}/val_programs.jsonl", "w") as f:
@@ -368,7 +393,36 @@ with open(f"{OUT}/val_programs.jsonl", "w") as f:
 
 merged = model.merge_and_unload().to(torch.bfloat16)
 merged.save_pretrained(f"{OUT}/merged", safe_serialization=True)
-AutoProcessor.from_pretrained(BASE, revision=REVISION).save_pretrained(f"{OUT}/merged")
+if not TEXT_ONLY:
+    AutoProcessor.from_pretrained(BASE, revision=REVISION).save_pretrained(f"{OUT}/merged")
 tok.save_pretrained(f"{OUT}/merged")
 print(f"done: correct {before['accuracy']:.3f} -> {after['accuracy']:.3f} of val; "
       f"precision {before['precision']} -> {after['precision']}", flush=True)
+
+
+if CFG["gguf"]:
+    # GGUF at the board's llama.cpp commit; --model-name keeps the file's metadata (and its
+    # SHA256) independent of the folder name. Kaggle's torch is kept: only gguf-py is added.
+    def sh(cmd, cwd=None):
+        print("$", cmd, flush=True)
+        subprocess.run(cmd, shell=True, check=True, cwd=cwd)
+
+    del merged, model
+    torch.cuda.empty_cache()
+    src = "/kaggle/temp/llama.cpp"
+    sh(f"git clone -q https://github.com/ggml-org/llama.cpp {src}")
+    sh(f"git checkout -q {CFG['llama_cpp']}", cwd=src)
+    sh(f"{sys.executable} -m pip install -q --no-deps {src}/gguf-py sentencepiece")
+    f16 = f"/kaggle/temp/{CFG['gguf']}-f16.gguf"
+    sh(f"{sys.executable} {src}/convert_hf_to_gguf.py {OUT}/merged --outtype f16 "
+       f"--model-name {CFG['gguf']} --outfile {f16}")
+    sh("cmake -B build -DGGML_CUDA=OFF -DLLAMA_CURL=OFF -DLLAMA_BUILD_TESTS=OFF > /dev/null", cwd=src)
+    sh("cmake --build build --target llama-quantize -j4 > /dev/null", cwd=src)
+    # Q4_K_M is the one timed on the board; Q4_0 has repacked ARM kernels and Q3_K_M is
+    # smaller, so both may write faster on the A53. Their accuracy is measured on the laptop.
+    for quant in CFG["gguf_quants"]:
+        final = f"{OUT}/{CFG['gguf']}-{quant}.gguf"
+        sh(f"{src}/build/bin/llama-quantize {f16} {final} {quant} > /dev/null")
+        sh(f"sha256sum {final} > {final}.sha256 && cat {final}.sha256")
+    shutil.rmtree(f"{OUT}/merged")  # 4 GB that nobody needs to download
+    os.remove(f16)

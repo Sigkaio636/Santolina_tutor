@@ -201,7 +201,13 @@ def _follow_suffix(base):
     return _suffix_cache[base]
 
 
-def program_turn(url, problem, n_predict, seed=42, t_max_ms=0, timeout=600):
+def program_messages(problem, prompt="zero_shot"):
+    """zero_shot: an untuned model with the two examples; tuned: the fine-tuned model's
+    training prompt (build_messages, short system prompt, no example)."""
+    return build_messages(problem) if prompt == "tuned" else zero_shot_messages(problem)
+
+
+def program_turn(url, problem, n_predict, seed=42, t_max_ms=0, timeout=600, prompt="zero_shot"):
     """Ask for a program. Returns (rendered prompt, reply, timings).
 
     The chat endpoint makes the server save cache checkpoints at message boundaries, so
@@ -212,7 +218,7 @@ def program_turn(url, problem, n_predict, seed=42, t_max_ms=0, timeout=600):
     """
     from .client import post
     base = _base(url)
-    messages = zero_shot_messages(problem)
+    messages = program_messages(problem, prompt)
     body = {"messages": messages, "max_tokens": n_predict, "temperature": 0, "seed": seed,
             "cache_prompt": True, "chat_template_kwargs": NO_THINKING}
     if t_max_ms:
@@ -237,12 +243,14 @@ def letter_turn(url, prompt, raw, seed=42, timeout=600):
     return response.get("content", "").strip(), response.get("timings", {})
 
 
-def warm_up(url, timeout=180):
+def warm_up(url, timeout=180, prompt="zero_shot"):
     """Read the fixed prefix once, before the first problem, so no problem pays for it."""
-    program_turn(url, {"text": "What is 1 + 1?", "options": {}}, n_predict=1, timeout=timeout)
+    program_turn(url, {"text": "What is 1 + 1?", "options": {}}, n_predict=1, timeout=timeout,
+                 prompt=prompt)
 
 
-def solve_board(problem, url, deadline, seed=42, read_tps=4.86, max_tokens=160, run_seconds=2):
+def solve_board(problem, url, deadline, seed=42, read_tps=4.86, max_tokens=160, run_seconds=2,
+                prompt="zero_shot"):
     """SOLVER=program: write solve(), run it, match an option; else ask for the letter.
 
     deadline is a time.perf_counter() value. Returns (letter or None, info); None means
@@ -261,8 +269,8 @@ def solve_board(problem, url, deadline, seed=42, read_tps=4.86, max_tokens=160, 
     write_ms = (left() - fresh / read_tps - 1.0) * 1000
     info = {"program": "", "value": None, "error": None, "how": "none", "timings": {}}
     if write_ms > 3000:
-        prompt, raw, info["timings"] = program_turn(url, problem, max_tokens, seed, write_ms,
-                                                    max(left(), 1.0))
+        rendered, raw, info["timings"] = program_turn(url, problem, max_tokens, seed, write_ms,
+                                                      max(left(), 1.0), prompt)
         info["program"] = code_from_reply(raw)
         result = judge(info["program"], problem.get("options") or {},
                        max(1, min(run_seconds, int(left()))))
@@ -271,10 +279,10 @@ def solve_board(problem, url, deadline, seed=42, read_tps=4.86, max_tokens=160, 
             info["how"] = "program"
             return result["letter"], info
     else:  # no time to write: ask for the letter right after the problem
-        prompt, raw, _ = program_turn(url, problem, 1, seed, 0, max(left(), 1.0))
+        rendered, raw, _ = program_turn(url, problem, 1, seed, 0, max(left(), 1.0), prompt)
     if left() < letter_cost:
         return None, info
-    letter, _ = letter_turn(url, prompt, raw, seed, max(left(), 1.0))
+    letter, _ = letter_turn(url, rendered, raw, seed, max(left(), 1.0))
     info["how"] = "letter"
     return letter, info
 
