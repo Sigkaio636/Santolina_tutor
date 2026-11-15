@@ -1,0 +1,125 @@
+/* Santolina docs: easier reading. Colours follow the student and teacher apps. */
+
+:root > * {
+  --md-primary-fg-color: #2c6a4c;
+  --md-primary-fg-color--light: #4a8a6b;
+  --md-primary-fg-color--dark: #1f4d37;
+  --md-primary-bg-color: #ffffff;
+  --md-accent-fg-color: #b3711a;
+  --md-typeset-a-color: #23744f;
+}
+
+[data-md-color-scheme="slate"] {
+  --md-primary-fg-color: #2c6a4c;
+  --md-primary-fg-color--dark: #1f4d37;
+  --md-accent-fg-color: #e0a54f;
+  --md-typeset-a-color: #7fcca5;
+}
+
+/* A wider page, so the sidebars and the text are not cramped on large screens. */
+.md-grid {
+  max-width: 76rem;
+}
+
+/* ---------- Left sidebar (desktop only: the phone menu keeps the theme's layout) ---------- */
+
+@media screen and (min-width: 76.25em) {
+  .md-sidebar--primary {
+    width: 14rem;
+  }
+
+  .md-sidebar--primary .md-nav {
+    font-size: 0.74rem;
+    line-height: 1.35;
+  }
+
+  /* Each page link: a little more space, and a soft background on hover. */
+  .md-sidebar--primary .md-nav__link {
+    margin-top: 0.15rem;
+    padding: 0.3rem 0.6rem;
+    border-radius: 0.4rem;
+  }
+
+  .md-sidebar--primary .md-nav__link:is(a, label):hover {
+    background-color: var(--md-default-fg-color--lightest);
+  }
+
+  /* The page you are on: tinted background, bold, in the link colour. */
+  .md-sidebar--primary .md-nav__link--active {
+    background-color: color-mix(in srgb, var(--md-typeset-a-color) 14%, transparent);
+    color: var(--md-typeset-a-color);
+    font-weight: 700;
+  }
+
+  /* Group titles: small capitals, muted, with space above, so they don't look like links. */
+  .md-sidebar--primary .md-nav__item--section > .md-nav__link {
+    margin-top: 1.1rem;
+    padding: 0 0.6rem 0.2rem;
+    font-size: 0.64rem;
+    font-weight: 700;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: var(--md-default-fg-color--light);
+    background: none;
+  }
+
+  /* The title of the open tab: larger and darker than the group titles under it. */
+  .md-sidebar--primary .md-nav--primary > .md-nav__list > .md-nav__item--section > .md-nav__link {
+    margin-top: 0.2rem;
+    padding-bottom: 0.5rem;
+    font-size: 0.85rem;
+    letter-spacing: 0;
+    text-transform: none;
+    color: var(--md-default-fg-color);
+  }
+}
+
+/* ---------- Right sidebar (table of contents) ---------- */
+
+.md-sidebar--secondary .md-nav {
+  font-size: 0.68rem;
+}
+
+.md-sidebar--secondary .md-nav__link--active {
+  font-weight: 700;
+}
+
+/* ---------- Page text ---------- */
+
+.md-typeset {
+  line-height: 1.7;
+}
+
+.md-typeset h1 {
+  font-weight: 700;
+  color: var(--md-default-fg-color);
+}
+
+.md-typeset h2 {
+  font-weight: 700;
+  margin-top: 2em;
+  padding-bottom: 0.25em;
+  border-bottom: 1px solid var(--md-default-fg-color--lightest);
+}
+
+.md-typeset h3 {
+  font-weight: 700;
+}
+
+/* Tables: larger text than the theme default, a tinted header, and light stripes. */
+.md-typeset table:not([class]) {
+  font-size: 0.72rem;
+}
+
+.md-typeset table:not([class]) th {
+  background-color: color-mix(in srgb, var(--md-primary-fg-color) 10%, transparent);
+}
+
+/* Tables written with an empty header row (| | |) show no empty bar. */
+.md-typeset table:not([class]) thead:not(:has(th:not(:empty))) {
+  display: none;
+}
+
+.md-typeset table:not([class]) tbody tr:nth-child(even) {
+  background-color: var(--md-default-fg-color--lightest);
+}

@@ -163,6 +163,17 @@ documents:
       signoff: 'round 2026-11-15 (diff since b9c84d2): section cut to a conclusion + link to §14.6 (X13),
         prior-solver default stated; 3 MINOR deferred; user signed off'
     last_sha: 61ef5c43950179d5e06422079734da5704ae23498b8fcba783d37ceb9998e7ac
+  docs/DEVELOPING.md:
+    stages:
+      audit: pending
+      critique: pending
+      decisions: pending
+      repair: pending
+      language: pending
+      adversarial: pending
+      signoff: pending
+    validated_sha: null
+    notes: {}
   docs/GOAL_MUSTS.md:
     stages:
       audit: validated
@@ -843,6 +854,17 @@ documents:
       critique: '2026-11-15: user validated (counts in findings file)'
       decisions: grilling 2026-11-15 (see findings file; X31)
     last_sha: f98aae6a49ee3884c0d844b98173084f7c3e0f70e0f41693a0ebbf33eb69b94f
+  docs/models/qwen35-tutor.md:
+    stages:
+      audit: pending
+      critique: pending
+      decisions: pending
+      repair: pending
+      language: pending
+      adversarial: pending
+      signoff: pending
+    validated_sha: null
+    notes: {}
   docs/reference/board-data-contract.md:
     stages:
       audit: validated
