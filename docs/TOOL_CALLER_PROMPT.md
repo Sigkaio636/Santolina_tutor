@@ -1,5 +1,22 @@
 # Prompt for the student-message classifier
 
+!!! warning "Superseded (note added on 2026-11-15)"
+    This page is an old draft. Nobody tested this prompt. The
+    [intent router](https://github.com/Sigkaio636/Santolina_tutor/blob/main/GLOSSARY.md)
+    that the student app uses is in `student_app/router.py`. It uses a
+    different model, decider-2b, and a different prompt. The router labels
+    chat messages. The student app uses the label to choose how to
+    answer: with the
+    [tutor model](https://github.com/Sigkaio636/Santolina_tutor/blob/main/GLOSSARY.md)
+    or with a fixed reply. For why the team chose decider-2b, see the
+    [conclusion of the 0.8B comparison](experiments/2026-11-router-0.8b-conclusion.md)
+    and [round 3](experiments/2026-11-router-bakeoff-3.md). To set it up, see
+    [How to install and use decider-2b as the intent router](how-to/use-decider-2b-router.md).
+    Two parts of the draft still match the code: the five labels (`STUCK`,
+    `CONCEPT`, `ATTEMPT`, `SOLUTION`, `OTHER`) and the rule that the model
+    alone never unlocks the solution. The rest of the text below is a record
+    of the draft only.
+
 This document gives the prompt that sorts each student message into one label.
 The copilot uses the label to choose a response type from
 [TUTOR_RESPONSE_TYPES.md](TUTOR_RESPONSE_TYPES.md). This version fixes the five
@@ -148,6 +165,3 @@ On the first turn, the tutor has no last message, so `clean` returns `(none)`.
 - **Measurement:** we need a set of about 150 made-up messages, balanced by
   label and by language. Compare the model with a keyword-only classifier.
   The number that decides adoption is the rate of false `SOLUTION` labels.
-
-
-
