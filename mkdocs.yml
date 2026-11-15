@@ -86,42 +86,53 @@ exclude_docs: |
 
 theme:
   name: material
+  font:
+    text: Source Sans 3
+    code: JetBrains Mono
+  palette:
+    scheme: default
+    primary: custom
+    accent: custom
   features:
     - navigation.sections
     - navigation.indexes
+    - navigation.footer
     - navigation.top
-    - search.highlight
+    - toc.follow
+    - search.suggest
     - content.code.copy
-  palette:
-    - media: "(prefers-color-scheme: light)"
-      scheme: default
-      toggle:
-        icon: material/weather-night
-        name: Dark mode
-    - media: "(prefers-color-scheme: dark)"
-      scheme: slate
-      toggle:
-        icon: material/weather-sunny
-        name: Light mode
+    - content.code.annotate
+    - content.tabs.link
+    - content.tooltips
+
+extra_css:
+  - stylesheets/extra.css
 
 plugins:
   - search
 
 markdown_extensions:
   - admonition
-  - tables
-  - attr_list
-  - md_in_html
-  - toc:
-      permalink: true
   - pymdownx.details
-  - pymdownx.tasklist:
-      custom_checkbox: true
-  - pymdownx.tilde
-  - pymdownx.highlight
-  - pymdownx.inlinehilite
+  # The mermaid fence stays: docs/vault/papers/_junctions.md and docs/models/qwen35-tutor.md use it.
   - pymdownx.superfences:
       custom_fences:
         - name: mermaid
           class: mermaid
           format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.highlight
+  - pymdownx.inlinehilite
+  - pymdownx.keys
+  - abbr
+  - pymdownx.snippets
+  - footnotes
+  - def_list
+  - attr_list
+  - md_in_html
+  - tables
+  - toc:
+      permalink: true
