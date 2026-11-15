@@ -21,7 +21,7 @@ from copilot.client import get  # noqa: E402
 from copilot.config import CONFIG, ROOT  # noqa: E402
 from copilot.llm import build_messages  # noqa: E402
 from copilot.pipeline import solve  # noqa: E402
-from copilot.rag import Index  # noqa: E402
+from copilot.rag import Index, check  # noqa: E402
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 LLM = f"http://127.0.0.1:{CONFIG['LLM_PORT']}"
@@ -85,7 +85,11 @@ class App:
         with open(args.input) as f:
             self.problems = [json.loads(line) for line in f if line.strip()]
         self.by_key = {key_of(p): p for p in self.problems}
-        self.index = Index(args.index) if os.path.exists(args.index) else None
+        # The index is optional here: without one, the page works without RAG
+        problem = check(args.index)
+        if problem and os.path.exists(args.index):
+            print(f"Retrieval off: {problem}", file=sys.stderr)
+        self.index = None if problem else Index(args.index)
         self.input = args.input
         # Images the page may ask for: the problems, and the solved problems in the index
         self.image_keys = set(self.by_key)

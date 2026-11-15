@@ -1,5 +1,6 @@
 """A retrieval index in SQLite: one solved M3Kang problem per row."""
 import json
+import os
 import sqlite3
 from array import array
 
@@ -28,11 +29,25 @@ def build(db_path, problems, batch=16):
     db.close()
 
 
+def check(db_path):
+    """Return why db_path can't be read as an index, or None if it can."""
+    if not os.path.exists(db_path):
+        return f"{db_path} not found. Build it first: python3 build_index.py"
+    if os.path.getsize(db_path) == 0:
+        return f"{db_path} is empty (0 bytes). Build it again: python3 build_index.py"
+    return None
+
+
 class Index:
     """Loads every vector into memory once, so each search is a plain loop."""
 
     def __init__(self, db_path):
-        db = sqlite3.connect(db_path)
+        problem = check(db_path)
+        if problem:
+            raise FileNotFoundError(problem)
+        self.path = db_path
+        # Read-only, so a wrong path can never leave an empty index.db behind
+        db = sqlite3.connect(f"file:{db_path}?mode=ro", uri=True)
         self.rows = []
         for key, problem, blob in db.execute("SELECT key, problem, vec FROM problems"):
             vec = array("f")
@@ -47,6 +62,11 @@ class Index:
         never retrieves its own translation.
         """
         query = embed([format_problem(problem)], query=True)[0]
+        if self.rows and len(query) != len(self.rows[0][2]):
+            raise ValueError(
+                f"the embedding service returns {len(query)} dimensions, but {self.path} "
+                f"holds {len(self.rows[0][2])}. Build the index again with the current "
+                f"embedding model: python3 build_index.py")
         scored = []
         for _key, stored, vec in self.rows:
             if exclude_id and stored["id"] == exclude_id:

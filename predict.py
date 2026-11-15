@@ -13,7 +13,6 @@ Rules: runs offline, at most 60 seconds per problem, deterministic.
 import argparse
 import csv
 import json
-import os
 import sys
 
 from copilot.pipeline import solve
@@ -29,10 +28,11 @@ def main():
 
     index = None
     if args.rag:
-        if not os.path.exists(args.index):
-            sys.exit(f"{args.index} not found. Build it first: python3 build_index.py")
-        from copilot.rag import Index
-        index = Index(args.index)
+        from copilot import rag
+        problem = rag.check(args.index)
+        if problem:
+            sys.exit(problem)
+        index = rag.Index(args.index)
 
     with open(args.input) as f:
         problems = [json.loads(line) for line in f if line.strip()]

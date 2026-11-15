@@ -25,19 +25,22 @@ NO_MKDOCS_2_WARNING=1 uv run --group docs mkdocs build --site-dir <scratch dir>
 ```
 
 - Build into a scratch dir. `site/` is ignored, but don't leave build output in the repo.
-- Read every `WARNING`. Expected: `BOARD_SETUP.md` links to `../.claude/skills/...`.
-  Those links are correct on GitHub, but they are outside `docs/`. That is why `--strict` is not used.
+- Read every `WARNING`. Expected: exactly 6, all from `BOARD_SETUP.md` links to `../.claude/skills/...`.
+  Those links are correct on GitHub, but they are outside `docs/`. `BOARD_SETUP.md` is a verbatim copy
+  of the organizers' README and is not edited, so `--strict` is not used.
   Fix any other broken link in the source file.
 
 ## Add a page
 
-- Put the `.md` file in `docs/` or a subfolder. Navigation follows the folders, and `mkdocs.yml` has no `nav:`.
+- Put the `.md` file in `docs/` or a subfolder, and add it to `nav:` in `mkdocs.yml`, in reading order.
+  A page that is not in `nav:` builds, but it is not in the menu.
 - Link it from `docs/index.md` if it is a page to start from.
 - Add it to the review ledger as `pending`:
   `uv run --group docs python .claude/skills/docs-review/scripts/docs_status.py sync --yes`.
   `make docs-status` fails until you do. The `docs-review` skill reviews it later.
 - To keep a file out of the site, add it to `exclude_docs` in `mkdocs.yml`. Already excluded:
-  `vault/.obsidian/`, `vault/papers/**/parsed/` (third-party paper text), `*.pdf`.
+  `vault/.obsidian/`, `vault/papers/**/parsed/` (third-party paper text), `*.pdf`,
+  `vault/papers/papers.tsv` and the video transcript (`UPC Datathon*.txt`).
 - Mermaid diagrams work in ```` ```mermaid ```` fences (see the `mermaid-artist` skill).
 
 ## Red line (CLAUDE.md)

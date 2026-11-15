@@ -115,7 +115,7 @@ What the script enforces:
    - `mkdocs.yml`: `n/a`.
 6. **S6 adversarial.** Invoke `devils-advocate:adversarial-review`, Mode 2,
    scoped to this one document. Lenses, at most three:
-   - guides with steps (`BOARD_SETUP.md`, `vault/guides/`): `analyst`,
+   - guides with steps (`BOARD_SETUP.md`, `how-to/`): `analyst`,
      `popular-science`, `slop-hunter`;
    - research notes (`vault/papers/`, `CHALLENGE_CONTEXT.md`): `methodologist`,
      `popular-science`, `slop-hunter`;
