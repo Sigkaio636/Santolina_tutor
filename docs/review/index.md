@@ -12,24 +12,53 @@ Each document goes through the `/docs-review` stages. ✅ validated by the user,
 
 | Document | audit | critique | decisions | repair | language | adversarial | signoff |
 | --- | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| README.md **stale** | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| [docs/BOARD_SETUP.md](../BOARD_SETUP.md) **stale** | ✅ | ✅ | ✅ | – | – | – | ✅ |
+| README.md | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ⏳ |
+| [docs/BOARD_SETUP.md](../BOARD_SETUP.md) | ✅ | ✅ | ✅ | ✅ | ✅ | – | ⏳ |
 | CLAUDE.md | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | data/README.md | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | [docs/CHALLENGE_CONTEXT.md](../CHALLENGE_CONTEXT.md) | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | [docs/GOAL_MUSTS.md](../GOAL_MUSTS.md) | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | [docs/GUIA_RESTRICCIONES_UNOQ.html](../GUIA_RESTRICCIONES_UNOQ.html) | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| [docs/LED_MATRIX_DESIGN.md](../LED_MATRIX_DESIGN.md) | ✅ | ✅ | 🟡 | ⏳ | ⏳ | ⏳ | ⏳ |
+| [docs/OCR_FAILURE_MODES.md](../OCR_FAILURE_MODES.md) | ✅ | ✅ | 🟡 | ⏳ | ⏳ | ⏳ | ⏳ |
+| [docs/OPTION_READER_GUIDE.md](../OPTION_READER_GUIDE.md) | ✅ | ✅ | 🟡 | ⏳ | ⏳ | ⏳ | ⏳ |
+| [docs/PRACTICE_SET.md](../PRACTICE_SET.md) | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ |
 | [docs/RESUMEN_QUALCOMM_UNO_Q.md](../RESUMEN_QUALCOMM_UNO_Q.md) | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | [docs/SKILLS_GUIDE.html](../SKILLS_GUIDE.html) | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| [docs/UNO_Q_BOARD_REFERENCE.md](../UNO_Q_BOARD_REFERENCE.md) | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| [docs/TOOL_CALLER_PROMPT.md](../TOOL_CALLER_PROMPT.md) | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ |
+| [docs/TUTOR_RESPONSE_TYPES.md](../TUTOR_RESPONSE_TYPES.md) | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ |
+| [docs/UNO_Q_BOARD_REFERENCE.md](../UNO_Q_BOARD_REFERENCE.md) | ✅ | ✅ | ✅ | ✅ | ✅ | ⏳ | ⏳ |
 | [docs/experiments/2026-11-decider-0.8b.md](../experiments/2026-11-decider-0.8b.md) | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| [docs/experiments/2026-11-decider-2b-vision-figure-logic.md](../experiments/2026-11-decider-2b-vision-figure-logic.md) | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ |
+| [docs/experiments/2026-11-internvl35-1b-vs-decider-2b-vision-txto-no.md](../experiments/2026-11-internvl35-1b-vs-decider-2b-vision-txto-no.md) | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ |
 | [docs/experiments/2026-11-ocr-text-vs-annotation.md](../experiments/2026-11-ocr-text-vs-annotation.md) | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| [docs/experiments/2026-11-option-boxes-intermediate-rec.md](../experiments/2026-11-option-boxes-intermediate-rec.md) | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ |
+| [docs/experiments/2026-11-option-crops-opencv.md](../experiments/2026-11-option-crops-opencv.md) | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ |
 | [docs/experiments/2026-11-option-extraction-consensus.md](../experiments/2026-11-option-extraction-consensus.md) | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | [docs/experiments/2026-11-ppformulanet.md](../experiments/2026-11-ppformulanet.md) | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| [docs/experiments/2026-11-router-0.8b-conclusion.md](../experiments/2026-11-router-0.8b-conclusion.md) | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ |
+| [docs/experiments/2026-11-router-bakeoff-2.md](../experiments/2026-11-router-bakeoff-2.md) | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ |
+| [docs/experiments/2026-11-router-bakeoff-3.md](../experiments/2026-11-router-bakeoff-3.md) | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ |
+| [docs/experiments/2026-11-router-bakeoff.md](../experiments/2026-11-router-bakeoff.md) | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ |
+| [docs/experiments/2026-11-router-messages-method.md](../experiments/2026-11-router-messages-method.md) | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ |
+| [docs/experiments/2026-11-tesseract-text-only.md](../experiments/2026-11-tesseract-text-only.md) | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ |
+| [docs/experiments/2026-11-txto-no-heuristics.md](../experiments/2026-11-txto-no-heuristics.md) | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ |
+| [docs/experiments/2026-11-vision-txto-no.md](../experiments/2026-11-vision-txto-no.md) | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ |
+| [docs/explanation/student-data-privacy.md](../explanation/student-data-privacy.md) | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ |
+| [docs/how-to/back-up-and-restore-a-board.md](../how-to/back-up-and-restore-a-board.md) | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ |
 | [docs/how-to/deploy-copilot-on-board.md](../how-to/deploy-copilot-on-board.md) | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| [docs/how-to/install-decider-0.8b.md](../how-to/install-decider-0.8b.md) | ✅ | ✅ | ✅ | ✅ | ✅ | ⏳ | ⏳ |
 | [docs/how-to/mineru-ocr-papers.md](../how-to/mineru-ocr-papers.md) | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| [docs/how-to/run-teacher-app.md](../how-to/run-teacher-app.md) | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ |
+| [docs/how-to/time-2b-model-on-board.md](../how-to/time-2b-model-on-board.md) | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ |
+| [docs/how-to/try-prior-solver.md](../how-to/try-prior-solver.md) | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ |
 | [docs/how-to/use-copilot-on-board.md](../how-to/use-copilot-on-board.md) | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| [docs/how-to/use-decider-2b-router.md](../how-to/use-decider-2b-router.md) | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ |
+| [docs/how-to/use-student-app.md](../how-to/use-student-app.md) | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ |
 | [docs/index.md](../index.md) | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| [docs/models/decider-2b-vision.md](../models/decider-2b-vision.md) | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ |
+| [docs/models/internvl3.5-1b.md](../models/internvl3.5-1b.md) | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ |
+| [docs/reference/board-data-contract.md](../reference/board-data-contract.md) | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ |
 | [docs/vault/papers/README.md](../vault/papers/README.md) | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | [docs/vault/papers/_junctions.md](../vault/papers/_junctions.md) | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | [docs/vault/papers/benchmarks/_synthesis.md](../vault/papers/benchmarks/_synthesis.md) | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
@@ -42,4 +71,4 @@ Each document goes through the `/docs-review` stages. ✅ validated by the user,
 | [docs/vault/papers/tutoring_pedagogy/_synthesis.md](../vault/papers/tutoring_pedagogy/_synthesis.md) | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | mkdocs.yml **stale** | ✅ | ✅ | ✅ | ✅ | – | ✅ | ✅ |
 
-Signed off: 29 of 29 documents.
+Signed off: 26 of 58 documents.
