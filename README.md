@@ -340,7 +340,7 @@ whose arcs grow while it waits for a phone.
 
 > `qwen35-tutor-Q8_0.gguf` is not downloadable. It was trained on data made
 > from M3Kang, which is for research use only, so the model stays private. To
-> make your own, follow [the tutor's fine-tune record](docs/models/qwen35-tutor.md#train-it-again).
+> make your own, follow [the tutor's fine-tune record](docs/models/qwen35-tutor.md#training).
 > The file on our boards has SHA256
 > `fa4bdb3bc91a89ec2964a1c2ef8d9344fe5ca98f8d00e7c1768dbe9a7740ad43`.
 

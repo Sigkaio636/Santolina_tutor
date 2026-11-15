@@ -65,7 +65,9 @@ nav:
           - LED matrix design (Spanish): LED_MATRIX_DESIGN.md
           - Board data contract: reference/board-data-contract.md
       - The tutor:
-          - Tutor response types (Spanish): TUTOR_RESPONSE_TYPES.md
+          - Tutor response types: reference/tutor-response-types.md
+          - "Why the tutor answers this way": explanation/tutor-response-types-evidence.md
+          - Tutor response policy (proposal): explanation/tutor-response-policy.md
           - "Student data and privacy": explanation/student-data-privacy.md
       - Models:
           - models/index.md
@@ -109,39 +111,26 @@ exclude_docs: |
 
 theme:
   name: material
-  language: en
-  icon:
-    logo: material/school-outline
-  # Atkinson Hyperlegible: the font of the student app's easy-to-read switch.
   font:
-    text: Atkinson Hyperlegible
+    text: Source Sans 3
     code: JetBrains Mono
+  palette:
+    scheme: default
+    primary: custom
+    accent: custom
   features:
-    - navigation.tabs        # one tab per top-level section: the sidebar lists only that section
-    - navigation.sections    # groups inside a tab show as titled blocks
-    - navigation.indexes
+    - navigation.tabs        # one tab per top-level section (the docs structure)
     - navigation.path        # breadcrumbs above the page title
+    - navigation.sections
+    - navigation.indexes
+    - navigation.footer
     - navigation.top
-    - navigation.footer      # previous and next page at the bottom
     - toc.follow
     - search.suggest
-    - search.highlight
     - content.code.copy
-  palette:
-    - media: "(prefers-color-scheme: light)"
-      scheme: default
-      primary: custom
-      accent: custom
-      toggle:
-        icon: material/weather-night
-        name: Dark mode
-    - media: "(prefers-color-scheme: dark)"
-      scheme: slate
-      primary: custom
-      accent: custom
-      toggle:
-        icon: material/weather-sunny
-        name: Light mode
+    - content.code.annotate
+    - content.tabs.link
+    - content.tooltips
 
 extra_css:
   - stylesheets/extra.css
@@ -151,19 +140,26 @@ plugins:
 
 markdown_extensions:
   - admonition
-  - tables
-  - attr_list
-  - md_in_html
-  - toc:
-      permalink: true
   - pymdownx.details
-  - pymdownx.tasklist:
-      custom_checkbox: true
-  - pymdownx.tilde
-  - pymdownx.highlight
-  - pymdownx.inlinehilite
+  # The mermaid fence stays: docs/vault/papers/_junctions.md and docs/models/qwen35-tutor.md use it.
   - pymdownx.superfences:
       custom_fences:
         - name: mermaid
           class: mermaid
           format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.highlight
+  - pymdownx.inlinehilite
+  - pymdownx.keys
+  - abbr
+  - pymdownx.snippets
+  - footnotes
+  - def_list
+  - attr_list
+  - md_in_html
+  - tables
+  - toc:
+      permalink: true

@@ -1,6 +1,6 @@
 # How to install and use decider-2b as the intent router
 
-This guide sets up [Mapika/decider-2b](https://huggingface.co/Mapika/decider-2b-GGUF) as the tutor's intent router and shows how to ask it for one label. The router reads the student's message and gives it one of five labels: `stuck`, `concept`, `attempt`, `solution` or `not_productive`. They are the English names of the labels that [TUTOR_RESPONSE_TYPES.md](../TUTOR_RESPONSE_TYPES.md) proposes in Spanish (PRODUCTIVA_ATASCO, PRODUCTIVA_CONCEPTO, INTENTO, PIDE_SOLUCIÓN, NO_PRODUCTIVA). Rules then pick the tutor's response type.
+This guide sets up [Mapika/decider-2b](https://huggingface.co/Mapika/decider-2b-GGUF) as the tutor's intent router and shows how to ask it for one label. The router reads the student's message and gives it one of five labels: `stuck`, `concept`, `attempt`, `solution` or `not_productive`. They are the English names of the labels that [the tutor response policy](../explanation/tutor-response-policy.md#labels-for-the-intent-router) proposed in Spanish (PRODUCTIVA_ATASCO, PRODUCTIVA_CONCEPTO, INTENTO, PIDE_SOLUCIÓN, NO_PRODUCTIVA). Rules then pick the tutor's response type.
 
 [Round 3 of the router bake-off](../experiments/2026-11-router-bakeoff-3.md) chose decider-2b Q4_K_M, with the `plain` prompt format and the canonical option order, to replace decider-0.8b as the router to try on the board. The router is not part of the copilot yet: nothing in `copilot/`, `predict.py` or the board services calls it. You run it by hand, on its own port.
 
@@ -188,6 +188,6 @@ Don't put the router file in `LLM_FILE` of `config.env`: that would replace the 
 | [Router conclusion (0.8B)](../experiments/2026-11-router-0.8b-conclusion.md) | The team adopts decider-0.8b with two rules in front |
 | [Router bake-off, round 3](../experiments/2026-11-router-bakeoff-3.md) | decider-2b Q4_K_M passes its rule: 87.6 % against 80.8 %, McNemar p = 0.009; the gain is on "solution" messages |
 | [decider-0.8b as the solver](../experiments/2026-11-decider-0.8b.md) | The other use of the family: answering the problems, not routing |
-| [Tutor response types](../TUTOR_RESPONSE_TYPES.md) | The five labels and the rules that turn them into the tutor's response |
+| [Tutor response policy](../explanation/tutor-response-policy.md) | The five labels and the proposed rules that turn them into the tutor's response |
 
 For each option of the bake-off script, run `python3 laptop/router_bakeoff.py run --help`.

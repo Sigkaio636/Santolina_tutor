@@ -34,3 +34,7 @@ Method (user choice): three hand-spawned devils-advocate adversarial reviewers (
 Fixed in this README (S4/S5 pass after S6): router.py: intent router 'is meant to replace' the rule, runs only by hand at this commit (architect MAJOR, popular-science); leak check worded as a pattern rule; 06 seeds lib/ once; /api/board-state also reports tutor writing; demo block replaced by a link (one command per README).
 
 Rejected: -
+
+## 2026-11-15: link to the split TUTOR_RESPONSE_TYPES (main session, user approved)
+
+The old file was split (13b59c1, 354cde7); the link now points to `docs/reference/tutor-response-types.md`. Link-only change.

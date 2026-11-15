@@ -54,6 +54,6 @@ Tests: see [`tests/`](../tests/README.md).
 ## Docs
 
 - [Use the student app](../docs/how-to/use-student-app.md): install, use and stop it.
-- [Tutor response types](../docs/TUTOR_RESPONSE_TYPES.md): how the tutor answers each kind of message.
+- [Tutor response types](../docs/reference/tutor-response-types.md): how the tutor answers each kind of message.
 - [Student data privacy](../docs/explanation/student-data-privacy.md): what is stored and why.
 - Terms: [GLOSSARY.md](../GLOSSARY.md) (Student app, Hotspot, Student code, Session, Event, Exercise pack, Assignment, Free mode, Learning path, Clue, Tutor model, Intent router, Board data contract).

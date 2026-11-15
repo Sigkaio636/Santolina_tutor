@@ -4,43 +4,43 @@
 documents:
   README.md:
     stages:
-      audit: validated
-      critique: validated
-      decisions: validated
-      repair: validated
-      language: validated
-      adversarial: validated
-      signoff: validated
-    validated_sha: 8571d5d6d667be758c871f73b254e379822535778f0ec36d10f4bdb4813c0055
+      audit: done
+      critique: pending
+      decisions: pending
+      repair: pending
+      language: pending
+      adversarial: pending
+      signoff: pending
+    validated_sha: null
     notes:
-      audit: 'round 2026-11-15, diff only: docsauditor 0 findings; user validated'
+      audit: 'X34: review paused; README/index/mkdocs owned by Haokang on main; findings handed over'
       critique: 'diff only: docs-critic 5 findings (1 decision); user validated'
       decisions: 'grilling 2026-11-15: 1 decision settled (X15); user validated'
       repair: 'round 2026-11-15: R1-R5 fixed; user validated'
       language: 'round 2026-11-15: no rewrite, ste-lint 0; user validated'
       adversarial: 'round 2026-11-15: 2 rounds, all SHIP; A3 fixed; A4, A5 open; user validated'
       signoff: 'round 2026-11-15: user signed off; A4, A5 open (guide move)'
-    last_sha: 8571d5d6d667be758c871f73b254e379822535778f0ec36d10f4bdb4813c0055
+    last_sha: b8fe096bf9e4336d27e046796f538af5ad92e53506c19fbb78016ee6fbbdf006
   docs/BOARD_SETUP.md:
     stages:
       audit: validated
       critique: validated
       decisions: validated
-      repair: validated
-      language: validated
-      adversarial: validated
+      repair: n/a
+      language: n/a
+      adversarial: n/a
       signoff: validated
-    validated_sha: 773d8810219857e46b99a3f78a56e6cf986a042be65a14a84d8f7a3fcf863c32
+    validated_sha: 9b00470184136d69c11e321d5aab4af0d05ddd77a0ddc4dcc0fa2787738d768e
     notes:
-      audit: 'round 2026-11-15, diff only: docsauditor 1 finding; user validated'
-      critique: 'diff only: docs-critic 4 findings + 1 out-of-diff decision (steps 11-12 vs SOLVER); user
-        validated'
-      decisions: 'grilling 2026-11-15: B4 wontfix, B5-B6 settled by X11; user validated'
-      repair: user validated S4 on 2026-11-15
-      language: user validated S5 on 2026-11-15
-      adversarial: user validated S6 on 2026-11-15
-      signoff: user signed off on 2026-11-15; open A1-A3 cosmetic
-    last_sha: 773d8810219857e46b99a3f78a56e6cf986a042be65a14a84d8f7a3fcf863c32
+      audit: 'X33: teammate diff (25f82e5) read in full by the main session; facts accepted by the user
+        (Teach and Reason both, upstream f1ae321)'
+      critique: 'X33: diff only; no readability issue the user wants fixed'
+      decisions: 'X33: user accepted the diff as is'
+      repair: 'X33: teammate diff accepted as is, no repair'
+      language: 'X33: teammate diff accepted as is, no repair'
+      adversarial: 'X33: teammate diff accepted as is, no repair'
+      signoff: user sign-off 2026-11-15 of the teammate diff (X33)
+    last_sha: 9b00470184136d69c11e321d5aab4af0d05ddd77a0ddc4dcc0fa2787738d768e
   CLAUDE.md:
     stages:
       audit: validated
@@ -145,27 +145,24 @@ documents:
       audit: validated
       critique: validated
       decisions: validated
-      repair: validated
-      language: validated
-      adversarial: validated
+      repair: n/a
+      language: n/a
+      adversarial: n/a
       signoff: validated
-    validated_sha: 61ef5c43950179d5e06422079734da5704ae23498b8fcba783d37ceb9998e7ac
+    validated_sha: f2234396502c496a7dc6031050ea1d9ba4db21ba3fcb91a5da9b400efe69ed25
     notes:
-      audit: 'round 2026-11-15, diff only: docsauditor 2 findings (2 decisions); user validated'
-      critique: 'diff only: docs-critic 12 findings (2 decisions); user validated'
-      decisions: 'grilling 2026-11-15: H1-H3 settled by X11/X13; user validated'
-      repair: 'docsjanitor: section cut to one paragraph + link to §14.6 (X13); harness line moved up
-        (H12); H1-H13 closed; user validated'
-      language: 'asd-ste100 (STE-flavored) on the new section: 1 sentence split; ste-lint 0 violations;
-        user validated'
-      adversarial: '3 lenses, 2 rounds (hand-spawned, no scripted loop/adjudicator): 1 MAJOR + 2 MINOR
-        fixed; 3 MINOR deferred; round 2 SHIP; user validated'
-      signoff: 'round 2026-11-15 (diff since b9c84d2): section cut to a conclusion + link to §14.6 (X13),
-        prior-solver default stated; 3 MINOR deferred; user signed off'
-    last_sha: 61ef5c43950179d5e06422079734da5704ae23498b8fcba783d37ceb9998e7ac
+      audit: 'X33: teammate diff (25f82e5) read in full by the main session; facts accepted by the user
+        (Teach and Reason both, upstream f1ae321)'
+      critique: 'X33: diff only; no readability issue the user wants fixed'
+      decisions: 'X33: user accepted the diff as is'
+      repair: 'X33: teammate diff accepted as is, no repair'
+      language: 'X33: teammate diff accepted as is, no repair'
+      adversarial: 'X33: teammate diff accepted as is, no repair'
+      signoff: user sign-off 2026-11-15 of the teammate diff (X33)
+    last_sha: f2234396502c496a7dc6031050ea1d9ba4db21ba3fcb91a5da9b400efe69ed25
   docs/DEVELOPING.md:
     stages:
-      audit: pending
+      audit: done
       critique: pending
       decisions: pending
       repair: pending
@@ -173,28 +170,29 @@ documents:
       adversarial: pending
       signoff: pending
     validated_sha: null
-    notes: {}
+    notes:
+      audit: 'docsauditor 2026-11-15: 27 findings (9 decisions)'
+    last_sha: d2e350c20ddb5d624264b32d7df2347d084fa0740991c4b4e06d259fe4ca6fa0
   docs/GOAL_MUSTS.md:
     stages:
       audit: validated
       critique: validated
       decisions: validated
-      repair: validated
-      language: validated
-      adversarial: validated
+      repair: n/a
+      language: n/a
+      adversarial: n/a
       signoff: validated
-    validated_sha: a3103acf02a8bbd89cd4722c6f22ad36fa5e18376f7faf628b67f837754945b4
+    validated_sha: 05c0ab6bc7731ae10bfaa3595cf2fdfb3124a957856f36101af973831447c987
     notes:
-      audit: 'docsauditor: 5 findings (1 breaks, 0 decisions)'
-      critique: 'diataxis: reference (checklist); docs-critic: 23 findings (3 misleading, 6 decisions)'
-      decisions: 'grilling Q1-Q23: 6 findings settled (0 wontfix, 0 dismissed); 28 verified left for S4'
-      repair: 'docsjanitor: all verified findings fixed or settled; 0 open'
-      language: asd-ste100 (flavored), ste-lint 28 -> 2; remaining hits are quotes, locked headings or
-        linter false positives
-      adversarial: 2 rounds, 9 lenses by hand (adversarial-reviewer, no plugin toolchain) + adjudicator;
-        round 2 verdict SHIP, its 8 in-scope minors fixed
-      signoff: user sign-off 2026-11-14 after S1-S6 (commit b9c84d2)
-    last_sha: a3103acf02a8bbd89cd4722c6f22ad36fa5e18376f7faf628b67f837754945b4
+      audit: 'X33: teammate diff (25f82e5) read in full by the main session; facts accepted by the user
+        (Teach and Reason both, upstream f1ae321)'
+      critique: 'X33: diff only; no readability issue the user wants fixed'
+      decisions: 'X33: user accepted the diff as is'
+      repair: 'X33: teammate diff accepted as is, no repair'
+      language: 'X33: teammate diff accepted as is, no repair'
+      adversarial: 'X33: teammate diff accepted as is, no repair'
+      signoff: user sign-off 2026-11-15 of the teammate diff (X33)
+    last_sha: 05c0ab6bc7731ae10bfaa3595cf2fdfb3124a957856f36101af973831447c987
   docs/GUIA_RESTRICCIONES_UNOQ.html:
     stages:
       audit: validated
@@ -231,9 +229,9 @@ documents:
       audit: 'docsauditor: 10 findings (1 breaks; 3 decisions, 2 suspected); user validated'
       critique: 'diataxis: mixed; docs-critic: 47 findings (15 decisions); user validated; PR #10 spinner
         change (4 lines) accepted by user 2026-11-15'
-      decisions: 'grilling 2026-11-15: translate to English; split into reference/led-matrix.md (built)
-        + planned design; open questions listed; canonical copies linked'
-    last_sha: 76789c4017121987621dea5ea2998d616f74f205af1f26c82a01e5dbc503fc53
+      decisions: 'grilling 2026-11-15: translate to English; split; teammate''s skill link change (25f82e5)
+        accepted'
+    last_sha: 3e46279a247e28684e8c56c7616070b8b9711f56278e5f6ea068afde3e683173
   docs/OCR_FAILURE_MODES.md:
     stages:
       audit: validated
@@ -332,39 +330,20 @@ documents:
       critique: validated
       decisions: validated
       repair: validated
-      language: validated
-      adversarial: validated
+      language: n/a
+      adversarial: n/a
       signoff: validated
-    validated_sha: e273e22bd2716b0bf2d0013794bba641850100751a90dbd03d8af446cbcf60cd
+    validated_sha: 0e7dd00905d084d6cf0fb6868729fc84ce666bbc75bb4c54ad3ddfc89f4e8d55
     notes:
       audit: 'docsauditor: 20 findings (1 breaks; 4 decisions); user validated'
       critique: 'diataxis: reference + history + backlog; docs-critic: 26 findings (11 decisions); user
         validated'
       decisions: 'user validated S3: superseded note, body kept, F20 fix, rest wontfix'
-      repair: superseded note at top (F1,T1-T3,F19,F18,T4,T11), trailing blanks removed (F20,T26); 36
-        findings wontfix
-      language: 'asd-ste100 (STE-flavored) on the note: ste-lint 0 violations; 1 manual fix (model name
-        split from the ''different model'' sentence)'
-      adversarial: 2 rounds, reviewers by hand (toolchain FATAL, PEP 668); 4 fixed in the note, 2 open
-        outside it (ship ordering, how-to)
-      signoff: user signed off 2026-11-15
-    last_sha: e273e22bd2716b0bf2d0013794bba641850100751a90dbd03d8af446cbcf60cd
-  docs/TUTOR_RESPONSE_TYPES.md:
-    stages:
-      audit: validated
-      critique: validated
-      decisions: done
-      repair: pending
-      language: pending
-      adversarial: pending
-      signoff: pending
-    validated_sha: null
-    notes:
-      audit: '2026-11-15: user validated (counts in findings file)'
-      critique: '2026-11-15: user validated (counts in findings file)'
-      decisions: 'grilling 2026-11-15: translate to English and split in 3; status table; terms in English;
-        vault κ reopened'
-    last_sha: bb466b615ff90b5c06190bcd572c19169c7c14c3d4e6cf1e4de19d30c5898278
+      repair: '2026-11-15: one link repointed to reference/tutor-response-types.md; user validated'
+      language: link-only change
+      adversarial: link-only change
+      signoff: user sign-off 2026-11-15 of the link change
+    last_sha: 0e7dd00905d084d6cf0fb6868729fc84ce666bbc75bb4c54ad3ddfc89f4e8d55
   docs/UNO_Q_BOARD_REFERENCE.md:
     stages:
       audit: validated
@@ -676,17 +655,67 @@ documents:
     stages:
       audit: validated
       critique: validated
-      decisions: done
-      repair: pending
-      language: pending
-      adversarial: pending
-      signoff: pending
-    validated_sha: null
+      decisions: validated
+      repair: validated
+      language: validated
+      adversarial: validated
+      signoff: validated
+    validated_sha: ae45c7a8fadd1e763af0c723ce27b4c14677f34d2c27bdb5549ee91af001c27d
     notes:
       audit: '2026-11-15: user validated (counts in findings file)'
       critique: '2026-11-15: user validated (counts in findings file)'
-      decisions: grilling 2026-11-15 (see findings file; X31)
-    last_sha: 68daf220cc349decda85ba5998fc011e50273f7b27c93f4ee36b0e22235740a7
+      decisions: user validated S3; PV6 row from committed code, decider-2b part open (X26)
+      repair: user validated S4
+      language: user validated S5
+      adversarial: user validated S6
+      signoff: 'user signed off 2026-11-15; open: PV6 (X26), M2-1 DHCP leases, G1 GLOSSARY Tutor model'
+    last_sha: ae45c7a8fadd1e763af0c723ce27b4c14677f34d2c27bdb5549ee91af001c27d
+  docs/explanation/tutor-response-policy.md:
+    stages:
+      audit: validated
+      critique: validated
+      decisions: validated
+      repair: validated
+      language: validated
+      adversarial: validated
+      signoff: validated
+    validated_sha: 0d057439830fbd0801e924f55ca61f1f9425b37a831c26ea5d3df3077e661510
+    notes:
+      audit: carried over from docs/TUTOR_RESPONSE_TYPES.md S1 (TR1-TR21), user approved 2026-11-15
+      critique: carried over from docs/TUTOR_RESPONSE_TYPES.md S2 (CTR1-CTR17), user approved 2026-11-15
+      decisions: carried over from docs/TUTOR_RESPONSE_TYPES.md S3 (translate + split in 3), user approved
+        2026-11-15
+      repair: translated + split from TUTOR_RESPONSE_TYPES (13b59c1); all TR/CTR fixed; X32b; TRS1 open
+        (router step uncommitted, X26)
+      language: 'asd-ste100 STE-flavored + ste-lint: 41 hard -> 2 (false positive ''fixed'' adj; one 26-word
+        citation item kept)'
+      adversarial: 'manual reviewers (toolchain PEP 668): popular-science, methodologist, slop-hunter;
+        R1 11 MAJOR fixed, R2 6 MAJOR fixed; no clean 3rd round (cap)'
+      signoff: user signed off 2026-11-15; TRS1 open (router step uncommitted, X26)
+    last_sha: 0d057439830fbd0801e924f55ca61f1f9425b37a831c26ea5d3df3077e661510
+  docs/explanation/tutor-response-types-evidence.md:
+    stages:
+      audit: validated
+      critique: validated
+      decisions: validated
+      repair: validated
+      language: validated
+      adversarial: validated
+      signoff: validated
+    validated_sha: dd1de7cec989dffbbd04d21714203a45d6feb7f41e2fd00c5ec00dea05bd5d44
+    notes:
+      audit: carried over from docs/TUTOR_RESPONSE_TYPES.md S1 (TR1-TR21), user approved 2026-11-15
+      critique: carried over from docs/TUTOR_RESPONSE_TYPES.md S2 (CTR1-CTR17), user approved 2026-11-15
+      decisions: carried over from docs/TUTOR_RESPONSE_TYPES.md S3 (translate + split in 3), user approved
+        2026-11-15
+      repair: translated + split from TUTOR_RESPONSE_TYPES (13b59c1); all TR/CTR fixed; X32b; TRS1 open
+        (router step uncommitted, X26)
+      language: 'asd-ste100 STE-flavored + ste-lint: 41 hard -> 2 (false positive ''fixed'' adj; one 26-word
+        citation item kept)'
+      adversarial: 'manual reviewers (toolchain PEP 668): popular-science, methodologist, slop-hunter;
+        R1 11 MAJOR fixed, R2 6 MAJOR fixed; no clean 3rd round (cap)'
+      signoff: user signed off 2026-11-15; TRS1 open (router step uncommitted, X26)
+    last_sha: dd1de7cec989dffbbd04d21714203a45d6feb7f41e2fd00c5ec00dea05bd5d44
   docs/how-to/back-up-and-restore-a-board.md:
     stages:
       audit: validated
@@ -852,8 +881,9 @@ documents:
     notes:
       audit: '2026-11-15: user validated (counts in findings file)'
       critique: '2026-11-15: user validated (counts in findings file)'
-      decisions: 'grilling 2026-11-15: X26-X29 (see findings file)'
-    last_sha: b6bc18a0a54c2b9f60898b8de7857607c08b0017af97ea5dd413864f266ff3b3
+      decisions: 'grilling 2026-11-15: X26-X29 (see findings file); link to the split tutor response policy
+        accepted'
+    last_sha: 9741db47b3cd2154594f43a306dc44ed861de6827849576850448be535030721
   docs/how-to/use-student-app.md:
     stages:
       audit: validated
@@ -871,16 +901,16 @@ documents:
     last_sha: cb243469e9d8fd90a0d108ac9b1586bf8a055a6e8123519b713def2b70ed5c7c
   docs/index.md:
     stages:
-      audit: validated
-      critique: validated
-      decisions: validated
-      repair: validated
-      language: validated
-      adversarial: validated
-      signoff: validated
-    validated_sha: 5fd67377e921ccd36015945b74b953c2ffec207b7f6a506bf2720b3caa77e921
+      audit: done
+      critique: pending
+      decisions: pending
+      repair: pending
+      language: pending
+      adversarial: pending
+      signoff: pending
+    validated_sha: null
     notes:
-      audit: 'docsauditor: 2 findings (0 breaks, 0 decisions)'
+      audit: 'X34: review paused; README/index/mkdocs owned by Haokang on main; findings handed over'
       critique: 'diataxis: landing page; docs-critic: 9 findings (1 misleading, 3 decisions)'
       decisions: 'grilling Q1-Q23: 3 findings settled (1 wontfix, 0 dismissed); 10 verified left for S4'
       repair: 'docsjanitor: all verified findings fixed or settled; 0 open'
@@ -889,22 +919,31 @@ documents:
       adversarial: 2 rounds, 9 lenses by hand (adversarial-reviewer, no plugin toolchain) + adjudicator;
         round 2 verdict SHIP, its 8 in-scope minors fixed
       signoff: user sign-off 2026-11-14 after S1-S6 (commit b9c84d2)
-    last_sha: 5fd67377e921ccd36015945b74b953c2ffec207b7f6a506bf2720b3caa77e921
+    last_sha: afcf7cbcd5d87a5e6f5cb1ab26f8ac2a5f34c587738eae68e20c9fe98fed3500
   docs/models/decider-2b-vision.md:
     stages:
       audit: validated
       critique: validated
-      decisions: done
-      repair: pending
-      language: pending
-      adversarial: pending
-      signoff: pending
-    validated_sha: null
+      decisions: validated
+      repair: validated
+      language: validated
+      adversarial: validated
+      signoff: validated
+    validated_sha: fccdf846d282464e4f85fde58805aa5324267f583803a7b5aaa994b03f603737
     notes:
       audit: '2026-11-15: user validated (counts in findings file)'
       critique: '2026-11-15: user validated (counts in findings file)'
-      decisions: grilling 2026-11-15 (see findings file; X31)
-    last_sha: 41afff3a23e59eaa5a3923d82a78c24e1a5ce6fb54b79db7920c72dc5c9d0046
+      decisions: X31 template, strict no-ids rule, SOLVER=letter + LLM_PROMPT=decider, X3; user validated
+        2026-11-15
+      repair: X31 template, SOLVER=letter + LLM_PROMPT=decider with checks, X3, 8.2 s and 3.2 s sourced
+        per run; 21 findings fixed, 3 open on X26
+      language: asd-ste100 STE-flavored; ste-lint 6 -> 0 (5 semicolons, 1 passive); McNemar results as
+        a list
+      adversarial: reviewers by hand (methodologist, ai-engineer, slop-hunter), adjudicator not run; R1
+        25 findings (2 major) fixed, R2 SHIP + 3 minor fixed; 2 open (code change, RSS source)
+      signoff: 'S4-S6 validated; open: MD4/CMD5/CMD3 wait for X26 router commit, A16 code change, A17
+        RSS source'
+    last_sha: fccdf846d282464e4f85fde58805aa5324267f583803a7b5aaa994b03f603737
   docs/models/index.md:
     stages:
       audit: pending
@@ -920,43 +959,64 @@ documents:
     stages:
       audit: validated
       critique: validated
-      decisions: done
-      repair: pending
-      language: pending
-      adversarial: pending
-      signoff: pending
-    validated_sha: null
+      decisions: validated
+      repair: validated
+      language: validated
+      adversarial: validated
+      signoff: validated
+    validated_sha: 8486d6680820e2ae4f1887fb0464f56425dcff39f2b58ecdab044cda85d7ab1e
     notes:
       audit: '2026-11-15: user validated (counts in findings file)'
       critique: '2026-11-15: user validated (counts in findings file)'
-      decisions: grilling 2026-11-15 (see findings file; X31)
-    last_sha: f98aae6a49ee3884c0d844b98173084f7c3e0f70e0f41693a0ebbf33eb69b94f
+      decisions: X31 template, strict no-ids rule, SOLVER=letter + LLM_PROMPT=decider, X3; user validated
+        2026-11-15
+      repair: X31 template as decider record (lede verdict, build pointer, SOLVER=letter checks, Commit
+        column, floor defined once, img= first, confound stated), conversion steps with both patch settings
+        and SHA check, X3, MathVista checked in Table 3; 16 findings fixed, 1 open (GLOSSARY on main)
+      language: asd-ste100 STE-flavored; ste-lint 2 -> 0 (Identity row split, semicolon); one clause added
+        on the converter's source
+      adversarial: reviewers by hand (methodologist, ai-engineer, slop-hunter), adjudicator not run; R1
+        18 findings (2 major) fixed, R2 SHIP + 3 fixed; 1 open (RSS source)
+      signoff: 'S4-S6 validated; open: G1 GLOSSARY entries not on main, B13 RSS source'
+    last_sha: 8486d6680820e2ae4f1887fb0464f56425dcff39f2b58ecdab044cda85d7ab1e
   docs/models/qwen35-tutor.md:
     stages:
-      audit: pending
-      critique: pending
-      decisions: pending
-      repair: pending
-      language: pending
-      adversarial: pending
-      signoff: pending
-    validated_sha: null
-    notes: {}
+      audit: validated
+      critique: validated
+      decisions: validated
+      repair: validated
+      language: validated
+      adversarial: validated
+      signoff: validated
+    validated_sha: ddeba3fbdaf28777ae7a8105f4fad75edd25ba48ec5c5648d7f194ddc0ed9b6a
+    notes:
+      audit: carried over (validated 2026-11-15 before the first commit)
+      critique: carried over (validated 2026-11-15 before the first commit)
+      decisions: carried over (validated 2026-11-15 before the first commit)
+      repair: carried over (validated 2026-11-15 before the first commit)
+      language: user validated 2026-11-15
+      adversarial: user validated 2026-11-15
+      signoff: user signed off 2026-11-15
+    last_sha: ddeba3fbdaf28777ae7a8105f4fad75edd25ba48ec5c5648d7f194ddc0ed9b6a
   docs/reference/board-data-contract.md:
     stages:
       audit: validated
       critique: validated
-      decisions: done
-      repair: pending
-      language: pending
-      adversarial: pending
-      signoff: pending
-    validated_sha: null
+      decisions: validated
+      repair: validated
+      language: validated
+      adversarial: validated
+      signoff: validated
+    validated_sha: 04ec66da16d043bb2d1383887d5b2cfa39309229a7a9b462d6a5e07dd8481921
     notes:
       audit: '2026-11-15: user validated (counts in findings file)'
       critique: '2026-11-15: user validated (counts in findings file)'
-      decisions: grilling 2026-11-15 (see findings file; X31)
-    last_sha: 50a8fdf37d0707c6b3f73fb76f2993324f315f5d556cb3a63f9f43191f966199
+      decisions: user validated S3 decisions (DC7, DC14, CDC15; DC3 stays open under X26)
+      repair: user validated S4
+      language: user validated S5
+      adversarial: user validated S6
+      signoff: user signed off 2026-11-15; DC3 open (X26)
+    last_sha: 04ec66da16d043bb2d1383887d5b2cfa39309229a7a9b462d6a5e07dd8481921
   docs/reference/index.md:
     stages:
       audit: pending
@@ -968,6 +1028,29 @@ documents:
       signoff: pending
     validated_sha: null
     notes: {}
+  docs/reference/tutor-response-types.md:
+    stages:
+      audit: validated
+      critique: validated
+      decisions: validated
+      repair: validated
+      language: validated
+      adversarial: validated
+      signoff: validated
+    validated_sha: 564f2b222db1ae4bab9d735b3af2e0da8cd9d77de8bb65f9bb4cd29215ff7127
+    notes:
+      audit: carried over from docs/TUTOR_RESPONSE_TYPES.md S1 (TR1-TR21), user approved 2026-11-15
+      critique: carried over from docs/TUTOR_RESPONSE_TYPES.md S2 (CTR1-CTR17), user approved 2026-11-15
+      decisions: carried over from docs/TUTOR_RESPONSE_TYPES.md S3 (translate + split in 3), user approved
+        2026-11-15
+      repair: translated + split from TUTOR_RESPONSE_TYPES (13b59c1); all TR/CTR fixed; X32b; TRS1 open
+        (router step uncommitted, X26)
+      language: 'asd-ste100 STE-flavored + ste-lint: 41 hard -> 2 (false positive ''fixed'' adj; one 26-word
+        citation item kept)'
+      adversarial: 'manual reviewers (toolchain PEP 668): popular-science, methodologist, slop-hunter;
+        R1 11 MAJOR fixed, R2 6 MAJOR fixed; no clean 3rd round (cap)'
+      signoff: user signed off 2026-11-15; TRS1 open (router step uncommitted, X26)
+    last_sha: 564f2b222db1ae4bab9d735b3af2e0da8cd9d77de8bb65f9bb4cd29215ff7127
   docs/tutorials/index.md:
     stages:
       audit: pending
@@ -1023,19 +1106,19 @@ documents:
       critique: validated
       decisions: validated
       repair: validated
-      language: validated
-      adversarial: validated
+      language: n/a
+      adversarial: n/a
       signoff: validated
-    validated_sha: 763812ec4b89cf14b02e1c776fafbd4167aec7677c6932cd4991665a0a62948b
+    validated_sha: ebb86b6d77c06f6b0f62593c1d7d465ff1dfc16043ec3c4dc2535227eb8c89f8
     notes:
       audit: user validated S1 2026-11-15
       critique: user validated S2 2026-11-15
       decisions: user validated S3 2026-11-15
-      repair: user validated S4 2026-11-15
-      language: user validated S5 2026-11-15
-      adversarial: user validated S6 2026-11-15
-      signoff: user signed off 2026-11-15
-    last_sha: 763812ec4b89cf14b02e1c776fafbd4167aec7677c6932cd4991665a0a62948b
+      repair: '2026-11-15: one link repointed to reference/tutor-response-types.md; user validated'
+      language: link-only change
+      adversarial: link-only change
+      signoff: user sign-off 2026-11-15 of the link change
+    last_sha: ebb86b6d77c06f6b0f62593c1d7d465ff1dfc16043ec3c4dc2535227eb8c89f8
   teacher_app/README.md:
     stages:
       audit: validated
@@ -1270,23 +1353,22 @@ documents:
       decisions: validated
       repair: validated
       language: validated
-      adversarial: validated
+      adversarial: n/a
       signoff: validated
-    validated_sha: cfb07799e8013b095d87f100eb8d9dc10cbe5ba01402eb43e133486a8f447188
+    validated_sha: dd75d2332a43d73f3b7219c2b6f5222477d7095121f9b12506989f18e5989aa8
     notes:
       audit: 'docsauditor: 11 findings (1 breaks, 4 decisions)'
       critique: 'diataxis: explanation; docs-critic: 13 findings (4 misleading, 0 decisions)'
       decisions: 'grilling Q1-Q23: 9 findings settled (0 wontfix, 2 dismissed); 22 verified left for S4'
-      repair: 'docsjanitor: all verified findings fixed or settled; 0 open'
-      language: asd-ste100 (flavored), ste-lint 46 -> 1; remaining hits are quotes, locked headings or
-        linter false positives
-      adversarial: 2 rounds, 9 lenses by hand (adversarial-reviewer, no plugin toolchain) + adjudicator;
-        round 2 verdict SHIP, its 8 in-scope minors fixed
-      signoff: user sign-off 2026-11-14 after S1-S6 (commit b9c84d2)
-    last_sha: cfb07799e8013b095d87f100eb8d9dc10cbe5ba01402eb43e133486a8f447188
+      repair: '2026-11-15: one line, MathDial κ figures corrected (K1); user validated'
+      language: asd-ste100 on the changed line; ste-lint at baseline; user validated
+      adversarial: one-line factual correction checked against the source (MathDial §4.2); user agreed
+        S6 does not apply
+      signoff: user sign-off 2026-11-15 of the κ correction
+    last_sha: dd75d2332a43d73f3b7219c2b6f5222477d7095121f9b12506989f18e5989aa8
   mkdocs.yml:
     stages:
-      audit: validated
+      audit: done
       critique: validated
       decisions: done
       repair: pending
@@ -1295,7 +1377,7 @@ documents:
       signoff: pending
     validated_sha: null
     notes:
-      audit: '2026-11-15: user validated (counts in findings file)'
+      audit: 'X34: review paused (Haokang owns the nav on main); M5 nav entry fixed in d1f482e'
       critique: '2026-11-15: user validated (counts in findings file)'
       decisions: 'grilling 2026-11-15: proposed nav accepted (X27); applied after the repairs land'
       repair: 'docsjanitor: all verified findings fixed or settled; 0 open'
@@ -1303,4 +1385,4 @@ documents:
       adversarial: 2 rounds, 9 lenses by hand (adversarial-reviewer, no plugin toolchain) + adjudicator;
         round 2 verdict SHIP, its 8 in-scope minors fixed
       signoff: user sign-off 2026-11-14 after S1-S6 (commit b9c84d2)
-    last_sha: bfb3d3e2ba48f154d81c5fbed3de5c9def98f79708421b9aee9293f616b0a8f0
+    last_sha: 88561197cee8ea2fcdaa433ca2ddb1219d1a7ef00a5d8d5f5a5084ca64559c03

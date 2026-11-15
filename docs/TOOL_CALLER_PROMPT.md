@@ -19,7 +19,7 @@
 
 This document gives the prompt that sorts each student message into one label.
 The copilot uses the label to choose a response type from
-[TUTOR_RESPONSE_TYPES.md](TUTOR_RESPONSE_TYPES.md). This version fixes the five
+[the tutor response types](reference/tutor-response-types.md). This version fixes the five
 critical faults of the first version.
 
 **Status:** draft. We did not test this prompt on a model. All examples are

@@ -17,7 +17,7 @@ The tutorials cover only what `main` ships. The experiments that are not on `mai
 | Arduino UNO Q 4 GB, and its USB-C cable | A wall power supply. When USB power drops, the board restarts. |
 | Linux laptop | `git`, [uv](https://docs.astral.sh/uv/) and `adb`. The M3Kang download and the OCR in tutorial 1 run on the laptop. |
 | Internet | Only during setup: for the models, for App Lab's Python image and for M3Kang. After setup, the board needs no network. |
-| `qwen35-tutor-Q8_0.gguf` | The tutor model is private, because we trained it on data made from M3Kang. The [fine-tune record](../models/qwen35-tutor.md#train-it-again) shows how to train your own. |
+| `qwen35-tutor-Q8_0.gguf` | The tutor model is private, because we trained it on data made from M3Kang. The [fine-tune record](../models/qwen35-tutor.md#training) shows how to train your own. |
 
 ## The path
 

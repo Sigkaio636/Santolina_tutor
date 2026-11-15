@@ -2,7 +2,7 @@
 
 **Question:** which small model best labels a student's chat message with the kind of help it needs?
 
-**The labels:** `stuck`, `concept`, `attempt`, `solution` and `not_productive`. They come from the response types in [Tutor response types](../../TUTOR_RESPONSE_TYPES.md) (in Spanish). Rules then turn each label into a reply type.
+**The labels:** `stuck`, `concept`, `attempt`, `solution` and `not_productive`. They come from the response types in [Tutor response types](../../reference/tutor-response-types.md). Rules then turn each label into a reply type.
 
 **Where it lives:** `student_app/router.py`. **Today `classify` is a keyword rule.** The tutor works without a router model. To plug a model in, replace `classify`. The model alone can never unlock the solution: a `solution` label counts only when the keywords agree. The comparison script is `laptop/router_bakeoff.py`.
 

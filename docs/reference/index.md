@@ -15,7 +15,9 @@ Facts to look up while you work: the board, the data that the apps share, the tu
 
 | Page | What it holds |
 | --- | --- |
-| [Tutor response types](../TUTOR_RESPONSE_TYPES.md) (in Spanish) | The kinds of reply the tutor can give to a student message, when each one fits, and how to write it |
+| [Tutor response types](tutor-response-types.md) | The types of reply (T0 to T9) the student app's chat can give, and when each one fits |
+| [Why the tutor answers this way](../explanation/tutor-response-types-evidence.md) | The research evidence behind the response types |
+| [Tutor response policy (proposal)](../explanation/tutor-response-policy.md) | A proposed policy for choosing a reply. Mostly not built. |
 | [Student data and privacy](../explanation/student-data-privacy.md) | What a teacher in Catalonia could legally collect, compared with what the app collects. Not legal advice. |
 
 ## Models

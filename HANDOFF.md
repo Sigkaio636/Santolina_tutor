@@ -37,7 +37,7 @@ classify(problem: str, last_tutor_move: str, message: str) -> str  # one of LABE
 3. `SOLUTION` counts only when the keyword rule `asks_for_solution` agrees, so the model alone never unlocks the solution.
 4. `OTHER` gets a fixed redirect. Every other label goes to the tutor model.
 
-So far the label changes the reply only for `OTHER` and `SOLUTION`. The next step is to turn each label into its response type (T0 to T9 in `docs/TUTOR_RESPONSE_TYPES.md`), for example `CONCEPT` into an explanation and `ATTEMPT` into a correction.
+So far the label changes the reply only for `OTHER` and `SOLUTION`. The next step is to turn each label into its response type (T0 to T9 in `docs/reference/tutor-response-types.md`), for example `CONCEPT` into an explanation and `ATTEMPT` into a correction.
 
 Keep these rules:
 
