@@ -141,6 +141,47 @@ connected) and `set_thinking` (how many of the 104 LEDs the "thinking" bar
 fills). The sketch draws every frame, so the animations stay smooth whatever
 Linux is doing.
 
+### How the parts work together
+
+**A chat message, step by step** (`student_app/tutor.py`):
+
+1. A message that names one option ("is it C?") never reaches a model. The
+   app asks the student to use the answer button, which counts the attempt.
+2. `student_app/router.py` labels the message: `STUCK`, `CONCEPT`, `ATTEMPT`,
+   `SOLUTION` or `OTHER`. Today the label comes from a keyword rule. The
+   decider-2b model is tested to replace it ([Results](#results)).
+3. `OTHER` gets a fixed reply that brings the student back to the problem.
+   `SOLUTION` counts only when the keyword rule agrees, so a model alone never
+   unlocks the solution. Every other label goes to the tutor model.
+4. The tutor model (port 8084) writes one short reply. The problem and its
+   answer are in the system message. The tutor reads them once, when the
+   exercise opens, so each message reads only its new tokens.
+5. Code checks the reply. If it names the right option, points at an option
+   as the answer, or holds the right value, a fixed hint replaces it.
+6. While the model writes, `/api/board-state` reports the tokens written, and
+   the LED app fills the "thinking" bar on the matrix.
+
+**One model call at a time.** The tutor server has one slot, so
+`student_app/jobs.py` runs the slow tutor calls (clues, chat replies, and
+reading the problem when an exercise opens) one at a time. The phone gets a
+ticket at once, and asks for the result every second.
+
+**Which models share the RAM.** At boot the board starts three llama.cpp
+servers: `math-llm` (Qwen3.5 0.8B, port 8081, for `predict.py` with
+`SOLVER=letter`), `math-embed` (bge-small, port 8082, for similar problems)
+and `math-tutor` (the fine-tuned tutor, port 8084). With these, the student
+app and the LED app running, board B1 had 2.6 GB of its 3.6 GB available. The
+program solvers in [Results](#results) run their model (1.0 to 1.5 GB) in
+place of `math-llm`.
+
+**How the answer options reach `predict.py`.** In M3Kang and in the practice
+set, the options A to E are only in the problem image. `predict.py` on `main`
+expects them as text in its JSONL input, read on a laptop with OCR
+(`laptop/prepare_m3kang.py`). The board itself reads no images on `main`.
+Reading the options on the board is work in progress on
+[`exp/noema-finetune`](https://github.com/Sigkaio636/Santolina_tutor/tree/02d4e4c)
+(`copilot/options_ocr.py`), and not measured yet.
+
 ### How we use M3Kang
 
 | Use | Where |
@@ -303,6 +344,75 @@ and [the program solver on the board](https://github.com/Sigkaio636/Santolina_tu
 We computed the interval of the program solver (Wilson, 95 %). The other
 intervals come from the first report.
 
+### Our best pipeline: Qwen2.5-Math writes a program, Catalan translated first
+
+This is our strongest solver so far. **Its code is on the branch
+[`exp/noema-finetune`](https://github.com/Sigkaio636/Santolina_tutor/tree/02d4e4c),
+not in `predict.py` on `main`, and it has not run on the board yet.** The
+numbers below come from a laptop that charges the board's estimated speeds.
+
+```mermaid
+flowchart LR
+  input["Problem<br/>statement and options"] --> lang{"Catalan?"}
+  lang -- "yes" --> nmt["Softcatalà NMT<br/>Catalan to English<br/>CTranslate2, 71 MB"]
+  lang -- "no" --> model
+  nmt --> model["Qwen2.5-Math-1.5B<br/>llama-server<br/>writes solve()"]
+  model --> run["Run solve()<br/>separate process, 2 s"]
+  run --> match{"Value equals<br/>one option?"}
+  match -- "yes" --> answer["That letter"]
+  match -- "no" --> fallback["One letter from the model,<br/>or the prior rule"]
+```
+
+How it answers one problem:
+
+1. **Translate.** A Catalan statement, and any option with words, goes
+   through [softcatala/translate-cat-eng](https://huggingface.co/softcatala/translate-cat-eng)
+   (MIT, CTranslate2 with SentencePiece, 71 MB). The translation runs inside
+   the problem's 60 s. English problems skip this step.
+2. **Write a program.** [Qwen2.5-Math-1.5B-Instruct](https://huggingface.co/Qwen/Qwen2.5-Math-1.5B-Instruct)
+   (Apache-2.0, Q4_K_M, 986 MB, not fine-tuned) gets a short fixed prompt with
+   two made-up examples, and writes a Python `solve()`. The server keeps the
+   fixed prompt in its cache, so each problem reads only its own tokens. The
+   request stops the model before the time limit.
+3. **Run it.** Python runs `solve()` in a separate process, for at most 2 s,
+   with the standard library only.
+4. **Match an option.** If the value equals exactly one option, that letter
+   is the answer.
+5. **Fall back.** Otherwise the model gives one letter, if time is left, or
+   the prior rule answers. If a request fails, the answer is `D`.
+
+We also fine-tuned Noema-2B and Qwen2.5-Math to write programs. Both scored
+lower on the practice set than this untuned model.
+
+Results: 60 s per problem, laptop runs at the board's estimated speeds (5.2
+tokens/s reading, 3.0 tokens/s writing), 3 s charged for each translation.
+"M3Kang" means held-out M3Kang problems with options that OCR read.
+
+| | M3Kang, English | M3Kang, Catalan + NMT | Practice set, English | Practice set, Catalan + NMT |
+| --- | --- | --- | --- | --- |
+| **Right answers** | **36 of 83 (43 %)** | **29 of 80 (36 %)** | **29 of 50 (58 %)** | **26 of 50 (52 %)** |
+| Programs whose value matches one option | 24 | 20 | 28 | 24 |
+| … of those, right | 19 (79 %) | 14 (70 %) | 23 (82 %) | 20 (83 %) |
+| Programs that reach the token limit | 34 | 35 | 13 | 12 |
+| Programs that fail when they run | 39 | 32 | 15 | 12 |
+
+- **Against the board results above:** on the practice set, the Noema-2B
+  program solver got 20 of 50 in English and 17 of 50 in Catalan. Any fixed
+  letter gets 10 of 50.
+- **The program is the part that works.** When its value matches an option,
+  it is right 70 % to 83 % of the time. The other right answers come from the
+  fallback.
+- **The translation is what helps Catalan.** On the practice set, Catalan
+  went from 14 to 26 of 50 with it, and the right programs from 7 to 20.
+  Without it, the model wrote no right program for the 80 Catalan M3Kang
+  problems.
+- **M3Kang is harder than the practice set.** More programs reach the token
+  limit or fail when they run. The counts of these two rows add up to more
+  than the number of problems, so one problem can count in both.
+- These are laptop numbers. The board must still measure the real speed of the
+  model and of the translation, and the step-by-step board test is in
+  [How to try Qwen2.5-Math with Catalan translation on the board](https://github.com/Sigkaio636/Santolina_tutor/blob/02d4e4c/docs/how-to/try-qwen-math-nmt.md).
+
 **The tutor.** These numbers come from board B1 and from our router tests:
 
 | Measure | Value | Source |
@@ -379,9 +489,14 @@ What didn't work:
   132 written tokens took 81 s, which is over the 60 s limit.
 - **The figure path.** It fits in time (worst 48.9 s on 6 rows), but the
   answers are wrong.
-- **The program solver stayed on a branch.** It scored best (37 of 100), but
-  it was not merged into `predict.py`. It needs Noema-2B started by hand on
-  port 8090, in place of `math-llm`, which the board does not do at boot.
+- **The program solvers stayed on branches.** The Noema-2B version scored 37
+  of 100 on the board, and the Qwen2.5-Math version with translation scored
+  55 of 100 on the laptop. Neither was merged into `predict.py`. Both need
+  their model started by hand on port 8090, in place of `math-llm`, which the
+  board does not do at boot.
+- **Fine-tuning the program writers.** Fine-tuned Noema-2B and Qwen2.5-Math
+  both wrote fewer right programs on the practice set than untuned
+  Qwen2.5-Math.
 - **The tutor's arithmetic.** The tutor model sometimes states a wrong fact,
   and it accepts a wrong step from the student. The leak check cannot catch
   that. The model cannot read photos.
@@ -392,8 +507,10 @@ What we would try next:
 
 - Make `SOLVER=letter` the default: it scored 22 of 100 against 16 for the
   prior rule on the practice set.
-- Bring the program solver into `predict.py`, with Noema-2B as a service that
-  starts at boot.
+- Run the Qwen2.5-Math pipeline with translation on the board, and bring it
+  into `predict.py`, with its model as a service that starts at boot.
+- Cut the programs that reach the token limit or fail when they run: on
+  M3Kang they are most of the problems the program misses.
 - Stop the program earlier when time is short, so the prior answers instead
   of the timeout `D`.
 - Translate Catalan statements to English before the program.
@@ -424,7 +541,10 @@ Our code is under the [Apache 2.0 license](LICENSE).
 - Models: [Qwen3.5 0.8B](https://huggingface.co/bartowski/Qwen_Qwen3.5-0.8B-GGUF),
   [bge-small-en-v1.5](https://huggingface.co/CompendiumLabs/bge-small-en-v1.5-gguf),
   and, in experiments only,
-  [Noema-2B](https://huggingface.co/NoemaAI-labs/Noema-2B-GGUF) (Apache 2.0).
+  [Noema-2B](https://huggingface.co/NoemaAI-labs/Noema-2B-GGUF) (Apache 2.0),
+  [Qwen2.5-Math-1.5B-Instruct](https://huggingface.co/Qwen/Qwen2.5-Math-1.5B-Instruct) (Apache 2.0)
+  and [softcatala/translate-cat-eng](https://huggingface.co/softcatala/translate-cat-eng) (MIT),
+  run with [CTranslate2](https://github.com/OpenNMT/CTranslate2) (MIT).
   See each model card for its license.
 - [RapidOCR](https://github.com/RapidAI/RapidOCR) (Apache 2.0).
 - [Atkinson Hyperlegible](https://www.brailleinstitute.org/freefont/) font,
