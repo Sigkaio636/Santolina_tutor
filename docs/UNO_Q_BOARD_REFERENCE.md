@@ -1,7 +1,7 @@
 # Arduino UNO Q 4 GB (ABX00173): board reference
 
 > **What this is:** a reference for team members. Use it when you need a fact about the UNO Q: a
-> spec, a port, a limit or a measured speed. For pins, use the pinout PDF in §5. To prepare the board step by step, follow
+> spec, a port, a limit, a measured speed or a measured accuracy. For pins, use the pinout PDF in §5. To prepare the board step by step, follow
 > [BOARD_SETUP.md](BOARD_SETUP.md). To deploy our copilot, follow
 > [Deploy the copilot on the board](how-to/deploy-copilot-on-board.md).
 >
@@ -374,7 +374,8 @@ Arduino's figures. These items are in [Open questions](#open-questions).
 
 ## 14. Measured on our board (2026-11-14)
 
-We measured everything below on our 4 GB UNO Q while we followed `docs/BOARD_SETUP.md` steps 0 to 12.
+We measured the facts in this section on our 4 GB UNO Q while we followed `docs/BOARD_SETUP.md` steps 0 to 12.
+§14.5 records what happened during that setup.
 These are measurements, not Arduino's published figures.
 
 ### 14.1 System
@@ -442,27 +443,49 @@ The organizers quote about 11 tok/s reading and about 6 tok/s writing. Our numbe
 
 ### 14.6 Data and first evaluations (BOARD_SETUP steps 10 to 12)
 
-Step 10 copied `train.jsonl` and `val.jsonl` into the organizers' folder on the board. The retrieval
-index `data/index.db` holds 1,863 problems (4.1 MB).
+> **Dated note (2026-11-15):** these runs are from 2026-11-14. In them, the model picked the letter
+> (today, `SOLVER=letter` does this). The default is now the prior solver (`SOLVER=prior`, commit
+> `5915b3c`): it picks the letter from the options alone. Only a request with an image calls a
+> model. The board ran the organizers' clone (see §14.5). The data files came from
+> `laptop/prepare_m3kang.py` before its parser fixes (commits `9c4ab48` and `b8e5358`). If you run
+> steps 10 to 12 again today, you do not get these numbers.
 
-Both runs use the same 50 validation problems (28 Catalan, 22 English) and the Qwen3.5 0.8B Q8_0 model.
+[Step 10](BOARD_SETUP.md#step-10-copy-the-data-to-the-board) copied `train.jsonl` and `val.jsonl`
+into the organizers' clone, `~/datathon-UPC-maths-qualcomm-arduino-unoq`. Today, step 10 copies
+them to `~/Santolina_tutor/data/`. [Step 12](BOARD_SETUP.md#step-12-try-retrieval-rag) builds the
+retrieval index `data/index.db` with `--only-with-options`. So the index holds only the training
+rows with options: 1,863 of the 2,932 rows (4.1 MB).
+
+Both runs use the same 50 validation rows (28 Catalan, 22 English) and the Qwen3.5 0.8B Q8_0 model.
+28 of the 50 rows have options and 22 are empty rows: 22 of the 28 Catalan rows have options, but
+only 6 of the 22 English rows. On an empty row, the model does not see the options, so it can only
+guess the letter. These counts come from the laptop's data files of the same day, with the sample
+rule of `eval.py` on the English and Catalan rows (`--languages eng,cat`, because the laptop files
+also hold Spanish rows). They give the same language split and the same 11 `D` labels as the board run.
 
 | Run | Correct | Catalan | English | Mean time | Worst time | Over 60 s |
 |---|---|---|---|---|---|---|
-| Step 11, baseline | **10/50 (20.0%)** | 7/28 | 3/22 | 12.0 s | 19.2 s | 0 |
+| [Step 11](BOARD_SETUP.md#step-11-measure-the-baseline), baseline | **10/50 (20.0%)** | 7/28 | 3/22 | 12.0 s | 19.2 s | 0 |
 | Step 12, retrieval (`--rag 1`) | **7/50 (14.0%)** | 2/28 | 5/22 | 27.9 s | 40.1 s | 0 |
 | Reference: always answer `D` | 11/50 (22.0%) | | | | | |
 
 What the numbers tell us:
 
-- **The baseline is below the "always `D`" floor.** It never answers `C` and picks `B` and `D` too often.
+- **The baseline is below the "always `D`" floor.** In this run, it never answers `C` and picks
+  `B` and `D` too often. The bias depends on the rows. On the 5 sample problems, it answered `A`
+  every time (§14.4). In [BOARD_SETUP 11.3](BOARD_SETUP.md#113-what-we-measured), it picked `D`
+  and `A` too often.
 - **Retrieval with one example does not help.** The letters spread more evenly, but fewer are correct.
-  English goes up by 2, Catalan goes down by 5. The embedding model (`bge-small-en-v1.5`) is
-  English-only, so it probably finds poor examples for Catalan problems.
-- **Retrieval more than doubles the time.** `--rag 2` would probably go over the 60 s limit.
-- With 50 problems, one answer is 2 points. The differences are small, but they all point the same way:
-  a 0.8B model is weak at picking the letter. This supports the "Teach" direction (hints and
-  explanations) over a chase for letter accuracy.
+  English gains 2 correct answers and Catalan loses 5. The embedding model (`bge-small-en-v1.5`) is
+  English-only, so it may find poor examples for Catalan rows. This run does not show that cause:
+  in this sample, most Catalan rows have options and most English rows are empty rows, so language
+  and options change together.
+- **Retrieval more than doubles the time.** One example raised the worst time from 19.2 s to
+  40.1 s. If a second example adds as much time, the slowest rows would probably reach the 60 s
+  limit. There, the pipeline stops and answers `D`. We did not run `--rag 2`.
+- With 50 rows, one answer is 2 percentage points. The differences are small, and they do not
+  separate two causes: a 0.8B model that is weak at picking the letter, and the 22 empty rows,
+  where the model has no options to pick from.
 
 The result files stay on the board, in `~/datathon-UPC-maths-qualcomm-arduino-unoq/results/`:
 `eval-20261114-145823-baseline.csv`, `eval-20261114-172143-rag1.csv` and `ablations.csv`.
@@ -472,10 +495,15 @@ They come from M3Kang problems, so they do not go into Git.
 
 - Arduino App Lab **0.12.0** runs on Fedora, although the store page lists only Ubuntu 22.04+ and
   Debian Trixie. All shared libraries resolved. The install steps are in [What to try](#what-to-try).
-- The M3Kang preparation (BOARD_SETUP step 9) runs at about **0.8 rows/s** with RapidOCR on our
-  laptop. That is about 70 minutes for English plus Catalan. The organizers quote about 15 minutes
-  per language. Our run made 3,494 rows (2,932 train, 562 val). OCR read the answer options for
-  **63%** of the problems. The other 37% have no option text, only the letters A to E.
+- The M3Kang preparation (BOARD_SETUP step 9) runs at about **0.8 rows/s** with RapidOCR on the
+  laptop CPU (the `--gpu` option did not exist yet). That is about 70 minutes for English plus
+  Catalan. The organizers quote about 15 minutes per language.
+- Our run made 3,494 rows (2,932 train, 562 val).
+- Coverage was **63%**: OCR and the option parser read all five options in 63% of the rows. The
+  other 37% are empty rows (`"options": {}`). This figure is from 2026-11-14, before the parser
+  fixes of `laptop/prepare_m3kang.py`. For the effect of the fixes on text-only rows, see
+  [OCR failure modes](OCR_FAILURE_MODES.md#the-a-fix-measured). Coverage of all rows in
+  `data/train.jsonl` and `data/val.jsonl` after the fixes is not measured yet.
 
 ## What to try
 

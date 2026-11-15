@@ -199,15 +199,18 @@ documents:
     last_sha: 2297ee38b2d96591c7bc10c98e697f6fbcac69bb146950551991c9647397e3ae
   docs/PRACTICE_SET.md:
     stages:
-      audit: pending
-      critique: pending
+      audit: validated
+      critique: validated
       decisions: pending
       repair: pending
       language: pending
       adversarial: pending
       signoff: pending
     validated_sha: null
-    notes: {}
+    notes:
+      audit: 'docsauditor: 10 findings (1 breaks; 3 decisions, 3 suspected); user validated'
+      critique: 'diataxis: mixed; docs-critic: 36 findings (12 decisions); user validated'
+    last_sha: 4e2d2b699c94dcad6158f4aa32a3124eca4f39ec81e1295066d362d5f3d15539
   docs/RESUMEN_QUALCOMM_UNO_Q.md:
     stages:
       audit: validated
@@ -252,15 +255,19 @@ documents:
     last_sha: b3bb28ba2b349eb0e0e992a655e5bf57efb239f032c14e9937662a0c0d6b8307
   docs/TOOL_CALLER_PROMPT.md:
     stages:
-      audit: pending
-      critique: pending
+      audit: validated
+      critique: validated
       decisions: pending
       repair: pending
       language: pending
       adversarial: pending
       signoff: pending
     validated_sha: null
-    notes: {}
+    notes:
+      audit: 'docsauditor: 20 findings (1 breaks; 4 decisions); user validated'
+      critique: 'diataxis: reference + history + backlog; docs-critic: 26 findings (11 decisions); user
+        validated'
+    last_sha: e6a25c5ea159fb48bd0d7b3a10aa1c51fdd6d0168921f679fb6d89d44c50c757
   docs/TUTOR_RESPONSE_TYPES.md:
     stages:
       audit: pending
@@ -279,9 +286,9 @@ documents:
       decisions: validated
       repair: validated
       language: validated
-      adversarial: pending
-      signoff: pending
-    validated_sha: null
+      adversarial: validated
+      signoff: validated
+    validated_sha: 37e30863eebc5b1022fb422b2a45463fb21cad0f212e659a62907a35aed67c3f
     notes:
       audit: 'round 2026-11-15, diff only: docsauditor 4 findings (3 decisions); user validated'
       critique: 'diff only: docs-critic 14 findings (1 decision); user validated'
@@ -291,10 +298,11 @@ documents:
         warnings from other docs)'
       language: 'asd-ste100 STE-flavored on S4 text: 1 sentence >25 words split; ste-lint 1 hit in scope
         (fix/correct, false positive: noun vs adjective)'
-      adversarial: 2 rounds, 9 lenses by hand (adversarial-reviewer, no plugin toolchain) + adjudicator;
-        round 2 verdict SHIP, its 8 in-scope minors fixed
-      signoff: user sign-off 2026-11-14 after S1-S6 (commit b9c84d2)
-    last_sha: fd8326969418f7f2ae08fba0483c09ebd0e9471ad9b9ee4f62e829c96d733d93
+      adversarial: '3 lenses, scripted loop, 2 rounds, SHIP: 4 findings, 3 fixed (1 major: empty rows
+        in the 50-row sample), 1 deferred (per-row-type accuracy needs board CSVs), 1 refuted; also X16
+        glossary terms in §15'
+      signoff: 'user signed off 2026-11-15; open: A3 deferred'
+    last_sha: 37e30863eebc5b1022fb422b2a45463fb21cad0f212e659a62907a35aed67c3f
   docs/experiments/2026-11-decider-0.8b.md:
     stages:
       audit: validated

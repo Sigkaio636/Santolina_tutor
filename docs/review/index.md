@@ -22,12 +22,12 @@ Each document goes through the `/docs-review` stages. ✅ validated by the user,
 | [docs/LED_MATRIX_DESIGN.md](../LED_MATRIX_DESIGN.md) | ✅ | ✅ | 🟡 | ⏳ | ⏳ | ⏳ | ⏳ |
 | [docs/OCR_FAILURE_MODES.md](../OCR_FAILURE_MODES.md) | ✅ | ✅ | 🟡 | ⏳ | ⏳ | ⏳ | ⏳ |
 | [docs/OPTION_READER_GUIDE.md](../OPTION_READER_GUIDE.md) | ✅ | ✅ | 🟡 | ⏳ | ⏳ | ⏳ | ⏳ |
-| [docs/PRACTICE_SET.md](../PRACTICE_SET.md) | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ |
+| [docs/PRACTICE_SET.md](../PRACTICE_SET.md) | ✅ | ✅ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ |
 | [docs/RESUMEN_QUALCOMM_UNO_Q.md](../RESUMEN_QUALCOMM_UNO_Q.md) | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | [docs/SKILLS_GUIDE.html](../SKILLS_GUIDE.html) | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| [docs/TOOL_CALLER_PROMPT.md](../TOOL_CALLER_PROMPT.md) | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ |
+| [docs/TOOL_CALLER_PROMPT.md](../TOOL_CALLER_PROMPT.md) | ✅ | ✅ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ |
 | [docs/TUTOR_RESPONSE_TYPES.md](../TUTOR_RESPONSE_TYPES.md) | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ |
-| [docs/UNO_Q_BOARD_REFERENCE.md](../UNO_Q_BOARD_REFERENCE.md) | ✅ | ✅ | ✅ | ✅ | ✅ | ⏳ | ⏳ |
+| [docs/UNO_Q_BOARD_REFERENCE.md](../UNO_Q_BOARD_REFERENCE.md) | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | [docs/experiments/2026-11-decider-0.8b.md](../experiments/2026-11-decider-0.8b.md) | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | [docs/experiments/2026-11-decider-2b-vision-figure-logic.md](../experiments/2026-11-decider-2b-vision-figure-logic.md) | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ |
 | [docs/experiments/2026-11-internvl35-1b-vs-decider-2b-vision-txto-no.md](../experiments/2026-11-internvl35-1b-vs-decider-2b-vision-txto-no.md) | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ |
@@ -71,4 +71,4 @@ Each document goes through the `/docs-review` stages. ✅ validated by the user,
 | [docs/vault/papers/tutoring_pedagogy/_synthesis.md](../vault/papers/tutoring_pedagogy/_synthesis.md) | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | mkdocs.yml **stale** | ✅ | ✅ | ✅ | ✅ | – | ✅ | ✅ |
 
-Signed off: 27 of 58 documents.
+Signed off: 28 of 58 documents.
