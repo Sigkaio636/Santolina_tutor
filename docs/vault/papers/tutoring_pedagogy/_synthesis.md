@@ -68,7 +68,7 @@ Details behind the table:
 
 - **MathDial record format.** Each record pairs three inputs with the next teacher turn. The inputs are a dialogue history, grounding (the problem, a step-by-step solution, the student's attempt) and a teacher move (§5.1). It maps directly to one chat-format SFT example per teacher turn.
 - **MathDial data quality.** Teachers say they resolved the confusion in almost 89% of conversations. In about 75% they used mainly scaffolding, and in about 14% they revealed most of the answer (§4.3). Annotators rated about 80% of confusions as conceptual errors, not arithmetic slips (§4.1).
-- **MathDial teacher-move labels are noisy.** Agreement on the four moves is κ = 0.60 between two annotators. κ (kappa) is an agreement score: 1 is perfect agreement, 0 is chance level. Merging Focus and Probing into one class raises it to κ = 0.67–0.75 (§4.2).
+- **MathDial teacher-move labels are noisy.** The authors checked 102 teacher turns. Agreement on the four moves is κ = 0.60 between two annotators. Between each annotator and the teacher it is κ = 0.49 and 0.34. κ (kappa) is an agreement score: 1 is perfect agreement, 0 is chance level. Merging Focus and Probing into one class raises these to κ = 0.67, 0.75 and 0.55 (§4.2).
 - **Dinucu-Jianu as a data recipe.** Their SFT baseline uses about 14k judge-accepted conversations. These came from 8 rollouts per problem on 30% of the 10k Big-Math training problems (App. A.3). The authors generate the data and do not release it as a corpus.
 
 **Negative results and limits.**

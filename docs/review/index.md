@@ -29,7 +29,6 @@ Each document goes through the `/docs-review` stages. ✅ validated by the user,
 | [docs/RESUMEN_QUALCOMM_UNO_Q.md](../RESUMEN_QUALCOMM_UNO_Q.md) | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | [docs/SKILLS_GUIDE.html](../SKILLS_GUIDE.html) | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | [docs/TOOL_CALLER_PROMPT.md](../TOOL_CALLER_PROMPT.md) | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| [docs/TUTOR_RESPONSE_TYPES.md](../TUTOR_RESPONSE_TYPES.md) | ✅ | ✅ | 🟡 | ⏳ | ⏳ | ⏳ | ⏳ |
 | [docs/UNO_Q_BOARD_REFERENCE.md](../UNO_Q_BOARD_REFERENCE.md) | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | [docs/experiments/2026-11-decider-0.8b.md](../experiments/2026-11-decider-0.8b.md) | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | [docs/experiments/2026-11-decider-2b-vision-figure-logic.md](../experiments/2026-11-decider-2b-vision-figure-logic.md) | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ |
@@ -59,9 +58,10 @@ Each document goes through the `/docs-review` stages. ✅ validated by the user,
 | [docs/how-to/use-decider-2b-router.md](../how-to/use-decider-2b-router.md) | ✅ | ✅ | 🟡 | ⏳ | ⏳ | ⏳ | ⏳ |
 | [docs/how-to/use-student-app.md](../how-to/use-student-app.md) | ✅ | ✅ | 🟡 | ⏳ | ⏳ | ⏳ | ⏳ |
 | [docs/index.md](../index.md) | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| [docs/models/decider-2b-vision.md](../models/decider-2b-vision.md) | ✅ | ✅ | 🟡 | ⏳ | ⏳ | ⏳ | ⏳ |
-| [docs/models/internvl3.5-1b.md](../models/internvl3.5-1b.md) | ✅ | ✅ | 🟡 | ⏳ | ⏳ | ⏳ | ⏳ |
-| [docs/reference/board-data-contract.md](../reference/board-data-contract.md) | ✅ | ✅ | 🟡 | ⏳ | ⏳ | ⏳ | ⏳ |
+| [docs/models/decider-2b-vision.md](../models/decider-2b-vision.md) | ✅ | ✅ | ✅ | ✅ | ⏳ | ⏳ | ⏳ |
+| [docs/models/internvl3.5-1b.md](../models/internvl3.5-1b.md) | ✅ | ✅ | ✅ | ⏳ | ⏳ | ⏳ | ⏳ |
+| [docs/models/qwen35-tutor.md](../models/qwen35-tutor.md) | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ |
+| [docs/reference/board-data-contract.md](../reference/board-data-contract.md) | ✅ | ✅ | ✅ | ✅ | ⏳ | ⏳ | ⏳ |
 | explorer/README.md | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | laptop/README.md | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | student_app/README.md | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
@@ -76,7 +76,7 @@ Each document goes through the `/docs-review` stages. ✅ validated by the user,
 | [docs/vault/papers/pruning/_synthesis.md](../vault/papers/pruning/_synthesis.md) | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | [docs/vault/papers/quantization/_synthesis.md](../vault/papers/quantization/_synthesis.md) | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | [docs/vault/papers/surveys/_synthesis.md](../vault/papers/surveys/_synthesis.md) | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| [docs/vault/papers/tutoring_pedagogy/_synthesis.md](../vault/papers/tutoring_pedagogy/_synthesis.md) | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| [docs/vault/papers/tutoring_pedagogy/_synthesis.md](../vault/papers/tutoring_pedagogy/_synthesis.md) | ✅ | ✅ | ✅ | ✅ | ✅ | – | ✅ |
 | mkdocs.yml | ✅ | ✅ | 🟡 | ⏳ | – | ⏳ | ⏳ |
 
 Signed off: 39 of 66 documents.
