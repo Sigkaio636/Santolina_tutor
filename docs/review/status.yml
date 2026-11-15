@@ -229,9 +229,9 @@ documents:
       audit: 'docsauditor: 10 findings (1 breaks; 3 decisions, 2 suspected); user validated'
       critique: 'diataxis: mixed; docs-critic: 47 findings (15 decisions); user validated; PR #10 spinner
         change (4 lines) accepted by user 2026-11-15'
-      decisions: 'grilling 2026-11-15: translate to English; split into reference/led-matrix.md (built)
-        + planned design; open questions listed; canonical copies linked'
-    last_sha: 76789c4017121987621dea5ea2998d616f74f205af1f26c82a01e5dbc503fc53
+      decisions: 'grilling 2026-11-15: translate to English; split; teammate''s skill link change (25f82e5)
+        accepted'
+    last_sha: 3e46279a247e28684e8c56c7616070b8b9711f56278e5f6ea068afde3e683173
   docs/OCR_FAILURE_MODES.md:
     stages:
       audit: validated
@@ -1278,7 +1278,7 @@ documents:
       signoff: pending
     validated_sha: null
     notes:
-      audit: 'X34: review paused; README/index/mkdocs owned by Haokang on main; findings handed over'
+      audit: 'X34: review paused (Haokang owns the nav on main); M5 nav entry fixed in d1f482e'
       critique: '2026-11-15: user validated (counts in findings file)'
       decisions: 'grilling 2026-11-15: proposed nav accepted (X27); applied after the repairs land'
       repair: 'docsjanitor: all verified findings fixed or settled; 0 open'
@@ -1286,4 +1286,4 @@ documents:
       adversarial: 2 rounds, 9 lenses by hand (adversarial-reviewer, no plugin toolchain) + adjudicator;
         round 2 verdict SHIP, its 8 in-scope minors fixed
       signoff: user sign-off 2026-11-14 after S1-S6 (commit b9c84d2)
-    last_sha: c9c386f085e4f5d8825549d489e16f7aca86f81c33ab1c4c5481f11c0ab4ba2f
+    last_sha: 88561197cee8ea2fcdaa433ca2ddb1219d1a7ef00a5d8d5f5a5084ca64559c03
