@@ -139,7 +139,7 @@ not have the dataset.
 - Get the GGUF files and check their SHA256:
   - decider-0.8b, Qwen3.5-0.8B and Intern-Decision-0.8B: the table at the
     end of the [conclusion](2026-11-router-0.8b-conclusion.md#artifacts).
-    decider-0.8b is our own conversion ([INSTALL_DECIDER.md](../INSTALL_DECIDER.md)).
+    decider-0.8b is our own conversion ([How to install decider-0.8b on the board](../how-to/install-decider-0.8b.md)).
   - decider-2b Q4_K_M and Q8_0: the official files of
     `Mapika/decider-2b-GGUF`, revision `0df001b`, hashes in
     [round 3](2026-11-router-bakeoff-3.md#results).

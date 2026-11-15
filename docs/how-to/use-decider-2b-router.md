@@ -17,7 +17,7 @@ This guide sets up [Mapika/decider-2b](https://huggingface.co/Mapika/decider-2b-
     cmake --build build -j --target llama-server
     ```
 
-    If `~/llama.cpp-laptop` already exists from [INSTALL_DECIDER.md](../INSTALL_DECIDER.md), skip the `git clone` and run the other commands in it.
+    If `~/llama.cpp-laptop` already exists from [How to install decider-0.8b on the board](install-decider-0.8b.md), skip the `git clone` and run the other commands in it.
 
     On the board, `llama-server` is already built after [step 3 of the board guide](../BOARD_SETUP.md#step-3-build-llamacpp).
 
@@ -121,7 +121,7 @@ python3 laptop/router_bakeoff.py run --name decider2b-q4 --out results/router-de
 python3 laptop/router_bakeoff.py run --name decider2b-q4 --messages laptop/router_messages_r2.json --out results/router2-decider2b-q4.csv
 ```
 
-The comparison also needs the decider-0.8b files `results/router-decider.csv` and `results/router2-decider.csv`. `results/` is not in Git, so ask the teammate who ran the bake-off for them, or make them yourself: get `decider-0.8b-Q8_0.gguf` with steps 1 and 2 of [INSTALL_DECIDER.md](../INSTALL_DECIDER.md) (not the board steps), serve it on port 8090 as in step 2 of this guide, and run the two commands above with `--name decider` and the output files `results/router-decider.csv` and `results/router2-decider.csv`. Then:
+The comparison also needs the decider-0.8b files `results/router-decider.csv` and `results/router2-decider.csv`. `results/` is not in Git, so ask the teammate who ran the bake-off for them, or make them yourself: get `decider-0.8b-Q8_0.gguf` with steps 1 and 2 of [How to install decider-0.8b on the board](install-decider-0.8b.md) (not the board steps), serve it on port 8090 as in step 2 of this guide, and run the two commands above with `--name decider` and the output files `results/router-decider.csv` and `results/router2-decider.csv`. Then:
 
 ```bash
 python3 laptop/router_bakeoff.py summary --ref decider/plain results/router{,2}-decider.csv results/router{,2}-decider2b-q4.csv

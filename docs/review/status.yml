@@ -201,7 +201,7 @@ documents:
     stages:
       audit: validated
       critique: validated
-      decisions: pending
+      decisions: validated
       repair: pending
       language: pending
       adversarial: pending
@@ -210,6 +210,7 @@ documents:
     notes:
       audit: 'docsauditor: 10 findings (1 breaks; 3 decisions, 3 suspected); user validated'
       critique: 'diataxis: mixed; docs-critic: 36 findings (12 decisions); user validated'
+      decisions: validated by the user 2026-11-15
     last_sha: 4e2d2b699c94dcad6158f4aa32a3124eca4f39ec81e1295066d362d5f3d15539
   docs/RESUMEN_QUALCOMM_UNO_Q.md:
     stages:
@@ -257,8 +258,8 @@ documents:
     stages:
       audit: validated
       critique: validated
-      decisions: pending
-      repair: pending
+      decisions: validated
+      repair: done
       language: pending
       adversarial: pending
       signoff: pending
@@ -267,7 +268,10 @@ documents:
       audit: 'docsauditor: 20 findings (1 breaks; 4 decisions); user validated'
       critique: 'diataxis: reference + history + backlog; docs-critic: 26 findings (11 decisions); user
         validated'
-    last_sha: e6a25c5ea159fb48bd0d7b3a10aa1c51fdd6d0168921f679fb6d89d44c50c757
+      decisions: 'user validated S3: superseded note, body kept, F20 fix, rest wontfix'
+      repair: superseded note at top (F1,T1-T3,F19,F18,T4,T11), trailing blanks removed (F20,T26); 36
+        findings wontfix
+    last_sha: 8c83a97c9468a1a48410fa788a2812761643148fa8b7b6567b1bfb57352f1874
   docs/TUTOR_RESPONSE_TYPES.md:
     stages:
       audit: pending
@@ -580,16 +584,18 @@ documents:
       decisions: validated
       repair: validated
       language: validated
-      adversarial: pending
-      signoff: pending
-    validated_sha: null
+      adversarial: validated
+      signoff: validated
+    validated_sha: 691c03f32c32a9807685ff69c57491ccedb1f4eca254eadd9b852b3faae8cbd8
     notes:
       audit: carried over from docs/INSTALL_DECIDER.md (validated 2026-11-15)
       critique: carried over from docs/INSTALL_DECIDER.md (validated 2026-11-15)
       decisions: carried over from docs/INSTALL_DECIDER.md (validated 2026-11-15)
       repair: user validated
       language: user validated
-    last_sha: 760f1429975c420c7f3227afa3434600f8b9e5343d7f289ac55ea7d3a78de910
+      adversarial: user validated
+      signoff: user signed off 2026-11-15
+    last_sha: 691c03f32c32a9807685ff69c57491ccedb1f4eca254eadd9b852b3faae8cbd8
   docs/how-to/mineru-ocr-papers.md:
     stages:
       audit: validated
@@ -953,16 +959,17 @@ documents:
     last_sha: cfb07799e8013b095d87f100eb8d9dc10cbe5ba01402eb43e133486a8f447188
   mkdocs.yml:
     stages:
-      audit: validated
-      critique: validated
-      decisions: validated
-      repair: validated
+      audit: done
+      critique: pending
+      decisions: pending
+      repair: pending
       language: n/a
-      adversarial: validated
-      signoff: validated
-    validated_sha: 3f7728095199bda04d26d84744c68d9ce723d22460351c81c30c8cd6e5a788da
+      adversarial: pending
+      signoff: pending
+    validated_sha: null
     notes:
-      audit: 'docsauditor: 3 findings (0 breaks, 3 decisions)'
+      audit: 'round 2026-11-15: mkdocs build: 29 orphan pages, 1 new warning (LED link); nav names pages
+        being renamed'
       critique: 'diataxis: navigation; docs-critic: 12 findings (2 misleading, 8 decisions)'
       decisions: 'grilling Q1-Q23: 15 findings settled (1 wontfix, 0 dismissed); 14 verified left for
         S4'
@@ -971,4 +978,4 @@ documents:
       adversarial: 2 rounds, 9 lenses by hand (adversarial-reviewer, no plugin toolchain) + adjudicator;
         round 2 verdict SHIP, its 8 in-scope minors fixed
       signoff: user sign-off 2026-11-14 after S1-S6 (commit b9c84d2)
-    last_sha: 3f7728095199bda04d26d84744c68d9ce723d22460351c81c30c8cd6e5a788da
+    last_sha: bfb3d3e2ba48f154d81c5fbed3de5c9def98f79708421b9aee9293f616b0a8f0
