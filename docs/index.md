@@ -16,8 +16,9 @@ opens the tutor on a phone. A fine-tuned Qwen3.5 0.8B guides the student
 through Kangaroo problems with short questions, and code blocks any reply that
 gives the answer away. A teacher app on a laptop loads homework onto the boards
 and unloads what each student did, over USB. For the organizers' hidden test,
-`predict.py` asks Noema-2B to write a short Python program, runs it, and picks
-the option equal to its value.
+`predict.py` answers one letter per problem: by default with a fixed rule on
+the option values (`SOLVER=prior`), or with one letter from Qwen3.5 0.8B
+(`SOLVER=letter`).
 
 The [README](https://github.com/Sigkaio636/Santolina_tutor#readme) is the
 project's submission page. It holds these sections:

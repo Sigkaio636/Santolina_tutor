@@ -7,9 +7,9 @@ guides them through Kangaroo problems with short questions, never with the
 answer. A teacher app on a laptop loads homework onto the boards and reads back
 what each student did, over USB. Nothing leaves the board.
 
-For the hidden test, `predict.py` answers each problem with one letter. A 2B
-model writes a short Python program for the problem, the board runs it, and
-the program's value picks the option.
+For the hidden test, `predict.py` answers each problem with one letter, A to E.
+By default it uses a fixed rule on the option values (`SOLVER=prior`), with no
+model call. With `SOLVER=letter`, it asks Qwen3.5 0.8B for the letter instead.
 
 <p align="center">
   <img src="docs/images/student-app-phone.jpeg" alt="The student app on a phone: a fractions problem at level 2, with the wrong option B greyed out and option D marked correct" height="460">
@@ -68,10 +68,21 @@ board is plugged in. Students are known by a code. The board never sees their
 names.
 
 **Reason.** `predict.py` is the program the organizers run on the hidden test:
-one letter, A to E, per problem, in at most 60 seconds, with no network. Our
-solver asks Noema-2B to write a Python `solve()`, runs it in a separate
-process, and picks the option equal to its value. When no option matches, it
-falls back to one letter from the model, then to a fixed rule.
+one letter, A to E, per problem, in at most 60 seconds, with no network.
+`config.env` chooses how it answers:
+
+- `SOLVER=prior` (the default): a fixed rule picks the option where the right
+  answer tends to sit. Kangaroo distractors are built around the right value,
+  so when the five options are distinct numbers, the rule picks the middle
+  value. It calls no model, so each answer takes well under a second
+  ([`copilot/prior.py`](copilot/prior.py)).
+- `SOLVER=letter`: Qwen3.5 0.8B (`math-llm`, port 8081) gives one letter,
+  forced by a grammar. If the model is too slow or fails, the answer is `D`
+  (`FALLBACK_ANSWER` in `config.env`), with the status `timeout` or `error`.
+
+We also tried a program solver, in which a 2B model writes a Python program
+for the problem. It scored best on the practice set, but it is not in
+`predict.py` on `main`. See [Results](#results).
 
 ## Architecture
 
@@ -88,9 +99,8 @@ flowchart TB
       embed["llama-server, port 8082<br/>bge-small embeddings"]
       index[("index.db<br/>M3Kang problem vectors")]
       store[("events and progress<br/>per student code")]
-      predict["predict.py<br/>program solver"]
-      noema["llama-server<br/>Noema-2B"]
-      sandbox["Python sandbox<br/>2 s limit"]
+      predict["predict.py<br/>prior rule, default"]
+      llm["llama-server, port 8081<br/>Qwen3.5 0.8B"]
       ledpy["LED app, App Lab<br/>Python"]
     end
     subgraph mcu["Microcontroller: STM32U585"]
@@ -105,8 +115,7 @@ flowchart TB
   embed -. "builds" .-> index
   app --> store
   jury -- "problems file" --> predict
-  predict -- "write solve()" --> noema
-  predict -- "run it" --> sandbox
+  predict -. "SOLVER=letter" .-> llm
   ledpy -- "reads board state" --> app
   ledpy -- "Bridge: set_mode,<br/>set_thinking" --> sketch
 ```
@@ -119,7 +128,8 @@ flowchart TB
 | Tutor model: Qwen3.5 0.8B with our fine-tune, Q8_0 | Linux, port 8084, systemd `math-tutor` | [`board/08_install_tutor.sh`](board/08_install_tutor.sh) |
 | Embedding model: bge-small-en-v1.5 | Linux, port 8082, systemd `math-embed` | [`board/systemd/`](board/systemd/) |
 | Retrieval index of solved M3Kang problems | Linux, `data/index.db` | [`build_index.py`](build_index.py) |
-| Program solver for the hidden test | Linux, `predict.py` with `SOLVER=program` | `copilot/program_head.py` ([source](https://github.com/Sigkaio636/Santolina_tutor/blob/b956cf03dadb675bea796181dac01d2b77b1a38b/copilot/program_head.py)) |
+| Solver for the hidden test: the prior rule (`SOLVER=prior`, default) or one letter from the model (`SOLVER=letter`) | Linux, `predict.py` | [`copilot/pipeline.py`](copilot/pipeline.py), [`copilot/prior.py`](copilot/prior.py) |
+| Base model for `SOLVER=letter`: Qwen3.5 0.8B, Q8_0 | Linux, port 8081, systemd `math-llm` | [`board/systemd/`](board/systemd/) |
 | LED app: Python side | Linux, App Lab app `santolina-leds` | [`board/app-lab/santolina-leds/python/main.py`](board/app-lab/santolina-leds/python/main.py) |
 | LED matrix animations | Microcontroller | [`board/app-lab/santolina-leds/sketch/sketch.ino`](board/app-lab/santolina-leds/sketch/sketch.ino) |
 | Teacher app | Teacher's laptop | [`teacher_app/`](teacher_app/) |
@@ -211,58 +221,36 @@ It starts `math-tutor.service` on port 8084 and asks the model for one clue.
 You should see the clue, then a line with the prompt tokens, the tokens
 written and the time for each.
 
-### 5. Install Noema-2B for `predict.py`
+### 5. Answer problems with `predict.py`
 
-On a laptop with internet, download the pinned file and check it:
-
-```bash
-curl -L -o Noema-2B-Q4_K_M.gguf \
-  https://huggingface.co/NoemaAI-labs/Noema-2B-GGUF/resolve/66d96b1efe4fec42eda0bdea42563fb3ec728c73/Noema-2B-Q4_K_M.gguf
-sha256sum Noema-2B-Q4_K_M.gguf
-adb push Noema-2B-Q4_K_M.gguf /home/arduino/models/
-```
-
-You should see `e39e79c60f0411304ec6813ca3a07ba7dcd1c9fd3312202ad9de7a1b455cb762`.
-The file is 1.27 GB.
-
-On the board, stop the 0.8B model to free RAM, and start Noema-2B (terminal 1):
-
-```bash
-sudo systemctl stop math-llm
-~/llama.cpp/build/bin/llama-server \
-  -m ~/models/Noema-2B-Q4_K_M.gguf \
-  --host 127.0.0.1 --port 8090 \
-  --threads 4 --ctx-size 4096 \
-  --parallel 1 --cache-ram 0 --ctx-checkpoints 8 \
-  --jinja --reasoning off --reasoning-budget 0
-```
-
-It is ready when it prints `server is listening`. `--ctx-checkpoints 8` keeps
-the fixed part of the prompt in the cache from one problem to the next.
-
-### 6. Answer problems with `predict.py`
-
-In terminal 2:
+This is the command the organizers run, with the settings of `config.env`:
 
 ```bash
 mkdir -p results
-SOLVER=program LLM_PORT=8090 python3 predict.py \
-  --input data/sample_problems.jsonl --output results/check.csv
+python3 predict.py --input data/sample_problems.jsonl --output results/check.csv
 cat results/check.csv
 ```
 
-You should see five rows, each with one letter from A to E, a `seconds` value
-under 60 and the status `ok`. The first problem waits about a minute for the
-warm-up before its clock starts.
+You should see a header line and five rows, each with one letter from A to E,
+a `seconds` value of `0.0` and the status `ok`. With the default
+`SOLVER=prior`, no model is called.
 
-To measure it on a problem file, as in [Results](#results):
+To use the model instead, set the solver for one run. This needs `math-llm`
+on port 8081:
 
 ```bash
-SOLVER=program LLM_PORT=8090 python3 eval.py --input data/demo/train.jsonl \
-  --limit 0 --languages eng --name program-noema-eng
+SOLVER=letter python3 predict.py --input data/sample_problems.jsonl --output results/check-letter.csv
 ```
 
-### 7. Set up the board for a class (laptop)
+Each row then takes a few seconds, and stays under 60.
+
+To measure a solver on a problem file, as in [Results](#results):
+
+```bash
+python3 eval.py --input data/demo/train.jsonl --limit 0 --languages eng --name demo-prior
+```
+
+### 6. Set up the board for a class (laptop)
 
 On the teacher's laptop, with [uv](https://docs.astral.sh/uv/) and `adb`:
 
@@ -291,16 +279,20 @@ is right on 20 rows, so any fixed letter scores 20 %. **These are results on
 point on the 100 rows. The practice set went to the teams only, so it is not in
 this repository.
 
-Board runs, 2026-11-15, 60-second limit per problem:
+Board runs, 2026-11-15, 60-second limit per problem. The column "In
+`predict.py`?" says which solvers the code on `main` can run:
 
-| Solver | Right of 100 | 95 % interval | English, of 50 | Catalan, of 50 | Mean time | Worst time |
-| --- | --- | --- | --- | --- | --- | --- |
-| **Noema-2B writes a program (`SOLVER=program`)** | **37** | 28–47 % | 20 | 17 | 43.3 s | 57.1 s |
-| Noema-2B, one forced letter | 24 | 17–33 % | 12 | 12 | 17.7 s | 28.1 s |
-| Qwen3.5 0.8B, one forced letter (organizers' baseline) | 22 | 15–31 % | 12 | 10 | 7.6 s | 13.6 s |
-| Any fixed letter | 20 | | 10 | 10 | 0 s | 0 s |
-| Prior rule on option values (`SOLVER=prior`) | 16 | 10–24 % | 8 | 8 | 0 s | 0 s |
-| decider-0.8b, one forced letter | 15 | 9–23 % | 9 | 6 | 7.7 s | 12.0 s |
+| Solver | In `predict.py`? | Right of 100 | 95 % interval | English, of 50 | Catalan, of 50 | Mean time | Worst time |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| Noema-2B writes a program | No: experiment on a branch | 37 | 28–47 % | 20 | 17 | 43.3 s | 57.1 s |
+| Noema-2B, one forced letter | No: experiment | 24 | 17–33 % | 12 | 12 | 17.7 s | 28.1 s |
+| Qwen3.5 0.8B, one forced letter (organizers' baseline) | Yes, `SOLVER=letter` | 22 | 15–31 % | 12 | 10 | 7.6 s | 13.6 s |
+| Any fixed letter | | 20 | | 10 | 10 | 0 s | 0 s |
+| **Prior rule on option values** | **Yes, `SOLVER=prior` (the default)** | **16** | 10–24 % | 8 | 8 | 0 s | 0 s |
+| decider-0.8b, one forced letter | No: experiment | 15 | 9–23 % | 9 | 6 | 7.7 s | 12.0 s |
+
+The default on `main` scores below a fixed letter on this set. The reason is
+in [What didn't work](#what-didnt-work-and-what-we-would-try-next).
 
 The organizers' own baseline is 22.5 % (9 of 40) on 40 English M3Kang
 problems whose options OCR read ([`docs/BOARD_SETUP.md`, step 11.3](docs/BOARD_SETUP.md#113-what-we-measured)).
@@ -321,7 +313,16 @@ intervals come from the first report.
 
 ## Error analysis
 
-On the program solver, the board run above (100 rows).
+**The solver in `predict.py` (`SOLVER=prior`).** It answers C on 90 of the 100
+rows and D on 10, the same in both languages: 8 of 50 right in English and 8
+of 50 in Catalan. The practice set lists its options in increasing order, so
+the middle value is almost always option C, and C is right on only 20 rows.
+The rule never reads the statement, so level and topic don't change its
+answer.
+
+**The program solver (experiment, not in `predict.py`).** The rest of this
+section is on the board run of the program solver above (100 rows). It shows
+where a solver that reads the problem fails.
 
 **By language.** English 20 of 50 (40 %), Catalan 17 of 50 (34 %). The model
 writes a program for fewer Catalan rows (20 against 23), and fewer of those
@@ -378,6 +379,9 @@ What didn't work:
   132 written tokens took 81 s, which is over the 60 s limit.
 - **The figure path.** It fits in time (worst 48.9 s on 6 rows), but the
   answers are wrong.
+- **The program solver stayed on a branch.** It scored best (37 of 100), but
+  it was not merged into `predict.py`. It needs Noema-2B started by hand on
+  port 8090, in place of `math-llm`, which the board does not do at boot.
 - **The tutor's arithmetic.** The tutor model sometimes states a wrong fact,
   and it accepts a wrong step from the student. The leak check cannot catch
   that. The model cannot read photos.
@@ -386,6 +390,10 @@ What didn't work:
 
 What we would try next:
 
+- Make `SOLVER=letter` the default: it scored 22 of 100 against 16 for the
+  prior rule on the practice set.
+- Bring the program solver into `predict.py`, with Noema-2B as a service that
+  starts at boot.
 - Stop the program earlier when time is short, so the prior answers instead
   of the timeout `D`.
 - Translate Catalan statements to English before the program.
@@ -415,6 +423,7 @@ Our code is under the [Apache 2.0 license](LICENSE).
 - [llama.cpp](https://github.com/ggml-org/llama.cpp) (MIT).
 - Models: [Qwen3.5 0.8B](https://huggingface.co/bartowski/Qwen_Qwen3.5-0.8B-GGUF),
   [bge-small-en-v1.5](https://huggingface.co/CompendiumLabs/bge-small-en-v1.5-gguf),
+  and, in experiments only,
   [Noema-2B](https://huggingface.co/NoemaAI-labs/Noema-2B-GGUF) (Apache 2.0).
   See each model card for its license.
 - [RapidOCR](https://github.com/RapidAI/RapidOCR) (Apache 2.0).
