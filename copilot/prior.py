@@ -71,7 +71,14 @@ def table():
 
 
 def prior(problem, weights=None):
-    """Probability of each letter. Numeric rows are by value rank, the others by letter."""
+    """Probability of each letter. Numeric rows are by value rank, the others by letter.
+
+    Figure problems (text_only false) always get the fallback letter: no heuristic
+    beat it there (docs/experiments/2026-11-txto-no-heuristics.md).
+    """
+    if problem.get("text_only") is False:
+        fallback = CONFIG["FALLBACK_ANSWER"]
+        return {letter: 1.0 if letter == fallback else 0.0 for letter in LETTERS}
     row_name, order = kind(problem)
     row = (weights or table())[row_name]
     if order is None:
