@@ -1,0 +1,236 @@
+# vis-design decision record (project)
+title: 'Teacher models: cost vs quality of generated explanations'
+language: en
+problem:
+  archetype: distribution-compare-groups
+  catalog_functions:
+  - distribution
+  - comparisons
+  statement: How do output tokens and seconds per problem compare across the teacher models, and how often
+    does each produce a usable record?
+  mode: analysis
+user:
+  profile: data-analyst
+  modifiers: []
+tasks:
+  why:
+    goal: discover
+    search: browse
+    query: compare
+  low_level:
+  - characterize-distribution
+  - compare
+  - find-anomalies
+  - determine-range
+  temporal: []
+  shneiderman:
+  - overview
+  - details-on-demand
+data:
+  dataset_type: table
+  source_file: metrics.csv
+  keys:
+  - role: category
+    type: categorical
+    cardinality: few
+    source_column: teacher
+    n_levels: 4
+  - role: category
+    type: ordinal
+    cardinality: some
+    source_column: level
+    n_levels: 8
+  values:
+  - role: measure
+    type: quantitative
+    semantics: amount
+    source_column: completion_tokens
+    unit: tokens
+  - role: measure
+    type: quantitative
+    semantics: amount
+    source_column: seconds
+    unit: s
+  - role: measure
+    type: quantitative
+    semantics: share
+    derived: true
+    derivation: mean(ok) per teacher
+    unit: '%'
+  items: tiny
+  filters: []
+  normalization: null
+  parse:
+    delimiter: ','
+    decimal: .
+  signature: table|k:categorical:few+k:ordinal:some|v:quantitative:amount+v:quantitative:amount+v:quantitative:share
+constraints:
+- streamlit
+stage_validation:
+  stage1: confirmed
+  stage2: confirmed
+  stage3: confirmed
+library: altair
+host: streamlit
+solution:
+  idiom: strip_plot
+  family: distribution
+  mark: point
+  encodings:
+  - attribute: category
+    channel: position-y
+    scale: nominal
+    sort: usable rate desc, then median tokens asc
+    note: model
+  - attribute: measure
+    channel: position-x
+    scale: linear
+    zero: true
+    note: completion tokens or seconds per call; fixed domain from full data
+  - attribute: category
+    channel: position-y
+    scale: ordinal
+    note: 'yOffset by problem level: deterministic stacking, no random jitter'
+  - attribute: derived
+    channel: position-x
+    scale: linear
+    note: median tick per model
+  - attribute: derived
+    channel: color-hue
+    scale: nominal
+    note: status usable / not usable; second cue shape
+  - attribute: derived
+    channel: shape
+    scale: nominal
+    note: circle usable, diamond not usable
+  - attribute: highlight
+    channel: color-luminance
+    note: selections fade unselected marks (opacity), never add a hue
+  derived_data:
+  - status = usable if reached key, 5 options, no dispute, and majority of teachers reach key
+  - median_tokens, median_seconds per model (rounded half up)
+  - total_tokens_k = sum(completion_tokens)/1000 per model
+  - usable_pct = 100*n_usable/n_calls per model
+  - tokens_per_s = completion_tokens/seconds
+  ordering: models by usable rate desc, then median completion tokens asc (same order in every view)
+  color:
+    purpose: highlight
+    palette_type: neutral-accent
+    suggested:
+    - '#8c8c8c'
+    - '#d55e00'
+    cvd_safe: true
+    second_cue: shape (circle vs diamond)
+  text:
+    title: takeaway
+    axis_units: true
+    direct_labels: true
+    annotations:
+    - median and total values as direct labels in the summary row
+    - n calls, n problems, timing caveat in subtitle
+    source_line: true
+  interaction:
+    level: optional
+    default_state_answers_task: true
+    intents:
+    - select
+    - connect
+    - filter
+  layout:
+    small_multiples: false
+    facet_by: null
+    aspect: wide
+  composition:
+    type: juxtapose
+    relation: multiform
+    data_sharing: all
+    encoding_sharing: different
+    views:
+    - id: sum_tokens
+      idiom: dot_plot
+      role: overview
+    - id: sum_seconds
+      idiom: dot_plot
+      role: overview
+    - id: sum_total
+      idiom: bar_chart
+      role: overview
+    - id: sum_usable
+      idiom: bar_chart
+      role: overview
+    - id: strip_tokens
+      idiom: strip_plot
+      role: focus
+    - id: strip_seconds
+      idiom: strip_plot
+      role: detail
+    - id: scatter
+      idiom: scatterplot
+      role: context
+    links:
+    - from: sum_tokens
+      to: strip_tokens
+      type: highlight
+    - from: sum_tokens
+      to: strip_seconds
+      type: highlight
+    - from: sum_tokens
+      to: scatter
+      type: highlight
+    - from: sum_tokens
+      to: sum_usable
+      type: highlight
+    - from: strip_tokens
+      to: strip_seconds
+      type: highlight
+    - from: strip_tokens
+      to: scatter
+      type: highlight
+  rejected_alternatives:
+  - idiom: box_plot
+    reason: 'about 10 calls per model: boxes hide n and the single outliers that matter'
+    rule: EXP-16
+  - idiom: violin_plot
+    reason: density estimate with n about 10 per model shows bandwidth artefacts, not shape
+    rule: EXP-15
+  - idiom: bar_chart
+    reason: bars of mean tokens/seconds would hide the 357 s and 13k-token outliers
+    rule: EXP-16
+  - idiom: dot_plot
+    reason: aggregated-only view (user's first choice) cannot show per-call distributions; kept as the
+      headline row only
+    rule: EXP-16
+  validation:
+    stage3_checks:
+    - EXP-08
+    - EXP-11
+    - EXP-21
+    - COL-04
+    - COL-05
+    - SCL-06
+    - SCL-08
+    - TXT-01
+    - TXT-08
+    - CMP-01
+    - INT-09
+    - INT-10
+    critique_skill: optional
+  library_notes:
+    altair: add each selection to the mark layer, not the layer chart; lollipop stems via x2 on a zero
+      column (alt.datum(0) breaks vl-convert)
+rationale: An analyst choosing a teacher model must see both the typical cost (median tokens, seconds)
+  and the spread with its outliers, because one slow or runaway call dominates a batch run. Strip plots
+  show every call at n of about 10 per model; the aggregated row answers the headline question at a glance;
+  status is the only hue so failures stand out; linking by problem shows whether an outlier is a hard
+  problem for everyone or one model's failure.
+confidence: medium
+schema_version: 1
+provenance:
+  origin: project
+  author: vis-design
+  created: '2026-11-14'
+  updated: '2026-11-14'
+  times_used: 1
+  last_used: '2026-11-14'
+status: declared
+id: p-distribution-compare-groups--teacher-models-cost-vs-20261114

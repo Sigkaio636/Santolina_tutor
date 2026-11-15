@@ -210,3 +210,6 @@ docs/vault/**/parsed/
 
 # MinerU config + weights (machine-specific, ~1.6 GB)
 /models/mineru-home/
+
+# Dashboard renders embed per-call M3Kang-derived data (ids, answer keys)
+reports/dashboard/out/

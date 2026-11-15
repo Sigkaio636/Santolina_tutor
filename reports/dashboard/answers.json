@@ -1,0 +1,36 @@
+{
+  "title": "Teacher models: cost vs quality of generated explanations",
+  "language": "en",
+  "problem": {
+    "archetype": "distribution-compare-groups",
+    "catalog_functions": ["distribution", "comparisons"],
+    "statement": "How do output tokens and seconds per problem compare across the teacher models, and how often does each produce a usable record?",
+    "mode": "analysis"
+  },
+  "user": {"profile": "data-analyst", "modifiers": []},
+  "tasks": {
+    "why": {"goal": "discover", "search": "browse", "query": "compare"},
+    "low_level": ["characterize-distribution", "compare", "find-anomalies", "determine-range"],
+    "temporal": [],
+    "shneiderman": ["overview", "details-on-demand"]
+  },
+  "data": {
+    "dataset_type": "table",
+    "source_file": "metrics.csv",
+    "keys": [
+      {"role": "category", "type": "categorical", "cardinality": 4, "source_column": "teacher"},
+      {"role": "category", "type": "ordinal", "cardinality": 8, "source_column": "level"}
+    ],
+    "values": [
+      {"role": "measure", "type": "quantitative", "semantics": "amount", "source_column": "completion_tokens", "unit": "tokens"},
+      {"role": "measure", "type": "quantitative", "semantics": "amount", "source_column": "seconds", "unit": "s"},
+      {"role": "measure", "type": "quantitative", "semantics": "share", "derived": true, "derivation": "mean(ok) per teacher", "unit": "%"}
+    ],
+    "items": "tiny",
+    "filters": [],
+    "normalization": null,
+    "parse": {"delimiter": ",", "decimal": "."}
+  },
+  "constraints": ["interactive-ok"],
+  "stage_validation": {"stage1": "confirmed", "stage2": "confirmed"}
+}
