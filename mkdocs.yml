@@ -24,7 +24,7 @@ nav:
       - UNO Q board reference: UNO_Q_BOARD_REFERENCE.md
       - Board data contract: reference/board-data-contract.md
       - LED matrix design: LED_MATRIX_DESIGN.md
-      - Tutor response types: TUTOR_RESPONSE_TYPES.md
+      - Tutor response types: reference/tutor-response-types.md
       - Student-message classifier prompt: TOOL_CALLER_PROMPT.md
       - OCR failure modes: OCR_FAILURE_MODES.md
       - "Model record: the tutor (Qwen3.5 0.8B fine-tune)": models/qwen35-tutor.md
@@ -33,6 +33,8 @@ nav:
       - Board limits (interactive page): GUIA_RESTRICCIONES_UNOQ.html
   - Explanation:
       - "Student data: what a teacher may collect": explanation/student-data-privacy.md
+      - "Tutor response types: the evidence": explanation/tutor-response-types-evidence.md
+      - "Tutor response policy (proposal)": explanation/tutor-response-policy.md
   - Experiments:
       - "Solving: decider-0.8b against the baseline": experiments/2026-11-decider-0.8b.md
       - "Figures: Qwen3.5-0.8B with the image": experiments/2026-11-vision-txto-no.md

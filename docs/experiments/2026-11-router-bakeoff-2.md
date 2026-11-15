@@ -47,7 +47,7 @@ on the board only if all four hold:
    10 pp**, with an exact McNemar test p < 0.05.
 
 Otherwise keep Qwen3.5-0.8B behind the rules of
-[TUTOR_RESPONSE_TYPES.md](../TUTOR_RESPONSE_TYPES.md#si-esto-alimenta-un-decisor),
+[the tutor response policy](../explanation/tutor-response-policy.md#labels-for-the-intent-router),
 and plan a LoRA or distillation run.
 
 Passing this rule does not settle deployment. A second model on the board
@@ -104,7 +104,7 @@ For decider-0.8b, `plain`, canonical order:
    messages, p < 0.001.
 
 **decider-0.8b is not adopted as the router.** By the rule, the router stays
-on Qwen3.5-0.8B behind the rules of TUTOR_RESPONSE_TYPES.md, and a LoRA or
+on Qwen3.5-0.8B behind the rules of the tutor response policy, and a LoRA or
 distillation run is the next step.
 
 The team later adopted decider-0.8b behind rules, departing from this
@@ -115,7 +115,7 @@ outcome; see the [conclusion](2026-11-router-0.8b-conclusion.md).
 - decider-0.8b replicated most of its round-1 result on new messages (84 % →
   79 %). Its weak point is asking for the solution in Catalan and Spanish,
   which matches its English-only model card.
-- The two labels that failed are the ones TUTOR_RESPONSE_TYPES.md already
+- The two labels that failed are the ones the tutor response policy already
   sends to rules first: keyword rules for asking for the solution, and
   pattern rules for several letters. A router that only has to separate
   stuck, concept, attempt and off-topic, behind those rules, would be a

@@ -7,7 +7,7 @@ below the line "Results" after the runs.
 
 The tutor needs a one-pass classifier that labels the student's message with
 one of the five input labels proposed in
-[TUTOR_RESPONSE_TYPES.md](../TUTOR_RESPONSE_TYPES.md#si-esto-alimenta-un-decisor).
+[the tutor response policy](../explanation/tutor-response-policy.md#labels-for-the-intent-router).
 Rules then pick the tutor's response type (T0 to T9). Which 0.8B model should
 do the labelling?
 
@@ -72,7 +72,7 @@ three hold:
    (20 %).
 
 Otherwise keep Qwen3.5-0.8B, which is already loaded, behind the rules of
-TUTOR_RESPONSE_TYPES.md, and plan a LoRA or distillation run.
+the tutor response policy, and plan a LoRA or distillation run.
 
 **Power.** With 100 messages, only differences of about 15 pp or more are
 likely to reach p < 0.05. A null result does not show that the models are
@@ -138,7 +138,7 @@ in its best format (`intern`, 51 %):
 3. **Passes:** the lower end of its interval (41 %) is above 20 %.
 
 **Intern-Decision-0.8B is not adopted.** By the rule, the router stays on
-Qwen3.5-0.8B behind the rules of TUTOR_RESPONSE_TYPES.md, and a LoRA or
+Qwen3.5-0.8B behind the rules of the tutor response policy, and a LoRA or
 distillation run is the next step.
 
 After round 2, the team adopted decider-0.8b behind rules; see the

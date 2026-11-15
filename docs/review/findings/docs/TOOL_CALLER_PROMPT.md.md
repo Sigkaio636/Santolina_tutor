@@ -79,3 +79,7 @@ The devils-advocate toolchain gate printed FATAL (`pip install --user` refused b
 | A6 | docs/how-to/use-decider-2b-router.md | 5, 177 | 8 contradictions | the linked how-to says no service runs the router and that the several-letter rule is not written | board/systemd/math-router.service (untracked); router.py:80 `guesses_several_letters` | open: out of scope, for the how-to's review | misleading | - |
 
 Round 2 (confirming): both lenses SHIP; A1-A3 closed; A4 raised and fixed.
+
+## 2026-11-15: link to the split TUTOR_RESPONSE_TYPES (main session, user approved)
+
+The old file was split (13b59c1, 354cde7); the link now points to `docs/reference/tutor-response-types.md`. Link-only change.

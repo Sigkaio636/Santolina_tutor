@@ -329,23 +329,20 @@ documents:
       audit: validated
       critique: validated
       decisions: validated
-      repair: done
-      language: pending
-      adversarial: pending
-      signoff: pending
-    validated_sha: null
+      repair: validated
+      language: n/a
+      adversarial: n/a
+      signoff: validated
+    validated_sha: 0e7dd00905d084d6cf0fb6868729fc84ce666bbc75bb4c54ad3ddfc89f4e8d55
     notes:
       audit: 'docsauditor: 20 findings (1 breaks; 4 decisions); user validated'
       critique: 'diataxis: reference + history + backlog; docs-critic: 26 findings (11 decisions); user
         validated'
       decisions: 'user validated S3: superseded note, body kept, F20 fix, rest wontfix'
-      repair: '2026-11-15: one link repointed to reference/tutor-response-types.md (TUTOR_RESPONSE_TYPES
-        split)'
-      language: 'asd-ste100 (STE-flavored) on the note: ste-lint 0 violations; 1 manual fix (model name
-        split from the ''different model'' sentence)'
-      adversarial: 2 rounds, reviewers by hand (toolchain FATAL, PEP 668); 4 fixed in the note, 2 open
-        outside it (ship ordering, how-to)
-      signoff: user signed off 2026-11-15
+      repair: '2026-11-15: one link repointed to reference/tutor-response-types.md; user validated'
+      language: link-only change
+      adversarial: link-only change
+      signoff: user sign-off 2026-11-15 of the link change
     last_sha: 0e7dd00905d084d6cf0fb6868729fc84ce666bbc75bb4c54ad3ddfc89f4e8d55
   docs/UNO_Q_BOARD_REFERENCE.md:
     stages:
@@ -818,8 +815,9 @@ documents:
     notes:
       audit: '2026-11-15: user validated (counts in findings file)'
       critique: '2026-11-15: user validated (counts in findings file)'
-      decisions: 'grilling 2026-11-15: X26-X29 (see findings file)'
-    last_sha: b6bc18a0a54c2b9f60898b8de7857607c08b0017af97ea5dd413864f266ff3b3
+      decisions: 'grilling 2026-11-15: X26-X29 (see findings file); link to the split tutor response policy
+        accepted'
+    last_sha: 9741db47b3cd2154594f43a306dc44ed861de6827849576850448be535030721
   docs/how-to/use-student-app.md:
     stages:
       audit: validated
@@ -1008,20 +1006,19 @@ documents:
       audit: validated
       critique: validated
       decisions: validated
-      repair: done
-      language: pending
-      adversarial: pending
-      signoff: pending
-    validated_sha: null
+      repair: validated
+      language: n/a
+      adversarial: n/a
+      signoff: validated
+    validated_sha: ebb86b6d77c06f6b0f62593c1d7d465ff1dfc16043ec3c4dc2535227eb8c89f8
     notes:
       audit: user validated S1 2026-11-15
       critique: user validated S2 2026-11-15
       decisions: user validated S3 2026-11-15
-      repair: '2026-11-15: one link repointed to reference/tutor-response-types.md (TUTOR_RESPONSE_TYPES
-        split)'
-      language: user validated S5 2026-11-15
-      adversarial: user validated S6 2026-11-15
-      signoff: user signed off 2026-11-15
+      repair: '2026-11-15: one link repointed to reference/tutor-response-types.md; user validated'
+      language: link-only change
+      adversarial: link-only change
+      signoff: user sign-off 2026-11-15 of the link change
     last_sha: ebb86b6d77c06f6b0f62593c1d7d465ff1dfc16043ec3c4dc2535227eb8c89f8
   teacher_app/README.md:
     stages:

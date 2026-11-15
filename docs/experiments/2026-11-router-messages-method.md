@@ -58,7 +58,7 @@ Each file has four keys:
 in the message's language, the move sentence and the text. The label
 descriptions that the model sees are in `DESCRIPTIONS` in the same script.
 They follow the labels proposed in
-[TUTOR_RESPONSE_TYPES.md](../TUTOR_RESPONSE_TYPES.md#si-esto-alimenta-un-decisor).
+[the tutor response policy](../explanation/tutor-response-policy.md#labels-for-the-intent-router).
 
 ### Round 1 specification and result
 
@@ -66,7 +66,7 @@ They follow the labels proposed in
 |---|---|---|
 | Size | 100 messages, 20 per label | as specified |
 | Languages | about 7 / 7 / 6 per label | 7 Spanish, 7 English and 6 Catalan per label (35 / 35 / 30) |
-| Problems | 5 invented problems: the frog of TUTOR_RESPONSE_TYPES.md, two-colour balls, a rectangle and its perimeter, two-digit numbers with digit sum 5, the weekday in 100 days | as specified (`frog`, `balls`, `rectangle`, `digits`, `weekday`) |
+| Problems | 5 invented problems: the frog of the tutor response types reference, two-colour balls, a rectangle and its perimeter, two-digit numbers with digit sum 5, the weekday in 100 days | as specified (`frog`, `balls`, `rectangle`, `digits`, `weekday`) |
 | Boundary cases | about 30 | 18 |
 | Style | short, clean sentences | as specified |
 
