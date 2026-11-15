@@ -84,6 +84,8 @@ def main():
     for label, keep in groups.items():
         keys = [k for k, m in meta.items() if keep(m)]
         n = len(keys)
+        if not n:  # e.g. no text-only rows in a figure-only file
+            continue
         labels = Counter(meta[k]["label"] for k in keys)
         floors = ", ".join(f"always {x} {100 * labels[x] / n:.1f}%" for x in "ABCDE")
         print(f"\n== {label}  (n={n}{', noise: n<50' if n < 50 else ''})")
