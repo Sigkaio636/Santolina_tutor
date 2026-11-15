@@ -4,14 +4,14 @@
 documents:
   README.md:
     stages:
-      audit: validated
-      critique: validated
-      decisions: validated
-      repair: validated
-      language: validated
-      adversarial: validated
-      signoff: validated
-    validated_sha: 8571d5d6d667be758c871f73b254e379822535778f0ec36d10f4bdb4813c0055
+      audit: pending
+      critique: pending
+      decisions: pending
+      repair: pending
+      language: pending
+      adversarial: pending
+      signoff: pending
+    validated_sha: null
     notes:
       audit: 'round 2026-11-15, diff only: docsauditor 0 findings; user validated'
       critique: 'diff only: docs-critic 5 findings (1 decision); user validated'
@@ -20,17 +20,17 @@ documents:
       language: 'round 2026-11-15: no rewrite, ste-lint 0; user validated'
       adversarial: 'round 2026-11-15: 2 rounds, all SHIP; A3 fixed; A4, A5 open; user validated'
       signoff: 'round 2026-11-15: user signed off; A4, A5 open (guide move)'
-    last_sha: 8571d5d6d667be758c871f73b254e379822535778f0ec36d10f4bdb4813c0055
+    last_sha: b8fe096bf9e4336d27e046796f538af5ad92e53506c19fbb78016ee6fbbdf006
   docs/BOARD_SETUP.md:
     stages:
-      audit: validated
-      critique: validated
-      decisions: validated
-      repair: validated
-      language: validated
-      adversarial: validated
-      signoff: validated
-    validated_sha: 773d8810219857e46b99a3f78a56e6cf986a042be65a14a84d8f7a3fcf863c32
+      audit: pending
+      critique: pending
+      decisions: pending
+      repair: pending
+      language: pending
+      adversarial: pending
+      signoff: pending
+    validated_sha: null
     notes:
       audit: 'round 2026-11-15, diff only: docsauditor 1 finding; user validated'
       critique: 'diff only: docs-critic 4 findings + 1 out-of-diff decision (steps 11-12 vs SOLVER); user
@@ -40,7 +40,7 @@ documents:
       language: user validated S5 on 2026-11-15
       adversarial: user validated S6 on 2026-11-15
       signoff: user signed off on 2026-11-15; open A1-A3 cosmetic
-    last_sha: 773d8810219857e46b99a3f78a56e6cf986a042be65a14a84d8f7a3fcf863c32
+    last_sha: 9b00470184136d69c11e321d5aab4af0d05ddd77a0ddc4dcc0fa2787738d768e
   CLAUDE.md:
     stages:
       audit: validated
@@ -142,14 +142,14 @@ documents:
     last_sha: fd095e3c354abb7674216e9e1010474c5c5c797fd9d9057928a55461021a7949
   docs/CHALLENGE_CONTEXT.md:
     stages:
-      audit: validated
-      critique: validated
-      decisions: validated
-      repair: validated
-      language: validated
-      adversarial: validated
-      signoff: validated
-    validated_sha: 61ef5c43950179d5e06422079734da5704ae23498b8fcba783d37ceb9998e7ac
+      audit: pending
+      critique: pending
+      decisions: pending
+      repair: pending
+      language: pending
+      adversarial: pending
+      signoff: pending
+    validated_sha: null
     notes:
       audit: 'round 2026-11-15, diff only: docsauditor 2 findings (2 decisions); user validated'
       critique: 'diff only: docs-critic 12 findings (2 decisions); user validated'
@@ -162,17 +162,28 @@ documents:
         fixed; 3 MINOR deferred; round 2 SHIP; user validated'
       signoff: 'round 2026-11-15 (diff since b9c84d2): section cut to a conclusion + link to §14.6 (X13),
         prior-solver default stated; 3 MINOR deferred; user signed off'
-    last_sha: 61ef5c43950179d5e06422079734da5704ae23498b8fcba783d37ceb9998e7ac
+    last_sha: f2234396502c496a7dc6031050ea1d9ba4db21ba3fcb91a5da9b400efe69ed25
+  docs/DEVELOPING.md:
+    stages:
+      audit: pending
+      critique: pending
+      decisions: pending
+      repair: pending
+      language: pending
+      adversarial: pending
+      signoff: pending
+    validated_sha: null
+    notes: {}
   docs/GOAL_MUSTS.md:
     stages:
-      audit: validated
-      critique: validated
-      decisions: validated
-      repair: validated
-      language: validated
-      adversarial: validated
-      signoff: validated
-    validated_sha: a3103acf02a8bbd89cd4722c6f22ad36fa5e18376f7faf628b67f837754945b4
+      audit: pending
+      critique: pending
+      decisions: pending
+      repair: pending
+      language: pending
+      adversarial: pending
+      signoff: pending
+    validated_sha: null
     notes:
       audit: 'docsauditor: 5 findings (1 breaks, 0 decisions)'
       critique: 'diataxis: reference (checklist); docs-critic: 23 findings (3 misleading, 6 decisions)'
@@ -183,7 +194,7 @@ documents:
       adversarial: 2 rounds, 9 lenses by hand (adversarial-reviewer, no plugin toolchain) + adjudicator;
         round 2 verdict SHIP, its 8 in-scope minors fixed
       signoff: user sign-off 2026-11-14 after S1-S6 (commit b9c84d2)
-    last_sha: a3103acf02a8bbd89cd4722c6f22ad36fa5e18376f7faf628b67f837754945b4
+    last_sha: 05c0ab6bc7731ae10bfaa3595cf2fdfb3124a957856f36101af973831447c987
   docs/GUIA_RESTRICCIONES_UNOQ.html:
     stages:
       audit: validated
@@ -605,6 +616,46 @@ documents:
       critique: '2026-11-15: user validated (counts in findings file)'
       decisions: grilling 2026-11-15 (see findings file; X31)
     last_sha: 68daf220cc349decda85ba5998fc011e50273f7b27c93f4ee36b0e22235740a7
+  docs/explanation/tutor-response-policy.md:
+    stages:
+      audit: validated
+      critique: validated
+      decisions: validated
+      repair: validated
+      language: validated
+      adversarial: pending
+      signoff: pending
+    validated_sha: null
+    notes:
+      audit: carried over from docs/TUTOR_RESPONSE_TYPES.md S1 (TR1-TR21), user approved 2026-11-15
+      critique: carried over from docs/TUTOR_RESPONSE_TYPES.md S2 (CTR1-CTR17), user approved 2026-11-15
+      decisions: carried over from docs/TUTOR_RESPONSE_TYPES.md S3 (translate + split in 3), user approved
+        2026-11-15
+      repair: translated + split from TUTOR_RESPONSE_TYPES (13b59c1); all TR/CTR fixed; X32b; TRS1 open
+        (router step uncommitted, X26)
+      language: 'asd-ste100 STE-flavored + ste-lint: 41 hard -> 2 (false positive ''fixed'' adj; one 26-word
+        citation item kept)'
+    last_sha: 677f29ed490a5365aecb3388d895e97d77c81bbac3f218b6d60358caf6c5b1ef
+  docs/explanation/tutor-response-types-evidence.md:
+    stages:
+      audit: validated
+      critique: validated
+      decisions: validated
+      repair: validated
+      language: validated
+      adversarial: pending
+      signoff: pending
+    validated_sha: null
+    notes:
+      audit: carried over from docs/TUTOR_RESPONSE_TYPES.md S1 (TR1-TR21), user approved 2026-11-15
+      critique: carried over from docs/TUTOR_RESPONSE_TYPES.md S2 (CTR1-CTR17), user approved 2026-11-15
+      decisions: carried over from docs/TUTOR_RESPONSE_TYPES.md S3 (translate + split in 3), user approved
+        2026-11-15
+      repair: translated + split from TUTOR_RESPONSE_TYPES (13b59c1); all TR/CTR fixed; X32b; TRS1 open
+        (router step uncommitted, X26)
+      language: 'asd-ste100 STE-flavored + ste-lint: 41 hard -> 2 (false positive ''fixed'' adj; one 26-word
+        citation item kept)'
+    last_sha: 3e6a641c8f6665db9a1eec1ac41d07836143d8607a80e7c33e61e6d6879215d5
   docs/how-to/back-up-and-restore-a-board.md:
     stages:
       audit: validated
@@ -778,14 +829,14 @@ documents:
     last_sha: cb243469e9d8fd90a0d108ac9b1586bf8a055a6e8123519b713def2b70ed5c7c
   docs/index.md:
     stages:
-      audit: validated
-      critique: validated
-      decisions: validated
-      repair: validated
-      language: validated
-      adversarial: validated
-      signoff: validated
-    validated_sha: 5fd67377e921ccd36015945b74b953c2ffec207b7f6a506bf2720b3caa77e921
+      audit: pending
+      critique: pending
+      decisions: pending
+      repair: pending
+      language: pending
+      adversarial: pending
+      signoff: pending
+    validated_sha: null
     notes:
       audit: 'docsauditor: 2 findings (0 breaks, 0 decisions)'
       critique: 'diataxis: landing page; docs-critic: 9 findings (1 misleading, 3 decisions)'
@@ -796,16 +847,16 @@ documents:
       adversarial: 2 rounds, 9 lenses by hand (adversarial-reviewer, no plugin toolchain) + adjudicator;
         round 2 verdict SHIP, its 8 in-scope minors fixed
       signoff: user sign-off 2026-11-14 after S1-S6 (commit b9c84d2)
-    last_sha: 5fd67377e921ccd36015945b74b953c2ffec207b7f6a506bf2720b3caa77e921
+    last_sha: afcf7cbcd5d87a5e6f5cb1ab26f8ac2a5f34c587738eae68e20c9fe98fed3500
   docs/models/decider-2b-vision.md:
     stages:
       audit: validated
       critique: validated
       decisions: validated
       repair: validated
-      language: pending
-      adversarial: pending
-      signoff: pending
+      language: validated
+      adversarial: validated
+      signoff: done
     validated_sha: null
     notes:
       audit: '2026-11-15: user validated (counts in findings file)'
@@ -814,13 +865,19 @@ documents:
         2026-11-15
       repair: X31 template, SOLVER=letter + LLM_PROMPT=decider with checks, X3, 8.2 s and 3.2 s sourced
         per run; 21 findings fixed, 3 open on X26
-    last_sha: a61c60bbbba6405601f0c60a1e9c6c4713d4d59f80711b4152a82d908a12ce0f
+      language: asd-ste100 STE-flavored; ste-lint 6 -> 0 (5 semicolons, 1 passive); McNemar results as
+        a list
+      adversarial: reviewers by hand (methodologist, ai-engineer, slop-hunter), adjudicator not run; R1
+        25 findings (2 major) fixed, R2 SHIP + 3 minor fixed; 2 open (code change, RSS source)
+      signoff: 'S4-S6 validated; open: MD4/CMD5/CMD3 wait for X26 router commit, A16 code change, A17
+        RSS source'
+    last_sha: fccdf846d282464e4f85fde58805aa5324267f583803a7b5aaa994b03f603737
   docs/models/internvl3.5-1b.md:
     stages:
       audit: validated
       critique: validated
       decisions: validated
-      repair: pending
+      repair: done
       language: pending
       adversarial: pending
       signoff: pending
@@ -830,34 +887,65 @@ documents:
       critique: '2026-11-15: user validated (counts in findings file)'
       decisions: X31 template, strict no-ids rule, SOLVER=letter + LLM_PROMPT=decider, X3; user validated
         2026-11-15
-    last_sha: f98aae6a49ee3884c0d844b98173084f7c3e0f70e0f41693a0ebbf33eb69b94f
+      repair: X31 template as decider record, SOLVER=letter with checks, conversion steps with both patch
+        settings, X3, MathVista checked in Table 3; 16 findings fixed, 1 open (GLOSSARY on main)
+    last_sha: 1fcaee4f17441ce0865506b8cdf50779a40d2532b9953dcefffb037556bf1ce6
   docs/models/qwen35-tutor.md:
     stages:
-      audit: pending
-      critique: pending
-      decisions: pending
-      repair: pending
-      language: pending
+      audit: validated
+      critique: validated
+      decisions: validated
+      repair: validated
+      language: validated
       adversarial: pending
       signoff: pending
     validated_sha: null
-    notes: {}
+    notes:
+      audit: carried over (validated 2026-11-15 before the first commit)
+      critique: carried over (validated 2026-11-15 before the first commit)
+      decisions: carried over (validated 2026-11-15 before the first commit)
+      repair: carried over (validated 2026-11-15 before the first commit)
+      language: user validated 2026-11-15
+    last_sha: a7bfc2f2198c2591e5f210afb486283751ae3c89b50c3d41151c6495eeaac338
   docs/reference/board-data-contract.md:
     stages:
       audit: validated
       critique: validated
       decisions: validated
       repair: validated
-      language: pending
-      adversarial: pending
-      signoff: pending
-    validated_sha: null
+      language: validated
+      adversarial: validated
+      signoff: validated
+    validated_sha: 04ec66da16d043bb2d1383887d5b2cfa39309229a7a9b462d6a5e07dd8481921
     notes:
       audit: '2026-11-15: user validated (counts in findings file)'
       critique: '2026-11-15: user validated (counts in findings file)'
       decisions: user validated S3 decisions (DC7, DC14, CDC15; DC3 stays open under X26)
       repair: user validated S4
-    last_sha: b6bdc26315c9f9b95d283f45c67eb58d6c06a7aca1d9e3e88ef51d3dc7dd9256
+      language: user validated S5
+      adversarial: user validated S6
+      signoff: user signed off 2026-11-15; DC3 open (X26)
+    last_sha: 04ec66da16d043bb2d1383887d5b2cfa39309229a7a9b462d6a5e07dd8481921
+  docs/reference/tutor-response-types.md:
+    stages:
+      audit: validated
+      critique: validated
+      decisions: validated
+      repair: validated
+      language: validated
+      adversarial: pending
+      signoff: pending
+    validated_sha: null
+    notes:
+      audit: carried over from docs/TUTOR_RESPONSE_TYPES.md S1 (TR1-TR21), user approved 2026-11-15
+      critique: carried over from docs/TUTOR_RESPONSE_TYPES.md S2 (CTR1-CTR17), user approved 2026-11-15
+      decisions: carried over from docs/TUTOR_RESPONSE_TYPES.md S3 (translate + split in 3), user approved
+        2026-11-15
+      repair: translated + split from TUTOR_RESPONSE_TYPES (13b59c1); all TR/CTR fixed; X32b; TRS1 open
+        (router step uncommitted, X26)
+      language: 'asd-ste100 STE-flavored + ste-lint: 41 hard -> 2 (false positive ''fixed'' adj; one 26-word
+        citation item kept)'
+    last_sha: 2c1b01f02561d247d85f4361654ea332ae7acbecc3ce93228378c86e3f716c38
   explorer/README.md:
     stages:
       audit: validated

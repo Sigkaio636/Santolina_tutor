@@ -12,15 +12,16 @@ Each document goes through the `/docs-review` stages. ✅ validated by the user,
 
 | Document | audit | critique | decisions | repair | language | adversarial | signoff |
 | --- | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| README.md | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| [docs/BOARD_SETUP.md](../BOARD_SETUP.md) | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| README.md | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ |
+| [docs/BOARD_SETUP.md](../BOARD_SETUP.md) | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ |
 | CLAUDE.md | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | board/README.md | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | classroom/README.md | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | copilot/README.md | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | data/README.md | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| [docs/CHALLENGE_CONTEXT.md](../CHALLENGE_CONTEXT.md) | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| [docs/GOAL_MUSTS.md](../GOAL_MUSTS.md) | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| [docs/CHALLENGE_CONTEXT.md](../CHALLENGE_CONTEXT.md) | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ |
+| [docs/DEVELOPING.md](../DEVELOPING.md) | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ |
+| [docs/GOAL_MUSTS.md](../GOAL_MUSTS.md) | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ |
 | [docs/GUIA_RESTRICCIONES_UNOQ.html](../GUIA_RESTRICCIONES_UNOQ.html) | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | [docs/LED_MATRIX_DESIGN.md](../LED_MATRIX_DESIGN.md) | ✅ | ✅ | 🟡 | ⏳ | ⏳ | ⏳ | ⏳ |
 | [docs/OCR_FAILURE_MODES.md](../OCR_FAILURE_MODES.md) | ✅ | ✅ | 🟡 | ⏳ | ⏳ | ⏳ | ⏳ |
@@ -47,6 +48,8 @@ Each document goes through the `/docs-review` stages. ✅ validated by the user,
 | [docs/experiments/2026-11-txto-no-heuristics.md](../experiments/2026-11-txto-no-heuristics.md) | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ |
 | [docs/experiments/2026-11-vision-txto-no.md](../experiments/2026-11-vision-txto-no.md) | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ |
 | [docs/explanation/student-data-privacy.md](../explanation/student-data-privacy.md) | ✅ | ✅ | 🟡 | ⏳ | ⏳ | ⏳ | ⏳ |
+| [docs/explanation/tutor-response-policy.md](../explanation/tutor-response-policy.md) | ✅ | ✅ | ✅ | ✅ | ✅ | ⏳ | ⏳ |
+| [docs/explanation/tutor-response-types-evidence.md](../explanation/tutor-response-types-evidence.md) | ✅ | ✅ | ✅ | ✅ | ✅ | ⏳ | ⏳ |
 | [docs/how-to/back-up-and-restore-a-board.md](../how-to/back-up-and-restore-a-board.md) | ✅ | ✅ | 🟡 | ⏳ | ⏳ | ⏳ | ⏳ |
 | [docs/how-to/deploy-copilot-on-board.md](../how-to/deploy-copilot-on-board.md) | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | [docs/how-to/install-decider-0.8b.md](../how-to/install-decider-0.8b.md) | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
@@ -57,11 +60,12 @@ Each document goes through the `/docs-review` stages. ✅ validated by the user,
 | [docs/how-to/use-copilot-on-board.md](../how-to/use-copilot-on-board.md) | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | [docs/how-to/use-decider-2b-router.md](../how-to/use-decider-2b-router.md) | ✅ | ✅ | 🟡 | ⏳ | ⏳ | ⏳ | ⏳ |
 | [docs/how-to/use-student-app.md](../how-to/use-student-app.md) | ✅ | ✅ | 🟡 | ⏳ | ⏳ | ⏳ | ⏳ |
-| [docs/index.md](../index.md) | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| [docs/models/decider-2b-vision.md](../models/decider-2b-vision.md) | ✅ | ✅ | ✅ | ✅ | ⏳ | ⏳ | ⏳ |
-| [docs/models/internvl3.5-1b.md](../models/internvl3.5-1b.md) | ✅ | ✅ | ✅ | ⏳ | ⏳ | ⏳ | ⏳ |
-| [docs/models/qwen35-tutor.md](../models/qwen35-tutor.md) | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ |
-| [docs/reference/board-data-contract.md](../reference/board-data-contract.md) | ✅ | ✅ | ✅ | ✅ | ⏳ | ⏳ | ⏳ |
+| [docs/index.md](../index.md) | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ |
+| [docs/models/decider-2b-vision.md](../models/decider-2b-vision.md) | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 🟡 |
+| [docs/models/internvl3.5-1b.md](../models/internvl3.5-1b.md) | ✅ | ✅ | ✅ | 🟡 | ⏳ | ⏳ | ⏳ |
+| [docs/models/qwen35-tutor.md](../models/qwen35-tutor.md) | ✅ | ✅ | ✅ | ✅ | ✅ | ⏳ | ⏳ |
+| [docs/reference/board-data-contract.md](../reference/board-data-contract.md) | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| [docs/reference/tutor-response-types.md](../reference/tutor-response-types.md) | ✅ | ✅ | ✅ | ✅ | ✅ | ⏳ | ⏳ |
 | explorer/README.md | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | laptop/README.md | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | student_app/README.md | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
@@ -79,4 +83,4 @@ Each document goes through the `/docs-review` stages. ✅ validated by the user,
 | [docs/vault/papers/tutoring_pedagogy/_synthesis.md](../vault/papers/tutoring_pedagogy/_synthesis.md) | ✅ | ✅ | ✅ | ✅ | ✅ | – | ✅ |
 | mkdocs.yml | ✅ | ✅ | 🟡 | ⏳ | – | ⏳ | ⏳ |
 
-Signed off: 39 of 66 documents.
+Signed off: 35 of 70 documents.
