@@ -2,6 +2,8 @@
 
 This guide replaces the copilot's language model with [Mapika/decider-0.8b](https://huggingface.co/Mapika/decider-0.8b) on the Arduino UNO Q. Use it to repeat or extend the [decider-0.8b experiment](experiments/2026-11-decider-0.8b.md). That experiment did not adopt the model, so the default in `config.env` stays Qwen3.5-0.8B.
 
+To use decider-2b as the tutor's intent router instead, see [How to install and use decider-2b as the intent router](how-to/use-decider-2b-router.md).
+
 Mapika publishes decider-0.8b only as Hugging Face weights, not as a GGUF file, the model format that llama.cpp reads. So you convert it on your laptop, copy the GGUF to the board, and point `config.env` at it.
 
 ## Before you start

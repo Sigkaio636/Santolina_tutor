@@ -170,6 +170,8 @@ For decider-2b Q4_K_M, `plain`, canonical order:
 
 **By the rule, decider-2b Q4_K_M replaces decider-0.8b as the router to try
 on the board.** The board test (RAM, time on the A53 CPU) is still open.
+To set it up and call it, see
+[How to install and use decider-2b as the intent router](../how-to/use-decider-2b-router.md).
 
 ## What this suggests (not part of the rule)
 
